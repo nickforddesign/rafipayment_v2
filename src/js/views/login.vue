@@ -15,9 +15,7 @@ export default {
   data() {
     return {
       email: 'mscott@rafiproperties.com',
-      password: 'password',
-      email_auth: 'mscott@rafiproperties.com',
-      token_auth: ''
+      password: 'password'
     }
   },
   methods: {
@@ -26,13 +24,11 @@ export default {
         email: this.email,
         password: this.password
       }
-      console.log({body})
       this.$request('/session/login', {
         method: 'post',
         body
       })
         .then(response => {
-          console.log(response)
           this.$store.dispatch('login', response)
         })
         .catch(error => {

@@ -1,38 +1,33 @@
 import _ from 'lodash'
 import Vue from 'vue'
 import VueRequests from 'vue-requests'
-import moment from 'moment'
+import VueModels from 'vue-models'
+// import moment from 'moment'
 
-import store from '@/store'
 import { sleep } from '@/utils'
+import store from '@/store'
+import config from '@/config'
+import session from '@/session'
 import loading from '@/components/loading'
 
 Vue.use(VueRequests, {
-  // root: 'http://192.168.0.164:8000',
-  root: 'http://api.staging.rafipayment.com',
+  root: config.api,
   headers: {
     Access() {
       return _.get(store, 'getters.access.token')
     }
   },
   async before(vm) {
-    const expiration_date = _.get(store, 'getters.access.expiration.$date')
-    const expires = moment.utc(expiration_date)
-    const now = moment.utc()
-    if (expiration_date && (expires < now)) {
-      const response = await vm.$request('/session/refresh', {
-        method: 'post',
-        body: {
-          token: _.get(store, 'getters.refresh.token')
-        }
-      }, false)
-      store.dispatch('login', response)
+    if (session.access_token_expired) {
+      await session.refresh_access_token(vm)
     }
   },
   timeout() {
     alert('The request timed out')
   }
 })
+
+Vue.use(VueModels)
 
 export default new Vue({
   el: '#app',
@@ -43,7 +38,6 @@ export default new Vue({
       <loading v-if="loading" />
       <div class="app" />
     </div>`,
-  components: { loading },
   data() {
     return {
       loading: true
@@ -55,22 +49,14 @@ export default new Vue({
     this.loadApp()
   },
   methods: {
-    async init() {
-      const token = _.get(store, 'getters.refresh.token')
-      if (token) {
-        const response = await this.$request('/session/refresh', {
-          method: 'post',
-          body: {
-            token
-          }
-        })
-        this.$store.dispatch('login', response)
-      }
+    init() {
+      session.refresh_session(this)
     },
     loadApp() {
       this.loading = false
       this.$destroy()
       import('@/app')
     }
-  }
+  },
+  components: { loading }
 })

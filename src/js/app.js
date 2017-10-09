@@ -1,10 +1,7 @@
-// import _ from 'lodash'
 import Vue from 'vue'
-// import VueRequests from 'vue-requests'
-// import moment from 'moment'
 import router from './router'
 
-import App from './components/App'
+import App from './components/app'
 import store from './store'
 
 Vue.config.productionTip = false

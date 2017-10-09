@@ -13,3 +13,14 @@ export function Deferred () {
 export function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
+
+export function localStorageSupported () {
+  try {
+    localStorage.setItem('_', '_')
+    localStorage.removeItem('_')
+    return true
+  } catch (error) {
+    console.warn(error)
+    return false
+  }
+}

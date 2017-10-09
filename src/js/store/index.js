@@ -3,16 +3,40 @@ import Vuex from 'vuex'
 import _ from 'lodash'
 
 import router from '@/router'
+import { localStorageSupported } from '@/utils'
 
 Vue.use(Vuex)
+
+const hasLocalStorage = localStorageSupported()
+
+function setRefresh(token) {
+  return hasLocalStorage
+    ? localStorage.setItem('refresh_token', token)
+    : null
+}
+
+function getRefresh() {
+  return hasLocalStorage
+    ? localStorage.getItem('refresh_token')
+    : null
+}
+
+function clearRefresh() {
+  return hasLocalStorage
+    ? localStorage.removeItem('refresh_token')
+    : null
+}
 
 export default new Vuex.Store({
   state: {
     logged_in: false,
     user: {
+      first_name: '',
+      last_name: '',
+      role: '',
       session: {
         refresh: {
-          token: localStorage.getItem('refresh_token')
+          token: getRefresh()
         }
       }
     }
@@ -34,16 +58,17 @@ export default new Vuex.Store({
   mutations: {
     LOGIN(state, user) {
       state.user = user
+      // Vue.set(state.user, user)
       state.logged_in = true
-      state.user.role = 'tenant'
+      // state.user.role = 'tenant'
 
-      localStorage.setItem('refresh_token', this.getters.refresh.token)
+      setRefresh(this.getters.refresh.token)
       router.push('/dashboard')
     },
     LOGOUT(state) {
       state.user = {}
       state.logged_in = false
-      localStorage.removeItem('refresh_token')
+      clearRefresh()
       router.push('/')
     }
   },
