@@ -1,0 +1,40 @@
+@import 'colors';
+
+.box {
+  position: relative;
+  padding: 1.25rem;
+  margin: 0 auto;
+  margin-bottom: 6px;
+  border-radius: 0;
+  background-color: $color-box-background;
+  color: $color-box-text;
+  box-shadow: 0 2px 3px hsla(0,0%,4%,.1), 0 0 0 1px hsla(0,0%,4%,.1);
+  overflow: hidden;
+
+  header {
+    padding: 12px 14px;
+    font-size: 0.9em;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+
+  h2 {
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e0dcdc;
+    text-align: left;
+  }
+
+  input {
+    background-color: $color-background-default;
+  }
+
+  // button.link.loading {
+  //   &:before {
+  //     background-color: $color-input-background;
+  //   }
+  // }
+
+  &.small {
+    width: 680px;
+  }
+}

@@ -1,10 +1,34 @@
 import Vue from 'vue'
-import router from './router'
+import VeeValidate from 'vee-validate'
+import router from '@/router'
 
-import App from './components/app'
-import store from './store'
+import store from '@/store'
+
+import App from '@/components/app'
+import Logo from '@/components/logo'
+import Validation from '@/components/validation'
+import Password from '@/components/password'
 
 Vue.config.productionTip = false
+
+const components = [
+  Logo,
+  Password,
+  Validation
+]
+
+const install = (Vue) => {
+  components.map(component => {
+    if (!component.name) {
+      throw ReferenceError('Global component missing name')
+    }
+    Vue.component(component.name, component)
+  })
+
+  Vue.use(VeeValidate)
+}
+
+install(Vue)
 
 /* eslint-disable no-new */
 new Vue({

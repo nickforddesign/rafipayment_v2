@@ -1,0 +1,26 @@
+@import 'colors';
+
+body {
+  margin-top: 70px;
+  margin-bottom: 50px;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  line-height: 1.1em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: $color-text-default;
+  background-color: $color-background-default;
+  // touch-events: none;
+
+  &.lock {
+    .app-container {
+      overflow: hidden;
+      height: calc(100vh - 120px);
+    }
+  }
+}
+
+::selection {
+  color: $color-text-light;
+  background: transparentize($color-highlight, 0);
+}

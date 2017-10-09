@@ -10,6 +10,9 @@ import config from '@/config'
 import session from '@/session'
 import loading from '@/components/loading'
 
+// global styles
+import '../scss/styles.scss'
+
 Vue.use(VueRequests, {
   root: config.api,
   headers: {
