@@ -24,3 +24,15 @@ export function localStorageSupported () {
     return false
   }
 }
+
+export function resetState (state, defaults) {
+  return Object.keys(defaults).forEach(key => {
+    state[key] = defaults[key]
+  })
+}
+
+export function resetAllStates (state, modules) {
+  Object.keys(modules).forEach(key => {
+    resetState(state[key], modules[key].defaults())
+  })
+}

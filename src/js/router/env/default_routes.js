@@ -23,6 +23,17 @@ const routes = [
     }
   },
   {
+    name: 'Account',
+    path: '/account',
+    meta: {
+      auth: true
+      // auth: ['tenant']
+    },
+    component(resolve) {
+      require(['@/views/account'], resolve)
+    }
+  },
+  {
     path: '*',
     name: '404',
     component: NotFound

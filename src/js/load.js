@@ -17,7 +17,7 @@ Vue.use(VueRequests, {
   root: config.api,
   headers: {
     Access() {
-      return _.get(store, 'getters.access.token')
+      return _.get(store, 'getters.session:access.token')
     }
   },
   async before(vm) {

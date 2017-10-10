@@ -5,7 +5,8 @@ $color-highlight: #f68e1f;
 $color-background-dark: #202731;
 $color-background-light: #e1e9ec;
 $color-background-default: $color-background-dark;
-$color-text-light: #fff2dd;
+// $color-text-light: #fff2dd;
+$color-text-light: #efefef;
 $color-text-dark: #333;
 $color-text-default: $color-text-light;
 
@@ -19,11 +20,6 @@ $color-grey-60: #808285;
 $color-grey-70: #6d6e71;
 $color-grey-80: #58595b;
 $color-grey-90: #414042;
-
-// nav
-// $color-nav-background: #22313e;
-$color-nav-background: $color-background-default;
-$color-nav-text: $color-text-default;
 
 // statuses
 // $color-status-neutral: #0071bc;
@@ -40,6 +36,11 @@ $color-input-text: #dfdfdf;
 $color-input-border: $color-input-background;
 $color-input-border-hover: $color-highlight;
 $color-input-border-focus: $color-highlight;
+
+// nav
+// $color-nav-background: #22313e;
+$color-nav-background: $color-input-background;
+$color-nav-text: $color-text-default;
 
 // forms
 $color-forms-legend: #686871;

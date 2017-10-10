@@ -39,9 +39,9 @@ const checkPermissions = (route, type) => {
   if (type === 'all') {
     is_authorized = true
   } else if (typeof auth === 'boolean') {
-    is_authorized = _.get(store, 'getters.logged_in') === auth
+    is_authorized = _.get(store, 'getters.session:logged_in') === auth
   } else if (type === 'roles') {
-    is_authorized = auth.includes(_.get(store, 'getters.user.role'))
+    is_authorized = auth.includes(_.get(store, 'getters.session:user.role'))
   }
   return is_authorized
 }

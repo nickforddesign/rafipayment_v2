@@ -1,6 +1,6 @@
 <template>
   <div>
-    404
+    Account
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'notfound'
+  name: 'account'
 }
 </script>
 

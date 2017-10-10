@@ -1,83 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import _ from 'lodash'
+// import _ from 'lodash'
+import { resetAllStates } from '@/utils'
 
-import router from '@/router'
-import { localStorageSupported } from '@/utils'
+import session from './modules/session'
+import app from './modules/app'
 
 Vue.use(Vuex)
 
-const hasLocalStorage = localStorageSupported()
-
-function setRefresh(token) {
-  return hasLocalStorage
-    ? localStorage.setItem('refresh_token', token)
-    : null
-}
-
-function getRefresh() {
-  return hasLocalStorage
-    ? localStorage.getItem('refresh_token')
-    : null
-}
-
-function clearRefresh() {
-  return hasLocalStorage
-    ? localStorage.removeItem('refresh_token')
-    : null
-}
+const modules = [
+  session,
+  app
+]
 
 export default new Vuex.Store({
-  state: {
-    logged_in: false,
-    user: {
-      first_name: '',
-      last_name: '',
-      role: '',
-      session: {
-        refresh: {
-          token: getRefresh()
-        }
-      }
-    }
-  },
-  getters: {
-    user: state => {
-      return state.user
-    },
-    access: state => {
-      return _.get(state, 'user.session.access')
-    },
-    refresh: state => {
-      return _.get(state, 'user.session.refresh')
-    },
-    logged_in: state => {
-      return state.logged_in
-    }
-  },
+  modules,
   mutations: {
-    LOGIN(state, user) {
-      state.user = user
-      // Vue.set(state.user, user)
-      state.logged_in = true
-      // state.user.role = 'tenant'
-
-      setRefresh(this.getters.refresh.token)
-      router.push('/dashboard')
-    },
-    LOGOUT(state) {
-      state.user = {}
-      state.logged_in = false
-      clearRefresh()
-      router.push('/')
+    RESET_ALL(state) {
+      resetAllStates(state, modules)
     }
   },
   actions: {
-    login({ commit }, user) {
-      commit('LOGIN', user)
-    },
-    logout({ commit }) {
-      commit('LOGOUT')
+    reset_all({ commit }) {
+      commit('RESET_ALL')
     }
   }
 })

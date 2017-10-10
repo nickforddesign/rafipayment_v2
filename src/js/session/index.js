@@ -14,7 +14,11 @@ const session = new Vue({
   name: 'session',
   models: {
     user() {
-      return new User()
+      return new User(null, {
+        name: 'session_user',
+        url: 'account/',
+        persist: true
+      })
     }
   },
   watch: {
@@ -35,11 +39,11 @@ const session = new Vue({
       }
       return output
     },
-    ...mapGetters([
-      'access',
-      'user',
-      'logged_in'
-    ])
+    ...mapGetters({
+      access: 'session:access',
+      user: 'session:user',
+      logged_in: 'session:logged_in'
+    })
   },
   methods: {
     async refresh_access_token(vm) {
@@ -49,7 +53,7 @@ const session = new Vue({
       await this.refresh('login', vm)
     },
     async refresh(endpoint = '', vm) {
-      const token = _.get(store, 'getters.refresh.token')
+      const token = _.get(store, 'getters.session:refresh.token')
       if (token) {
         const response = await vm.$request(`/session/${endpoint}`, {
           method: 'post',
