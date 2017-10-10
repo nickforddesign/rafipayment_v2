@@ -4,7 +4,7 @@
       <logo />
       <navigation />
     </div>
-    <main>
+    <main :class="[main_class]">
       <router-view></router-view>
     </main>
   </div>
@@ -17,6 +17,11 @@ import Navigation from './nav'
 export default {
   name: 'app',
   computed: {
+    main_class() {
+      return this.logged_in
+        ? 'content'
+        : null
+    },
     ...mapGetters({
       logged_in: 'session:logged_in'
     })
@@ -29,22 +34,31 @@ export default {
 
 <style scoped lang="scss">
 @import '~%/colors';
+@import '~%/breakpoints';
 
 $sidebar-width: 230px;
 
-.nav-container {
-  position: fixed;
-  width: $sidebar-width;
-  top: 0;
-  bottom: 0;
-  background: $color-nav-background;
+@media (min-width: $breakpoint-medium) {
 
-  .logo {
-    padding: 20px;
+  .nav-container {
+    position: fixed;
+    width: $sidebar-width;
+    top: 0;
+    bottom: 0;
+    background: $color-nav-background;
+
+    .logo {
+      padding: 20px;
+    }
   }
-}
 
-main {
-  margin-left: $sidebar-width;
+  main {
+    &.content {
+      margin-left: $sidebar-width;
+      padding: 0 30px;
+      text-align: left;
+    }
+  }
+
 }
 </style>

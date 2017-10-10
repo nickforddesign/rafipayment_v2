@@ -1,6 +1,6 @@
 <template>
   <div>
-    dash
+    <h2>Dashboard</h2>
     {{ $user }}
     <button @click="logout">Logout</button>
     <button @click="test">Test</button>

@@ -1,5 +1,7 @@
 import { Type } from 'vue-models'
 
+import { parseCurrency, prettyCurrency } from '@/utils'
+
 export class ObjectId extends Type {
   constructor(value) {
     super(value, '$oid')
@@ -24,5 +26,19 @@ export class ISODate extends Type {
     return this.value
       ? new Date(this.value).toISOString()
       : undefined
+  }
+}
+
+export class Currency extends Type {
+  constructor(value) {
+    super(value)
+    return this
+  }
+  in(value) {
+    this.value = parseCurrency(value, Number)
+    return this
+  }
+  pretty() {
+    return prettyCurrency(this.value)
   }
 }

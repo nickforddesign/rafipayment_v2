@@ -17,7 +17,7 @@
     "lodash": "^4.17.4",
     "vee-validate": "^2.0.0-rc.18",
     "vue-become": "^1.0.0",
-    "vue-collections": "^1.0.1",
+    "vue-collections": "^1.0.2",
     "vue-models": "^1.1.1",
     "vue-requests": "^1.0.13",
     "vue-router": "^2.7.0",

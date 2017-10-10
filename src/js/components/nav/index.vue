@@ -102,7 +102,7 @@ nav {
   }
 }
 
-@media (min-width: $breakpoint-medium) {
+@media (min-width: $breakpoint-small) {
 
   // .nav {
   //   width: 240px;
@@ -191,7 +191,7 @@ nav {
   }
 }
 
-@media (min-width: $breakpoint-xlarge) {
+@media (min-width: $breakpoint-medium) {
   nav {
     display: block;
     position: relative;
