@@ -34,6 +34,17 @@ const routes = [
     }
   },
   {
+    name: 'Properties',
+    path: '/properties',
+    meta: {
+      auth: true
+      // auth: ['tenant']
+    },
+    component(resolve) {
+      require(['@/views/properties'], resolve)
+    }
+  },
+  {
     name: 'Leases',
     path: '/leases',
     meta: {

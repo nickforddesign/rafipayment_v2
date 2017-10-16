@@ -6,18 +6,14 @@
       </div>
       <div class="actions">
         <search />
-        <button class="primary">Add New Property</button>
+        <button class="primary" @click="add">Add New Property</button>
       </div>
     </header>
     <table>
       <thead>
         <tr>
-          <td>Property</td>
-          <td>Unit</td>
-          <td>Start Date</td>
-          <td>End Date</td>
-          <td>Duration</td>
-          <td>Current Rent</td>
+          <td>Name</td>
+          <td>Address</td>
         </tr>
       </thead>
       <tbody>
@@ -42,6 +38,11 @@ export default {
   },
   components: {
     row
+  },
+  methods: {
+    add() {
+      console.log('add')
+    }
   }
   // created() {
   //   console.log(data)

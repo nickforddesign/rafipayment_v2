@@ -3,7 +3,7 @@
     <header>
       <div class="meta">
         <h2>Leases</h2>
-        {{ collection.length }}
+        <!-- {{ collection.length }} -->
       </div>
       <div class="actions">
         <search />
