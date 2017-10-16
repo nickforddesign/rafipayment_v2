@@ -1,0 +1,13 @@
+dl {
+  display: flex;
+
+  dt {
+    float: left;
+    width: 20%;
+    flex: 1 0 0;
+  }
+  dd {
+    flex: 2 0 0;
+    text-align: right;
+  }
+}

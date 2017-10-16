@@ -2,6 +2,7 @@ import _ from 'lodash'
 import Vue from 'vue'
 import VueRequests from 'vue-requests'
 import VueModels from 'vue-models'
+import VueCollections from 'vue-collections'
 // import moment from 'moment'
 
 import { sleep } from '@/utils'
@@ -31,6 +32,7 @@ Vue.use(VueRequests, {
 })
 
 Vue.use(VueModels)
+Vue.use(VueCollections)
 
 export default new Vue({
   el: '#app',
