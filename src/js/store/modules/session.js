@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import router from '@/router'
+// import router from '@/router'
 import { localStorageSupported } from '@/utils'
 
 const defaults = () => ({
@@ -60,12 +60,13 @@ export default {
       state.logged_in = true
 
       setRefresh(this.getters['session:refresh'].token)
-      router.push('/dashboard')
+      // const path = _.get(this.$route, 'query.redirect') || '/dashboard'
+      // router.push(path)
     },
     LOGOUT(state) {
       this.dispatch('reset_all')
       clearRefresh()
-      router.push('/')
+      // router.push('/')
     }
   },
   actions: {

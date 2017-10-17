@@ -55,7 +55,7 @@ const session = new Vue({
     async refresh(endpoint = '', vm) {
       const token = _.get(store, 'getters.session:refresh.token')
       if (token) {
-        const response = await vm.$request(`/session/${endpoint}`, {
+        const response = await vm.$request(`session/${endpoint}`, {
           method: 'post',
           body: {
             token

@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       loading: false,
-      email: 'mscott@rafiproperties.com',
+      email: 'dwallace@rafiproperties.com',
       password: 'password'
     }
   },

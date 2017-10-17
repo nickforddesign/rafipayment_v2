@@ -56,6 +56,26 @@ const routes = [
     }
   },
   {
+    name: 'Companies',
+    path: '/companies',
+    meta: {
+      auth: ['superadmin']
+    },
+    component(resolve) {
+      require(['@/views/companies'], resolve)
+    }
+  },
+  {
+    name: 'Superadmins',
+    path: '/superadmins',
+    meta: {
+      auth: ['superadmin']
+    },
+    component(resolve) {
+      require(['@/views/superadmins'], resolve)
+    }
+  },
+  {
     path: '*',
     name: '404',
     component: NotFound

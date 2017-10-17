@@ -2,7 +2,7 @@
   <transition name="fade">
     <div class="modal-container" @click.self="closeModal">
       <div class="modal" @keyup.esc="closeModal" @keyup.enter="validate">
-        <loading v-if="modal_loading"></loading>
+        <loading v-if="loading"></loading>
         <div class="modal-header">
           <button type="button" class="link close" @click="cancel">
             {{ cancel_label }}
@@ -24,65 +24,52 @@
 </template>
 
 <script>
-import _ from 'lodash'
-// import { toggleStatusBar } from '@/utils'
-
 export default {
   name: 'modal',
   props: {
-    model: Object,
-    confirm: Function,
-    type: String
+    confirm: Function
   },
   data() {
     return {
-      modal_loading: false
+      loading: false
     }
   },
-  mounted() {
-    document.body.classList.add('lock')
-    // toggleStatusBar(false)
-    const default_focus = _.get(this.$parent, '$refs.default')
-    if (default_focus) default_focus.focus()
-  },
-  beforeDestroy() {
-    document.body.classList.remove('lock')
-    // toggleStatusBar(true)
-  },
+  // created() {
+  //   console.log(this.confirm)
+  // },
   computed: {
     has_confirm() {
-      return this.confirm
-    },
-    confirm_label() {
-      const label = this.cancel
-        ? 'confirm'
-        : 'OK'
-      return label
+      return 'confirm' in this
     },
     cancel_label() {
-      return 'cancel'
+      return this.has_confirm
+        ? 'Cancel'
+        : 'OK'
+    },
+    confirm_label() {
+      return 'OK'
     }
   },
   methods: {
-    closeModal() {
-      this.$emit('close')
-    },
     async validate(e) {
-      this.modal_loading = true
+      this.loading = true
       try {
         if (this.confirm) {
           await this.confirm()
-          this.closeModal()
+          this.close()
         }
       } catch (err) {
         console.warn(err)
       } finally {
         this.$emit('complete')
-        this.modal_loading = false
+        this.loading = false
       }
     },
     cancel() {
-      this.closeModal()
+      this.close()
+    },
+    close() {
+      this.$emit('close')
     }
   }
 }

@@ -50,6 +50,9 @@ export default class User extends Model {
       email: {
         type: String
       },
+      phone: {
+        type: String
+      },
       role: {
         type: String
       },

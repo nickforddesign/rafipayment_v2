@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapGetters } from 'vuex'
 import Navigation from './nav'
 
@@ -25,6 +26,17 @@ export default {
     ...mapGetters({
       logged_in: 'session:logged_in'
     })
+  },
+  watch: {
+    logged_in(val) {
+      let path = val ? this.getRedirect() : '/'
+      return this.$router.replace(path)
+    }
+  },
+  methods: {
+    getRedirect() {
+      return _.get(this.$route, 'query.redirect') || '/dashboard'
+    }
   },
   components: {
     Navigation

@@ -31,7 +31,7 @@ export default class Property extends Model {
       state: {
         type: String
       },
-      zip: {
+      postal_code: {
         type: String
       },
       country: {
