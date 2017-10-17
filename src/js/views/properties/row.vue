@@ -2,6 +2,7 @@
   <tr>
     <td>{{ $property.name }}</td>
     <td>{{ $property.address }}</td>
+    <td>{{ $property.units.length }}</td>
   </tr>
 </template>
 

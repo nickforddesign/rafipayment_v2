@@ -9,6 +9,7 @@ import App from '@/components/app'
 import Logo from '@/components/logo'
 import Validation from '@/components/validation'
 import Password from '@/components/password'
+import Modal from '@/components/modal'
 import Search from '@/components/search'
 
 Vue.config.productionTip = false
@@ -17,7 +18,8 @@ const components = [
   Logo,
   Password,
   Validation,
-  Search
+  Search,
+  Modal
 ]
 
 const install = (Vue) => {

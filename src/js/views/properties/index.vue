@@ -14,12 +14,14 @@
         <tr>
           <td>Name</td>
           <td>Address</td>
+          <td>Units</td>
         </tr>
       </thead>
       <tbody>
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
     </table>
+    <property-modal v-if="modal_visible" @close="closeModal" @confirm="confirmModal"></property-modal>
   </div>
 </template>
 
@@ -29,20 +31,35 @@
 import data from './properties_collection'
 import row from './row'
 
+import propertyModal from '@/components/modals/property'
+
 export default {
   name: 'properties',
+  data() {
+    return {
+      modal_visible: false
+    }
+  },
   computed: {
     collection() {
       return data
     }
   },
-  components: {
-    row
-  },
   methods: {
     add() {
       console.log('add')
+      this.modal_visible = true
+    },
+    closeModal() {
+      this.modal_visible = false
+    },
+    confirmModal() {
+      console.log('huh')
     }
+  },
+  components: {
+    row,
+    propertyModal
   }
   // created() {
   //   console.log(data)
