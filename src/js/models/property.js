@@ -4,7 +4,8 @@ import { ObjectId, ISODate } from '@/modules/types'
 export default class Property extends Model {
   static defaults() {
     return {
-      name: 'property'
+      name: 'property',
+      basePath: 'properties'
     }
   }
   static schema() {

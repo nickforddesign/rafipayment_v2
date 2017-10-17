@@ -7,6 +7,7 @@ import filters from '@/modules/filters'
 
 import App from '@/components/app'
 import Logo from '@/components/logo'
+import Loading from '@/components/loading'
 import Validation from '@/components/validation'
 import Password from '@/components/password'
 import Modal from '@/components/modal'
@@ -16,6 +17,7 @@ Vue.config.productionTip = false
 
 const components = [
   Logo,
+  Loading,
   Password,
   Validation,
   Search,

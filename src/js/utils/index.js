@@ -1,8 +1,9 @@
-// deferred promises
+// convert state <-> abbr
 
 import statesHelper from './states'
-
 export { statesHelper }
+
+// deferred promise
 
 export function Deferred () {
   this.resolve = null
@@ -14,9 +15,27 @@ export function Deferred () {
   Object.freeze(this)
 }
 
+// wait for x ms
+
 export function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
+
+// load scripts from cdn
+
+export const load = (url) => {
+  return new Promise((resolve, reject) => {
+    let script = window.document.createElement('script')
+    script.type = 'text/javascript'
+    script.async = true
+    script.src = url
+    script.onload = resolve
+    script.onerror = reject
+    window.document.head.appendChild(script)
+  })
+}
+
+// check if local storage is supported
 
 export function localStorageSupported () {
   try {
