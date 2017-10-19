@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="collection-view">
     <header>
       <div class="meta">
-        <h2>Properties</h2>
+        <h2>Properties({{collection.length}})</h2>
       </div>
       <div class="actions">
         <search />
@@ -21,14 +21,16 @@
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
     </table>
-    <property-modal v-if="modal_visible" @close="closeModal" @confirm="confirmModal"></property-modal>
+    <property-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import data from './properties_collection'
+import { Collection } from 'vue-collections'
+import Property from '@/models/property'
+
 import row from './row'
 
 import propertyModal from '@/components/modals/property'
@@ -40,14 +42,17 @@ export default {
       modal_visible: false
     }
   },
-  computed: {
-    collection() {
-      return data
-    }
+  collection() {
+    return new Collection({
+      basePath: 'properties',
+      model: Property
+    })
+  },
+  created() {
+    this.$collection.fetch()
   },
   methods: {
     add() {
-      console.log('add')
       this.modal_visible = true
     },
     closeModal() {
@@ -55,6 +60,7 @@ export default {
     },
     confirmModal() {
       console.log('huh')
+      this.$collection.fetch()
     }
   },
   components: {

@@ -2,8 +2,8 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <legend>Account</legend>
-        <h2>{{ $user.full_name }}</h2>
+        <legend>Company</legend>
+        <h2>{{ $company.name }}</h2>
       </div>
       <div class="actions">
         <button class="primary">Edit</button>
@@ -14,7 +14,7 @@
         Basic Information
       </div>
       <div class="grid">
-        <div class="grid__col grid__col--1-of-2">
+        <!-- <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>First Name</dt>
             <dd>{{ $user.first_name }}</dd>
@@ -45,62 +45,28 @@
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
-        </div>
+        </div> -->
       </div>
     </div>
-    <div class="actions">
-      <div>
-        <button @click="showModal">Change Password</button>
-      </div>
-      <div>
-        <button @click="logout">Logout</button>
-      </div>
-    </div>
-    <password-modal v-if="modal_visible" @close="closeModal" :model="$user" />
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import session from '@/session'
-import passwordModal from '@/components/modals/password'
+import Company from '@/models/company'
 
 export default {
-  name: 'account',
-  data() {
-    return {
-      modal_visible: false
-    }
-  },
+  name: 'company',
   models: {
-    user() {
-      return session.$user
+    company() {
+      return new Company({
+        id: this.$route.params.id
+      })
     }
   },
-  methods: {
-    logout() {
-      this.$store.dispatch('logout')
-    },
-    showModal() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
-    }
-  },
-  components: {
-    passwordModal
+  created() {
+    this.$company.fetch()
   }
 }
 </script>
-
-<!--/////////////////////////////////////////////////////////////////////////-->
-
-<style lang="scss" scoped>
-.actions {
-  & > div {
-    margin-bottom: 10px;
-  }
-}
-</style>

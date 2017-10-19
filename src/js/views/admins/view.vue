@@ -2,7 +2,7 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <legend>Account</legend>
+        <legend>Superadmin</legend>
         <h2>{{ $user.full_name }}</h2>
       </div>
       <div class="actions">
@@ -49,58 +49,37 @@
       </div>
     </div>
     <div class="actions">
-      <div>
-        <button @click="showModal">Change Password</button>
-      </div>
-      <div>
-        <button @click="logout">Logout</button>
-      </div>
+      <button @click="remove">Delete</button>
     </div>
-    <password-modal v-if="modal_visible" @close="closeModal" :model="$user" />
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import session from '@/session'
-import passwordModal from '@/components/modals/password'
+import User from '@/models/user'
 
 export default {
-  name: 'account',
-  data() {
-    return {
-      modal_visible: false
-    }
-  },
+  name: 'admin',
   models: {
     user() {
-      return session.$user
+      return new User({
+        role: 'admin',
+        id: this.$route.params.id
+      })
     }
   },
-  methods: {
-    logout() {
-      this.$store.dispatch('logout')
-    },
-    showModal() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
-    }
+  created() {
+    this.$user.fetch()
   },
-  components: {
-    passwordModal
+  remove() {
+    const confirmed = confirm(`Are you sure you want to remove ${this.$user.full_name}?`)
+    if (confirmed) {
+      this.$user.destroy()
+      .then(() => {
+        this.$router.push('/superadmins')
+      })
+    }
   }
 }
 </script>
-
-<!--/////////////////////////////////////////////////////////////////////////-->
-
-<style lang="scss" scoped>
-.actions {
-  & > div {
-    margin-bottom: 10px;
-  }
-}
-</style>

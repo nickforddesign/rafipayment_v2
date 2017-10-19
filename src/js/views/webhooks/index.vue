@@ -2,26 +2,26 @@
   <div class="collection-view">
     <header>
       <div class="meta">
-        <h2>Superadmins({{ collection.length }})</h2>
+        <h2>Webhooks({{ collection.length }})</h2>
       </div>
       <div class="actions">
         <search />
-        <button class="primary" @click="add">Add New Superadmin</button>
+        <button class="primary" @click="add">Add New Subscription</button>
       </div>
     </header>
     <table>
       <thead>
         <tr>
-          <td>Name</td>
-          <td>Address</td>
+          <td>URL</td>
           <td>Created</td>
+          <td>Actions</td>
         </tr>
       </thead>
       <tbody>
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
     </table>
-    <user-modal role="superadmin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
+    <webhook-modal role="admin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
 
@@ -30,12 +30,12 @@
 <script>
 import { Collection } from 'vue-collections'
 import row from './row'
-import User from '@/models/user'
+// import User from '@/models/user'
 
-import userModal from '@/components/modals/user'
+import webhookModal from '@/components/modals/webhook'
 
 export default {
-  name: 'superadmins',
+  name: 'admins',
   data() {
     return {
       modal_visible: false
@@ -43,8 +43,8 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'superadmins',
-      model: User
+      basePath: 'payment/webhook_subscriptions'
+      // model: User
     })
   },
   created() {
@@ -67,7 +67,7 @@ export default {
   },
   components: {
     row,
-    userModal
+    webhookModal
   }
 }
 </script>

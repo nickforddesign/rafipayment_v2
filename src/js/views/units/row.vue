@@ -1,32 +1,34 @@
 <template>
   <tr @click="goToModel">
     <td>
-      <a :href="$property.urlRoot" @click.prevent>{{ $property.name }}</a>
+      <a :href="$unit.urlRoot" @click.prevent>{{ $unit.name }}</a>
     </td>
-    <td>{{ $property.address }}</td>
+    <td>{{ $unit.property_name }}</td>
     <td>-</td>
+    <td>{{ $unit.bed_count }}</td>
+    <td>{{ $unit.bath_count }}</td>
   </tr>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import Property from '@/models/property'
+import Unit from '@/models/unit'
 
 export default {
   name: 'row',
   props: ['model'],
   models: {
-    property() {
-      return new Property()
+    unit() {
+      return new Unit()
     }
   },
   created() {
-    this.$property = this.model
+    this.$unit = this.model
   },
   methods: {
     goToModel() {
-      this.$router.push(this.$property.urlRoot)
+      this.$router.push(this.$unit.urlRoot)
     }
   }
 }

@@ -3,8 +3,7 @@
     <h1 slot="header">Add Property</h1>
     <div slot="body">
       <div v-if="loaded">
-        <div class="field-group">
-          <legend>Address</legend>
+        <field name="address" :errors="errors">
           <vue-google-autocomplete
             id="map"
             ref="default"
@@ -12,13 +11,12 @@
             v-on:placechanged="getAddressData"
             country="us"
           />
-          <validation name="address" :errors="errors" />
-        </div>
-        <div class="field-group">
-          <legend>Name</legend>
+        </field>
+
+        <field name="name" :errors="errors">
           <input type="text" v-model="name">
-        </div>
-        <pre>{{ place }}</pre>
+        </field>
+
       </div>
     </div>
   </modal>
@@ -98,10 +96,11 @@ export default {
       this.loading = true
 
       const data = mergeDeepRight(this.place, { name: this.name })
-      console.log({data})
       return this.$property.save(data)
         .then(response => {
-          console.log({response})
+          if (this.confirm) {
+            this.confirm()
+          }
           // this.loading = true
           // app.alert(
           //   'Please check the new email address for a verification link',

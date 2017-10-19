@@ -2,107 +2,84 @@
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Add Company</h1>
     <div slot="body">
-      <div class="field-group">
-        <legend>Company Name</legend>
+      <field name="company name" :errors="errors">
         <input type="text" v-model="name" v-validate="'required'" name="name" ref="default">
-        <validation name="name" :errors="errors" />
-      </div>
-      <div class="field-group">
-        <legend>Industry</legend>
+      </field>
+
+      <field name="industry" :errors="errors">
         <select-menu v-model="category" v-validate="'required'" name="industry">
+          <option disabled value="">Please select one</option>
           <option v-for="(category, index) in categories" :value="category.id" :key="index" :label="category.name">{{ category.name }}</option>
         </select-menu>
-        <validation name="industry" :errors="errors" />
-      </div>
-      <!-- {{ category }} -->
-      <!-- <pre>{{ classifications }}</pre> -->
-      <div class="field-group">
-        <legend>Business Classification</legend>
+      </field>
+
+      <field name="business classification" :errors="errors">
         <select-menu v-model="business_classification" v-validate="'required'" name="business classification">
+          <option disabled value="">Please select one</option>
           <option v-for="(classification, index) in classifications" :value="classification.id" :key="index" :label="classification.name">{{ classification.name }}</option>
         </select-menu>
-        <validation name="business classification" :errors="errors" />
-      </div>
+      </field>
 
-      <div class="field-group">
-        <legend>Business Type</legend>
+      <field name="business type" :errors="errors">
         <select-menu v-model="business_type" v-validate="'required'" name="business type">
-          <option value="llc" selected>LLC</option>
+          <option disabled value="">Please select one</option>
+          <option value="llc">LLC</option>
           <option value="corporation">Corporation</option>
           <option value="partnership">Partnership</option>
           <option value="soleproprietorship">Sole Proprietorship</option>
         </select-menu>
-        <validation name="business type" :errors="errors" />
-      </div>
+      </field>
 
-      <div class="field-group">
-        <legend>EIN</legend>
+      <field name="ein" :errors="errors">
         <input type="text" v-model="ein" v-validate="'required'" name="ein">
-        <validation name="ein" :errors="errors" />
-      </div>
+      </field>
 
-      <div class="field-group">
-        <legend>Address 1</legend>
-        <input type="text" v-model="address1" v-validate="'required'" name="address1">
-        <validation name="address1" :errors="errors" />
-      </div>
+      <field name="address 1" :errors="errors">
+        <input type="text" v-model="address1" v-validate="'required'" name="address 1">
+      </field>
 
-      <div class="field-group">
-        <legend>Address 2</legend>
-        <input type="text" v-model="address2" name="address2">
-        <validation name="address2" :errors="errors" />
-      </div>
-
-      <div class="field-group">
-        <legend>City</legend>
+      <field name="address 2" :errors="errors">
+        <input type="text" v-model="address2" name="address 2">
+      </field>
+      
+      <field name="city" :errors="errors">
         <input type="text" v-model="city" v-validate="'required'" name="city">
-        <validation name="city" :errors="errors" />
-      </div>
-
-      <div class="field-group">
-        <legend>State</legend>
+      </field>
+      
+      <field name="state" :errors="errors">
         <input type="text" v-model="state" v-validate="'required'" name="state">
-        <validation name="state" :errors="errors" />
-      </div>
-
-      <div class="field-group">
-        <legend>Zip</legend>
+      </field>
+      
+      <field name="zip code" :errors="errors">
         <input type="text" v-model="postal_code" v-validate="'required'" name="zip code">
-        <validation name="zip code" :errors="errors" />
-      </div>
+      </field>
 
       <h2>Company Representative</h2>
-
-      <div class="field-group">
-        <legend>First Name</legend>
+      
+      <field name="first name" :errors="errors">
         <input type="text" v-model="first_name" v-validate="'required'" name="first name">
-        <validation name="first name" :errors="errors" />
-      </div>
-      <div class="field-group">
-        <legend>Last Name</legend>
+      </field>
+
+      <field name="last name" :errors="errors">
         <input type="text" v-model="last_name" v-validate="'required'" name="last name">
-        <validation name="last name" :errors="errors" />
-      </div>
-      <div class="field-group">
-        <legend>Email</legend>
+      </field>
+
+      <field name="email" :errors="errors">
         <input type="email" v-model="email" v-validate="'required|email'" name="email">
-        <validation name="email" :errors="errors" />
-      </div>
-      <div class="field-group">
-        <legend>Phone</legend>
-        <input type="phone" v-model="phone" name="phone">
-        <validation name="phone" :errors="errors" />
-      </div>
-      <div class="field-group">
-        <legend>DOB</legend>
-        <input type="string" v-model="date_of_birth" name="dob">
-        <validation name="dob" :errors="errors" />
-      </div>
-      <div class="field-group">
-        <legend>SSN</legend>
+      </field>
+
+      <field name="phone" :errors="errors">
+        <input type="text" v-model="phone" name="phone">
+      </field>
+
+      <field name="date of birth" label="Date of Birth" :errors="errors">
+        <input type="string" v-model="date_of_birth" name="date of birth">
+      </field>
+
+      <field name="ssn" label="SSN" :errors="errors">
         <input type="string" v-model="ssn" name="ssn">
-        <validation name="ssn" :errors="errors" />
-      </div>
+      </field>
+
     </div>
   </modal>
 </template>

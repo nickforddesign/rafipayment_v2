@@ -37,19 +37,37 @@ const routes = [
     name: 'Properties',
     path: '/properties',
     meta: {
-      auth: true
-      // auth: ['tenant']
+      auth: ['superadmin', 'admin', 'manager']
     },
     component(resolve) {
       require(['@/views/properties'], resolve)
     }
   },
   {
+    name: 'Property',
+    path: '/properties/:id',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager']
+    },
+    component(resolve) {
+      require(['@/views/properties/view'], resolve)
+    }
+  },
+  {
+    name: 'Units',
+    path: '/units',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager']
+    },
+    component(resolve) {
+      require(['@/views/units'], resolve)
+    }
+  },
+  {
     name: 'Leases',
     path: '/leases',
     meta: {
-      auth: true
-      // auth: ['tenant']
+      auth: ['admin', 'manager']
     },
     component(resolve) {
       require(['@/views/leases'], resolve)
@@ -66,6 +84,16 @@ const routes = [
     }
   },
   {
+    name: 'Compny',
+    path: '/companies/:id',
+    meta: {
+      auth: ['superadmin']
+    },
+    component(resolve) {
+      require(['@/views/companies/view'], resolve)
+    }
+  },
+  {
     name: 'Superadmins',
     path: '/superadmins',
     meta: {
@@ -73,6 +101,46 @@ const routes = [
     },
     component(resolve) {
       require(['@/views/superadmins'], resolve)
+    }
+  },
+  {
+    name: 'Superadmin',
+    path: '/superadmins/:id',
+    meta: {
+      auth: ['superadmin']
+    },
+    component(resolve) {
+      require(['@/views/superadmins/view'], resolve)
+    }
+  },
+  {
+    name: 'Admins',
+    path: '/admins',
+    meta: {
+      auth: ['superadmin', 'admin']
+    },
+    component(resolve) {
+      require(['@/views/admins'], resolve)
+    }
+  },
+  {
+    name: 'Admin',
+    path: '/admins/:id',
+    meta: {
+      auth: ['superadmin', 'admin']
+    },
+    component(resolve) {
+      require(['@/views/admins/view'], resolve)
+    }
+  },
+  {
+    name: 'Webhook Subscriptions',
+    path: '/webhooks',
+    meta: {
+      auth: ['superadmin']
+    },
+    component(resolve) {
+      require(['@/views/webhooks/index'], resolve)
     }
   },
   {

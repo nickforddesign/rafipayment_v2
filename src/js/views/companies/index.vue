@@ -32,7 +32,6 @@ import { Collection } from 'vue-collections'
 import row from './row'
 
 import Company from '@/models/company'
-
 import companyModal from '@/components/modals/company'
 
 export default {

@@ -16,7 +16,7 @@ const session = new Vue({
     user() {
       return new User(null, {
         name: 'session_user',
-        url: 'account/',
+        url: 'account',
         persist: true
       })
     }

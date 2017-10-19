@@ -4,12 +4,14 @@ import router from '@/router'
 
 import store from '@/store'
 import filters from '@/modules/filters'
+import validators from '@/modules/validators'
 
 import App from '@/components/app'
 import Logo from '@/components/logo'
 import Loading from '@/components/loading'
 import Select from '@/components/select'
 import Validation from '@/components/validation'
+import Field from '@/components/field'
 import Password from '@/components/password'
 import Modal from '@/components/modal'
 import Search from '@/components/search'
@@ -20,10 +22,11 @@ const components = [
   Logo,
   Loading,
   Select,
-  Password,
   Validation,
-  Search,
-  Modal
+  Field,
+  Password,
+  Modal,
+  Search
 ]
 
 const install = (Vue) => {
@@ -36,6 +39,9 @@ const install = (Vue) => {
     }
     Vue.component(component.name, component)
   })
+  for (let key in validators) {
+    VeeValidate.Validator.extend(key, validators[key])
+  }
 
   Vue.use(VeeValidate)
 }

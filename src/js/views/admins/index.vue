@@ -2,11 +2,11 @@
   <div class="collection-view">
     <header>
       <div class="meta">
-        <h2>Superadmins({{ collection.length }})</h2>
+        <h2>Admins({{ collection.length }})</h2>
       </div>
       <div class="actions">
         <search />
-        <button class="primary" @click="add">Add New Superadmin</button>
+        <button class="primary" @click="add">Add New Admin</button>
       </div>
     </header>
     <table>
@@ -21,7 +21,7 @@
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
     </table>
-    <user-modal role="superadmin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
+    <user-modal role="admin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
 
@@ -35,7 +35,7 @@ import User from '@/models/user'
 import userModal from '@/components/modals/user'
 
 export default {
-  name: 'superadmins',
+  name: 'admins',
   data() {
     return {
       modal_visible: false
@@ -43,7 +43,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'superadmins',
+      basePath: 'admins',
       model: User
     })
   },

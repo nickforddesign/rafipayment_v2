@@ -39,7 +39,7 @@ export default class User extends Model {
         type: ISODate
       },
       company: {
-        type: String
+        type: ObjectId
       },
       first_name: {
         type: String

@@ -2,26 +2,28 @@
   <div class="collection-view">
     <header>
       <div class="meta">
-        <h2>Superadmins({{ collection.length }})</h2>
+        <h2>Units({{collection.length}})</h2>
       </div>
       <div class="actions">
         <search />
-        <button class="primary" @click="add">Add New Superadmin</button>
+        <button class="primary" @click="add">Add New Unit</button>
       </div>
     </header>
     <table>
       <thead>
         <tr>
-          <td>Name</td>
-          <td>Address</td>
-          <td>Created</td>
+          <td>Unit</td>
+          <td>Property</td>
+          <td>Current Lease</td>
+          <td>Beds</td>
+          <td>Baths</td>
         </tr>
       </thead>
       <tbody>
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
     </table>
-    <user-modal role="superadmin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
+    <unit-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
 
@@ -29,13 +31,14 @@
 
 <script>
 import { Collection } from 'vue-collections'
-import row from './row'
-import User from '@/models/user'
+import Unit from '@/models/unit'
 
-import userModal from '@/components/modals/user'
+import row from './row'
+
+import unitModal from '@/components/modals/unit'
 
 export default {
-  name: 'superadmins',
+  name: 'properties',
   data() {
     return {
       modal_visible: false
@@ -43,17 +46,14 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'superadmins',
-      model: User
+      basePath: 'units',
+      model: Unit
     })
   },
   created() {
-    this.fetch()
+    this.$collection.fetch()
   },
   methods: {
-    fetch() {
-      this.$collection.fetch()
-    },
     add() {
       this.modal_visible = true
     },
@@ -61,13 +61,12 @@ export default {
       this.modal_visible = false
     },
     confirmModal() {
-      console.log('huh')
       this.$collection.fetch()
     }
   },
   components: {
     row,
-    userModal
+    unitModal
   }
 }
 </script>
