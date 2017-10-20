@@ -1,6 +1,7 @@
-import _ from 'lodash'
+// import _ from 'lodash'
+// import { path, clone } from 'ramda'
 import moment from 'moment'
-import session from '@/session'
+// import session from '@/session'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
 import { parseCurrency, statesHelper, unitsHelper } from '@/utils'
@@ -13,6 +14,14 @@ export default class Lease extends Model {
         this.split_amount = undefined
       },
       computed: {
+        start_date() {
+          const keys = Object.keys(this.periods)
+          console.log({keys})
+          keys.sort((a, b) => {
+            return Date.parse(this.periods[a].start_date.$date) > Date.parse(this.periods[b].start_date.$date)
+          })
+          return this.periods[keys[0]].start_date.$date
+        },
         address() {
           const property = this.property
           const unit = this.unit
@@ -38,10 +47,12 @@ export default class Lease extends Model {
             ? months + ' Months'
             : days + ' Days'
           return { months, days, auto }
-        },
+        }
+        /*
         tenants_sorted() {
           return this.tenants.sort((a, b) => {
-            return _.get(this.split, a._id) !== undefined
+            // return _.get(this.split, a._id) !== undefined
+            return path([a._id], this.split) !== undefined
               ? -1
               : 1
           }).sort((a, b) => {
@@ -51,7 +62,8 @@ export default class Lease extends Model {
           })
         },
         splits() {
-          let split = _.merge({}, this.split || {})
+          // let split = _.merge({}, this.split || {})
+          let split = clone(this.split || {})
           if (this.split_amount !== false) {
             split[session.$user.id] = this.split_amount
           }
@@ -60,7 +72,8 @@ export default class Lease extends Model {
         splits_by_tenant_id() {
           let split = {}
           this.tenants.map((tenant) => {
-            split[tenant._id] = _.get(this.splits, tenant._id)
+            // split[tenant._id] = _.get(this.splits, tenant._id)
+            split[tenant._id] = path(tenant._id, [this.splits])
           })
           return split
         },
@@ -92,6 +105,7 @@ export default class Lease extends Model {
         rent_coverage() {
           return Math.floor(this.total_split / this.rent * 100)
         }
+        */
       },
       methods: {
         getTerm(format = 'MM/DD/YYYY') {
@@ -162,15 +176,23 @@ export default class Lease extends Model {
       bill_overdue_day: {
         type: Number
       },
-      start_date: {
-        type: ISODate
-      },
+      // start_date: {
+      //   type: ISODate
+      // },
       end_date: {
         type: ISODate
       },
-      rent: {
-        type: Currency
+      periods: {
+        type: Array,
+        items: {
+          start_date: {
+            type: ISODate
+          }
+        }
       },
+      // rent: {
+      //   type: Currency
+      // },
       charges: {
         type: Object,
         scheduled: {

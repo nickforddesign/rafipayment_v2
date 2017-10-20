@@ -12,6 +12,8 @@ import Loading from '@/components/loading'
 import Select from '@/components/select'
 import Validation from '@/components/validation'
 import Field from '@/components/field'
+import NumberInput from '@/components/number'
+import Currency from '@/components/currency'
 import Password from '@/components/password'
 import Modal from '@/components/modal'
 import Search from '@/components/search'
@@ -24,6 +26,8 @@ const components = [
   Select,
   Validation,
   Field,
+  NumberInput,
+  Currency,
   Password,
   Modal,
   Search

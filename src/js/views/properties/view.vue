@@ -6,6 +6,7 @@
         <h2>{{ $property.full_name }}</h2>
       </div>
       <div class="actions">
+        <button class="link" @click="remove">Delete</button>
         <button class="primary">Edit</button>
       </div>
     </header>
@@ -48,9 +49,9 @@
         </div>
       </div>
     </div>
-    <div class="actions">
+    <!-- <div class="actions">
       <button @click="remove">Delete</button>
-    </div>
+    </div> -->
   </div>
 </template>
 

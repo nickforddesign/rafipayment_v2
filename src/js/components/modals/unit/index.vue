@@ -39,7 +39,7 @@
 import { Deferred } from '@/utils'
 import { Collection } from 'vue-collections'
 import Property from '@/models/property'
-import Unit from '@/models/unit'
+import Unit from '@/models/unit/new'
 
 export default {
   name: 'modal-password',
@@ -103,17 +103,13 @@ export default {
       this.loading = true
 
       const data = this.$data
+      // console.trace(this.$unit.save(data))
       return this.$unit.save(data)
         .then((response) => {
           this.loading = false
           if (this.confirm) {
             this.confirm()
           }
-          // app.alert(
-          //   'Please check the new email address for a verification link',
-          //   this.confirm,
-          //   'Verify Email'
-          // )
         })
     }
   }

@@ -64,6 +64,16 @@ const routes = [
     }
   },
   {
+    name: 'Unit',
+    path: '/units/:id',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager']
+    },
+    component(resolve) {
+      require(['@/views/units/view'], resolve)
+    }
+  },
+  {
     name: 'Leases',
     path: '/leases',
     meta: {
@@ -131,6 +141,26 @@ const routes = [
     },
     component(resolve) {
       require(['@/views/admins/view'], resolve)
+    }
+  },
+  {
+    name: 'Tenants',
+    path: '/tenants',
+    meta: {
+      auth: ['superadmin', 'admin']
+    },
+    component(resolve) {
+      require(['@/views/tenants'], resolve)
+    }
+  },
+  {
+    name: 'Tenant',
+    path: '/tenants/:id',
+    meta: {
+      auth: ['superadmin', 'admin']
+    },
+    component(resolve) {
+      require(['@/views/tenants/view'], resolve)
     }
   },
   {

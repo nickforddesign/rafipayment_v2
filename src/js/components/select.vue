@@ -2,7 +2,7 @@
   <div :class="classHandler">
     <select :name="name" :disabled="field_disabled" :multiple="field_multiple" @change="emitChange" v-model="field_value">
       <slot>
-        <option v-for="(options, index) in options" value="option.value" :key="index">
+        <option v-for="(options, index) in options" :value="option.value" :key="index">
           {{ option.label }}
         </option>
       </slot>
@@ -17,13 +17,18 @@ export default {
   name: 'select-menu',
   props: {
     name: String,
-    options: Array,
-    multiple: Boolean,
+    options: {
+      type: Array
+    },
+    multiple: {
+      type: Boolean,
+      default: false
+    },
     disabled: Boolean
   },
   data() {
     return {
-      field_value: ''
+      field_value: this.multiple ? [] : ''
     }
   },
   created() {

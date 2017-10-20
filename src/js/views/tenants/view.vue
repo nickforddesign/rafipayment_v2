@@ -2,10 +2,11 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <legend>Account</legend>
+        <legend>Tenant</legend>
         <h2>{{ $user.full_name }}</h2>
       </div>
       <div class="actions">
+        <button class="link" @click="remove">Delete</button>
         <button class="primary">Edit</button>
       </div>
     </header>
@@ -48,15 +49,9 @@
         </div>
       </div>
     </div>
-    <div class="actions">
-      <div>
-        <button @click="showModal">Change Password</button>
-      </div>
-      <div>
-        <button @click="logout">Logout</button>
-      </div>
-    </div>
-    <password-modal v-if="modal_visible" @close="closeModal" :model="$user" />
+    <!-- <div class="actions">
+      <button @click="remove">Delete</button>
+    </div> -->
   </div>
 </template>
 
@@ -64,51 +59,30 @@
 
 <script>
 import User from '@/models/user'
-// import session from '@/session'
-import passwordModal from '@/components/modals/password'
 
 export default {
-  name: 'account',
-  data() {
-    return {
-      modal_visible: false
-    }
-  },
+  name: 'superadmin',
   models: {
     user() {
-      return new User(null, {
-        name: 'profile',
-        url: 'account/profile'
+      return new User({
+        role: 'tenant',
+        id: this.$route.params.id
       })
-      // return session.$user
     }
   },
   created() {
     this.$user.fetch()
   },
   methods: {
-    logout() {
-      this.$store.dispatch('logout')
-    },
-    showModal() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
+    remove() {
+      const confirmed = confirm(`Are you sure you want to remove ${this.$user.full_name}?`)
+      if (confirmed) {
+        this.$user.destroy()
+        .then(() => {
+          this.$router.push('/superadmins')
+        })
+      }
     }
-  },
-  components: {
-    passwordModal
   }
 }
 </script>
-
-<!--/////////////////////////////////////////////////////////////////////////-->
-
-<style lang="scss" scoped>
-.actions {
-  & > div {
-    margin-bottom: 10px;
-  }
-}
-</style>

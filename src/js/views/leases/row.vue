@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>{{ $lease.property.address }}</td>
-    <td>{{ $lease.unit.number }}</td>
+    <td>{{ $lease.unit.name }}</td>
     <td>{{ $lease.start_date | moment('M/D/YYYY') }}</td>
     <td>{{ $lease.end_date | moment('M/D/YYYY') }}</td>
     <td>{{ $lease.length.months }} Mo.</td>

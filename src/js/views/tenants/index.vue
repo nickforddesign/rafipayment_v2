@@ -1,30 +1,27 @@
 <template>
-  <div>
+  <div class="collection-view">
     <header>
       <div class="meta">
-        <h2>Leases({{ collection.length }})</h2>
+        <h2>Tenants({{ collection.length }})</h2>
       </div>
       <div class="actions">
         <search />
-        <button @click="add" class="primary">Add New Lease</button>
+        <button class="primary" @click="add">Add New Tenant</button>
       </div>
     </header>
     <table>
       <thead>
         <tr>
-          <td>Property</td>
-          <td>Unit</td>
-          <td>Start Date</td>
-          <td>End Date</td>
-          <td>Duration</td>
-          <td>Current Rent</td>
+          <td>Name</td>
+          <td>Address</td>
+          <td>Created</td>
         </tr>
       </thead>
       <tbody>
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
     </table>
-    <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
+    <user-modal role="tenant" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
 
@@ -32,14 +29,13 @@
 
 <script>
 import { Collection } from 'vue-collections'
-import Lease from '@/models/lease'
-// import data from './leases_collection'
 import row from './row'
+import User from '@/models/user'
 
-import leaseModal from '@/components/modals/lease'
+import userModal from '@/components/modals/user'
 
 export default {
-  name: 'leases',
+  name: 'tenants',
   data() {
     return {
       modal_visible: false
@@ -47,14 +43,17 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'leases',
-      model: Lease
+      basePath: 'tenants',
+      model: User
     })
   },
   created() {
-    this.$collection.fetch()
+    this.fetch()
   },
   methods: {
+    fetch() {
+      this.$collection.fetch()
+    },
     add() {
       this.modal_visible = true
     },
@@ -62,13 +61,12 @@ export default {
       this.modal_visible = false
     },
     confirmModal() {
-      console.log('huh')
       this.$collection.fetch()
     }
   },
   components: {
     row,
-    leaseModal
+    userModal
   }
 }
 </script>

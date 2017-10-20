@@ -3,7 +3,7 @@
     <h1 slot="header">Add Webhook Subscription</h1>
     <div slot="body">
       <field name="url" label="URL" :errors="errors">
-        <input type="text" v-model="url" v-validate="'required|url'" placeholder="https://" name="url" ref="default">
+        <input type="text" v-model="url" v-validate="'required|url:require_protocol'" placeholder="https://" name="url" ref="default">
       </field>
     </div>
   </modal>

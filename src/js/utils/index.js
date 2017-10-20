@@ -60,6 +60,11 @@ export function resetAllStates (state, modules) {
   })
 }
 
+export const isMobile = () => {
+  const regex = /(iP(od|hone|ad))|(IEMobile)|(Windows Phone)|(Blackberry)|(BB10)|(Android.*Mobile)/i
+  return regex.test(window.navigator.userAgent)
+}
+
 // parse currency strings to valid currency floats
 
 export const parseCurrency = (value, constructor) => {

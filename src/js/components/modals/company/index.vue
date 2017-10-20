@@ -87,8 +87,9 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
 import Vue from 'vue'
+import { path, pickBy } from 'ramda'
 import { Deferred } from '@/utils'
 import Company from '@/models/company'
 
@@ -124,8 +125,9 @@ export default {
   },
   computed: {
     classifications() {
-      console.log(this.classifications_match)
-      return _.get(this.classifications_match, '_embedded.industry-classifications')
+      // console.log(this.classifications_match)
+      // return _.get(this.classifications_match, '_embedded.industry-classifications')
+      return path(['_embedded', 'industry-classifications'], this.classifications_match)
     },
     classifications_match() {
       return this.categories.find(category => {
@@ -153,10 +155,10 @@ export default {
       this.$emit('close')
     },
     async validate() {
-      console.log(this.$data)
+      // console.log(this.$data)
       const deferred = new Deferred()
       let passed = await this.$validator.validateAll()
-      console.log(passed)
+      // console.log(passed)
       if (passed) {
         await this.confirmChange()
         deferred.resolve()
@@ -167,24 +169,35 @@ export default {
     },
     async confirmChange() {
       this.loading = true
+      const data = pickBy(val => val !== '', {
+        name: this.name,
+        business_classification: this.business_classification,
+        business_type: this.business_type,
+        ein: this.ein,
+        address1: this.address1,
+        address2: this.address2,
+        city: this.city,
+        state: this.state,
+        postal_code: this.postal_code,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        email: this.email,
+        date_of_birth: this.date_of_birth,
+        ssn: this.ssn,
+        phone: this.phone
+      })
 
-      // const data = this.$data
-      let data = {}
-      for (let key in this.$data) {
-        console.log({key})
-        if (this.$data[key]) {
-          data[key] = this.$data[key]
-        }
-      }
-      console.log('SAVING')
-      const request = this.$company.save(data)
-      request.then(response => {
-        this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      console.log({data})
+
+      // console.log('SAVING')
+      // const request = this.$company.save(data)
+      // request.then(response => {
+      //   this.confirm()
+      // })
+      // .catch(error => {
+      //   console.log({error})
+      // })
+      // return request
     }
   }
 }

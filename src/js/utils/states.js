@@ -54,15 +54,17 @@ const states = [
 ]
 
 const statesHelper = (_input = '') => {
-  const input = _input.toLowerCase()
-  console.log(input)
-  const expand = _input.length === 2
-  const index = expand ? 1 : 0
-  const output_index = expand ? 0 : 1
-  const match = states.find((state) => {
-    if (state[index].toLowerCase() === input) return state
-  })
-  return match[output_index]
+  if (_input) {
+    const input = _input.toLowerCase()
+    console.log(input)
+    const expand = _input.length === 2
+    const index = expand ? 1 : 0
+    const output_index = expand ? 0 : 1
+    const match = states.find((state) => {
+      if (state[index].toLowerCase() === input) return state
+    })
+    return match[output_index]
+  }
 }
 
 export default statesHelper

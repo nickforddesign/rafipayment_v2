@@ -1,23 +1,11 @@
 import { Model } from 'vue-models'
 import { ObjectId, ISODate } from '@/modules/types'
-import { unitsHelper } from '@/utils'
 
 export default class Unit extends Model {
   static defaults() {
     return {
       name: 'unit',
-      basePath: 'units',
-      computed: {
-        label() {
-          return unitsHelper(this.name)
-        },
-        address() {
-          return `${this.property.address}, ${this.label}`
-        },
-        property_name() {
-          return this.property.name || this.property.address
-        }
-      }
+      basePath: 'units'
     }
   }
   static schema() {
