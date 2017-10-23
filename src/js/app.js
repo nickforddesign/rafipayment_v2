@@ -16,6 +16,7 @@ import NumberInput from '@/components/number'
 import Currency from '@/components/currency'
 import Password from '@/components/password'
 import Modal from '@/components/modal'
+import Empty from '@/components/empty'
 import Search from '@/components/search'
 
 Vue.config.productionTip = false
@@ -30,6 +31,7 @@ const components = [
   Currency,
   Password,
   Modal,
+  Empty,
   Search
 ]
 

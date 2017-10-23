@@ -1,3 +1,4 @@
+import { path } from 'ramda'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate } from '@/modules/types'
 
@@ -23,6 +24,18 @@ export default class User extends Model {
           return this.role
             ? `${this.first_name[0]}${this.last_name[0]}`.toUpperCase()
             : ``
+        },
+        funding_sources() {
+          // console.log('hi')
+          // console.log(path(['payment', 'funding_sources'], this))
+          const funding_sources_array = path(['payment', 'funding_sources'], this)
+          if (funding_sources_array) {
+            return funding_sources_array.filter(funding_source => {
+              return funding_source.removed !== true
+            })
+          } else {
+            return []
+          }
         }
       }
     }
@@ -57,6 +70,9 @@ export default class User extends Model {
         type: String
       },
       status: {
+        type: Object
+      },
+      payment: {
         type: Object
       }
     }

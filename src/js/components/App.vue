@@ -66,8 +66,13 @@ $sidebar-width: 230px;
 
   main {
     &.content {
-      margin-left: $sidebar-width;
-      padding: 0 30px;
+      position: absolute;
+      left: $sidebar-width;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      // margin-left: $sidebar-width;
+      padding: 30px;
       text-align: left;
     }
   }

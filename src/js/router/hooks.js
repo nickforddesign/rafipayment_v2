@@ -47,7 +47,6 @@ const checkPermissions = (route, type) => {
 }
 
 const handleRoute = (is_authorized, next, options) => {
-  console.log({is_authorized})
   const args = is_authorized
     ? undefined
     : options

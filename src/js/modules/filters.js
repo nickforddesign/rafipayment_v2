@@ -32,6 +32,16 @@ const filters = {
     let output
     if (value) output = moment.utc(value).format(format)
     return output
+  },
+  phone(value = '') {
+    if (value) {
+      const area_code = value.slice(0, 3)
+      const exchange = value.slice(3, 6)
+      const line_number = value.slice(6, 10)
+      return `(${area_code}) ${exchange}-${line_number}`
+    } else {
+      return '–'
+    }
   }
 }
 

@@ -2,8 +2,7 @@
   <div>
     <logo />
     <form class="box small" @submit.prevent="submit">
-      <div class="field-group">
-        <legend>Email</legend>
+      <field name="email" :errors="errors">
         <input
           v-model="email"
           v-validate="'required'"
@@ -11,17 +10,16 @@
           type="email"
           autocomplete="off"
           autocapitalize="off">
-        <validation name="email" :errors="errors"></validation>
-      </div>
-      <div class="field-group">
-        <legend>Password</legend>
+      </field>
+
+      <field name="password" :errors="errors">
         <password
           v-model="password"
           v-validate="'required'"
           name="password">
         </password>
-        <validation name="password" :errors="errors"></validation>
-      </div>
+      </field>
+
       <button type="submit">Login</button>
     </form>
     <router-link to="/forgot">Forgot password?</router-link>
