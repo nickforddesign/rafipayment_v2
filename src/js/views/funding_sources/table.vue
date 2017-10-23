@@ -1,0 +1,88 @@
+<template>
+  <div class="table">
+    <div v-if="fetched">
+      <div class="header">
+        <div class="meta">
+          <slot name="title">
+            Payment Methods
+          </slot>
+        </div>
+        <div class="actions">
+          <slot name="actions">
+            <button class="small" @click="showModal">Add Payment Method</button>
+          </slot>
+        </div>
+      </div>
+      <table v-if="collection.length">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Status</td>
+            <td>Created</td>
+            <td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          <row v-for="(model, index) in funding_sources" :key="index" :model="model" />
+        </tbody>
+      </table>
+      <empty v-else>
+        <div slot="message">You don't have any payment methods yet</div>
+        <button class="primary" slot="actions" @click="showModal">Add Payment Method</button>
+      </empty>
+
+      <funding-source-modal v-if="modal_visible" @close="closeModal" @complete="fetch" />
+    </div>
+    <loading v-else :input="true" />
+  </div>
+</template>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<script>
+import { Collection } from 'vue-collections'
+import fundingSourceModal from '@/components/modals/funding_source'
+
+import row from './row'
+
+export default {
+  name: 'transfers-table',
+  props: {
+    data: Object
+  },
+  data() {
+    return {
+      fetched: false,
+      modal_visible: false
+    }
+  },
+  collection() {
+    return new Collection({
+      basePath: `account/payment/funding_sources`
+    })
+  },
+  async created() {
+    await this.$collection.fetch()
+    this.fetched = true
+  },
+  computed: {
+    funding_sources() {
+      return this.collection.filter(model => {
+        return !model.removed
+      })
+    }
+  },
+  methods: {
+    showModal() {
+      this.modal_visible = true
+    },
+    closeModal() {
+      this.modal_visible = false
+    }
+  },
+  components: {
+    row,
+    fundingSourceModal
+  }
+}
+</script>

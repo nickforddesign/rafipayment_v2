@@ -54,35 +54,8 @@
           <button @click="showPasswordModal">Change Password</button>
         </div>
       </div>
-      <div class="table" v-if="$user.role !== 'superadmin'">
-        <div class="header">
-          <div class="meta">
-            Payment Methods
-          </div>
-          <div class="actions">
-            <button class="small" @click="showPaymentModal">Add Payment Method</button>
-          </div>
-        </div>
-        <table v-if="$user.funding_sources.length">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Status</td>
-              <td>Created</td>
-              <td>Actions</td>
-            </tr>
-          </thead>
-          <tbody>
-            <funding-source-row v-for="(model, index) in $user.funding_sources" :key="index" :model="model" />
-          </tbody>
-        </table>
-        <empty v-else>
-          <div slot="message">You don't have any payment methods yet</div>
-          <button class="primary" slot="actions" @click="showPaymentModal">Add Payment Method</button>
-        </empty>
 
-        <funding-source-modal v-if="payment_modal_visible" @close="closePaymentModal" @complete="fetch" />
-      </div>
+      <funding-sources-table :data="this.$user.payment" />
       
       <div class="actions free">
         <div>
@@ -101,17 +74,17 @@
 <script>
 import User from '@/models/user'
 import passwordModal from '@/components/modals/password'
-import fundingSourceModal from '@/components/modals/funding_source'
-
-import fundingSourceRow from '@/views/funding_sources/row'
+import fundingSourcesTable from '@/views/funding_sources/table'
+// import fundingSourceModal from '@/components/modals/funding_source'
+// import fundingSourceRow from '@/views/funding_sources/row'
 
 export default {
   name: 'account',
   data() {
     return {
       loaded: false,
-      password_modal_visible: false,
-      payment_modal_visible: false
+      password_modal_visible: false
+      // payment_modal_visible: false
     }
   },
   models: {
@@ -138,18 +111,19 @@ export default {
     },
     closePasswordModal() {
       this.password_modal_visible = false
-    },
-    showPaymentModal() {
-      this.payment_modal_visible = true
-    },
-    closePaymentModal() {
-      this.payment_modal_visible = false
     }
+    // showPaymentModal() {
+    //   this.payment_modal_visible = true
+    // },
+    // closePaymentModal() {
+    //   this.payment_modal_visible = false
+    // }
   },
   components: {
     passwordModal,
-    fundingSourceModal,
-    fundingSourceRow
+    fundingSourcesTable
+    // fundingSourceModal,
+    // fundingSourceRow
   }
 }
 </script>

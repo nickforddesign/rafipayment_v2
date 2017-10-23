@@ -9,7 +9,7 @@
           name="email"
           type="email"
           autocomplete="off"
-          autocapitalize="off">
+          autocapitalize="off">  
       </field>
 
       <field name="password" :errors="errors">

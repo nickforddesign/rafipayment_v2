@@ -4,7 +4,7 @@
     <td>{{ model.status }}</td>
     <td>{{ model.created | moment('MM/DD/YYYY') }}</td>
     <td>
-      <button class="small" @click.stop v-if="!is_balance && !is_primary">Set as Primary</button>
+      <button class="small" @click.stop="set_primary" v-if="!is_balance && !is_primary">Set as Primary</button>
       <button class="small" @click.stop="remove" v-if="!is_balance">Remove</button>
     </td>
   </tr>
@@ -23,7 +23,7 @@ export default {
       return this.model.type === 'balance'
     },
     is_primary() {
-      const primary_id = path(['$user', 'payment', 'primary_funding_source'], this.$parent)
+      const primary_id = path(['$parent', '$user', 'payment', 'primary_funding_source'], this.$parent)
       return this.model.id === primary_id
     }
   },
@@ -34,9 +34,19 @@ export default {
         await this.$request(`account/payment/funding_sources/${this.model.id}`, {
           method: 'delete'
         })
-        // this sux
-        // await this.$parent.$user.reset()
-        await this.$parent.$user.fetch()
+        await this.$parent.$parent.$user.fetch()
+      }
+    },
+    async set_primary() {
+      const confirmed = confirm(`Are you sure you want to change your primary payment method to ${this.model.name}`)
+      if (confirmed) {
+        await this.$request('account/payment/funding_sources', {
+          method: 'put',
+          body: {
+            id: this.model.id
+          }
+        })
+        await this.$parent.$parent.$user.fetch()
       }
     }
   }

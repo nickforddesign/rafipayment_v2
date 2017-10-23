@@ -16,7 +16,6 @@ const routes = [
     path: '/dashboard',
     meta: {
       auth: true
-      // auth: ['tenant']
     },
     component(resolve) {
       require(['@/views/dashboard'], resolve)
@@ -27,7 +26,6 @@ const routes = [
     path: '/account',
     meta: {
       auth: true
-      // auth: ['tenant']
     },
     component(resolve) {
       require(['@/views/account'], resolve)
@@ -94,7 +92,7 @@ const routes = [
     }
   },
   {
-    name: 'Compny',
+    name: 'Company',
     path: '/companies/:id',
     meta: {
       auth: ['superadmin']
@@ -171,6 +169,16 @@ const routes = [
     },
     component(resolve) {
       require(['@/views/webhooks/index'], resolve)
+    }
+  },
+  {
+    name: 'Ledger',
+    path: '/ledger',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager']
+    },
+    component(resolve) {
+      require(['@/views/transfers'], resolve)
     }
   },
   {
