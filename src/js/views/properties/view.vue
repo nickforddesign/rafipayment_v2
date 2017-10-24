@@ -3,7 +3,7 @@
     <header>
       <div class="meta">
         <legend>Property</legend>
-        <h2>{{ $property.full_name }}</h2>
+        <h2>{{ $property.name }}</h2>
       </div>
       <div class="actions">
         <button class="link" @click="remove">Delete</button>
@@ -42,7 +42,12 @@
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Bank Account</dt>
-            <dd></dd>
+            <dd>
+              <div v-if="banks_fetched">
+                {{ funding_source }}
+              </div>
+              <loading type="data" v-else />
+            </dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
@@ -58,10 +63,18 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { path } from 'ramda'
+import { Collection } from 'vue-collections'
 import Property from '@/models/property'
 
 export default {
   name: 'property',
+  data() {
+    return {
+      fetched: false,
+      banks_fetched: false
+    }
+  },
   models: {
     property() {
       return new Property({
@@ -69,8 +82,28 @@ export default {
       })
     }
   },
+  collection() {
+    return new Collection({
+      basePath: 'account/payment/funding_sources'
+    })
+  },
   created() {
     this.$property.fetch()
+      .then(() => {
+        this.fetched = true
+      })
+    this.$collection.fetch()
+      .then(() => {
+        this.banks_fetched = true
+      })
+  },
+  computed: {
+    funding_source() {
+      const match = this.collection.find(model => {
+        return model.id === this.$property.funding_source
+      })
+      return path(['name'], match) || 'Primary'
+    }
   },
   methods: {
     remove() {

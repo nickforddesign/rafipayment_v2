@@ -31,7 +31,7 @@
         <button class="primary" slot="actions" @click="showModal">Add Payment Method</button>
       </empty>
     </div>
-    <loading v-else :input="true" />
+    <loading v-else type="table" />
 
     <funding-source-modal v-if="modal_visible" @close="closeModal" @complete="fetch" />
   </div>

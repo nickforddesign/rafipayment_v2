@@ -39,6 +39,9 @@ export default class Property extends Model {
       },
       place_id: {
         type: String
+      },
+      funding_source: {
+        type: String
       }
     }
   }

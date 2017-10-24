@@ -20,7 +20,8 @@
         </tbody>
       </table>
     </div>
-    <loading v-else :input="true" />
+    <loading v-else type="table" />
+    <!-- <loading type="input" /> -->
   </div>
 </template>
 

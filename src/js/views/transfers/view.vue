@@ -84,7 +84,6 @@
 <script>
 import { Collection } from 'vue-collections'
 import row from './row'
-// import Unit from '@/models/transfer'
 
 export default {
   name: 'transfer',
@@ -105,18 +104,14 @@ export default {
     transfer() {
       return this.collection.filter(model => {
         return model._links.source['resource-type'] === 'customer'
-        // console.log(model)
-        // return !model.individualAchId
       })[0]
     },
     bank_transfer() {
       return this.collection.filter(model => {
         return model._links.source['resource-type'] === 'funding-source'
-        // return model.individualAchId
       })[0]
     },
     is_cancellable() {
-      // console.log(this.transfer)
       return 'cancel' in this.transfer._links
     }
   },
