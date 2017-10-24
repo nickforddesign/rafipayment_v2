@@ -9,7 +9,7 @@
         <select-menu v-if="funding_sources_fetched" v-model="source_funding_source" v-validate="'required'" name="source">
           <option disabled value="">Please select one</option>
           <option 
-            v-for="(funding_source, index) in funding_sources"
+            v-for="(funding_source, index) in funding_sources.models"
             :value="funding_source.id"
             :key="index"
             :label="funding_source.name">
@@ -75,20 +75,15 @@ export default {
     }
   },
   computed: {
-    funding_sources_collection() {
+    funding_sources() {
       return fundingSourcesCollection
     },
     tenants() {
       return tenantsCollection
-    },
-    funding_sources() {
-      return this.funding_sources_collection.models.filter(model => {
-        return !model.removed
-      })
     }
   },
   created() {
-    this.funding_sources_collection.fetch()
+    this.funding_sources.fetch()
       .then(() => {
         this.funding_sources_fetched = true
       })

@@ -12,14 +12,21 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import Transfer from '@/models/property'
+import Transfer from '@/models/transfer'
 
 export default {
   name: 'row',
   props: ['model'],
   models: {
-    property() {
-      return new Transfer()
+    transfer() {
+      return new Transfer(null, {
+        computed: {
+          urlRoot() {
+            // console.log(this)
+            return `transfers/${this.correlationId}`
+          }
+        }
+      })
     }
   },
   created() {
@@ -28,6 +35,7 @@ export default {
   methods: {
     goToModel() {
       this.$router.push(this.$transfer.urlRoot)
+      // console.log(this.$transfer.urlRoot)
     }
   }
 }

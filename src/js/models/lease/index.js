@@ -16,7 +16,6 @@ export default class Lease extends Model {
       computed: {
         start_date() {
           const keys = Object.keys(this.periods)
-          console.log({keys})
           keys.sort((a, b) => {
             return Date.parse(this.periods[a].start_date.$date) > Date.parse(this.periods[b].start_date.$date)
           })

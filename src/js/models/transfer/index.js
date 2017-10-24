@@ -28,6 +28,18 @@ export default class Transfer extends Model {
         properties: {
           value: Currency
         }
+      },
+      clearing: {
+        type: Object
+      },
+      individualAchId: {
+        type: String
+      },
+      correlationId: {
+        type: String
+      },
+      _links: {
+        type: Object
       }
     }
   }

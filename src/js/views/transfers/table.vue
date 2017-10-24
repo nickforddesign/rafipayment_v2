@@ -1,9 +1,9 @@
 <template>
   <div class="table">
+    <div class="header">
+      Payments
+    </div>
     <div v-if="fetched">
-      <div class="header">
-        Payments
-      </div>
       <table>
         <thead>
           <tr>

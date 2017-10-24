@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
+        <row v-for="(model, index) in transfers" :key="index" :model="model" />
       </tbody>
     </table>
     <transfer-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
@@ -52,6 +52,21 @@ export default {
   },
   created() {
     this.$collection.fetch()
+  },
+  computed: {
+    filtered() {
+      return this.collection.filter(model => {
+        return model.correlationId && model.correlationId.length === 24
+      })
+    },
+    transfers() {
+      return this.filtered.reduce((acc, item) => {
+        if (!(item.correlationId in acc)) {
+          acc[item.correlationId] = item
+        }
+        return acc
+      }, {})
+    }
   },
   methods: {
     add() {

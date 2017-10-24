@@ -13,10 +13,28 @@
           />
         </field>
 
-        <field name="name" :errors="errors">
+        <field name="name">
           <input type="text" v-model="name">
         </field>
 
+        <field name="pay-into account" :errors="errors">
+          <input type="radio" id="primary" name="use_primary" :value="true" v-model="use_primary">
+          <label for="primary">Primary</label>
+          <input type="radio" id="other" name="use_primary" :value="false" v-model="use_primary">
+          <label for="other">Use Other</label>
+
+          <select-menu v-if="!use_primary" v-model="funding_source" v-validate="'required'" name="pay-into account">
+            <option disabled value="">Please select one</option>
+            <option 
+              v-for="(funding_source, index) in collection"
+              :value="funding_source.id"
+              :key="index"
+              :label="funding_source.address">
+              {{ funding_source.name }}
+            </option>
+          </select-menu>
+        </field>
+        {{ funding_source }}
       </div>
     </div>
   </modal>
@@ -26,6 +44,7 @@
 
 <script>
 import { isEmpty, mergeDeepRight } from 'ramda'
+import { Collection } from 'vue-collections'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 
 import config from '@/config'
@@ -42,9 +61,12 @@ export default {
   },
   data() {
     return {
-      name: '',
       loaded: false,
-      place: false
+      use_primary: true,
+      // model data
+      name: '',
+      place: false,
+      funding_source: null
     }
   },
   async beforeMount() {
@@ -56,6 +78,14 @@ export default {
       this.loaded = true
     }
   },
+  created() {
+    this.$collection.fetch()
+  },
+  collection() {
+    return new Collection({
+      basePath: 'account/payment/funding_sources'
+    })
+  },
   models: {
     property() {
       return new Property()
@@ -65,6 +95,11 @@ export default {
     place(val) {
       if (!isEmpty(val)) {
         this.errors.remove('address')
+      }
+    },
+    use_primary(val) {
+      if (val) {
+        this.funding_source = null
       }
     }
   },
@@ -96,6 +131,11 @@ export default {
       this.loading = true
 
       const data = mergeDeepRight(this.place, { name: this.name })
+
+      if (this.funding_source) {
+        data['funding_source'] = this.funding_source
+      }
+
       return this.$property.save(data)
         .then(response => {
           if (this.confirm) {

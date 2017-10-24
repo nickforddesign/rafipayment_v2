@@ -1,18 +1,18 @@
 <template>
   <div class="table">
-    <div v-if="fetched">
-      <div class="header">
-        <div class="meta">
-          <slot name="title">
-            Payment Methods
-          </slot>
-        </div>
-        <div class="actions">
-          <slot name="actions">
-            <button class="small" @click="showModal">Add Payment Method</button>
-          </slot>
-        </div>
+    <div class="header">
+      <div class="meta">
+        <slot name="title">
+          Payment Methods
+        </slot>
       </div>
+      <div class="actions">
+        <slot name="actions">
+          <button class="small" @click="showModal">Add Payment Method</button>
+        </slot>
+      </div>
+    </div>
+    <div v-if="fetched">
       <table v-if="collection.length">
         <thead>
           <tr>
@@ -23,17 +23,17 @@
           </tr>
         </thead>
         <tbody>
-          <row v-for="(model, index) in funding_sources" :key="index" :model="model" />
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
         </tbody>
       </table>
       <empty v-else>
         <div slot="message">You don't have any payment methods yet</div>
         <button class="primary" slot="actions" @click="showModal">Add Payment Method</button>
       </empty>
-
-      <funding-source-modal v-if="modal_visible" @close="closeModal" @complete="fetch" />
     </div>
     <loading v-else :input="true" />
+
+    <funding-source-modal v-if="modal_visible" @close="closeModal" @complete="fetch" />
   </div>
 </template>
 
@@ -65,13 +65,13 @@ export default {
     await this.$collection.fetch()
     this.fetched = true
   },
-  computed: {
-    funding_sources() {
-      return this.collection.filter(model => {
-        return !model.removed
-      })
-    }
-  },
+  // computed: {
+  //   funding_sources() {
+  //     return this.collection.filter(model => {
+  //       return !model.removed
+  //     })
+  //   }
+  // },
   methods: {
     showModal() {
       this.modal_visible = true

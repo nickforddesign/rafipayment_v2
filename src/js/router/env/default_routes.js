@@ -172,13 +172,23 @@ const routes = [
     }
   },
   {
-    name: 'Ledger',
-    path: '/ledger',
+    name: 'Transfers',
+    path: '/transfers',
     meta: {
       auth: ['superadmin', 'admin', 'manager']
     },
     component(resolve) {
       require(['@/views/transfers'], resolve)
+    }
+  },
+  {
+    name: 'Transfer',
+    path: '/transfers/:id',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager']
+    },
+    component(resolve) {
+      require(['@/views/transfers/view'], resolve)
     }
   },
   {
