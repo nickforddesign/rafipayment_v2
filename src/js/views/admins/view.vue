@@ -73,13 +73,15 @@ export default {
   created() {
     this.$user.fetch()
   },
-  remove() {
-    const confirmed = confirm(`Are you sure you want to remove ${this.$user.full_name}?`)
-    if (confirmed) {
-      this.$user.destroy()
-      .then(() => {
-        this.$router.push('/superadmins')
-      })
+  methods: {
+    remove() {
+      const confirmed = confirm(`Are you sure you want to remove ${this.$user.full_name}?`)
+      if (confirmed) {
+        this.$user.destroy()
+        .then(() => {
+          this.$router.push('/superadmins')
+        })
+      }
     }
   }
 }

@@ -16,6 +16,7 @@
           <td>Destination</td>
           <td>Source</td>
           <td>Type</td>
+          <td>Direction</td>
           <td>Status</td>
           <td width="80px" align="right">Amount</td>
         </tr>
@@ -61,9 +62,9 @@ export default {
     },
     transfers() {
       return this.filtered.reduce((acc, item) => {
-        if (!(item.correlationId in acc)) {
-          acc[item.correlationId] = item
-        }
+        // if (!(item.correlationId in acc)) {
+        acc[item.correlationId] = item
+        // }
         return acc
       }, {})
     }

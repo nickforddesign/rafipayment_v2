@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import _ from 'lodash'
+// import _ from 'lodash'
+import { path } from 'ramda'
 
 import { routes } from './routes'
 import routeHook from './hooks'
@@ -20,7 +21,8 @@ const router = new Router({
 })
 
 router.goBack = () => {
-  const back = _.get(router.currentRoute, 'meta.back')
+  // const back = _.get(router.currentRoute, 'meta.back')
+  const back = path(['meta', 'back'], router.currentRoute)
   if (typeof back === 'string') {
     router.push(back)
   } else if (typeof back === 'function') {

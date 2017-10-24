@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <funding-sources-table :data="this.$user.payment" />
+      <funding-sources-table :data="this.$user.payment" v-if="$user.role !== 'superadmin'" />
       
       <div class="actions free">
         <div>

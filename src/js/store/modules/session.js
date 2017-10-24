@@ -1,4 +1,5 @@
-import _ from 'lodash'
+// import _ from 'lodash'
+import { path } from 'ramda'
 
 // import router from '@/router'
 import { localStorageSupported } from '@/utils'
@@ -45,10 +46,11 @@ export default {
       return state.user
     },
     'session:access': state => {
-      return _.get(state, 'user.session.access')
+      // return _.get(state, 'user.session.access')
+      return path(['user', 'session', 'access'], state)
     },
     'session:refresh': state => {
-      return _.get(state, 'user.session.refresh')
+      return path(['user', 'session', 'refresh'], state)
     },
     'session:logged_in': state => {
       return state.logged_in

@@ -4,6 +4,7 @@
     <td>Destination</td>
     <td>Source</td>
     <td>Type</td>
+    <td>{{ $transfer.direction }}</td>
     <td>{{ $transfer.status }}</td>
     <td align="right">{{ $transfer.amount.value | currency }}</td>
   </tr>
@@ -12,6 +13,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+// import { path } from 'ramda'
+import session from '@/session'
 import Transfer from '@/models/transfer'
 
 export default {
@@ -19,22 +22,23 @@ export default {
   props: ['model'],
   models: {
     transfer() {
-      return new Transfer(null, {
+      return new Transfer(this.model, {
         computed: {
           urlRoot() {
-            // console.log(this)
             return `transfers/${this.correlationId}`
+          },
+          direction() {
+            return this.source_id === session.$user.payment.account
+              ? 'outgoing'
+              : 'incoming'
           }
         }
       })
     }
   },
-  created() {
-    this.$transfer = this.model
-  },
   methods: {
     goToModel() {
-      this.$router.push(this.$transfer.urlRoot)
+      this.$router.push(`/${this.$transfer.urlRoot}`)
       // console.log(this.$transfer.urlRoot)
     }
   }

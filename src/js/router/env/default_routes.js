@@ -175,7 +175,7 @@ const routes = [
     name: 'Transfers',
     path: '/transfers',
     meta: {
-      auth: ['superadmin', 'admin', 'manager']
+      auth: ['superadmin', 'admin', 'manager', 'tenant']
     },
     component(resolve) {
       require(['@/views/transfers'], resolve)
@@ -185,7 +185,7 @@ const routes = [
     name: 'Transfer',
     path: '/transfers/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager']
+      auth: ['superadmin', 'admin', 'manager', 'tenant']
     },
     component(resolve) {
       require(['@/views/transfers/view'], resolve)

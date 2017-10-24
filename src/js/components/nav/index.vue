@@ -75,6 +75,11 @@ nav {
   z-index: 2;
   color: $color-nav-text;
 
+  .divider {
+    height: 1px;
+    background: $color-grey-50;
+  }
+
   &.visible {
     display: block;
   }

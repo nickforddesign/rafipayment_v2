@@ -1,3 +1,4 @@
+import { path } from 'ramda'
 import { Model } from 'vue-models'
 import { ISODate, Currency } from '@/modules/types'
 
@@ -8,6 +9,9 @@ export default class Transfer extends Model {
       computed: {
         basePath() {
           return 'account/payment/transfers'
+        },
+        source_id() {
+          return path(['links', 'source', 'href'], this).split('/').pop()
         }
       }
     }
@@ -38,7 +42,7 @@ export default class Transfer extends Model {
       correlationId: {
         type: String
       },
-      _links: {
+      links: {
         type: Object
       }
     }

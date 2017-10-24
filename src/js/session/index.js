@@ -1,4 +1,5 @@
-import _ from 'lodash'
+// import _ from 'lodash'
+import { path } from 'ramda'
 import moment from 'moment'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
@@ -28,7 +29,8 @@ const session = new Vue({
   },
   computed: {
     access_token_expired() {
-      const expiration_date = _.get(this.access, 'expiration.$date')
+      // const expiration_date = _.get(this.access, 'expiration.$date')
+      const expiration_date = path(['expiration', '$date'], this.access)
       const expires = moment.utc(expiration_date)
       const now = moment.utc()
       let output = false
@@ -53,7 +55,8 @@ const session = new Vue({
       await this.refresh('login', vm)
     },
     async refresh(endpoint = '', vm) {
-      const token = _.get(store, 'getters.session:refresh.token')
+      // const token = _.get(store, 'getters.session:refresh.token')
+      const token = path(['getters', 'session:refresh', 'token'], store)
       if (token) {
         const response = await vm.$request(`session/${endpoint}`, {
           method: 'post',

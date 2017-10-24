@@ -68,6 +68,11 @@ export default {
   },
   created() {
     this.$company.fetch()
+  },
+  methods: {
+    remove() {
+      console.log('remove')
+    }
   }
 }
 </script>

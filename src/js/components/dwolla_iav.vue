@@ -3,7 +3,8 @@
 </template>
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
+import { path } from 'ramda'
 import config from '@/config'
 import { load } from '@/utils'
 
@@ -86,7 +87,8 @@ export default {
     },
     processDwollaResponse(response) {
       console.log({response})
-      const id = _.get(response, '_links.funding-source.href').split('funding-sources/')[1]
+      // const id = _.get(response, '_links.funding-source.href').split('funding-sources/')[1]
+      const id = path(['_links.funding-source', 'href'], response).split('funding-sources/')[1]
       const body = {
         id
       }

@@ -14,7 +14,6 @@
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "dependencies": {
-    "lodash": "^4.17.4",
     "ramda": "^0.25.0",
     "vee-validate": "^2.0.0-rc.18",
     "vue-become": "^1.0.0",

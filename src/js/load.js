@@ -1,4 +1,5 @@
-import _ from 'lodash'
+// import _ from 'lodash'
+import { path } from 'ramda'
 import Vue from 'vue'
 import VueRequests from 'vue-requests'
 import VueModels from 'vue-models'
@@ -18,7 +19,8 @@ Vue.use(VueRequests, {
   root: config.api,
   headers: {
     Access() {
-      return _.get(store, 'getters.session:access.token')
+      // return _.get(store, 'getters.session:access.token')
+      return path(['getters', 'session:access', 'token'], store)
     }
   },
   async before(vm) {

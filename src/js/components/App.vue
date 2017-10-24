@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
+import { path } from 'ramda'
 import { mapGetters } from 'vuex'
 import Navigation from './nav'
 
@@ -35,7 +36,8 @@ export default {
   },
   methods: {
     getRedirect() {
-      return _.get(this.$route, 'query.redirect') || '/dashboard'
+      // return _.get(this.$route, 'query.redirect') || '/dashboard'
+      return path(['query', 'redirect'], this.$route) || '/dashboard'
     }
   },
   components: {
@@ -68,10 +70,12 @@ $sidebar-width: 230px;
     &.content {
       position: absolute;
       left: $sidebar-width;
-      right: 0;
+      // right: 0;
       top: 0;
       bottom: 0;
       // margin-left: $sidebar-width;
+      width: 1200px;
+      max-width: calc(100% - #{$sidebar-width});
       padding: 30px;
       text-align: left;
     }
