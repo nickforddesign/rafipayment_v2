@@ -1,7 +1,9 @@
 .collection-view {
-  tr {
-    &:hover {
-      cursor: pointer;
+  tbody {
+    tr {
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

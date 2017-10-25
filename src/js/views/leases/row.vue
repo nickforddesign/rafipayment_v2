@@ -1,6 +1,8 @@
 <template>
-  <tr>
-    <td>{{ $lease.property.address }}</td>
+  <tr @click="goToModel">
+    <td>
+      <a :href="`/${$lease.urlRoot}`" @click.prevent>{{ $lease.property.address }}</a>
+    </td>
     <td>{{ $lease.unit.name }}</td>
     <td>{{ $lease.start_date | moment('M/D/YYYY') }}</td>
     <td>{{ $lease.end_date | moment('M/D/YYYY') }}</td>
@@ -19,11 +21,13 @@ export default {
   props: ['model'],
   models: {
     lease() {
-      return new Lease()
+      return new Lease(this.model)
     }
   },
-  created() {
-    this.$lease = this.model
+  methods: {
+    goToModel() {
+      this.$router.push(`/${this.$lease.urlRoot}`)
+    }
   }
 }
 </script>

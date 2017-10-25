@@ -50,7 +50,7 @@
           </div>
         </div>
       </div>
-
+      <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" />
       <transfers-table v-if="fetched" :data="$user.payment" />
     </div>
     <loading v-else />
@@ -61,10 +61,11 @@
 
 <script>
 import User from '@/models/user'
+import leasesTable from '@/views/leases/table'
 import transfersTable from '@/views/transfers/table'
 
 export default {
-  name: 'superadmin',
+  name: 'tenant',
   data() {
     return {
       fetched: false
@@ -94,6 +95,7 @@ export default {
     }
   },
   components: {
+    leasesTable,
     transfersTable
   }
 }

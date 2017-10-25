@@ -1,5 +1,5 @@
 <template>
-  <div class="table">
+  <div class="table collection-view">
     <div class="header">
       <div class="meta">
         <slot name="title">

@@ -1,7 +1,7 @@
 <template>
   <tr @click="goToModel">
     <td>
-      <a :href="$unit.urlRoot" @click.prevent>{{ $unit.name }}</a>
+      <a :href="`/${$unit.urlRoot}`" @click.prevent>{{ $unit.name }}</a>
     </td>
     <td>{{ $unit.property_name }}</td>
     <td>-</td>
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     goToModel() {
-      this.$router.push(this.$unit.urlRoot)
+      this.$router.push(`/${this.$unit.urlRoot}`)
     }
   }
 }

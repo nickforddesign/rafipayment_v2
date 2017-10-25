@@ -2,8 +2,8 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <legend>Unit</legend>
-        <h2>{{ $unit.address }}</h2>
+        <legend>Lease</legend>
+        <h2>{{ $lease.address }}</h2>
       </div>
       <div class="actions">
         <button class="link" @click="remove">Delete</button>
@@ -18,15 +18,19 @@
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Unit Name</dt>
-            <dd>{{ $unit.name }}</dd>
+            <dd>
+              <router-link :to="`/units/${$lease.unit._id}`">
+                {{ $lease.unit.name }}
+              </router-link>
+            </dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Property</dt>
             <dd>
-              <router-link :to="`/properties/${$unit.property._id}`">
-                {{ $unit.property_name }}
+              <router-link :to="`/properties/${$lease.property._id}`">
+                {{ $lease.property.name }}
               </router-link>
             </dd>
           </dl>
@@ -34,61 +38,61 @@
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Beds</dt>
-            <dd>{{ $unit.bed_count }}</dd>
+            <dd>{{ $lease.unit.bed_count }}</dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Beds</dt>
-            <dd>{{ $unit.bed_count }}</dd>
+            <dd>{{ $lease.unit.bed_count }}</dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Square Footage</dt>
-            <dd>{{ $unit.square_footage }}</dd>
+            <dd>{{ $lease.unit.square_footage }}</dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
         </div>
       </div>
     </div>
-    <leases-table :data="$unit" :path="`leases?filter_unit=${$unit.id}`" />
+    <tenants-table :data="$lease.tenants" />
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import Unit from '@/models/unit'
+import Lease from '@/models/lease'
 
-import leasesTable from '@/views/leases/table'
+import tenantsTable from '@/views/tenants/table'
 
 export default {
-  name: 'unit',
+  name: 'lease',
   models: {
-    unit() {
-      return new Unit({
+    lease() {
+      return new Lease({
         id: this.$route.params.id
       })
     }
   },
   created() {
-    this.$unit.fetch()
+    this.$lease.fetch()
   },
   methods: {
     remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.$unit.address}?`)
+      const confirmed = confirm(`Are you sure you want to remove ${this.$lease.address}?`)
       if (confirmed) {
-        this.$unit.destroy()
+        this.$lease.destroy()
         .then(() => {
-          this.$router.push('/units')
+          this.$router.push('/leases')
         })
       }
     }
   },
   components: {
-    leasesTable
+    tenantsTable
   }
 }
 </script>

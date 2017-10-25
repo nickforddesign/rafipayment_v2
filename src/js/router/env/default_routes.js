@@ -82,6 +82,16 @@ const routes = [
     }
   },
   {
+    name: 'Lease',
+    path: '/leases/:id',
+    meta: {
+      auth: ['admin', 'manager']
+    },
+    component(resolve) {
+      require(['@/views/leases/view'], resolve)
+    }
+  },
+  {
     name: 'Companies',
     path: '/companies',
     meta: {

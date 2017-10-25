@@ -24,7 +24,7 @@ export default class Lease extends Model {
         address() {
           const property = this.property
           const unit = this.unit
-          return `${property.address} ${unitsHelper(unit.number)}`
+          return `${property.address}, ${unitsHelper(unit.name)}`
         },
         full_address() {
           const property = this.property
@@ -214,7 +214,20 @@ export default class Lease extends Model {
         type: ISODate
       },
       property: {
-        type: Object
+        type: Object,
+        properties: {
+          _id: {
+            type: ObjectId
+          }
+        }
+      },
+      unit: {
+        type: Object,
+        properties: {
+          _id: {
+            type: ObjectId
+          }
+        }
       },
       status: {
         type: Object
@@ -224,9 +237,6 @@ export default class Lease extends Model {
       },
       type: {
         type: String
-      },
-      unit: {
-        type: Object
       },
       split_amount: {
         type: Boolean,

@@ -1,5 +1,5 @@
 // import _ from 'lodash'
-import { deepMergeRight } from 'ramda'
+import { mergeDeepRight } from 'ramda'
 import { resetState } from '@/utils'
 
 const defaults = () => ({
@@ -61,7 +61,7 @@ export default {
     ALERT_SHOW(state, alert) {
       state.alert_visible = true
       // _.extend(state.alert, alert)
-      state.alert = deepMergeRight(state.alert, alert)
+      state.alert = mergeDeepRight(state.alert, alert)
     },
     ALERT_HIDE(state) {
       state.alert_visible = false

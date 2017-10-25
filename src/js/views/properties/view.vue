@@ -54,6 +54,8 @@
         </div>
       </div>
     </div>
+
+    <units-table :data="this.$property" v-if="fetched" />
     <!-- <div class="actions">
       <button @click="remove">Delete</button>
     </div> -->
@@ -66,6 +68,8 @@
 import { path } from 'ramda'
 import { Collection } from 'vue-collections'
 import Property from '@/models/property'
+
+import unitsTable from '@/views/units/table'
 
 export default {
   name: 'property',
@@ -115,6 +119,9 @@ export default {
         })
       }
     }
+  },
+  components: {
+    unitsTable
   }
 }
 </script>

@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "webpack ./src/index.js ./dist/index.js",
+    "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
     "test": "export NODE_ENV=test && jest",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
