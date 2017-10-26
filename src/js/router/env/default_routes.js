@@ -112,6 +112,16 @@ const routes = [
     }
   },
   {
+    name: 'Company Managment',
+    path: '/company',
+    meta: {
+      auth: ['admin']
+    },
+    component(resolve) {
+      require(['@/views/company'], resolve)
+    }
+  },
+  {
     name: 'Superadmins',
     path: '/superadmins',
     meta: {

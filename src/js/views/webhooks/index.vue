@@ -14,6 +14,7 @@
         <tr>
           <td>URL</td>
           <td>Created</td>
+          <td>Paused</td>
           <td>Actions</td>
         </tr>
       </thead>
@@ -30,7 +31,6 @@
 <script>
 import { Collection } from 'vue-collections'
 import row from './row'
-// import User from '@/models/user'
 
 import webhookModal from '@/components/modals/webhook'
 
@@ -44,7 +44,6 @@ export default {
   collection() {
     return new Collection({
       basePath: 'payment/webhook_subscriptions'
-      // model: User
     })
   },
   created() {
@@ -61,7 +60,6 @@ export default {
       this.modal_visible = false
     },
     confirmModal() {
-      console.log('huh')
       this.$collection.fetch()
     }
   },
