@@ -45,11 +45,17 @@ export default class User extends Model {
       id: {
         type: ObjectId
       },
+      _id: {
+        type: ObjectId
+      },
       updated: {
         type: ISODate
       },
       created: {
         type: ISODate
+      },
+      removed: {
+        type: Boolean
       },
       company: {
         type: ObjectId
@@ -74,6 +80,35 @@ export default class User extends Model {
       },
       payment: {
         type: Object
+      },
+      session: {
+        type: Object
+      },
+      avatar_color: {
+        type: String
+      },
+      password: {
+        type: Boolean
+      },
+      charges: {
+        type: Array
+      },
+      periods: {
+        type: Array,
+        items: {
+          type: Object,
+          properties: {
+            autopay: {
+              type: Boolean
+            },
+            split: {
+              type: Number
+            },
+            _id: {
+              type: ObjectId
+            }
+          }
+        }
       }
     }
   }

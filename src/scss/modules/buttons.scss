@@ -84,6 +84,13 @@ button, .button {
 
   // Sizes
 
+  &.x-small {
+    border-radius: 2px;
+    font-size: .5rem;
+    padding: .4em .55em;
+    line-height: 0.9em;
+  }
+
   &.small {
     border-radius: 2px;
     font-size: .70rem;

@@ -13,11 +13,20 @@ export default class Property extends Model {
       id: {
         type: ObjectId
       },
+      _id: {
+        type: ObjectId
+      },
+      company: {
+        type: ObjectId
+      },
       updated: {
         type: ISODate
       },
       created: {
         type: ISODate
+      },
+      removed: {
+        type: Boolean
       },
       name: {
         type: String

@@ -4,8 +4,8 @@
       <a :href="`/${$lease.urlRoot}`" @click.prevent>{{ $lease.property.address }}</a>
     </td>
     <td>{{ $lease.unit.name }}</td>
-    <td>{{ $lease.start_date | moment('M/D/YYYY') }}</td>
-    <td>{{ $lease.end_date | moment('M/D/YYYY') }}</td>
+    <td>{{ $lease.start_date | moment('M/D/YYYY', true) }}</td>
+    <td>{{ $lease.end_date | moment('M/D/YYYY', true) }}</td>
     <td>{{ $lease.length.months }} Mo.</td>
     <td>{{ $lease.rent | currency }}</td>
   </tr>

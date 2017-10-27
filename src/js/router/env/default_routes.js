@@ -75,7 +75,7 @@ const routes = [
     name: 'Leases',
     path: '/leases',
     meta: {
-      auth: ['admin', 'manager']
+      auth: ['admin', 'manager', 'tenant']
     },
     component(resolve) {
       require(['@/views/leases'], resolve)
@@ -85,7 +85,7 @@ const routes = [
     name: 'Lease',
     path: '/leases/:id',
     meta: {
-      auth: ['admin', 'manager']
+      auth: ['admin', 'manager', 'tenant']
     },
     component(resolve) {
       require(['@/views/leases/view'], resolve)

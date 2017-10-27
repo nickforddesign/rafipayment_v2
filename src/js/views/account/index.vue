@@ -30,7 +30,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Email</dt>
-              <dd>{{ $user.email }} <button class="small" @click="showModal('email')">Edit</button></dd>
+              <dd>{{ $user.email }} <button class="x-small" @click="showModal('email')">Edit</button></dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -42,7 +42,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Phone</dt>
-              <dd>{{ $user.phone | phone }} <button class="small" @click="showModal('phone')">Edit</button></dd>
+              <dd>{{ $user.phone | phone }} <button class="x-small" @click="showModal('phone')">Edit</button></dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">

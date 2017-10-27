@@ -1,10 +1,15 @@
-// import _ from 'lodash'
 // import { path, clone } from 'ramda'
 import moment from 'moment'
 // import session from '@/session'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
 import { parseCurrency, statesHelper, unitsHelper } from '@/utils'
+
+import Property from '@/models/property'
+import Unit from '@/models/unit'
+import User from '@/models/user'
+
+console.log(User.schema())
 
 export default class Lease extends Model {
   static defaults() {
@@ -15,11 +20,14 @@ export default class Lease extends Model {
       },
       computed: {
         start_date() {
-          const keys = Object.keys(this.periods)
-          keys.sort((a, b) => {
-            return Date.parse(this.periods[a].start_date.$date) > Date.parse(this.periods[b].start_date.$date)
+          return this.periods_sorted[0].start_date
+        },
+        periods_sorted() {
+          const sorted = this.periods.sort((a, b) => {
+            return moment(a.start_date) > moment(b.start_date)
           })
-          return this.periods[keys[0]].start_date.$date
+          // console.log({sorted})
+          return sorted
         },
         address() {
           const property = this.property
@@ -155,13 +163,16 @@ export default class Lease extends Model {
         type: ObjectId
       },
       company: {
-        type: String
+        type: ObjectId
       },
       updated: {
         type: ISODate
       },
       created: {
         type: ISODate
+      },
+      removed: {
+        type: Boolean
       },
       autopay: {
         type: Object
@@ -175,23 +186,26 @@ export default class Lease extends Model {
       bill_overdue_day: {
         type: Number
       },
-      // start_date: {
-      //   type: ISODate
-      // },
       end_date: {
         type: ISODate
       },
       periods: {
         type: Array,
         items: {
-          start_date: {
-            type: ISODate
+          type: Object,
+          properties: {
+            _id: {
+              type: ObjectId
+            },
+            start_date: {
+              type: ISODate
+            },
+            amount: {
+              type: Currency
+            }
           }
         }
       },
-      // rent: {
-      //   type: Currency
-      // },
       charges: {
         type: Object,
         scheduled: {
@@ -215,25 +229,21 @@ export default class Lease extends Model {
       },
       property: {
         type: Object,
-        properties: {
-          _id: {
-            type: ObjectId
-          }
-        }
+        properties: Property.schema()
       },
       unit: {
         type: Object,
-        properties: {
-          _id: {
-            type: ObjectId
-          }
-        }
+        properties: Unit.schema()
       },
       status: {
         type: Object
       },
       tenants: {
-        type: Array
+        type: Array,
+        items: {
+          type: Object,
+          properties: User.schema()
+        }
       },
       type: {
         type: String

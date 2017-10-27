@@ -1,74 +1,23 @@
 <template>
-  <div>
-    <header>
-      <div class="meta">
-        <h2>Leases({{ collection.length }})</h2>
-      </div>
-      <div class="actions">
-        <search />
-        <button @click="add" class="primary">Add New Lease</button>
-      </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Property</td>
-          <td>Unit</td>
-          <td>Start Date</td>
-          <td>End Date</td>
-          <td>Duration</td>
-          <td>Current Rent</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
-    <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
-  </div>
+  <component :is="$user.role"></component>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Collection } from 'vue-collections'
-import Lease from '@/models/lease'
-// import data from './leases_collection'
-import row from './row'
-
-import leaseModal from '@/components/modals/lease'
+import session from '@/session'
+import admin from './roles/admin/index'
+import tenant from './roles/tenant/index'
 
 export default {
-  name: 'leases',
-  data() {
-    return {
-      modal_visible: false
-    }
-  },
-  collection() {
-    return new Collection({
-      basePath: 'leases',
-      model: Lease
-    })
-  },
-  created() {
-    this.$collection.fetch()
-  },
-  methods: {
-    add() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
-    },
-    confirmModal() {
-      console.log('huh')
-      this.$collection.fetch()
+  models: {
+    user() {
+      return session.$user
     }
   },
   components: {
-    row,
-    leaseModal
+    admin,
+    tenant
   }
 }
 </script>

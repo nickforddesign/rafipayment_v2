@@ -91,6 +91,7 @@
 
       <!-- {{ properties_collection.models }} -->
       <!-- {{ units_filtered }} -->
+      {{ tenants }}
     </div>
   </modal>
 </template>
@@ -180,14 +181,20 @@ export default {
       return unitsCollection
     },
     tenants() {
-      return this.tenants_selected.reduce((acc, id) => {
-        acc[id] = {
-          charges: [],
-          autopay: null,
-          split: null
+      return this.tenants_selected.map(id => {
+        return {
+          _id: id,
+          charges: []
         }
-        return acc
-      }, {})
+      })
+      // return this.tenants_selected.reduce((acc, id) => {
+      //   acc[id] = {
+      //     charges: [],
+      //     autopay: null,
+      //     split: null
+      //   }
+      //   return acc
+      // }, {})
     }
   },
   methods: {
@@ -215,6 +222,7 @@ export default {
     async confirmChange() {
       this.loading = true
       // const data = this.$data
+      console.log(this.tenants)
 
       const data = {
         bill_due_day: this.bill_due_day,
