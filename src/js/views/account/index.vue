@@ -7,7 +7,7 @@
           <h2>{{ $user.full_name }}</h2>
         </div>
         <div class="actions">
-          <button class="primary" @click="showNameModal">Edit</button>
+          <button class="primary" @click="showModal('name')">Edit</button>
         </div>
       </header>
       <div class="table">
@@ -30,7 +30,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Email</dt>
-              <dd>{{ $user.email }}</dd>
+              <dd>{{ $user.email }} <button class="small" @click="showModal('email')">Edit</button></dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -42,7 +42,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Phone</dt>
-              <dd>{{ $user.phone | phone }}</dd>
+              <dd>{{ $user.phone | phone }} <button class="small" @click="showModal('phone')">Edit</button></dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -51,7 +51,7 @@
       </div>
       <div class="actions free">
         <div>
-          <button @click="showPasswordModal">Change Password</button>
+          <button @click="showModal('password')">Change Password</button>
         </div>
       </div>
 
@@ -63,8 +63,9 @@
         </div>
       </div>
       
-      <name-modal v-if="name_modal_visible" @close="closeNameModal" :model="$user.$data" :confirm="fetch" />
-      <password-modal v-if="password_modal_visible" @close="closePasswordModal" :model="$user" />
+      <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="fetch" />
+      <password-modal v-if="modals.password" @close="closeModal('password')" :model="$user" />
+      <email-modal v-if="modals.email" @close="closeModal('email')" :model="$user" />
     </div>
     <loading v-else />
   </div>
@@ -74,8 +75,11 @@
 
 <script>
 import User from '@/models/user'
-import passwordModal from '@/components/modals/password'
+
 import nameModal from '@/components/modals/user/name'
+import emailModal from '@/components/modals/user/email'
+import passwordModal from '@/components/modals/password'
+
 import fundingSourcesTable from '@/views/funding_sources/table'
 
 export default {
@@ -83,8 +87,11 @@ export default {
   data() {
     return {
       loaded: false,
-      password_modal_visible: false,
-      name_modal_visible: false
+      modals: {
+        name: false,
+        email: false,
+        password: false
+      }
     }
   },
   models: {
@@ -106,27 +113,16 @@ export default {
     logout() {
       this.$store.dispatch('logout')
     },
-    showPasswordModal() {
-      this.password_modal_visible = true
+    showModal(name) {
+      this.modals[name] = true
     },
-    closePasswordModal() {
-      this.password_modal_visible = false
-    },
-    showNameModal() {
-      this.name_modal_visible = true
-    },
-    closeNameModal() {
-      this.name_modal_visible = false
+    closeModal(name) {
+      this.modals[name] = false
     }
-    // showPaymentModal() {
-    //   this.payment_modal_visible = true
-    // },
-    // closePaymentModal() {
-    //   this.payment_modal_visible = false
-    // }
   },
   components: {
     nameModal,
+    emailModal,
     passwordModal,
     fundingSourcesTable
   }

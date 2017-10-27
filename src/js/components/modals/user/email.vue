@@ -1,14 +1,10 @@
 <template>
   <modal @close="close" :confirm="validate">
-    <h1 slot="header">Edit Name</h1>
+    <h1 slot="header">Edit Email</h1>
     <div slot="body">
 
-      <field name="first name" :errors="errors">
-        <input type="text" v-model="first_name" v-validate="'required'" name="first name" ref="default">
-      </field>
-
-      <field name="last name" :errors="errors">
-        <input type="text" v-model="last_name" v-validate="'required'" name="last name">
+      <field name="email" :errors="errors">
+        <input type="text" v-model="email" v-validate="'required|email'" name="email" ref="default">
       </field>
 
     </div>
@@ -21,15 +17,14 @@
 import { Deferred } from '@/utils'
 
 export default {
-  name: 'modal-user-name',
+  name: 'modal-user-email',
   props: {
     model: Object,
     confirm: Function
   },
   data() {
     return {
-      first_name: this.model.first_name,
-      last_name: this.model.last_name
+      email: this.model.email
     }
   },
   methods: {
@@ -50,8 +45,11 @@ export default {
     async confirmChange() {
       this.loading = true
 
-      const data = this.$data
-      const request = this.model.save(data)
+      const body = this.$data
+      const request = this.$request('account/profile/email', {
+        method: 'post',
+        body
+      })
       request.then(response => {
         this.confirm()
       })
