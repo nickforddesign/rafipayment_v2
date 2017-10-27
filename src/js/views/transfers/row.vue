@@ -39,7 +39,6 @@ export default {
   methods: {
     goToModel() {
       this.$router.push(`/${this.$transfer.urlRoot}`)
-      // console.log(this.$transfer.urlRoot)
     }
   }
 }

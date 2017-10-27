@@ -183,12 +183,22 @@ const routes = [
   },
   {
     name: 'Webhook Subscriptions',
-    path: '/webhooks',
+    path: '/webhook-subscriptions',
     meta: {
       auth: ['superadmin']
     },
     component(resolve) {
-      require(['@/views/webhooks/index'], resolve)
+      require(['@/views/webhook_subscriptions/index'], resolve)
+    }
+  },
+  {
+    name: 'Webhook Events',
+    path: '/webhook-events',
+    meta: {
+      auth: ['superadmin']
+    },
+    component(resolve) {
+      require(['@/views/webhook_events/index'], resolve)
     }
   },
   {

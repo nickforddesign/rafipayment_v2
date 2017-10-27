@@ -1,27 +1,24 @@
 <template>
-  <div>
+  <div class="collection-view">
     <header>
       <div class="meta">
-        <h2>Companies</h2>
+        <h2>Webhook Events({{ collection.length }})</h2>
       </div>
       <div class="actions">
         <search />
-        <button class="primary" @click="add">Add New Company</button>
       </div>
     </header>
     <table>
       <thead>
         <tr>
-          <td>Name</td>
           <td>Created</td>
-          <td>Account Representative</td>
+          <td>Topic</td>
         </tr>
       </thead>
       <tbody>
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
     </table>
-    <company-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
 
@@ -31,11 +28,8 @@
 import { Collection } from 'vue-collections'
 import row from './row'
 
-import Company from '@/models/company'
-import companyModal from '@/components/modals/company'
-
 export default {
-  name: 'companies',
+  name: 'admins',
   data() {
     return {
       modal_visible: false
@@ -43,33 +37,20 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'companies',
-      model: Company
+      basePath: 'payment/events'
     })
   },
   created() {
-    this.$collection.fetch()
+    this.fetch()
   },
   methods: {
-    add() {
-      console.log('add')
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
-    },
-    confirmModal() {
-      console.log('huh')
+    fetch() {
       this.$collection.fetch()
     }
   },
   components: {
-    row,
-    companyModal
+    row
   }
-  // created() {
-  //   console.log(data)
-  // }
 }
 </script>
 

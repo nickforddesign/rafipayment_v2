@@ -1,12 +1,39 @@
 <template>
-  <div>
-    <router-link to="/dashboard">Dashboard</router-link>
-    <div class="divider" />
-    <router-link to="/companies">Companies</router-link>
-    <router-link to="/superadmins">Superadmins</router-link>
-    <router-link to="/admins">Admins</router-link>
-    <div class="divider" />
-    <router-link to="/webhooks">Webhooks</router-link>
-    <router-link to="/account">Account</router-link>
-  </div>
+  <ul>
+    <li>
+      <router-link to="/dashboard">Dashboard</router-link>
+    </li>
+    <li>
+      <div class="divider" />
+    </li>
+    <li>
+      <router-link to="/companies">Companies</router-link>
+    </li>
+    <li>
+      <router-link to="/superadmins">Superadmins</router-link>
+    </li>
+    <li>
+      <router-link to="/admins">Admins</router-link>
+    </li>
+    <li>
+      <div class="divider" />
+    </li>
+    <li>
+      <legend>Webhooks</legend>
+      <ul>
+        <li>
+          <router-link to="/webhook-subscriptions">Subscriptions</router-link>
+        </li>
+        <li>
+          <router-link to="/webhook-events">Events</router-link>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <div class="divider" />
+    </li>
+    <li>
+      <router-link to="/account">Account</router-link>
+    </li>
+  </ul>
 </template>

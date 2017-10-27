@@ -73,6 +73,7 @@ nav {
   bottom: 0;
   left: 0;
   z-index: 2;
+  text-align: left;
   color: $color-nav-text;
 
   .divider {
@@ -82,6 +83,18 @@ nav {
 
   &.visible {
     display: block;
+  }
+
+  ul {
+    text-align: left;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  legend {
+    padding: 10px 20px 0;
   }
 
   a {

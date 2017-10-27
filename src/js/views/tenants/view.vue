@@ -51,7 +51,7 @@
         </div>
       </div>
       <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" />
-      <transfers-table v-if="fetched" :data="$user.payment" />
+      <transfers-table v-if="fetched" :data="$user.payment" :path="`tenants/${$user.id}/transfers`" />
     </div>
     <loading v-else />
   </div>

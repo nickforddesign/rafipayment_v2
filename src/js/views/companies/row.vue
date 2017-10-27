@@ -1,8 +1,8 @@
 <template>
   <tr @click="goToModel">
     <td><a :href="$company.urlRoot" @click.prevent>{{ $company.name }}</a></td>
-    <td>{{ $company.address }}</td>
-    <td>{{ $company.units }}</td>
+    <td>{{ $company.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
+    <td>{{ $company.first_name }} {{ $company.last_name }}</td>
   </tr>
 </template>
 

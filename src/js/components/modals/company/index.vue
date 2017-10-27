@@ -125,8 +125,6 @@ export default {
   },
   computed: {
     classifications() {
-      // console.log(this.classifications_match)
-      // return _.get(this.classifications_match, '_embedded.industry-classifications')
       return path(['_embedded', 'industry-classifications'], this.classifications_match)
     },
     classifications_match() {
@@ -138,7 +136,6 @@ export default {
   mounted() {
     this.$request('payment/business_classifications')
     .then(response => {
-      // console.log(response)
       Vue.set(this, 'categories', response)
     })
     .catch(error => {
@@ -155,10 +152,8 @@ export default {
       this.$emit('close')
     },
     async validate() {
-      // console.log(this.$data)
       const deferred = new Deferred()
       let passed = await this.$validator.validateAll()
-      // console.log(passed)
       if (passed) {
         await this.confirmChange()
         deferred.resolve()
@@ -187,17 +182,16 @@ export default {
         phone: this.phone
       })
 
-      console.log({data})
+      // console.log({data})
 
-      // console.log('SAVING')
-      // const request = this.$company.save(data)
-      // request.then(response => {
-      //   this.confirm()
-      // })
-      // .catch(error => {
-      //   console.log({error})
-      // })
-      // return request
+      const request = this.$company.save(data)
+      request.then(response => {
+        this.confirm()
+      })
+      .catch(error => {
+        console.log({error})
+      })
+      return request
     }
   }
 }

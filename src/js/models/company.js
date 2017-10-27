@@ -21,6 +21,54 @@ export default class Company extends Model {
       },
       name: {
         type: String
+      },
+      first_name: {
+        type: String
+      },
+      last_name: {
+        type: String
+      },
+      email: {
+        type: String
+      },
+      phone: {
+        type: String
+      },
+      postal_code: {
+        type: String
+      },
+      address1: {
+        type: String
+      },
+      address2: {
+        type: String
+      },
+      city: {
+        type: String
+      },
+      state: {
+        type: String
+      },
+      date_of_birth: {
+        type: String
+      },
+      ein: {
+        type: String
+      },
+      business_classification: {
+        type: String
+      },
+      business_type: {
+        type: String
+      },
+      payment: {
+        type: Object
+      },
+      removed: {
+        type: Boolean
+      },
+      admins: {
+        type: Array
       }
     }
   }

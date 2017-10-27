@@ -7,7 +7,7 @@
           <h2>{{ $user.full_name }}</h2>
         </div>
         <div class="actions">
-          <button class="primary">Edit</button>
+          <button class="primary" @click="showNameModal">Edit</button>
         </div>
       </header>
       <div class="table">
@@ -62,7 +62,8 @@
           <button @click="logout">Logout</button>
         </div>
       </div>
-
+      
+      <name-modal v-if="name_modal_visible" @close="closeNameModal" :model="$user.$data" :confirm="fetch" />
       <password-modal v-if="password_modal_visible" @close="closePasswordModal" :model="$user" />
     </div>
     <loading v-else />
@@ -74,17 +75,16 @@
 <script>
 import User from '@/models/user'
 import passwordModal from '@/components/modals/password'
+import nameModal from '@/components/modals/user/name'
 import fundingSourcesTable from '@/views/funding_sources/table'
-// import fundingSourceModal from '@/components/modals/funding_source'
-// import fundingSourceRow from '@/views/funding_sources/row'
 
 export default {
   name: 'account',
   data() {
     return {
       loaded: false,
-      password_modal_visible: false
-      // payment_modal_visible: false
+      password_modal_visible: false,
+      name_modal_visible: false
     }
   },
   models: {
@@ -111,6 +111,12 @@ export default {
     },
     closePasswordModal() {
       this.password_modal_visible = false
+    },
+    showNameModal() {
+      this.name_modal_visible = true
+    },
+    closeNameModal() {
+      this.name_modal_visible = false
     }
     // showPaymentModal() {
     //   this.payment_modal_visible = true
@@ -120,10 +126,9 @@ export default {
     // }
   },
   components: {
+    nameModal,
     passwordModal,
     fundingSourcesTable
-    // fundingSourceModal,
-    // fundingSourceRow
   }
 }
 </script>

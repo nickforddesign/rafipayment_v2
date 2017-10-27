@@ -1,26 +1,20 @@
 <template>
-  <div>
-    <h2>Dashboard</h2>
-    <pre>{{ $user }}</pre>
-  </div>
+  <tr>
+    <td>{{ model.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
+    <td>
+      {{ model.topic }}
+    </td>
+  </tr>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import session from '@/session'
 
 export default {
-  models: {
-    user() {
-      return session.$user
-    }
-  }
+  name: 'row',
+  props: ['model']
 }
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
-
-<style scoped lang="scss">
-  
-</style>

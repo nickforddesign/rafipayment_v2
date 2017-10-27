@@ -21,7 +21,6 @@
       </table>
     </div>
     <loading v-else type="table" />
-    <!-- <loading type="input" /> -->
   </div>
 </template>
 
@@ -35,7 +34,8 @@ import row from './row'
 export default {
   name: 'transfers-table',
   props: {
-    data: Object
+    data: Object,
+    path: String
   },
   data() {
     return {
@@ -44,7 +44,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: `account/payment/transfers?search=${this.data.id}`
+      basePath: this.path
     })
   },
   async created() {

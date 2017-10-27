@@ -15,40 +15,96 @@
         Basic Information
       </div>
       <div class="grid">
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>Company Name</dt>
+            <dd>{{ $company.name }}</dd>
+          </dl>
+        </div>
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>Business Type</dt>
+            <dd>{{ $company.business_type | capitalize }}</dd>
+          </dl>
+        </div>
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>Created</dt>
+            <dd>{{ $company.created | moment('MM/DD/YYYY h:mm:ssa') }}</dd>
+          </dl>
+        </div>
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>Updated</dt>
+            <dd>{{ $company.updated | moment('MM/DD/YYYY h:mm:ssa') }}</dd>
+          </dl>
+        </div>
         <!-- <div class="grid__col grid__col--1-of-2">
           <dl>
+            <dt>Classification</dt>
+            <dd>{{ $company.business_classification }}</dd>
+          </dl>
+        </div> -->
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>Address</dt>
+            <dd>{{ $company.address1 }}</dd>
+          </dl>
+        </div>
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>Address 2</dt>
+            <dd>{{ $company.address2 }}</dd>
+          </dl>
+        </div>
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>City</dt>
+            <dd>{{ $company.city }}</dd>
+          </dl>
+        </div>
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>State</dt>
+            <dd>{{ $company.state }}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="table">
+      <div class="header">
+        Account Representative
+      </div>
+      <div class="grid">
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
             <dt>First Name</dt>
-            <dd>{{ $user.first_name }}</dd>
+            <dd>{{ $company.first_name }}</dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Last Name</dt>
-            <dd>{{ $user.last_name }}</dd>
+            <dd>{{ $company.last_name }}</dd>
+          </dl>
+        </div>
+        <div class="grid__col grid__col--1-of-2">
+          <dl>
+            <dt>DOB</dt>
+            <dd>{{ $company.date_of_birth | moment('MM/DD/YYYY') }}</dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Email</dt>
-            <dd>{{ $user.email }}</dd>
+            <dd>{{ $company.email }}</dd>
           </dl>
         </div>
-        <div class="grid__col grid__col--1-of-2">
-          <dl>
-            <dt>Role</dt>
-            <dd>{{ $user.role | capitalize }}</dd>
-          </dl>
-        </div>
-        <div class="grid__col grid__col--1-of-2">
-          <dl>
-            <dt>Phone</dt>
-            <dd>{{ $user.phone || '–'}}</dd>
-          </dl>
-        </div>
-        <div class="grid__col grid__col--1-of-2">
-        </div> -->
       </div>
     </div>
+
+    <admins-table :path="`admins?filter_company=${$company.id}`" />
   </div>
 </template>
 
@@ -56,6 +112,7 @@
 
 <script>
 import Company from '@/models/company'
+import adminsTable from '@/views/admins/table'
 
 export default {
   name: 'company',
@@ -73,6 +130,9 @@ export default {
     remove() {
       console.log('remove')
     }
+  },
+  components: {
+    adminsTable
   }
 }
 </script>

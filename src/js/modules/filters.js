@@ -28,9 +28,13 @@ const filters = {
     const remainder = value % 100
     return value + (options[(remainder - 20) % 10] || options[remainder] || options[0])
   },
-  moment(value = '', format = 'l') {
+  moment(value = '', format = 'l', utc = false) {
+    // console.log({utc})
     let output
-    if (value) output = moment.utc(value).format(format)
+    const target = utc
+      ? moment.utc
+      : moment
+    if (value) output = target(value).format(format)
     return output
   },
   phone(value = '') {

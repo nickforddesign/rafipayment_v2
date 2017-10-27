@@ -2,7 +2,7 @@
   <div>
     <header>
       <div class="meta">
-        <h2>Ledger({{ collection.length }})</h2>
+        <h2>Ledger({{ Object.keys(transfers).length }})</h2>
       </div>
       <div class="actions">
         <search />
