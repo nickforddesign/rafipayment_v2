@@ -31,11 +31,19 @@ export default class Lease extends Model {
       },
       charges: {
         type: Array,
-        amount: {
-          type: Currency
-        },
-        date: {
-          type: ISODate
+        items: {
+          type: Object,
+          properties: {
+            amount: {
+              type: Currency
+            },
+            date: {
+              type: ISODate
+            },
+            type: {
+              type: String
+            }
+          }
         }
         // type: Object,
         // scheduled: {

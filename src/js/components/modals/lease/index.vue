@@ -2,9 +2,6 @@
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Add Lease</h1>
     <div slot="body">
-      <!-- <field name="start date" :errors="errors">
-        <input type="date" v-model="start" v-validate="'required'">
-      </field> -->
 
       <div v-if="periods.length">
         <legend>Billing Periods</legend>
@@ -14,7 +11,6 @@
           </field>
           <field name="amount" :errors="errors">
             <currency v-model="period.amount" />
-            <!-- <input type="date" v-model="period.start_date" v-validate="'required'"> -->
           </field>
           {{ period }}
         </div>
@@ -36,19 +32,6 @@
       <field name="bill due day" :errors="errors">
         <number maxlength="2" v-validate="'required|numeric|max_value:28'" v-model="bill_due_day" name="bill due day" />
       </field>
-
-      <!-- <field name="property" :errors="errors">
-        <select-menu v-model="property" v-validate="'required'" name="property">
-          <option disabled value="">Please select one</option>
-          <option 
-            v-for="(property, index) in properties_collection.models"
-            :value="property.id"
-            :key="index"
-            :label="property.address">
-            {{ property.address }}
-          </option>
-        </select-menu>
-      </field> -->
 
       <field name="tenants" :errors="errors">
         <select-menu :multiple="true" v-model="tenants_selected">
@@ -89,9 +72,30 @@
         </select-menu>
       </field>
 
-      <!-- {{ properties_collection.models }} -->
-      <!-- {{ units_filtered }} -->
-      {{ tenants }}
+      <!-- {{ tenants }} -->
+
+      <div v-if="charges.length">
+        <legend>Charges</legend>
+
+        <div class="box" v-for="(charge, index) in charges" :key="index">
+          <field name="amount" :errors="errors">
+            <currency v-model="charge.amount" />
+          </field>
+          <field name="type">
+            <input type="radio" :id="`recurring-${index}`" :name="`type-${index}`" value="recurring" v-model="charge.type">
+            <label :for="`recurring-${index}`">Recurring</label>
+            <input type="radio" :id="`scheduled-${index}`" :name="`type-${index}`" value="scheduled" v-model="charge.type">
+            <label :for="`scheduled-${index}`">Scheduled</label>
+          </field>
+          <field v-if="charge.type === 'scheduled'" name="date">
+            <input type="date" v-model="charge.date" v-validate="'required'">
+          </field>
+        </div>
+      </div>
+
+      {{ charges }}
+
+      <button @click="addCharge">Add Charge</button>
     </div>
   </modal>
 </template>
@@ -187,14 +191,6 @@ export default {
           charges: []
         }
       })
-      // return this.tenants_selected.reduce((acc, id) => {
-      //   acc[id] = {
-      //     charges: [],
-      //     autopay: null,
-      //     split: null
-      //   }
-      //   return acc
-      // }, {})
     }
   },
   methods: {
@@ -207,10 +203,15 @@ export default {
         amount: ''
       })
     },
+    addCharge() {
+      this.charges.push({
+        type: 'recurring',
+        amount: ''
+      })
+    },
     async validate() {
       const deferred = new Deferred()
       let passed = await this.$validator.validateAll()
-      // console.log({passed})
       if (passed) {
         await this.confirmChange()
         deferred.resolve()
@@ -221,8 +222,7 @@ export default {
     },
     async confirmChange() {
       this.loading = true
-      // const data = this.$data
-      console.log(this.tenants)
+      // console.log(this.tenants)
 
       const data = {
         bill_due_day: this.bill_due_day,
@@ -236,11 +236,8 @@ export default {
 
       console.log({data})
 
-      const lease = new Lease(data)
-      console.log(lease.encode())
+      // const lease = new Lease(data)
 
-      // throw Error('ok')
-      // const request = this.$lease.save(lease.encode())
       const request = this.$lease.save(data)
       request.then(response => {
         this.confirm()
@@ -255,7 +252,3 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
-
-<style scoped lang="scss">
-  
-</style>

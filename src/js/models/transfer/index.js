@@ -30,7 +30,12 @@ export default class Transfer extends Model {
       amount: {
         type: Object,
         properties: {
-          value: Currency
+          value: {
+            type: Currency
+          },
+          currency: {
+            type: String
+          }
         }
       },
       clearing: {
