@@ -10,7 +10,7 @@
         v-if="modal_visible"
         @close="closeModal"
         :confirm="fetch"
-        :path="`account/leases/${lease.id}/periods/${period._id}`"
+        :path="`account/leases/${lease.id}/periods/${period.id}`"
         :amount="split" />
     </td>
   </tr>
@@ -35,11 +35,11 @@ export default {
   computed: {
     split() {
       const user = this.lease.tenants.find(model => {
-        return model._id === session.$user.id
+        return model.id === session.$user.id
       })
       if (user.periods) {
         const period = user.periods.find(model => {
-          return model._id === this.period._id
+          return model.id === this.period.id
         })
         if (period) {
           return period.split

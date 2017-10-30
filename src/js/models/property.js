@@ -13,9 +13,6 @@ export default class Property extends Model {
       id: {
         type: ObjectId
       },
-      _id: {
-        type: ObjectId
-      },
       company: {
         type: ObjectId
       },

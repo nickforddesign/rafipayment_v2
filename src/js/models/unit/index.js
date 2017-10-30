@@ -26,9 +26,6 @@ export default class Unit extends Model {
       id: {
         type: ObjectId
       },
-      _id: {
-        type: ObjectId
-      },
       company: {
         type: ObjectId
       },
@@ -59,7 +56,7 @@ export default class Unit extends Model {
       property: {
         type: Object,
         properties: {
-          _id: {
+          id: {
             type: ObjectId
           }
         }

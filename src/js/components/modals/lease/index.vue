@@ -169,7 +169,7 @@ export default {
       } else {
         this.units_disabled = false
         this.units_filtered = this.units_collection.models.filter(unit => {
-          return unit.property._id === this.property
+          return unit.property.id === this.property
         })
       }
     }
@@ -187,7 +187,7 @@ export default {
     tenants() {
       return this.tenants_selected.map(id => {
         return {
-          _id: id,
+          id,
           charges: []
         }
       })

@@ -25,7 +25,7 @@
           <dl>
             <dt>Property</dt>
             <dd>
-              <router-link :to="`/properties/${$unit.property._id}`">
+              <router-link :to="`/properties/${$unit.property.id}`">
                 {{ $unit.property_name }}
               </router-link>
             </dd>

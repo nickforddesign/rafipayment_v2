@@ -64,7 +64,7 @@ export default class Lease extends Model {
         items: {
           type: Object,
           properties: {
-            _id: {
+            id: {
               type: ObjectId
             },
             charges: {

@@ -45,9 +45,6 @@ export default class User extends Model {
       id: {
         type: ObjectId
       },
-      _id: {
-        type: ObjectId
-      },
       updated: {
         type: ISODate
       },
@@ -104,7 +101,7 @@ export default class User extends Model {
             split: {
               type: Number
             },
-            _id: {
+            id: {
               type: ObjectId
             }
           }

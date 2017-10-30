@@ -68,7 +68,7 @@
             <dl>
               <dt>Unit Name</dt>
               <dd>
-                <router-link :to="`/units/${$lease.unit._id}`">
+                <router-link :to="`/units/${$lease.unit.id}`">
                   {{ $lease.unit.name }}
                 </router-link>
               </dd>
@@ -78,7 +78,7 @@
             <dl>
               <dt>Property</dt>
               <dd>
-                <router-link :to="`/properties/${$lease.property._id}`">
+                <router-link :to="`/properties/${$lease.property.id}`">
                   {{ $lease.property.name }}
                 </router-link>
               </dd>
