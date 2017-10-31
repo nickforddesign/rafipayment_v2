@@ -34,17 +34,16 @@ export default {
       loading: false
     }
   },
-  // created() {
-  //   console.log(this.confirm)
-  // },
   computed: {
     has_confirm() {
-      return 'confirm' in this
+      // return 'confirm' in this
+      return this.confirm !== undefined
     },
     cancel_label() {
-      return this.has_confirm
-        ? 'Cancel'
-        : 'OK'
+      return 'Cancel'
+      // return this.has_confirm
+      //   ? 'Cancel'
+      //   : 'OK'
     },
     confirm_label() {
       return 'OK'
@@ -56,8 +55,8 @@ export default {
       try {
         if (this.confirm) {
           await this.confirm()
-          this.close()
         }
+        this.close()
       } catch (err) {
         console.warn(err)
       } finally {

@@ -30,7 +30,7 @@
           </option>
         </select-menu>
       </field>
-      </form>
+      <!-- </form> -->
     </div>
   </modal>
 </template>
@@ -69,20 +69,6 @@ export default {
   },
   created() {
     this.$collection.fetch()
-  },
-  watch: {
-    password() {
-      const name = 'password'
-      if (this.errors.has(name)) {
-        this.errors.remove(name)
-      }
-    },
-    password_confirm() {
-      const name = 'password_confirm'
-      if (this.errors.has(name)) {
-        this.errors.remove(name)
-      }
-    }
   },
   methods: {
     close() {

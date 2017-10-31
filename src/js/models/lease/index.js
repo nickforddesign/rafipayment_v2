@@ -19,14 +19,13 @@ export default class Lease extends Model {
         this.split_amount = undefined
       },
       computed: {
-        start_date() {
-          return this.periods_sorted[0].start_date
-        },
+        // start_date() {
+        //   return this.periods_sorted[0].start_date
+        // },
         periods_sorted() {
           const sorted = this.periods.sort((a, b) => {
             return moment(a.start_date) > moment(b.start_date)
           })
-          // console.log({sorted})
           return sorted
         },
         address() {
@@ -186,6 +185,9 @@ export default class Lease extends Model {
       bill_overdue_day: {
         type: Number
       },
+      start_date: {
+        type: ISODate
+      },
       end_date: {
         type: ISODate
       },
@@ -194,7 +196,7 @@ export default class Lease extends Model {
         items: {
           type: Object,
           properties: {
-            _id: {
+            id: {
               type: ObjectId
             },
             start_date: {
@@ -227,16 +229,11 @@ export default class Lease extends Model {
       last_bill_generation_date: {
         type: ISODate
       },
-      property: {
-        type: Object,
-        properties: Property.schema()
-      },
-      unit: {
-        type: Object,
-        properties: Unit.schema()
-      },
       status: {
         type: Object
+      },
+      type: {
+        type: String
       },
       tenants: {
         type: Array,
@@ -245,13 +242,18 @@ export default class Lease extends Model {
           properties: User.schema()
         }
       },
-      type: {
-        type: String
+      property: {
+        type: Object,
+        properties: Property.schema()
       },
-      split_amount: {
-        type: Boolean,
-        default: false
+      unit: {
+        type: Object,
+        properties: Unit.schema()
       }
+      // split_amount: {
+      //   type: Boolean,
+      //   default: false
+      // }
     }
   }
 }

@@ -18,6 +18,7 @@ import Password from '@/components/password'
 import Modal from '@/components/modal'
 import Empty from '@/components/empty'
 import Search from '@/components/search'
+import Searchable from '@/components/searchable'
 
 Vue.config.productionTip = false
 
@@ -32,7 +33,8 @@ const components = [
   Password,
   Modal,
   Empty,
-  Search
+  Search,
+  Searchable
 ]
 
 const install = (Vue) => {

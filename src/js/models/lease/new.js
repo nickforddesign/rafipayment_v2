@@ -1,10 +1,22 @@
+import moment from 'moment'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
 
 export default class Lease extends Model {
   static defaults() {
     return {
-      name: 'lease'
+      name: 'lease',
+      computed: {
+        start_date() {
+          return this.periods_sorted[0].start_date
+        },
+        periods_sorted() {
+          const sorted = this.periods.sort((a, b) => {
+            return moment(a.start_date) > moment(b.start_date)
+          })
+          return sorted
+        }
+      }
     }
   }
   static schema() {
@@ -42,19 +54,12 @@ export default class Lease extends Model {
             },
             type: {
               type: String
+            },
+            description: {
+              type: String
             }
           }
         }
-        // type: Object,
-        // scheduled: {
-        //   type: Array,
-        //   amount: Currency,
-        //   date: ISODate
-        // },
-        // recurring: {
-        //   type: Array,
-        //   amount: Currency
-        // }
       },
       property: {
         type: ObjectId
@@ -68,17 +73,28 @@ export default class Lease extends Model {
               type: ObjectId
             },
             charges: {
-              type: Array
+              type: Array,
+              items: {
+                type: Object,
+                properties: {
+                  amount: {
+                    type: Currency
+                  },
+                  description: {
+                    type: String
+                  },
+                  type: {
+                    type: String
+                  },
+                  date: {
+                    type: ISODate
+                  }
+                }
+              }
             }
           }
         }
       },
-      // tenants: {
-      //   type: Array,
-      //   items: {
-      //     type: ObjectId
-      //   }
-      // },
       unit: {
         type: ObjectId
       }

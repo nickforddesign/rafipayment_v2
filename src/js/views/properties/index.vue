@@ -59,7 +59,6 @@ export default {
       this.modal_visible = false
     },
     confirmModal() {
-      console.log('huh')
       this.$collection.fetch()
     }
   },
@@ -67,9 +66,6 @@ export default {
     row,
     propertyModal
   }
-  // created() {
-  //   console.log(data)
-  // }
 }
 </script>
 

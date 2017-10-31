@@ -1,0 +1,16 @@
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+
+  &.med {
+    width: 980px;
+  }
+
+  &.sm {
+    width: 764px;
+  }
+
+  &.x-sm {
+    width: 480px;
+  }
+}

@@ -1,101 +1,19 @@
 <template>
-  <modal @close="close" :confirm="validate">
-    <h1 slot="header">Add Lease</h1>
+  <modal @close="close">
+    <h1 slot="header">New Lease</h1>
     <div slot="body">
-
-      <div v-if="periods.length">
-        <legend>Billing Periods</legend>
-        <div class="box" v-for="(period, index) in periods" :key="index">
-          <field name="start" :errors="errors">
-            <input type="date" v-model="period.start_date" v-validate="'required'">
-          </field>
-          <field name="amount" :errors="errors">
-            <currency v-model="period.amount" />
-          </field>
-          {{ period }}
+      <div class="breadcrumbs">
+        <div v-if="models.property">
+          <legend>Property</legend>
+          {{ models.property.address }}
         </div>
-      </div>
-
-      <button @click="addPeriod">Add Billing Period</button>
-
-      <field name="type" :errors="errors">
-        <input type="radio" id="fixed" name="type" :value="true" v-model="is_fixed">
-        <label for="fixed">Fixed Term</label>
-        <input type="radio" id="m2m" name="type" :value="false" v-model="is_fixed">
-        <label for="m2m">Month to Month</label>
-      </field>
-
-      <field name="end date" :errors="errors" v-if="is_fixed">
-        <input type="date" v-model="end_date" v-validate="'required'">
-      </field>
-
-      <field name="bill due day" :errors="errors">
-        <number maxlength="2" v-validate="'required|numeric|max_value:28'" v-model="bill_due_day" name="bill due day" />
-      </field>
-
-      <field name="tenants" :errors="errors">
-        <select-menu :multiple="true" v-model="tenants_selected">
-          <!-- <option disabled value="">Please select one</option> -->
-          <option 
-            v-for="(tenant, index) in tenants_collection.models"
-            :value="tenant.id"
-            :key="index"
-            :label="`${tenant.first_name} ${tenant.last_name}`">
-            {{ tenant.first_name }} {{ tenant.last_name }}
-          </option>
-        </select-menu>
-      </field>
-
-      <field name="property" :errors="errors">
-        <select-menu v-model="property">
-          <option disabled value="">Please select one</option>
-          <option 
-            v-for="(property, index) in properties_collection.models"
-            :value="property.id"
-            :key="index"
-            :label="property.address">
-            {{ property.address }}
-          </option>
-        </select-menu>
-      </field>
-
-      <field name="unit" :errors="errors">
-        <select-menu v-model="unit" :disabled="units_disabled">
-          <option disabled value="">Please select one</option>
-          <option 
-            v-for="(unit, index) in units_filtered"
-            :value="unit.id"
-            :key="index"
-            :label="unit.address">
-            {{ unit.name }}
-          </option>
-        </select-menu>
-      </field>
-
-      <!-- {{ tenants }} -->
-
-      <div v-if="charges.length">
-        <legend>Charges</legend>
-
-        <div class="box" v-for="(charge, index) in charges" :key="index">
-          <field name="amount" :errors="errors">
-            <currency v-model="charge.amount" />
-          </field>
-          <field name="type">
-            <input type="radio" :id="`recurring-${index}`" :name="`type-${index}`" value="recurring" v-model="charge.type">
-            <label :for="`recurring-${index}`">Recurring</label>
-            <input type="radio" :id="`scheduled-${index}`" :name="`type-${index}`" value="scheduled" v-model="charge.type">
-            <label :for="`scheduled-${index}`">Scheduled</label>
-          </field>
-          <field v-if="charge.type === 'scheduled'" name="date">
-            <input type="date" v-model="charge.date" v-validate="'required'">
-          </field>
+        <div v-if="models.unit">
+          <legend>Unit</legend>
+          {{ models.unit.name }}
         </div>
+        <!-- {{ models.lease }} -->
       </div>
-
-      {{ charges }}
-
-      <button @click="addCharge">Add Charge</button>
+      <component :is="steps[current_step]" :models="models" @next="next" />
     </div>
   </modal>
 </template>
@@ -103,152 +21,116 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Collection } from 'vue-collections'
-import { Deferred } from '@/utils'
+import { clone } from 'ramda'
 
 import Lease from '@/models/lease/new'
-import User from '@/models/user'
-import Property from '@/models/property'
-import Unit from '@/models/unit'
 
-const tenantsCollection = new Collection({
-  basePath: 'tenants',
-  model: User
-})
-
-const propertiesCollection = new Collection({
-  basePath: 'properties',
-  model: Property
-})
-
-const unitsCollection = new Collection({
-  basePath: 'units',
-  model: Unit
-})
+import Property from './steps/property'
+import Unit from './steps/unit'
+import Terms from './steps/terms'
+import Tenants from './steps/tenants'
+import Charges from './steps/charges'
+import LeaseSummary from './steps/summary'
 
 export default {
-  name: 'modal-lease-add',
+  name: 'modal-lease--add',
   props: {
     model: Object,
     confirm: Function
   },
   data() {
     return {
-      // model data
-      bill_due_day: 1,
-      end_date: '2018-09-01',
-      periods: [{
-        start_date: '2017-09-01',
-        amount: ''
-      }],
-      charges: [],
-      property: '',
-      unit: '',
-      // other
-      is_fixed: true,
-      tenants_selected: [],
-      units_disabled: true,
-      units_filtered: []
+      steps: [
+        'property',
+        'unit',
+        'terms',
+        'tenants',
+        'charges',
+        'lease-summary'
+      ],
+      models: {
+        property: null,
+        unit: null,
+        tenants: null,
+        lease: new Lease()
+      },
+      current_step: null
     }
+  },
+  components: {
+    Property,
+    Unit,
+    Terms,
+    Tenants,
+    Charges,
+    LeaseSummary
   },
   models: {
     lease() {
-      return new Lease()
+      return new Lease(this.model)
     }
   },
   created() {
-    this.tenants_collection.fetch()
-    this.properties_collection.fetch()
-    this.units_collection.fetch()
-  },
-  watch: {
-    property(val) {
-      if (!val) {
-        this.units_disabled = true
-        this.units_filtered = []
-      } else {
-        this.units_disabled = false
-        this.units_filtered = this.units_collection.models.filter(unit => {
-          return unit.property.id === this.property
-        })
-      }
-    }
-  },
-  computed: {
-    tenants_collection() {
-      return tenantsCollection
-    },
-    properties_collection() {
-      return propertiesCollection
-    },
-    units_collection() {
-      return unitsCollection
-    },
-    tenants() {
-      return this.tenants_selected.map(id => {
-        return {
-          id,
-          charges: []
-        }
-      })
-    }
+    this.current_step = 0
   },
   methods: {
     close() {
       this.$emit('close')
     },
-    addPeriod() {
-      this.periods.push({
-        start_date: '2017-09-01',
-        amount: ''
-      })
+    next() {
+      if (this.current_step + 1 < this.steps.length) {
+        this.current_step++
+      } else {
+        this.validate()
+      }
     },
-    addCharge() {
-      this.charges.push({
-        type: 'recurring',
-        amount: ''
-      })
+    getLeaseData() {
+      const data = clone(this.models.lease.$data)
+      data.property = this.models.property.id
+      data.unit = this.models.unit.id
+      for (let tenant of this.models.tenants) {
+        data.tenants.push({
+          id: tenant.id,
+          charges: []
+        })
+      }
+      return data
+    },
+    async saveModels() {
+      try {
+        if (this.models.property.isNew) {
+          this.models.property = await this.models.property.save(this.models.property.$data)
+          this.models.unit.property = this.models.property.id
+        }
+        if (this.models.unit.isNew) {
+          this.models.unit = await this.models.unit.save(this.models.unit.$data)
+        }
+        for (let tenant of this.models.tenants) {
+          if (tenant.isNew) {
+            tenant = await tenant.save(tenant.$data)
+          }
+        }
+        const lease_data = this.getLeaseData()
+        await this.models.lease.save(lease_data)
+      } catch (error) {
+        console.warn('error', error)
+      }
     },
     async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
-    },
-    async confirmChange() {
-      this.loading = true
-      // console.log(this.tenants)
-
-      const data = {
-        bill_due_day: this.bill_due_day,
-        end_date: this.end_date,
-        periods: this.periods,
-        charges: this.charges,
-        tenants: this.tenants,
-        property: this.property,
-        unit: this.unit
-      }
-
-      console.log({data})
-
-      // const lease = new Lease(data)
-
-      const request = this.$lease.save(data)
-      request.then(response => {
+      await this.saveModels()
+      if (this.confirm) {
         this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      }
+      this.close()
     }
   }
 }
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.breadcrumbs {
+  margin-bottom: 30px;
+}
+</style>

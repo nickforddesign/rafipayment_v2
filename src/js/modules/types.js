@@ -11,12 +11,10 @@ export class ObjectId extends Type {
 
 export class ISODate extends Type {
   constructor(value) {
-    // console.log('NEW ISODATE', value)
     super(value, '$date')
     return this
   }
   in(value) {
-    // console.log({value})
     const parsed = new Date(value)
     if (!isNaN(parsed.getTime())) {
       this.value = value
@@ -42,5 +40,13 @@ export class Currency extends Type {
   }
   pretty() {
     return prettyCurrency(this.value)
+  }
+}
+
+export class StringOrNull extends Type {
+  out() {
+    return !this.value
+      ? null
+      : this.value
   }
 }
