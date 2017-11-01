@@ -222,6 +222,26 @@ const routes = [
     }
   },
   {
+    name: 'Bills',
+    path: '/bills',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager', 'tenant']
+    },
+    component(resolve) {
+      require(['@/views/bills'], resolve)
+    }
+  },
+  {
+    name: 'Bill',
+    path: '/bills/:id',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager', 'tenant']
+    },
+    component(resolve) {
+      require(['@/views/bills/view'], resolve)
+    }
+  },
+  {
     path: '*',
     name: '404',
     component: NotFound
