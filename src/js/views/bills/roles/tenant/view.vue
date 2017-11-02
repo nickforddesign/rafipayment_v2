@@ -45,8 +45,14 @@
         </dl>
         
       </div>
+      <pre>total: {{ $bill.total | currency }}</pre>
+      <pre>balance: {{ $bill.balance | currency }}</pre>
+      <!-- <pre>{{ $bill.has_transfers }}</pre> -->
+      <!-- <pre>{{ $bill.transfers_fetched }}</pre> -->
 
-      <transfers-table :path="`${$bill.url}/transfers`" />
+      <!-- {{ $bill.transfers }} -->
+
+      <transfers-table :model="$bill" />
 
       <button class="primary" @click="showModal">Make a Payment</button>
       <transfer-modal v-if="modal_visible" :model="$bill" @close="closeModal" :confirm="fetch" />
@@ -59,14 +65,14 @@
 <script>
 import session from '@/session'
 import Bill from '@/models/bill'
-// import transfersTable from './transfers'
-import transfersTable from '@/views/transfers/table'
+import transfersTable from './transfers'
+// import transfersTable from '@/views/transfers/table'
 import splitRow from './split_row'
 
 import transferModal from '@/components/modals/bill/transfer'
 
 export default {
-  name: 'lease',
+  name: 'bill',
   data() {
     return {
       fetched: false,
@@ -95,7 +101,10 @@ export default {
   },
   methods: {
     async fetch() {
-      return this.$bill.fetch()
+      await this.$bill.fetch()
+      if (this.$bill.has_transfers) {
+        this.$bill.fetchTransfers()
+      }
     },
     showModal() {
       this.modal_visible = true
