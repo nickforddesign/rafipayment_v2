@@ -1,0 +1,7 @@
+$positions: left center right inherit;
+
+@each $position in $positions {
+  .text-#{$position} {
+    text-align: $position;
+  }
+}
