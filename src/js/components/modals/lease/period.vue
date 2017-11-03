@@ -71,8 +71,6 @@ export default {
         amount: this.amount
       }
 
-      // console.log({body})
-
       const request = this.$period.save(body)
       request.then(response => {
         this.confirm()

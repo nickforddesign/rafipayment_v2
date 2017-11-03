@@ -6,7 +6,7 @@ import store from '@/store'
 import filters from '@/modules/filters'
 import validators from '@/modules/validators'
 
-import App from '@/components/app'
+import App from '@/components/main'
 import Logo from '@/components/logo'
 import Loading from '@/components/loading'
 import Select from '@/components/select'
