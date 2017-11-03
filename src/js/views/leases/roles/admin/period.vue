@@ -14,6 +14,7 @@
     </div>
 
     <period-modal v-if="modal_visible" :path="basePath" @close="closeModal" :confirm="fetch" :model="$period" />
+    
   </div>
 </template>
 

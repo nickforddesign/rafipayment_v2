@@ -15,7 +15,8 @@
       </field>
 
       <field name="start date" :errors="errors" v-if="type === 'scheduled'">
-        <input type="date" v-model="date" v-validate="'required'">
+        <!-- <input type="date" v-model="date" v-validate="'required'"> -->
+        <date-picker v-model="date" v-validate="'required'" />
       </field>
 
       <field name="description">

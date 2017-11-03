@@ -13,28 +13,28 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import User from '@/models/user'
-// import UserCard from '@/components/cards/user'
+import User from '@/models/user'
+import UserCard from '@/components/cards/user'
 
-// export default {
-//   name: 'charges',
-//   props: {
-//     user: Object
-//   },
-//   data() {
-//     return {
-//       charges: this.user.charges
-//     }
-//   },
-//   models: {
-//     user() {
-//       return new User(this.user)
-//     }
-//   },
-//   components: {
-//     UserCard
-//   }
-// }
+export default {
+  name: 'charges',
+  props: {
+    user: Object
+  },
+  data() {
+    return {
+      charges: this.user.charges
+    }
+  },
+  models: {
+    user() {
+      return new User(this.user)
+    }
+  },
+  components: {
+    UserCard
+  }
+}
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->

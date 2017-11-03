@@ -4,12 +4,15 @@
     <div slot="body">
 
       <field name="start date" :errors="errors">
-        <input type="date" v-model="start_date" name="start date" ref="default">
+        <!-- <input type="date" v-model="start_date" name="start date" ref="default"> -->
+        <date-picker v-model="start_date" name="start date" ref="default" />
       </field>
 
       <field name="amount" :errors="errors">
         <currency v-model="amount" v-validate="'required'" name="split" />
       </field>
+
+      {{ $period }}
 
     </div>
   </modal>
@@ -44,6 +47,7 @@ export default {
   },
   created() {
     if (this.model) {
+      this.$period = this.model.$data
       this.start_date = this.model.start_date
       this.amount = this.model.amount
     }
@@ -70,6 +74,8 @@ export default {
         start_date: this.start_date,
         amount: this.amount
       }
+
+      console.log(this.$period)
 
       const request = this.$period.save(body)
       request.then(response => {

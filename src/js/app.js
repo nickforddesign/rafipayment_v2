@@ -17,6 +17,7 @@ import Currency from '@/components/currency'
 import Password from '@/components/password'
 import Modal from '@/components/modal'
 import Empty from '@/components/empty'
+import DatePicker from '@/components/date'
 import Search from '@/components/search'
 import Searchable from '@/components/searchable'
 
@@ -33,6 +34,7 @@ const components = [
   Password,
   Modal,
   Empty,
+  DatePicker,
   Search,
   Searchable
 ]
