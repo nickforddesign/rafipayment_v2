@@ -30,7 +30,10 @@
               <dd>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</dd>
             </dl>
           </div>
-          <div class="grid__col grid__col--1-of-2">
+          <pre>{{ collection }}</pre>
+
+          <pre>{{ transfer }}</pre>
+          <!-- <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Source</dt>
               <dd>{{ popId(bank_transfer._links.source.href) }}</dd>
@@ -41,7 +44,7 @@
               <dt>Destination</dt>
               <dd>{{ popId(transfer._links.destination.href) }}</dd>
             </dl>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -87,7 +90,7 @@
 
 <script>
 import Transfer from '@/models/transfer'
-// import { Collection } from 'vue-collections'
+import { Collection } from 'vue-collections'
 import row from './row'
 
 export default {
@@ -104,32 +107,30 @@ export default {
       })
     }
   },
-  // collection() {
-    // return new Collection({
-    //   basePath: `account/payment/transfers?correlationId=${this.$route.params.id}`
-    // })
-  // },
+  collection() {
+    return new Collection({
+      basePath: `${this.$transfer.url}/subtransfers`
+    })
+  },
   computed: {
-    // $transfer() {
-    //   return this.transfer
-    // },
-    // transfer() {
-    //   return this.collection.filter(model => {
-    //     return model._links.source['resource-type'] === 'customer'
-    //   })[0]
-    // },
-    // bank_transfer() {
-    //   return this.collection.filter(model => {
-    //     return model._links.source['resource-type'] === 'funding-source'
-    //   })[0]
-    // },
+    transfer() {
+      return this.collection.filter(model => {
+        console.log({model})
+        return model._links.source['resource-type'] === 'customer'
+      })[0]
+    },
+    bank_transfer() {
+      return this.collection.filter(model => {
+        return model._links.source['resource-type'] === 'funding-source'
+      })[0]
+    },
     is_cancellable() {
       // return 'cancel' in this.transfer._links
     }
   },
   async created() {
-    // await this.$collection.fetch()
     await this.$transfer.fetch()
+    this.$collection.fetch()
     this.fetched = true
   },
   methods: {

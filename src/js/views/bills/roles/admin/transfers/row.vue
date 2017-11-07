@@ -1,7 +1,7 @@
 <template>
   <tr @click="goToModel">
     <td>
-      <a :href="$transfer.urlRoot" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</a>
+      <a :href="`/${$transfer.urlRoot}`" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</a>
     </td>
     <td>Destination</td>
     <td>Source</td>
@@ -27,7 +27,7 @@ export default {
       return new Transfer(this.model, {
         computed: {
           urlRoot() {
-            return `transfers/${this.correlation_id}`
+            return `transfers/${this.id}`
           },
           direction() {
             return this.source_id === session.$user.payment.account

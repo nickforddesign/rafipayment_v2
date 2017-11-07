@@ -14,17 +14,6 @@
         <currency v-model="amount" v-validate="'required|min_currency:0.01'" name="amount" />
       </field>
 
-      <field name="type">
-        <input type="radio" id="recurring" name="type" value="recurring" v-model="type">
-        <label for="recurring">Recurring</label>
-        <input type="radio" id="scheduled" name="type" value="scheduled" v-model="type">
-        <label for="scheduled">Scheduled</label>
-      </field>
-
-      <field name="date" :errors="errors" v-if="type === 'scheduled'">
-        <date-picker v-model="date" v-validate="'required'" name="date" />
-      </field>
-
       <field name="description">
         <input type="text" v-model="description">
       </field>

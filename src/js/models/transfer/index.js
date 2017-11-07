@@ -1,25 +1,25 @@
-import { path } from 'ramda'
+// import { path } from 'ramda'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
 
 export default class Transfer extends Model {
   static defaults() {
     return {
-      name: 'transfers',
-      computed: {
-        basePath() {
-          return 'account/payment/transfers'
-        },
-        source_id() {
-          return path(['links', 'source', 'href'], this).split('/').pop()
-        }
-      }
+      name: 'transfer'
+      // computed: {
+        // basePath() {
+        //   return 'transfers'
+        // },
+        // source_id() {
+        //   return path(['links', 'source', 'href'], this).split('/').pop()
+        // }
+      // }
     }
   }
   static schema() {
     return {
       id: {
-        type: String
+        type: ObjectId
       },
       created: {
         type: ISODate

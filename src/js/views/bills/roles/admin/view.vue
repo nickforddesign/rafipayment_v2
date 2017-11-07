@@ -48,7 +48,7 @@
           Charges
         </div>
 
-        <charges v-for="(tenant, index) in $bill.tenants" :key="index" :user="tenant" />
+        <charges v-for="(tenant, index) in $bill.tenants" :key="index" :user="tenant" :basePath="$bill.url" />
 
         <div class="summary">
           <dl class="total">
@@ -63,13 +63,8 @@
         </div>
       </div>
 
-      <!-- <pre>total: {{ $bill.total | currency }}</pre> -->
-      <!-- <pre>balance: {{ $bill.balance | currency }}</pre> -->
-
       <transfers-table :model="$bill" />
 
-      <!-- <button class="primary" @click="showModal">Make a Payment</button> -->
-      <!-- <transfer-modal v-if="modal_visible" :model="$bill" @close="closeModal" :confirm="fetch" /> -->
     </div>
   </div>
 </template>
@@ -82,8 +77,6 @@ import transfersTable from './transfers'
 import splitRow from './split_row'
 import charges from '@/components/charges'
 import userCard from '@/components/cards/user'
-
-// import transferModal from '@/components/modals/bill/transfer'
 
 export default {
   name: 'bill',
@@ -120,7 +113,6 @@ export default {
   components: {
     transfersTable,
     splitRow,
-    // transferModal,
     userCard,
     charges
   }
