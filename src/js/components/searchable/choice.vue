@@ -1,6 +1,6 @@
 <template>
   <li>
-    <div class="choice" @click="select">
+    <div :class="['choice', selected]" @click="select">
       {{ model[label] }}
     </div>
   </li>
@@ -15,6 +15,13 @@ export default {
   methods: {
     select() {
       this.$emit('select', this.model)
+    }
+  },
+  computed: {
+    selected() {
+      if (this.$parent.selected === this.model) {
+        return 'selected'
+      }
     }
   }
 }
@@ -33,6 +40,13 @@ export default {
   &:hover {
     background: lighten($color-button-background, 5%);
     cursor: pointer;
+  }
+  &.selected {
+    background: darken($color-button-background, 5%);
+
+    &:hover {
+      background: darken($color-button-background, 4%);
+    }
   }
 }
 </style>

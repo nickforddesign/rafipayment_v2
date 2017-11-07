@@ -5,7 +5,17 @@
         <span class="selected-name">{{ selected[display] }}</span>
         <div class="remove" @click="clear"></div>
       </span>
-      <input type="text" ref="input" v-model="query" @keydown.delete="handleDelete" @focus="onFocus" @blur="onBlur">
+      <input
+        type="text"
+        ref="input"
+        v-model="query"
+        @keydown.delete="handleDelete"
+        @keydown.enter="handleEnter"
+        @keydown.esc="handleEscape"
+        @keydown.up="handleUp"
+        @keydown.down="handleDown"
+        @focus="onFocus"
+        @blur="onBlur">
     </div>
     <ul v-if="focused">
       <choice v-for="(model, index) in items" :key="index" :label="display" :model="model" @select="setSelected" />
@@ -79,15 +89,41 @@ export default {
     }
   },
   methods: {
-    setSelected(model) {
-      this.selected = model
-      this.query = ''
-      this.emit()
-    },
     handleDelete() {
       if (!isEmpty(this.selected) && this.query === '') {
         this.clear()
       }
+    },
+    handleEnter() {
+      this.$refs.input.blur()
+    },
+    handleEscape() {
+      this.$refs.input.blur()
+    },
+    handleUp() {
+      if (!isEmpty(this.selected)) {
+        const current_index = this.items.indexOf(this.selected)
+        if (current_index) {
+          this.selected = this.items[current_index - 1]
+        }
+      } else {
+        this.selected = this.items[0]
+      }
+    },
+    handleDown() {
+      if (!isEmpty(this.selected)) {
+        const current_index = this.items.indexOf(this.selected)
+        if (current_index + 1 !== this.items.length) {
+          this.selected = this.items[current_index + 1]
+        }
+      } else {
+        this.selected = this.items[0]
+      }
+    },
+    setSelected(model) {
+      this.selected = model
+      this.query = ''
+      this.emit()
     },
     clear() {
       this.selected = ''
