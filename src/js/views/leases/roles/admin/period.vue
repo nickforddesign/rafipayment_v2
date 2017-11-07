@@ -39,6 +39,11 @@ export default {
       })
     }
   },
+  watch: {
+    model(val) {
+      this.$period = val
+    }
+  },
   methods: {
     fetch() {
       this.$parent.fetch()

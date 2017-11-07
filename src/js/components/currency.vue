@@ -32,7 +32,12 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import * as utils from '@/utils'
+import {
+  sleep,
+  isMobile,
+  parseCurrency,
+  prettyCurrency
+} from '@/utils'
 
 export default {
   name: 'currency',
@@ -50,14 +55,17 @@ export default {
   },
   data() {
     return {
-      input_value: this.value,
+      input_value: undefined,
       is_focused: false,
-      is_mobile: utils.isMobile()
+      is_mobile: isMobile()
     }
   },
   created() {
-    if (this.value && !this.is_mobile) {
-      this.input_value = utils.prettyCurrency(this.value, false)
+    if (this.value) {
+      this.input_value = parseCurrency(this.value, false, true)
+      if (!this.is_mobile) {
+        this.input_value = prettyCurrency(this.input_value, false)
+      }
     }
   },
   watch: {
@@ -80,15 +88,16 @@ export default {
     },
     field_blurred() {
       this.is_focused = false
+
       const args = this.is_mobile
         ? [ this.input_value, String ]
         : [ this.input_value || '', false ]
-      const value = utils.parseCurrency(...args)
-      if (isNaN(value)) {
-        this.input_value = ''
-      } else {
-        this.input_value = value
-      }
+      const value = parseCurrency(...args)
+
+      this.input_value = isNaN(value)
+        ? ''
+        : value
+
       this.$emit('blur')
     },
     field_changed(e) {
@@ -97,8 +106,8 @@ export default {
     async field_focused(e) {
       this.is_focused = true
       if (!this.is_mobile) {
-        await utils.sleep(1)
-        this.input_value = utils.parseCurrency(e.target.value)
+        await sleep(1)
+        this.input_value = parseCurrency(e.target.value)
       }
     }
   }
@@ -112,7 +121,8 @@ export default {
 
 .currency-container {
   position: relative;
-  display: inline-block;
+  // display: inline-block;
+  // width: 100%;
 
   span {
     position: absolute;

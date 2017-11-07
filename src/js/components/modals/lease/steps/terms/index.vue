@@ -2,16 +2,17 @@
   <div>
     <h2>What are the terms of this lease?</h2>
 
+    <button @click="previous">Back</button>
+
     <div v-if="type" class="content">
-      <button @click="cancel"><</button>
 
       <div v-if="mode === 'simple'">
         <field name="start date">
-          <input type="date" name="start date" v-model="start_date">
+          <date-picker v-model="start_date" v-validate="'required'" name="start date" />
         </field>
 
         <field name="end date" v-if="type === 'fixed'">
-          <input type="date" name="end date" v-model="end_date">
+          <date-picker v-model="end_date" v-validate="'required'" name="end date" />
         </field>
 
         <field name="rent" :errors="errors">
@@ -26,8 +27,8 @@
         <div v-if="periods.length">
           <legend>Billing Periods</legend>
           <div class="box" v-for="(period, index) in periods" :key="index">
-            <field name="start" :errors="errors">
-              <input type="date" v-model="period.start_date" v-validate="'required'">
+            <field name="start date" :errors="errors">
+              <date-picker v-model="period.start_date" v-validate="'required'" name="start date" />
             </field>
             <field name="amount" :errors="errors">
               <currency v-model="period.amount" />
@@ -39,7 +40,7 @@
         <button @click="addPeriod">Add Billing Period</button>
 
         <field name="end date" v-if="type === 'fixed'">
-          <input type="date" name="end date" v-model="end_date">
+          <date-picker v-model="end_date" v-validate="'required'" name="end date" />
         </field>
 
         <button class="link" @click="setMode('simple')">Simple</button>
@@ -127,6 +128,9 @@ export default {
     },
     next() {
       this.$emit('next')
+    },
+    previous() {
+      this.$emit('previous')
     },
     addPeriod() {
       this.periods.push({

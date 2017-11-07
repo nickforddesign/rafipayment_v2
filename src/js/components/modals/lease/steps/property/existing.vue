@@ -1,11 +1,17 @@
 <template>
   <div>
     <div v-if="fetched" class="property-select">
-      <searchable :collection="collection" display="address" v-model="selected" />
+      <div v-if="collection.length">
+        <searchable :collection="collection" display="address" v-model="selected" :focus="true" />
 
-      <div class="actions">
-        <button v-if="selected" @click="complete">Next</button>
+        <div class="actions">
+          <button v-if="selected" @click="complete">Next</button>
+        </div>
       </div>
+      <empty v-else>
+        <div slot="message">You don't have any properties yet</div>
+        <button slot="actions" class="primary" @click="$parent.setType('new')">Add a property</button>
+      </empty>
     </div>
     <loading v-else />
   </div>

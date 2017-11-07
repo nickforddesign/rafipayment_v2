@@ -120,6 +120,7 @@
           <thead>
             <tr>
               <td>Type</td>
+              <td>Date</td>
               <td>Description</td>
               <td>Amount</td>
               <td>Actions</td>
@@ -221,7 +222,6 @@ export default {
     }
   },
   components: {
-    // charges,
     periodModal,
     chargeModal,
     chargeRow,

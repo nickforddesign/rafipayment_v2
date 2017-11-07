@@ -7,6 +7,7 @@
       <thead>
         <tr>
           <td>Type</td>
+          <td>Date</td>
           <td>Description</td>
           <td>Amount</td>
           <td>Actions</td>
@@ -33,7 +34,8 @@ import UserCard from '@/components/cards/user'
 
 import chargeModal from '@/components/modals/lease/charge'
 
-import chargeRow from './tenant_charge_row'
+// import chargeRow from './tenant_charge_row'
+import chargeRow from './charge_row'
 
 export default {
   name: 'charges',

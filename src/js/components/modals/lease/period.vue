@@ -4,15 +4,12 @@
     <div slot="body">
 
       <field name="start date" :errors="errors">
-        <!-- <input type="date" v-model="start_date" name="start date" ref="default"> -->
         <date-picker v-model="start_date" name="start date" ref="default" />
       </field>
 
       <field name="amount" :errors="errors">
         <currency v-model="amount" v-validate="'required'" name="split" />
       </field>
-
-      {{ $period }}
 
     </div>
   </modal>

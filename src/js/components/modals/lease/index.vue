@@ -11,9 +11,9 @@
           <legend>Unit</legend>
           {{ models.unit.name }}
         </div>
-        <!-- {{ models.lease }} -->
+
       </div>
-      <component :is="steps[current_step]" :models="models" @next="next" />
+      <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
     </div>
   </modal>
 </template>
@@ -73,6 +73,11 @@ export default {
   created() {
     this.current_step = 0
   },
+  computed: {
+    has_back() {
+      return this.current_step > 0
+    }
+  },
   methods: {
     close() {
       this.$emit('close')
@@ -84,6 +89,11 @@ export default {
         this.validate()
       }
     },
+    previous() {
+      if (this.has_back) {
+        this.current_step--
+      }
+    },
     getLeaseData() {
       const data = clone(this.models.lease.$data)
       data.property = this.models.property.id
@@ -91,7 +101,7 @@ export default {
       for (let tenant of this.models.tenants) {
         data.tenants.push({
           id: tenant.id,
-          charges: []
+          charges: tenant.charges || []
         })
       }
       return data
@@ -100,8 +110,9 @@ export default {
       try {
         if (this.models.property.isNew) {
           this.models.property = await this.models.property.save(this.models.property.$data)
-          this.models.unit.property = this.models.property.id
         }
+        this.models.unit.property = this.models.property.id
+
         if (this.models.unit.isNew) {
           this.models.unit = await this.models.unit.save(this.models.unit.$data)
         }

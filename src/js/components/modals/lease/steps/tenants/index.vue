@@ -2,7 +2,9 @@
   <div class="container x-sm">
     <h2>Who will be residing here?</h2>
 
-    <searchable :collection="collection" display="full_name" :model="User" @input="addTenant" v-model="selected" :omit="tenants" />
+    <button @click="previous">Back</button>
+
+    <searchable :collection="collection" display="full_name" :model="User" @input="addTenant" v-model="selected" :omit="tenants" :focus="true" />
 
     <ul>
       <li v-for="(tenant, index) in tenants" :key="index">
@@ -79,6 +81,9 @@ export default {
     },
     next() {
       this.$emit('next')
+    },
+    previous() {
+      this.$emit('previous')
     }
   }
 }

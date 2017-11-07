@@ -1,7 +1,8 @@
 <template>
   <tr>
     <td>{{ $charge.type | capitalize}}</td>
-    <td>{{ $charge.description }}</td>
+    <td>{{ date }}</td>
+    <td>{{ $charge.description | limit }}</td>
     <td>{{ $charge.amount | currency }}</td>
     <td>
       <button class="x-small" @click="edit">Edit</button>
@@ -15,6 +16,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import moment from 'moment'
 import { prettyCurrency } from '@/utils'
 import Charge from '@/models/lease/charge'
 
@@ -34,6 +36,13 @@ export default {
         basePath: this.basePath,
         persist: true
       })
+    }
+  },
+  computed: {
+    date() {
+      return this.$charge.date
+        ? moment.utc(this.$charge.date).format('M/DD/YYYY')
+        : '–'
     }
   },
   methods: {

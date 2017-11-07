@@ -28,8 +28,7 @@ const filters = {
     const remainder = value % 100
     return value + (options[(remainder - 20) % 10] || options[remainder] || options[0])
   },
-  moment(value = '', format = 'l', utc = false) {
-    // console.log({utc})
+  moment(value = '', format = 'l', utc = true) {
     let output
     const target = utc
       ? moment.utc
@@ -46,6 +45,19 @@ const filters = {
     } else {
       return '–'
     }
+  },
+  limit(value = '', length = 20) {
+    let output = value
+    if (value.length > length) {
+      output = value.substring(0, length)
+    }
+    while (output[output.length - 1] === ' ') {
+      output = output.substring(0, output.length - 1)
+    }
+    if (output !== value) {
+      output = `${output}...`
+    }
+    return output
   }
 }
 

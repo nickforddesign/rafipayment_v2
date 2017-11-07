@@ -2,8 +2,9 @@
   <div>
     <h2>Which unit will be leased?</h2>
 
+    <button @click="previous">Back</button>
+
     <div v-if="type" class="content">
-      <button @click="cancel"><</button>
       <component :is="type" />
     </div>
 
@@ -16,7 +17,7 @@
       </div>
 
       <div class="grid__col grid__col--1-of-2">
-        <div class="box"  @click="setType('new')">
+        <div class="box" @click="setType('new')">
           A new unit
         </div>
       </div>
@@ -42,11 +43,6 @@ export default {
       type: null
     }
   },
-  // created() {
-  //   if (this.models.property.isNew) {
-  //     this.type === 'new'
-  //   }
-  // },
   methods: {
     cancel() {
       this.type = null
@@ -60,6 +56,11 @@ export default {
     },
     next() {
       this.$emit('next')
+    },
+    previous() {
+      return this.type
+        ? this.cancel()
+        : this.$emit('previous')
     }
   },
   components: {

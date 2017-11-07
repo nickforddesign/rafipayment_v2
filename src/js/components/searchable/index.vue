@@ -1,16 +1,14 @@
 <template>
   <div class="searchable">
-    <div class="query">
+    <div class="query" @click.self="focusInput">
       <span v-if="selected[display]" class="selected">
         <span class="selected-name">{{ selected[display] }}</span>
         <div class="remove" @click="clear"></div>
       </span>
-      <input type="text" v-model="query" @keydown.delete="handleDelete" @focus="onFocus" @blur="onBlur">
+      <input type="text" ref="input" v-model="query" @keydown.delete="handleDelete" @focus="onFocus" @blur="onBlur">
     </div>
     <ul v-if="focused">
-      <li v-for="(model, index) in items" :key="index">
-        <div class="choice" @click="setSelected(model)">{{ model[display] }}</div>
-      </li>
+      <choice v-for="(model, index) in items" :key="index" :label="display" :model="model" @select="setSelected" />
     </ul>
   </div>
 </template>
@@ -21,6 +19,8 @@
 import { isEmpty } from 'ramda'
 import { sleep } from '@/utils'
 
+import choice from './choice'
+
 export default {
   name: 'searchable',
   props: {
@@ -28,7 +28,11 @@ export default {
     omit: Array,
     display: String,
     model: Function,
-    value: [String, Object, Number]
+    value: [String, Object, Number],
+    focus: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -42,7 +46,7 @@ export default {
       const Constructor = this.model
       return Constructor
         ? this.collection.map(model => {
-          return new Constructor(model).toJSON()
+          return new Constructor(model)
         })
         : this.collection
     },
@@ -61,6 +65,13 @@ export default {
       }
       return output
     }
+  },
+  created() {
+    this.$nextTick(() => {
+      if (this.focus) {
+        this.focusInput()
+      }
+    })
   },
   watch: {
     value(val) {
@@ -81,9 +92,13 @@ export default {
     clear() {
       this.selected = ''
       this.emit()
+      this.focusInput()
     },
     emit() {
       this.$emit('input', this.selected)
+    },
+    focusInput() {
+      this.$refs.input.focus()
     },
     onFocus() {
       this.focused = true
@@ -92,6 +107,9 @@ export default {
       await sleep(200)
       this.focused = false
     }
+  },
+  components: {
+    choice
   }
 }
 </script>
@@ -113,17 +131,6 @@ ul {
   li {
     display: block;
     margin: 0;
-
-    .choice {
-      padding: 8px 10px;
-      background: $color-button-background;
-      border-bottom: 1px solid darken($color-button-background, 5%);
-
-      &:hover {
-        background: lighten($color-button-background, 5%);
-        cursor: pointer;
-      }
-    }
   }
 }
 
@@ -142,10 +149,6 @@ ul {
     background: none;
     border: none;
   }
-
-  // & > span {
-  //   margin-left: 12px;
-  // }
 
   .remove {
     display: inline-block;

@@ -1,11 +1,17 @@
 <template>
   <div>
     <div v-if="fetched" class="unit-select">
-      <searchable :collection="collection" display="name" v-model="selected" />
+      <div v-if="collection.length">
+        <searchable :collection="collection" display="name" v-model="selected" :focus="true" />
 
-      <div class="actions">
-        <button v-if="selected" @click="next">Next</button>
+        <div class="actions">
+          <button v-if="selected" @click="next">Next</button>
+        </div>
       </div>
+      <empty v-else>
+        <div slot="message">This property does not have any units yet</div>
+        <button slot="actions" class="primary" @click="$parent.setType('new')">Add a unit</button>
+      </empty>
     </div>
     <loading v-else />
   </div>

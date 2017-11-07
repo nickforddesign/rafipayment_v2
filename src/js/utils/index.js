@@ -3,6 +3,13 @@
 import statesHelper from './states'
 export { statesHelper }
 
+// check if userAgent is mobile
+
+export function isMobile () {
+  const regex = /(iP(od|hone|ad))|(IEMobile)|(Windows Phone)|(Blackberry)|(BB10)|(Android.*Mobile)/i
+  return regex.test(window.navigator.userAgent)
+}
+
 // deferred promise
 
 export function Deferred () {
@@ -23,7 +30,7 @@ export function sleep (ms) {
 
 // load scripts from cdn
 
-export const load = (url) => {
+export function load (url) {
   return new Promise((resolve, reject) => {
     let script = window.document.createElement('script')
     script.type = 'text/javascript'
@@ -48,11 +55,15 @@ export function localStorageSupported () {
   }
 }
 
+// reset state of model or vuex store
+
 export function resetState (state, defaults) {
   return Object.keys(defaults).forEach(key => {
     state[key] = defaults[key]
   })
 }
+
+// reset all modules of a vuex store
 
 export function resetAllStates (state, modules) {
   Object.keys(modules).forEach(key => {
@@ -60,40 +71,41 @@ export function resetAllStates (state, modules) {
   })
 }
 
-export const isMobile = () => {
-  const regex = /(iP(od|hone|ad))|(IEMobile)|(Windows Phone)|(Blackberry)|(BB10)|(Android.*Mobile)/i
-  return regex.test(window.navigator.userAgent)
-}
-
 // parse currency strings to valid currency floats
 
-export const parseCurrency = (value, constructor) => {
+export function parseCurrency (value, constructor, abs) {
   if (!['string', 'number'].includes(typeof value)) return
-  // check for invalid chars
   if (/[^$,.\d\-+]/.test(value)) return false
-  const amount = parseFloat(('' + value).replace(/[$,]/g, '')).toFixed(2)
-  if (typeof amount !== 'string') return false
+  const parsed = parseFloat(('' + value).replace(/[$,]/g, ''))
+  const amount = abs
+    ? Math.abs(parsed)
+    : parsed
+  const fixed = amount.toFixed(2)
+  if (typeof fixed !== 'string') return false
   return constructor
-    ? new constructor(amount).valueOf()
-    : amount
+    ? new constructor(fixed).valueOf()
+    : fixed
 }
 
 // make parsed currency floats look pretty
 
-export const prettyCurrency = (value, _symbol = '$') => {
+export function prettyCurrency (value, _symbol = '$') {
   let parsed = parseFloat(value)
-  let leader = ''
-  if (parsed < 0) leader = '-'
+  const leader = parsed < 0
+    ? '-'
+    : ''
   parsed = Math.abs(parsed)
   const number_string = parseCurrency(parsed)
-  if (number_string === false) return ''
+  if (number_string === false) {
+    return ''
+  }
   const symbol = _symbol || ''
   return leader + symbol + number_string.replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
 }
 
 // convert unit number to a pretty unit number
 
-export const unitsHelper = (number) => {
+export function unitsHelper (number) {
   if (/^[\d]/.test(number)) number = '#' + number
   return number
 }

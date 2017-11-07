@@ -3,7 +3,7 @@
     <h2>Where is the unit that will be leased?</h2>
 
     <div v-if="type" class="content">
-      <button @click="cancel"><</button>
+      <button @click="previous">Back</button>
       <component :is="type" />
     </div>
 
@@ -55,6 +55,9 @@ export default {
     },
     next() {
       this.$emit('next')
+    },
+    previous() {
+      this.cancel()
     }
   },
   components: {
