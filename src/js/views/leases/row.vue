@@ -7,7 +7,7 @@
     <td>{{ $lease.start_date | moment('M/D/YYYY', true) }}</td>
     <td>{{ $lease.end_date | moment('M/D/YYYY', true) }}</td>
     <td>{{ $lease.length.months }} Mo.</td>
-    <td>{{ $lease.rent | currency }}</td>
+    <td>{{ $lease.periods_sorted[$lease.current_period].amount | currency }}</td>
   </tr>
 </template>
 

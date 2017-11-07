@@ -99,7 +99,7 @@
           <div class="header">
             Billing Periods
           </div>
-          <period v-for="(period, index) in $lease.periods" :key="index" :model="period" :basePath="`${$lease.url}/periods`"  />
+          <period v-for="(period, index) in $lease.periods" :key="index" :model="period" :basePath="`${$lease.url}/periods`" :index="index" />
 
           <div class="actions">
             <button class="small" @click="addPeriod">Add</button>

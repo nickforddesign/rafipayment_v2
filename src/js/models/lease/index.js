@@ -19,9 +19,21 @@ export default class Lease extends Model {
         this.split_amount = undefined
       },
       computed: {
-        // start_date() {
-        //   return this.periods_sorted[0].start_date
-        // },
+        current_period() {
+          const dates = this.periods_sorted.reduce((acc, period) => {
+            acc.push(moment.utc(period.start_date))
+            return acc
+          }, [])
+          dates.push(moment.utc(this.end_date))
+          const today = moment.utc()
+          let match
+          dates.forEach((date, index) => {
+            if (date < today && today < dates[index + 1]) {
+              match = index
+            }
+          })
+          return match
+        },
         periods_sorted() {
           const sorted = this.periods.sort((a, b) => {
             return moment(a.start_date) > moment(b.start_date)

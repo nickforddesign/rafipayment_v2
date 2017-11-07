@@ -1,5 +1,5 @@
 <template>
-  <modal @close="close">
+  <modal @close="close" :keywatch="false">
     <h1 slot="header">New Lease</h1>
     <div slot="body">
       <div class="breadcrumbs">

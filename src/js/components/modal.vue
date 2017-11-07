@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div class="modal-container" @click.self="closeModal">
-      <div class="modal" @keyup.esc="closeModal" @keyup.enter="validate">
+      <div class="modal" @keyup.esc="handleEscape" @keyup.enter="handleEnter">
         <loading v-if="loading"></loading>
         <div class="modal-header">
           <button type="button" class="link close" @click="cancel">
@@ -27,7 +27,11 @@
 export default {
   name: 'modal',
   props: {
-    confirm: Function
+    confirm: Function,
+    keywatch: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -50,6 +54,16 @@ export default {
     }
   },
   methods: {
+    handleEnter() {
+      if (this.keywatch) {
+        this.validate()
+      }
+    },
+    handleEscape() {
+      if (this.keywatch) {
+        this.close()
+      }
+    },
     async validate(e) {
       this.loading = true
       try {
