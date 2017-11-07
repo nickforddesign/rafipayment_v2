@@ -3,10 +3,22 @@
     <div class="row">
       <user-card :model="$user" />
     </div>
-    <dl v-for="(charge, index) in charges" :key="index">
+    <table>
+      <thead>
+        <tr>
+          <td>Type</td>
+          <td>Description</td>
+          <td width="20%" class="text-right">Amount</td>
+        </tr>
+      </thead>
+      <tbody>
+        <charge-row v-for="(charge, index) in charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
+      </tbody>
+    </table>
+    <!-- <dl v-for="(charge, index) in charges" :key="index">
       <dt>{{ charge.description || 'fee' | capitalize }}</dt>
       <dd>{{ charge.amount | currency }}</dd>
-    </dl>
+    </dl> -->
   </div>
 </template>
 
@@ -16,6 +28,7 @@
 import User from '@/models/user'
 import UserCard from '@/components/cards/user'
 
+import ChargeRow from '@/views/bills/roles/admin/charge_row'
 export default {
   name: 'charges',
   props: {
@@ -32,7 +45,8 @@ export default {
     }
   },
   components: {
-    UserCard
+    UserCard,
+    ChargeRow
   }
 }
 </script>

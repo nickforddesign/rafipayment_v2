@@ -1,9 +1,11 @@
 <template>
   <tr @click="goToModel">
-    <td>{{ $bill.due_date | moment }}</td>
-    <!-- <td>
-      <a :href="`/${$bill.urlRoot}`" @click.prevent>{{ $bill.id }}</a>
-    </td> -->
+    <td>
+      <a :href="$bill.url" @click.prevent>{{ $bill.due_date | moment }}</a>
+    </td>
+    <td>{{ $bill.target }}</td>
+    <td>{{ $bill.type }}</td>
+    <td>{{ $bill.balance | currency }}</td>
   </tr>
 </template>
 

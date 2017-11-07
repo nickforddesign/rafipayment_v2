@@ -2,18 +2,20 @@
   <modal @close="close" :keywatch="false">
     <h1 slot="header">New Lease</h1>
     <div slot="body">
-      <div class="breadcrumbs">
-        <div v-if="models.property">
+      <div class="container sm breadcrumbs">
+        <div v-if="models.property" class="breadcrumb">
           <legend>Property</legend>
           {{ models.property.address }}
         </div>
-        <div v-if="models.unit">
+        <div v-if="models.unit" class="breadcrumb">
           <legend>Unit</legend>
           {{ models.unit.name }}
         </div>
-
       </div>
-      <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
+
+      <div class="modal-steps container sm">
+        <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
+      </div>
     </div>
   </modal>
 </template>
@@ -141,7 +143,44 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
+@import '~%/colors';
+
 .breadcrumbs {
-  margin-bottom: 30px;
+  margin-top: 40px;
+
+  .breadcrumb {
+    display: inline-block;
+
+    &:not(:last-child) {
+
+      &:after {
+        content: '';
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin: 0 20px;
+        border-bottom: 2px solid $color-grey-70;
+        border-right: 2px solid $color-grey-70;
+        transform: rotate(-45deg);
+      }
+    }
+  }
 }
 </style>
+
+<style lang="scss">
+.modal-steps {
+  margin-top: 40px;
+
+  h2 {
+    text-align: center;
+  }
+  .back-button {
+    margin-bottom: 20px;
+  }
+  .actions {
+    margin-top: 20px;
+  }
+}
+</style>
+

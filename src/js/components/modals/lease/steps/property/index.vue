@@ -3,7 +3,7 @@
     <h2>Where is the unit that will be leased?</h2>
 
     <div v-if="type" class="content">
-      <button @click="previous">Back</button>
+      <button @click="previous" class="back-button">Back</button>
       <component :is="type" />
     </div>
 
@@ -40,6 +40,11 @@ export default {
   data() {
     return {
       type: null
+    }
+  },
+  created() {
+    if (this.models.property) {
+      this.models.property = null
     }
   },
   methods: {

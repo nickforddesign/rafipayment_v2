@@ -1,6 +1,6 @@
 import { path } from 'ramda'
 import { Model } from 'vue-models'
-import { ISODate, Currency } from '@/modules/types'
+import { ObjectId, ISODate, Currency } from '@/modules/types'
 
 export default class Transfer extends Model {
   static defaults() {
@@ -24,30 +24,52 @@ export default class Transfer extends Model {
       created: {
         type: ISODate
       },
+      updated: {
+        type: ISODate
+      },
+      company: {
+        type: ObjectId
+      },
+      removed: {
+        type: Boolean
+      },
+      bill: {
+        type: ObjectId
+      },
+      property: {
+        type: ObjectId
+      },
+      unit: {
+        type: ObjectId
+      },
+      lease: {
+        type: ObjectId
+      },
       status: {
         type: String
       },
-      amount: {
-        type: Object,
-        properties: {
-          value: {
-            type: Currency
-          },
-          currency: {
-            type: String
-          }
-        }
+      type: {
+        type: String
       },
-      clearing: {
+      amount: {
+        type: Currency
+      },
+      message: {
+        type: String
+      },
+      scheduled_date: {
+        type: ISODate
+      },
+      correlation_id: {
+        type: ObjectId
+      },
+      responses: {
+        type: Array
+      },
+      destination: {
         type: Object
       },
-      individualAchId: {
-        type: String
-      },
-      correlationId: {
-        type: String
-      },
-      links: {
+      source: {
         type: Object
       }
     }

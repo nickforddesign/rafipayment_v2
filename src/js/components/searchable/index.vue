@@ -109,6 +109,7 @@ export default {
       } else {
         this.selected = this.items[0]
       }
+      this.emit()
     },
     handleDown() {
       if (!isEmpty(this.selected)) {
@@ -119,6 +120,7 @@ export default {
       } else {
         this.selected = this.items[0]
       }
+      this.emit()
     },
     setSelected(model) {
       this.selected = model

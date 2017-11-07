@@ -8,7 +8,7 @@ export default class Bill extends Model {
       name: 'bill',
       computed: {
         target() {
-          if ('address' in this.property) {
+          if (this.property) {
             return `${this.property.address}, ${unitsHelper(this.unit.name)}`
           }
         },
@@ -24,19 +24,14 @@ export default class Bill extends Model {
         },
         balance() {
           if (this.has_transfers) {
-            if (this.transfers_resolved.length) {
-              return this.total - this.transfers_resolved.reduce((acc, transfer) => {
-                return acc + parseCurrency(transfer.amount.value, Number)
-              }, 0)
-            }
+            // if (this.transfers_resolved.length) {
+            return this.total - this.transfers.reduce((acc, transfer) => {
+              return acc + parseCurrency(transfer.amount, Number)
+            }, 0)
+            // }
           } else {
             return this.total
           }
-        }
-      },
-      methods: {
-        async fetchTransfers() {
-          this.transfers_resolved = await this.$request(`${this.url}/transfers`)
         }
       }
     }
@@ -74,9 +69,6 @@ export default class Bill extends Model {
         type: ISODate
       },
       transfers: {
-        type: Array
-      },
-      transfers_resolved: {
         type: Array
       },
       tenants: {

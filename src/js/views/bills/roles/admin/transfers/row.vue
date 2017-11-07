@@ -1,18 +1,21 @@
 <template>
   <tr @click="goToModel">
-    <td>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
+    <td>
+      <a :href="$transfer.urlRoot" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</a>
+    </td>
     <td>Destination</td>
     <td>Source</td>
-    <td>Type</td>
-    <td>{{ $transfer.status }}</td>
-    <td align="right">{{ $transfer.amount.value | currency }}</td>
+    <td>{{ $transfer.type }}</td>
+    <td>
+      <span :class="['flag', status_class]">{{ $transfer.status }}</span>
+    </td>
+    <td align="right">{{ $transfer.amount | currency }}</td>
   </tr>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import { path } from 'ramda'
 import session from '@/session'
 import Transfer from '@/models/transfer'
 
@@ -24,7 +27,7 @@ export default {
       return new Transfer(this.model, {
         computed: {
           urlRoot() {
-            return `transfers/${this.correlationId}`
+            return `transfers/${this.correlation_id}`
           },
           direction() {
             return this.source_id === session.$user.payment.account
@@ -33,6 +36,17 @@ export default {
           }
         }
       })
+    }
+  },
+  computed: {
+    status_class() {
+      const map = {
+        pending: 'neutral',
+        completed: 'success',
+        error: 'danger',
+        failed: 'danger'
+      }
+      return map[this.$transfer.status]
     }
   },
   methods: {

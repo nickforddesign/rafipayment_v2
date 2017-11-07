@@ -2,7 +2,7 @@
   <div class="container x-sm">
     <h2>Are there any additional fees / credits?</h2>
 
-    <button @click="previous">Back</button>
+    <button @click="previous" class="back-button">Back</button>
 
     <div v-if="charges.length">
       <legend>Charges</legend>

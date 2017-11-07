@@ -2,7 +2,7 @@
   <div>
     <h2>Which unit will be leased?</h2>
 
-    <button @click="previous">Back</button>
+    <button @click="previous" class="back-button">Back</button>
 
     <div v-if="type" class="content">
       <component :is="type" />
@@ -41,6 +41,11 @@ export default {
   data() {
     return {
       type: null
+    }
+  },
+  created() {
+    if (this.models.unit) {
+      this.models.unit = null
     }
   },
   methods: {

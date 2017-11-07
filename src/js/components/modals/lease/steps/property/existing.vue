@@ -59,12 +59,4 @@ export default {
 
 <style scoped lang="scss">
 
-.property-select {
-  margin-top: 20px;
-}
-
-.actions {
-  margin-top: 20px;
-}
-
 </style>

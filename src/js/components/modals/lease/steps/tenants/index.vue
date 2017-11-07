@@ -2,7 +2,7 @@
   <div class="container x-sm">
     <h2>Who will be residing here?</h2>
 
-    <button @click="previous">Back</button>
+    <button @click="previous" class="back-button">Back</button>
 
     <searchable :collection="collection" display="full_name" :model="User" @input="addTenant" v-model="selected" :omit="tenants" :focus="true" />
 
@@ -60,6 +60,9 @@ export default {
     })
   },
   created() {
+    if (this.models.tenants) {
+      this.models.tenants = null
+    }
     this.fetch()
   },
   methods: {

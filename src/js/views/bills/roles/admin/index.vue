@@ -12,6 +12,9 @@
       <thead>
         <tr>
           <td>Due Date</td>
+          <td>Target</td>
+          <td>Type</td>
+          <td>Balance</td>
         </tr>
       </thead>
       <tbody>

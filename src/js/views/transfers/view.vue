@@ -1,6 +1,8 @@
 <template>
   <div class="model-view">
+
     <div v-if="fetched">
+
       <header>
         <div class="meta">
           <legend>Transfer</legend>
@@ -10,6 +12,7 @@
           <button class="danger" @click="remove" v-if="is_cancellable">Cancel</button>
         </div>
       </header>
+
       <div class="table">
         <div class="header">
           Transfer Information
@@ -41,7 +44,8 @@
           </div>
         </div>
       </div>
-      <div class="table">
+
+      <!-- <div class="table">
         <div class="header">
           Parts
         </div>
@@ -70,10 +74,10 @@
                 <td>Transfer</td>
                 <td>{{ transfer.status }}</td>
               </tr>
-              <!-- <row v-for="(model, index) in collection" :key="index" :model="model" /> -->
             </tbody>
           </table>
-        </div>
+        </div> -->
+
       </div>
     <loading v-else />
   </div>
@@ -82,7 +86,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Collection } from 'vue-collections'
+import Transfer from '@/models/transfer'
+// import { Collection } from 'vue-collections'
 import row from './row'
 
 export default {
@@ -92,37 +97,45 @@ export default {
       fetched: false
     }
   },
-  collection() {
-    return new Collection({
-      basePath: `account/payment/transfers?correlationId=${this.$route.params.id}`
-    })
-  },
-  computed: {
-    $transfer() {
-      return this.transfer
-    },
+  models: {
     transfer() {
-      return this.collection.filter(model => {
-        return model._links.source['resource-type'] === 'customer'
-      })[0]
-    },
-    bank_transfer() {
-      return this.collection.filter(model => {
-        return model._links.source['resource-type'] === 'funding-source'
-      })[0]
-    },
+      return new Transfer({
+        id: this.$route.params.id
+      })
+    }
+  },
+  // collection() {
+    // return new Collection({
+    //   basePath: `account/payment/transfers?correlationId=${this.$route.params.id}`
+    // })
+  // },
+  computed: {
+    // $transfer() {
+    //   return this.transfer
+    // },
+    // transfer() {
+    //   return this.collection.filter(model => {
+    //     return model._links.source['resource-type'] === 'customer'
+    //   })[0]
+    // },
+    // bank_transfer() {
+    //   return this.collection.filter(model => {
+    //     return model._links.source['resource-type'] === 'funding-source'
+    //   })[0]
+    // },
     is_cancellable() {
-      return 'cancel' in this.transfer._links
+      // return 'cancel' in this.transfer._links
     }
   },
   async created() {
-    await this.$collection.fetch()
+    // await this.$collection.fetch()
+    await this.$transfer.fetch()
     this.fetched = true
   },
   methods: {
-    popId(url) {
-      return url.split('/').pop()
-    },
+    // popId(url) {
+    //   return url.split('/').pop()
+    // },
     remove() {
       const confirmed = confirm(`Are you sure you want to cancel this transfer?`)
       if (confirmed) {

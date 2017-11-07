@@ -1,7 +1,7 @@
 <template>
   <div class="container x-sm">
 
-    <button @click="previous">Back</button>
+    <button @click="previous" class="back-button">Back</button>
 
     <h2>Summary</h2>
 

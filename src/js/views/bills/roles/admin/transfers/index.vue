@@ -4,7 +4,7 @@
       Payments
     </div>
     <div v-if="model.has_transfers">
-      <div v-if="model.transfers_resolved.length">
+      <div v-if="model.transfers.length">
         <table>
           <thead>
             <tr>
@@ -21,7 +21,7 @@
           </tbody>
         </table>
       </div>
-      <loading v-else type="table" />
+      <!-- <loading v-else type="table" /> -->
     </div>
     <empty v-else>
       <div slot="message">There are no payments on this bill yet</div>
@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     collection() {
-      return this.model.transfers_resolved
+      return this.model.transfers
     }
   },
   components: {

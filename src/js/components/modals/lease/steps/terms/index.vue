@@ -2,7 +2,7 @@
   <div>
     <h2>What are the terms of this lease?</h2>
 
-    <button @click="previous">Back</button>
+    <button @click="previous" class="back-button">Back</button>
 
     <div v-if="type" class="content">
 

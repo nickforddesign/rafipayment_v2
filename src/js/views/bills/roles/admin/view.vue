@@ -107,11 +107,8 @@ export default {
     this.fetched = true
   },
   methods: {
-    async fetch() {
-      await this.$bill.fetch()
-      if (this.$bill.has_transfers) {
-        this.$bill.fetchTransfers()
-      }
+    fetch() {
+      this.$bill.fetch()
     },
     showModal() {
       this.modal_visible = true
