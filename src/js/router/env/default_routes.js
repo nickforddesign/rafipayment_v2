@@ -242,6 +242,16 @@ const routes = [
     }
   },
   {
+    name: 'Funding Source',
+    path: '/funding_sources/:id',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager', 'tenant']
+    },
+    component(resolve) {
+      require(['@/views/funding_sources/view'], resolve)
+    }
+  },
+  {
     path: '*',
     name: '404',
     component: NotFound

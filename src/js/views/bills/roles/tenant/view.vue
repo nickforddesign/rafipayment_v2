@@ -28,7 +28,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Address</dt>
-              <dd>{{ $bill.property.address }}</dd>
+              <dd>{{ $bill.target }}</dd>
             </dl>
           </div>
         </div>
@@ -102,9 +102,9 @@ export default {
   methods: {
     async fetch() {
       await this.$bill.fetch()
-      if (this.$bill.has_transfers) {
-        this.$bill.fetchTransfers()
-      }
+      // if (this.$bill.has_transfers) {
+        // this.$bill.fetchTransfers()
+      // }
     },
     showModal() {
       this.modal_visible = true

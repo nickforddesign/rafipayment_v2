@@ -21,7 +21,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Amount</dt>
-              <dd>{{ $transfer.amount.value | currency }}</dd>
+              <dd>{{ $transfer.amount | currency }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -30,21 +30,25 @@
               <dd>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</dd>
             </dl>
           </div>
-          <!-- <pre>{{ collection }}</pre> -->
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Status</dt>
+              <dd>{{ $transfer.status }}</dd>
+            </dl>
+          </div>
 
-          <!-- <pre>{{ transfer }}</pre> -->
-          <!-- <div class="grid__col grid__col--1-of-2">
+          <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Source</dt>
-              <dd>{{ popId(bank_transfer._links.source.href) }}</dd>
+              <dd>{{ $transfer.source_name }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Destination</dt>
-              <dd>{{ popId(transfer._links.destination.href) }}</dd>
+              <dd>{{ $transfer.status }}</dd>
             </dl>
-          </div> -->
+          </div>
         </div>
       </div>
 
@@ -62,24 +66,8 @@
                 <td>Status</td>
               </tr>
             </thead>
-            <pre>{{ transfer }}</pre>
-            <pre>{{ bank_transfer }}</pre>
-            <!-- <tbody>
-              <tr>
-                <td>{{ bank_transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
-                <td>{{ popId(bank_transfer._links.destination.href) }}</td>
-                <td>{{ popId(bank_transfer._links.source.href) }}</td>
-                <td>Bank Transfer</td>
-                <td>{{ bank_transfer.status }}</td>
-              </tr>
-              <tr>
-                <td>{{ transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
-                <td>{{ popId(transfer._links.destination.href) }}</td>
-                <td>{{ popId(transfer._links.source.href) }}</td>
-                <td>Transfer</td>
-                <td>{{ transfer.status }}</td>
-              </tr>
-            </tbody> -->
+            <!-- <pre>{{ transfer }}</pre>
+            <pre>{{ bank_transfer }}</pre> -->
           </table>
         </div>
 
@@ -92,7 +80,7 @@
 
 <script>
 import Transfer from '@/models/transfer'
-import { Collection } from 'vue-collections'
+// import { Collection } from 'vue-collections'
 import row from './row'
 
 export default {
@@ -109,35 +97,22 @@ export default {
       })
     }
   },
-  collection() {
-    return new Collection({
-      basePath: `${this.$transfer.url}/subtransfers`
-    })
-  },
+  // collection() {
+  //   return new Collection({
+  //     basePath: `${this.$transfer.url}/subtransfers`
+  //   })
+  // },
   computed: {
-    transfer() {
-      return this.collection.find(model => {
-        return model._links.source['resource-type'] === 'customer'
-      })
-    },
-    bank_transfer() {
-      return this.collection.find(model => {
-        return model._links.source['resource-type'] === 'funding-source'
-      })
-    },
     is_cancellable() {
       // return 'cancel' in this.transfer._links
     }
   },
   async created() {
     await this.$transfer.fetch()
-    this.$collection.fetch()
+    // this.$collection.fetch()
     this.fetched = true
   },
   methods: {
-    // popId(url) {
-    //   return url.split('/').pop()
-    // },
     remove() {
       const confirmed = confirm(`Are you sure you want to cancel this transfer?`)
       if (confirmed) {

@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr @click="goToModel">
     <td>{{ model.name }} <span v-if="is_primary" class="flag success">Primary</span></td>
     <td>{{ model.status }}</td>
     <td>{{ model.created | moment('MM/DD/YYYY') }}</td>
@@ -28,6 +28,9 @@ export default {
     }
   },
   methods: {
+    goToModel() {
+      this.$router.push(`/funding_sources/${this.model.id}`)
+    },
     async remove() {
       const confirmed = confirm(`Are you sure you want to delete ${this.model.name}?`)
       if (confirmed) {

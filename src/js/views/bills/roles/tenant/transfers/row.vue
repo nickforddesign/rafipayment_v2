@@ -1,6 +1,8 @@
 <template>
   <tr @click="goToModel">
-    <td>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
+    <td>
+      <a :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</a>
+    </td>
     <td>Destination</td>
     <td>Source</td>
     <td>Type</td>
