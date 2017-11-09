@@ -16,6 +16,7 @@
         @keydown.down="handleDown"
         @focus="onFocus"
         @blur="onBlur">
+      <search-icon @click="toggleFocus" />
     </div>
     <ul v-if="focused">
       <div v-if="items.length">
@@ -34,6 +35,7 @@
 import { isEmpty } from 'ramda'
 import { sleep } from '@/utils'
 
+import searchIcon from '@/components/svg/search-icon'
 import choice from './choice'
 
 export default {
@@ -149,6 +151,11 @@ export default {
     focusInput() {
       this.$refs.input.focus()
     },
+    toggleFocus() {
+      if (!this.focused) {
+        this.focusInput()
+      }
+    },
     onFocus() {
       this.focused = true
     },
@@ -158,7 +165,8 @@ export default {
     }
   },
   components: {
-    choice
+    choice,
+    searchIcon
   }
 }
 </script>
@@ -193,10 +201,24 @@ ul {
 .query {
   padding: 5px 0 3px;
   background: $color-box-background;
+  color: $color-text-light;
 
   input {
     background: none;
     border: none;
+  }
+
+  .search-icon {
+    position: absolute;
+    width: 20px;
+    top: 10px;
+    right: 10px;
+    fill: $color-text-medium;
+
+    &:hover {
+      fill: $color-text-light;
+      cursor: pointer;
+    }
   }
 
   .remove {
