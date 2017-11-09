@@ -16,7 +16,7 @@
         </field>
 
         <field name="rent" :errors="errors">
-          <currency v-model="rent" v-validate="'required'" />
+          <currency v-model="rent" v-validate="'required|min_currency:0.01'" name="rent" />
         </field>
 
         <button class="link" @click="setMode('advanced')">Advanced</button>
@@ -31,9 +31,8 @@
               <date-picker v-model="period.start_date" v-validate="'required'" name="start date" />
             </field>
             <field name="amount" :errors="errors">
-              <currency v-model="period.amount" />
+              <currency v-model="period.amount" v-validate="'required|min_currency:0.01'" name="amount" />
             </field>
-            <!-- {{ period }} -->
           </div>
         </div>
 
@@ -104,8 +103,8 @@ export default {
     setMode(mode) {
       this.mode = mode
     },
-    validate() {
-      const passed = this.$validator.validateAll()
+    async validate() {
+      const passed = await this.$validator.validateAll()
       if (passed) {
         this.complete()
       }

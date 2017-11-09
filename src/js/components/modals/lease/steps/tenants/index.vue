@@ -4,29 +4,33 @@
 
     <button @click="previous" class="back-button">Back</button>
 
-    <searchable :collection="collection" display="full_name" :model="User" @input="addTenant" v-model="selected" :omit="tenants" :focus="true" />
+    <div v-if="!this.new">
+      <searchable :collection="collection" display="full_name" :model="User" @input="addTenant" v-model="selected" :omit="tenants" />
 
-    <ul>
-      <li v-for="(tenant, index) in tenants" :key="index">
-        <dl>
-          <dt>
-            <span>{{ tenant.full_name }}</span>
-          </dt>
-          <dd>
-            <button @click="remove(index)" class="small">Remove</button>
-          </dd>
-        </dl>
-      </li>
-    </ul>
+      <ul>
+        <li v-for="(tenant, index) in tenants" :key="index">
+          <dl>
+            <dt>
+              <span>{{ tenant.full_name }}</span>
+            </dt>
+            <dd>
+              <button @click="remove(index)" class="small">Remove</button>
+            </dd>
+          </dl>
+        </li>
+      </ul>
 
-    <div class="actions">
-      <div>
-        <button class="link">Create New Tenant</button>
-      </div>
-      <div>
-        <button class="primary" v-if="tenants.length > 0" @click="complete">Next</button>
+      <div class="actions">
+        <div>
+          <button class="link" @click="newTenant">Create New Tenant</button>
+        </div>
+        <div>
+          <button class="primary" v-if="tenants.length > 0" @click="complete">Next</button>
+        </div>
       </div>
     </div>
+
+    <new-tenant v-else />
     
   </div>
 </template>
@@ -37,6 +41,8 @@
 import { Collection } from 'vue-collections'
 import User from '@/models/user'
 
+import newTenant from './new'
+
 export default {
   name: 'lease-add--tenants',
   props: {
@@ -45,6 +51,7 @@ export default {
   data() {
     return {
       selected: null,
+      new: false,
       tenants: []
     }
   },
@@ -69,6 +76,9 @@ export default {
     fetch() {
       this.$collection.fetch()
     },
+    newTenant() {
+      this.new = true
+    },
     addTenant(val) {
       this.tenants.push(val)
       this.$nextTick(() => {
@@ -86,8 +96,15 @@ export default {
       this.$emit('next')
     },
     previous() {
-      this.$emit('previous')
+      if (this.new) {
+        this.new = false
+      } else {
+        this.$emit('previous')
+      }
     }
+  },
+  components: {
+    newTenant
   }
 }
 </script>

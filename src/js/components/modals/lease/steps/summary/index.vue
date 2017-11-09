@@ -55,7 +55,6 @@
       <legend>Tenants</legend>
       <div v-for="(tenant, index) in models.tenants" :key="index">
         <div class="row">
-          {{ tenant }}
           <user-card :model="tenant" />
         </div>
 

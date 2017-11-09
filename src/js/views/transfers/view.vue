@@ -30,9 +30,9 @@
               <dd>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</dd>
             </dl>
           </div>
-          <pre>{{ collection }}</pre>
+          <!-- <pre>{{ collection }}</pre> -->
 
-          <pre>{{ transfer }}</pre>
+          <!-- <pre>{{ transfer }}</pre> -->
           <!-- <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Source</dt>
@@ -48,7 +48,7 @@
         </div>
       </div>
 
-      <!-- <div class="table">
+      <div class="table">
         <div class="header">
           Parts
         </div>
@@ -62,7 +62,9 @@
                 <td>Status</td>
               </tr>
             </thead>
-            <tbody>
+            <pre>{{ transfer }}</pre>
+            <pre>{{ bank_transfer }}</pre>
+            <!-- <tbody>
               <tr>
                 <td>{{ bank_transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
                 <td>{{ popId(bank_transfer._links.destination.href) }}</td>
@@ -77,9 +79,9 @@
                 <td>Transfer</td>
                 <td>{{ transfer.status }}</td>
               </tr>
-            </tbody>
+            </tbody> -->
           </table>
-        </div> -->
+        </div>
 
       </div>
     <loading v-else />
@@ -114,15 +116,14 @@ export default {
   },
   computed: {
     transfer() {
-      return this.collection.filter(model => {
-        console.log({model})
+      return this.collection.find(model => {
         return model._links.source['resource-type'] === 'customer'
-      })[0]
+      })
     },
     bank_transfer() {
-      return this.collection.filter(model => {
+      return this.collection.find(model => {
         return model._links.source['resource-type'] === 'funding-source'
-      })[0]
+      })
     },
     is_cancellable() {
       // return 'cancel' in this.transfer._links

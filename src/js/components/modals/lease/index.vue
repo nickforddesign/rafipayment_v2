@@ -109,6 +109,7 @@ export default {
       return data
     },
     async saveModels() {
+      // NOTE: figure out how do deal with model.save not setting response dawta
       try {
         if (this.models.property.isNew) {
           this.models.property = await this.models.property.save(this.models.property.$data)
@@ -118,11 +119,20 @@ export default {
         if (this.models.unit.isNew) {
           this.models.unit = await this.models.unit.save(this.models.unit.$data)
         }
-        for (let tenant of this.models.tenants) {
+
+        this.models.tenants = await Promise.all(this.models.tenants.map(async (tenant) => {
           if (tenant.isNew) {
-            tenant = await tenant.save(tenant.$data)
+            const data = await tenant.save({
+              first_name: tenant.first_name,
+              last_name: tenant.last_name,
+              email: tenant.email,
+              password: tenant.password
+            })
+            tenant.set(data)
           }
-        }
+          return tenant
+        }))
+
         const lease_data = this.getLeaseData()
         await this.models.lease.save(lease_data)
       } catch (error) {

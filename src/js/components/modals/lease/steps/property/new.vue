@@ -3,9 +3,8 @@
     <h1 slot="header">Add Property</h1>
     <div slot="body">
       <new-property v-model="place" :errors="errors" />
-
-      {{ place }}
-      {{ $property }}
+      <!-- {{ place }} -->
+      <!-- {{ $property }} -->
       <div class="actions">
         <button v-if="place.address" @click="complete">Next</button>
       </div>
