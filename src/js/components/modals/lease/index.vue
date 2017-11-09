@@ -2,20 +2,23 @@
   <modal @close="close" :keywatch="false">
     <h1 slot="header">New Lease</h1>
     <div slot="body">
-      <div class="container sm breadcrumbs">
-        <div v-if="models.property" class="breadcrumb">
-          <legend>Property</legend>
-          {{ models.property.address }}
+      <div v-if="!loading">
+        <div class="container sm breadcrumbs">
+          <div v-if="models.property" class="breadcrumb">
+            <legend>Property</legend>
+            {{ models.property.address }}
+          </div>
+          <div v-if="models.unit" class="breadcrumb">
+            <legend>Unit</legend>
+            {{ models.unit.name }}
+          </div>
         </div>
-        <div v-if="models.unit" class="breadcrumb">
-          <legend>Unit</legend>
-          {{ models.unit.name }}
-        </div>
-      </div>
 
-      <div class="modal-steps container sm">
-        <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
+        <div class="modal-steps container sm">
+          <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
+        </div>
       </div>
+      <loading v-else :fixed="true" />
     </div>
   </modal>
 </template>
@@ -56,7 +59,8 @@ export default {
         tenants: null,
         lease: new Lease()
       },
-      current_step: null
+      current_step: null,
+      loading: false
     }
   },
   components: {
@@ -108,35 +112,47 @@ export default {
       }
       return data
     },
-    async saveModels() {
-      // NOTE: figure out how do deal with model.save not setting response dawta
-      try {
-        if (this.models.property.isNew) {
-          this.models.property = await this.models.property.save(this.models.property.$data)
-        }
-        this.models.unit.property = this.models.property.id
-
-        if (this.models.unit.isNew) {
-          this.models.unit = await this.models.unit.save(this.models.unit.$data)
-        }
-
-        this.models.tenants = await Promise.all(this.models.tenants.map(async (tenant) => {
+    async saveProperty() {
+      if (this.models.property.isNew) {
+        await this.models.property.save(this.models.property.$data)
+      }
+      this.models.unit.property = this.models.property.id
+    },
+    async saveUnit() {
+      if (this.models.unit.isNew) {
+        await this.models.unit.save(this.models.unit.$data)
+      }
+    },
+    async saveTenants() {
+      this.models.tenants = await Promise.all(
+        this.models.tenants.map(async tenant => {
           if (tenant.isNew) {
-            const data = await tenant.save({
+            await tenant.save({
               first_name: tenant.first_name,
               last_name: tenant.last_name,
               email: tenant.email,
               password: tenant.password
             })
-            tenant.set(data)
           }
           return tenant
-        }))
-
-        const lease_data = this.getLeaseData()
-        await this.models.lease.save(lease_data)
+        })
+      )
+    },
+    async saveLease() {
+      const lease_data = this.getLeaseData()
+      await this.models.lease.save(lease_data)
+    },
+    async saveModels() {
+      this.loading = true
+      try {
+        await this.saveProperty()
+        await this.saveUnit()
+        await this.saveTenants()
+        await this.saveLease()
       } catch (error) {
         console.warn('error', error)
+      } finally {
+        this.loading = false
       }
     },
     async validate() {

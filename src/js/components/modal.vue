@@ -40,7 +40,6 @@ export default {
   },
   computed: {
     has_confirm() {
-      // return 'confirm' in this
       return this.confirm !== undefined
     },
     cancel_label() {
@@ -99,10 +98,6 @@ export default {
 
   .modal {
     @include fixed_fill;
-    // width: 100%;
-    // max-width: 100%;
-    // height: 100%;
-    // max-height: 100%;
     background: $color-modal-background;
     box-shadow: 0 1px 4px rgba(0,0,0, 0.3);
     z-index: 2;

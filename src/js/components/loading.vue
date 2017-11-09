@@ -1,5 +1,5 @@
 <template>
-  <div :class="['loader-container', className]">
+  <div :class="['loader-container', className]" :style="[style]">
     <div class="loader" v-if="visible">
       <div class="sk-fading-circle">
         <div class="sk-circle1 sk-circle"></div>
@@ -29,6 +29,10 @@ export default {
   props: {
     type: {
       type: String
+    },
+    fixed: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -44,6 +48,13 @@ export default {
     className() {
       if (['input', 'table', 'data'].includes(this.type)) {
         return this.type
+      }
+    },
+    style() {
+      if (this.fixed) {
+        return {
+          position: 'fixed'
+        }
       }
     }
   },

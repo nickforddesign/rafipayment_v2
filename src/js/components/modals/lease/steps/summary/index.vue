@@ -58,7 +58,7 @@
           <user-card :model="tenant" />
         </div>
 
-        <table>
+        <table v-if="tenant.charges.length">
           <thead>
             <tr>
               <td>Type</td>
@@ -79,7 +79,6 @@
         </table>
       </div>
       
-      <!-- <tenant v-for="(tenant, index) in models.tenants" :key="index" :user="tenant" /> -->
     </div>
 
     <div class="group">
@@ -124,7 +123,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import tenant from '@/views/leases/roles/admin/tenant'
 import UserCard from '@/components/cards/user'
 
 export default {
@@ -153,7 +151,6 @@ export default {
   },
   components: {
     UserCard
-    // tenant
   }
 }
 </script>
@@ -161,8 +158,17 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style lang="scss" scoped>
+@import '~%/colors';
 
 .group {
   margin-bottom: 20px;
+}
+.row {
+  background-color: $color-box-background;
+
+  .user-card {
+    width: 280px;
+    margin: 0;
+  }
 }
 </style>

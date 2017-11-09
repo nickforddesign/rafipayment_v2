@@ -8,6 +8,7 @@
       <legend>Charges</legend>
 
       <div class="box" v-for="(charge, index) in charges" :key="index">
+        <button class="close small" @click="removeCharge(index)">X</button>
         <field name="amount" :errors="errors">
           <currency v-model="charge.amount" />
         </field>
@@ -40,7 +41,7 @@
             <option disabled value="">Please select one</option>
             <option
               v-for="(tenant, index) in tenants"
-              :value="tenant.id"
+              :value="tenant.email"
               :key="index"
               :label="tenant.full_name">
               {{ tenant.full_name }}
@@ -50,8 +51,6 @@
 
       </div>
     </div>
-
-    <!-- {{ charges }} -->
 
     <div class="actions">
       <div>
@@ -93,6 +92,9 @@ export default {
         tenant: null
       })
     },
+    removeCharge(index) {
+      this.charges.splice(index, 1)
+    },
     complete(model) {
       const lease_charges = []
       const tenant_charges = []
@@ -114,9 +116,6 @@ export default {
         }
       })
 
-      // console.log('LEASE', lease_charges)
-      // console.log('TENANTS', tenant_charges)
-
       if (lease_charges.length) {
         this.models.lease.set({
           charges: lease_charges
@@ -126,7 +125,7 @@ export default {
       if (tenant_charges.length) {
         tenant_charges.map(charge => {
           const tenant = this.models.tenants.find(tenant => {
-            return tenant.id === charge.tenant
+            return tenant.email === charge.tenant
           })
           tenant.charges.push({
             amount: charge.amount,
@@ -148,3 +147,15 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style lang="scss" scoped>
+.box {
+  .close {
+    position: absolute;
+    right: 20px;
+    z-index: 10;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+</style>

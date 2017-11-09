@@ -18,7 +18,12 @@
         @blur="onBlur">
     </div>
     <ul v-if="focused">
-      <choice v-for="(model, index) in items" :key="index" :label="display" :model="model" @select="setSelected" />
+      <div v-if="items.length">
+        <choice v-for="(model, index) in items" :key="index" :label="display" :model="model" @select="setSelected" />
+      </div>
+      <div v-else class="empty">
+        No items
+      </div>
     </ul>
   </div>
 </template>
@@ -56,7 +61,9 @@ export default {
       const Constructor = this.model
       return Constructor
         ? this.collection.map(model => {
-          return new Constructor(model)
+          return new Constructor(model, {
+            persist: true
+          })
         })
         : this.collection
     },
@@ -101,26 +108,30 @@ export default {
       this.$refs.input.blur()
     },
     handleUp() {
-      if (!isEmpty(this.selected)) {
-        const current_index = this.items.indexOf(this.selected)
-        if (current_index) {
-          this.selected = this.items[current_index - 1]
+      if (this.items.length) {
+        if (!isEmpty(this.selected)) {
+          const current_index = this.items.indexOf(this.selected)
+          if (current_index) {
+            this.selected = this.items[current_index - 1]
+          }
+        } else {
+          this.selected = this.items[0]
         }
-      } else {
-        this.selected = this.items[0]
+        this.emit()
       }
-      this.emit()
     },
     handleDown() {
-      if (!isEmpty(this.selected)) {
-        const current_index = this.items.indexOf(this.selected)
-        if (current_index + 1 !== this.items.length) {
-          this.selected = this.items[current_index + 1]
+      if (this.items.length) {
+        if (!isEmpty(this.selected)) {
+          const current_index = this.items.indexOf(this.selected)
+          if (current_index + 1 !== this.items.length) {
+            this.selected = this.items[current_index + 1]
+          }
+        } else {
+          this.selected = this.items[0]
         }
-      } else {
-        this.selected = this.items[0]
+        this.emit()
       }
-      this.emit()
     },
     setSelected(model) {
       this.selected = model
@@ -219,6 +230,11 @@ ul {
       transform: rotate(45deg);
     }
   }
+}
+
+.empty {
+  padding: 8px 10px;
+  background: #864d4d;
 }
 
 </style>
