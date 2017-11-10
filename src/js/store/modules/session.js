@@ -1,7 +1,4 @@
-// import _ from 'lodash'
 import { path } from 'ramda'
-
-// import router from '@/router'
 import { localStorageSupported } from '@/utils'
 
 const defaults = () => ({
@@ -46,7 +43,6 @@ export default {
       return state.user
     },
     'session:access': state => {
-      // return _.get(state, 'user.session.access')
       return path(['user', 'session', 'access'], state)
     },
     'session:refresh': state => {
@@ -62,13 +58,14 @@ export default {
       state.logged_in = true
 
       setRefresh(this.getters['session:refresh'].token)
-      // const path = _.get(this.$route, 'query.redirect') || '/dashboard'
-      // router.push(path)
     },
     LOGOUT(state) {
       this.dispatch('reset_all')
       clearRefresh()
-      // router.push('/')
+    },
+    REFRESH(state, session) {
+      state.user.session = session
+      setRefresh(this.getters['session:refresh'].token)
     }
   },
   actions: {
@@ -77,6 +74,9 @@ export default {
     },
     logout({ commit }) {
       commit('LOGOUT')
+    },
+    refresh({ commit }, { session }) {
+      commit('REFRESH', session)
     }
   }
 }

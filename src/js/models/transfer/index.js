@@ -1,6 +1,7 @@
 // import { path } from 'ramda'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
+import { unitsHelper } from '@/utils'
 
 const resolve = {
   tenant(model) {
@@ -18,6 +19,17 @@ export default class Transfer extends Model {
       computed: {
         source_name() {
           return resolve[this.source.model](this.source)
+        },
+        destination_name() {
+          return resolve[this.destination.model](this.destination)
+        },
+        address() {
+          return `${this.property.address}, ${unitsHelper(this.unit.name)}`
+        },
+        created_response() {
+          return this.responses.find(response => {
+            return !response.error
+          })
         }
       }
     }

@@ -52,11 +52,6 @@ export default {
       return this.model.save(data)
         .then((response) => {
           this.loading = true
-          // app.alert(
-          //   'Please check the new email address for a verification link',
-          //   this.confirm,
-          //   'Verify Email'
-          // )
         })
     }
   }

@@ -2,7 +2,7 @@
   <div>
     <header>
       <div class="meta">
-        <h2>Ledger({{ Object.keys(transfers).length }})</h2>
+        <h2>Ledger({{ collection.length }})</h2>
       </div>
       <div class="actions">
         <search />
@@ -16,13 +16,12 @@
           <td>Destination</td>
           <td>Source</td>
           <td>Type</td>
-          <td>Direction</td>
           <td>Status</td>
           <td width="80px" align="right">Amount</td>
         </tr>
       </thead>
       <tbody>
-        <row v-for="(model, index) in transfers" :key="index" :model="model" />
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
     </table>
     <transfer-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
@@ -47,27 +46,12 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'account/payment/transfers',
+      basePath: 'transfers',
       model: Transfer
     })
   },
   created() {
     this.$collection.fetch()
-  },
-  computed: {
-    filtered() {
-      return this.collection.filter(model => {
-        return model.correlationId && model.correlationId.length === 24
-      })
-    },
-    transfers() {
-      return this.filtered.reduce((acc, item) => {
-        // if (!(item.correlationId in acc)) {
-        acc[item.correlationId] = item
-        // }
-        return acc
-      }, {})
-    }
   },
   methods: {
     add() {

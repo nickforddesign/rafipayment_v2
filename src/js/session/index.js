@@ -1,4 +1,3 @@
-// import _ from 'lodash'
 import { path } from 'ramda'
 import moment from 'moment'
 import Vue from 'vue'
@@ -8,7 +7,9 @@ import VueModels from 'vue-models'
 import store from '@/store'
 import User from '@/models/user'
 
-Vue.use(VueModels)
+Vue.use(VueModels, {
+  schemaWarnings: false
+})
 
 const session = new Vue({
   store,
@@ -28,19 +29,6 @@ const session = new Vue({
     }
   },
   computed: {
-    access_token_expired() {
-      // const expiration_date = _.get(this.access, 'expiration.$date')
-      const expiration_date = path(['expiration', '$date'], this.access)
-      const expires = moment.utc(expiration_date)
-      const now = moment.utc()
-      let output = false
-      if (expiration_date) {
-        if (expires < now) {
-          output = true
-        }
-      }
-      return output
-    },
     ...mapGetters({
       access: 'session:access',
       user: 'session:user',
@@ -55,7 +43,6 @@ const session = new Vue({
       await this.refresh('login', vm)
     },
     async refresh(endpoint = '', vm) {
-      // const token = _.get(store, 'getters.session:refresh.token')
       const token = path(['getters', 'session:refresh', 'token'], store)
       if (token) {
         const response = await vm.$request(`session/${endpoint}`, {
@@ -64,8 +51,20 @@ const session = new Vue({
             token
           }
         }, false)
-        store.dispatch('login', response)
+        store.dispatch(endpoint, response)
       }
+    },
+    check_access_token() {
+      const expiration_date = path(['expiration', '$date'], this.access)
+      const expires = moment.utc(expiration_date)
+      const now = moment.utc()
+      let output = false
+      if (expiration_date) {
+        if (expires < now) {
+          output = true
+        }
+      }
+      return output
     }
   }
 })

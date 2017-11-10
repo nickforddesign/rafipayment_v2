@@ -6,7 +6,7 @@
       <header>
         <div class="meta">
           <legend>Transfer</legend>
-          <h2>{{ $transfer.amount.value | currency }}</h2>
+          <h2>{{ $transfer.amount | currency }}</h2>
         </div>
         <div class="actions">
           <button class="danger" @click="remove" v-if="is_cancellable">Cancel</button>
@@ -32,8 +32,27 @@
           </div>
           <div class="grid__col grid__col--1-of-2">
             <dl>
-              <dt>Status</dt>
-              <dd>{{ $transfer.status }}</dd>
+              <dt>Scheduled</dt>
+              <dd>{{ $transfer.scheduled_date || '–' }}</dd>
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Type</dt>
+              <dd>{{ $transfer.type }}</dd>
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Lease</dt>
+              <dd>{{ $transfer.address }}</dd>
+            </dl>
+          </div>
+
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Bill</dt>
+              <dd>{{ $transfer.bill }}</dd>
             </dl>
           </div>
 
@@ -46,7 +65,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Destination</dt>
-              <dd>{{ $transfer.status }}</dd>
+              <dd>{{ $transfer.destination_name }}</dd>
             </dl>
           </div>
         </div>
@@ -54,24 +73,27 @@
 
       <div class="table">
         <div class="header">
-          Parts
+          Status
         </div>
-          <table>
-            <thead>
-              <tr>
-                <td>Date</td>
-                <td>Destination</td>
-                <td>Source</td>
-                <td>Type</td>
-                <td>Status</td>
-              </tr>
-            </thead>
-            <!-- <pre>{{ transfer }}</pre>
-            <pre>{{ bank_transfer }}</pre> -->
-          </table>
+        <div class="grid">
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Transfer Status</dt>
+              <dd>{{ $transfer.status }}</dd>
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Bank Transfer Status</dt>
+              <dd>{{ $transfer.bank_transfer_status }}</dd>
+            </dl>
+          </div>
         </div>
-
+        <div>
+          {{ $transfer.created_response }}
+        </div>
       </div>
+    </div>
     <loading v-else />
   </div>
 </template>
@@ -80,7 +102,6 @@
 
 <script>
 import Transfer from '@/models/transfer'
-// import { Collection } from 'vue-collections'
 import row from './row'
 
 export default {
@@ -97,20 +118,14 @@ export default {
       })
     }
   },
-  // collection() {
-  //   return new Collection({
-  //     basePath: `${this.$transfer.url}/subtransfers`
-  //   })
-  // },
-  computed: {
-    is_cancellable() {
-      // return 'cancel' in this.transfer._links
-    }
-  },
   async created() {
     await this.$transfer.fetch()
-    // this.$collection.fetch()
     this.fetched = true
+  },
+  computed: {
+    is_cancellable() {
+      return true
+    }
   },
   methods: {
     remove() {

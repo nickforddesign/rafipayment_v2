@@ -79,7 +79,25 @@ export default class User extends Model {
         type: Object
       },
       session: {
-        type: Object
+        type: Object,
+        properties: {
+          access: {
+            type: Object,
+            properties: {
+              expiration: {
+                type: ISODate
+              }
+            }
+          },
+          refresh: {
+            type: Object,
+            properties: {
+              expiration: {
+                type: ISODate
+              }
+            }
+          }
+        }
       },
       avatar_color: {
         type: String

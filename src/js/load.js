@@ -1,10 +1,8 @@
-// import _ from 'lodash'
 import { path } from 'ramda'
 import Vue from 'vue'
 import VueRequests from 'vue-requests'
 import VueModels from 'vue-models'
 import VueCollections from 'vue-collections'
-// import moment from 'moment'
 
 import { sleep } from '@/utils'
 import store from '@/store'
@@ -19,13 +17,12 @@ Vue.use(VueRequests, {
   root: config.api,
   headers: {
     Access() {
-      // return _.get(store, 'getters.session:access.token')
       return path(['getters', 'session:access', 'token'], store)
     }
   },
-  async before(vm) {
-    if (session.access_token_expired) {
-      await session.refresh_access_token(vm)
+  async before() {
+    if (session.check_access_token()) {
+      await session.refresh_access_token(this)
     }
   },
   timeout() {
