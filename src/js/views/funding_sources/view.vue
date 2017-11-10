@@ -7,7 +7,7 @@
       </div>
       <div class="actions">
         <button class="link" @click="remove">Delete</button>
-        <button class="primary" @click="showModal">Edit</button>
+        <button class="primary" @click="showModal('name')">Edit</button>
       </div>
     </header>
     <div class="table">
@@ -40,12 +40,29 @@
           </dl>
         </div>
       </div>
-      <div v-if="$funding_source.microdeposits">
-        <pre>{{ $funding_source.microdeposits_data }}</pre>
+    </div>
+    <div v-if="$funding_source.microdeposits" class="table">
+      <div class="header">
+        Microdeposits
+      </div>
+      <div v-if="$funding_source.microdeposits_data.status === 'processed'">
+        <button @click="showModal('microdeposits')">Confirm Microdeposits</button>
+        <microdeposits-modal v-if="modals.microdeposits" @close="closeModal('microdeposits')" :model="$funding_source" />
+      </div>
+      <div v-else-if="$funding_source.microdeposits_data.status === 'pending'">
+        Microdeposits are pending
+      </div>
+      <div v-else-if="$funding_source.microdeposits_data.status === 'failed'">
+        Microdeposits have failed
+      </div>
+      <div v-else-if="$funding_source.microdeposits_data.status === 'cancelled'">
+        Microdeposits were cancelled
+      </div>
+      <div v-else-if="$funding_source.microdeposits_data.status === 'reclaimed'">
+        Microdeposits were reclaimed
       </div>
     </div>
-    <funding-source-modal v-if="modal_visible" @close="closeModal" :model="$funding_source" />
-    <!-- <leases-table :data="$unit" :path="`leases?filter_unit=${$unit.id}`" /> -->
+    <name-modal v-if="modals.name" @close="closeModal('name')" :model="$funding_source" />
   </div>
 </template>
 
@@ -53,16 +70,17 @@
 
 <script>
 import FundingSource from '@/models/funding_source'
-
-import fundingSourceModal from '@/components/modals/funding_source/name'
-
-// import leasesTable from '@/views/leases/table'
+import nameModal from '@/components/modals/funding_source/name'
+import microdepositsModal from '@/components/modals/funding_source/microdeposits'
 
 export default {
   name: 'funding-source',
   data() {
     return {
-      modal_visible: false
+      modals: {
+        name: false,
+        microdeposits: false
+      }
     }
   },
   models: {
@@ -76,24 +94,23 @@ export default {
     this.$funding_source.fetch()
   },
   methods: {
-    showModal() {
-      this.modal_visible = true
+    showModal(modal) {
+      this.modals[modal] = true
     },
-    closeModal() {
-      this.modal_visible = false
+    closeModal(modal) {
+      this.modals[modal] = false
     },
-    remove() {
+    async remove() {
       const confirmed = confirm(`Are you sure you want to remove ${this.$funding_source.name}?`)
       if (confirmed) {
-        this.$funding_source.destroy()
-        .then(() => {
-          this.$router.push('/account')
-        })
+        await this.$funding_source.destroy()
+        this.$router.push('/account')
       }
     }
   },
   components: {
-    fundingSourceModal
+    nameModal,
+    microdepositsModal
   }
 }
 </script>

@@ -32,7 +32,7 @@ export default class FundingSource extends Model {
         type: String
       },
       microdeposits: {
-        type: String
+        type: Boolean
       },
       microdeposits_data: {
         type: Object
@@ -45,6 +45,12 @@ export default class FundingSource extends Model {
       },
       type: {
         type: String
+      },
+      amount1: {
+        type: Object
+      },
+      amount2: {
+        type: Object
       }
     }
   }

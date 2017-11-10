@@ -103,6 +103,18 @@ export default class Transfer extends Model {
       },
       cancellable: {
         type: Boolean
+      },
+      cancelled: {
+        type: Boolean
+      },
+      processed: {
+        type: Boolean
+      },
+      failed: {
+        type: Boolean
+      },
+      failure: {
+        type: Object
       }
     }
   }
