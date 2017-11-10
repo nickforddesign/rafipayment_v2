@@ -31,6 +31,17 @@ export default class Transfer extends Model {
             return !response.error
           })
         }
+      },
+      methods: {
+        async fetchCancel() {
+          const response = await this.$request(`${this.url}/cancel`)
+          this.cancellable = response.cancel
+        },
+        async cancel() {
+          await this.$request(`${this.url}/cancel`, {
+            method: 'post'
+          })
+        }
       }
     }
   }
@@ -89,6 +100,9 @@ export default class Transfer extends Model {
       },
       source: {
         type: Object
+      },
+      cancellable: {
+        type: Boolean
       }
     }
   }

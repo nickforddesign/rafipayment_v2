@@ -3,20 +3,17 @@
     <td>
       <a :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</a>
     </td>
-    <td>Destination</td>
-    <td>Source</td>
-    <td>Type</td>
-    <td>{{ $transfer.direction }}</td>
+    <td>{{ $transfer.destination_name }}</td>
+    <td>{{ $transfer.source_name }}</td>
+    <td>{{ $transfer.type }}</td>
     <td>{{ $transfer.status }}</td>
-    <td align="right">{{ $transfer.amount.value | currency }}</td>
+    <td align="right">{{ $transfer.amount | currency }}</td>
   </tr>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import { path } from 'ramda'
-import session from '@/session'
 import Transfer from '@/models/transfer'
 
 export default {
@@ -24,18 +21,7 @@ export default {
   props: ['model'],
   models: {
     transfer() {
-      return new Transfer(this.model, {
-        computed: {
-          urlRoot() {
-            return `transfers/${this.correlationId}`
-          },
-          direction() {
-            return this.source_id === session.$user.payment.account
-              ? 'outgoing'
-              : 'incoming'
-          }
-        }
-      })
+      return new Transfer(this.model)
     }
   },
   methods: {

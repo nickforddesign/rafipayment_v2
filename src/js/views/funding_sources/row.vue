@@ -37,7 +37,7 @@ export default {
         await this.$request(`account/payment/funding_sources/${this.model.id}`, {
           method: 'delete'
         })
-        await this.$parent.$parent.$user.fetch()
+        await this.$parent.fetch()
       }
     },
     async set_primary() {
@@ -46,7 +46,7 @@ export default {
         await this.$request('account/payment/funding_sources', {
           method: 'put',
           body: {
-            id: this.model.id
+            funding_source: this.model.id
           }
         })
         await this.$parent.$parent.$user.fetch()

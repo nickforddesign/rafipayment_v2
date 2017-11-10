@@ -34,23 +34,23 @@
         </div>
       </div>
 
-      <div class="table">
-        <div class="header">
-          My Charges
+      <div class="table charges">
+
+        <charges v-for="(tenant, index) in $bill.tenants" :key="index" :user="tenant" />
+
+        <div class="summary">
+          <dl class="total">
+            <dt>Total</dt>
+            <dd>{{ $bill.total | currency }}</dd>
+          </dl>
+
+          <dl class="total">
+            <dt>Balance</dt>
+            <dd>{{ $bill.balance | currency }}</dd>
+          </dl>
         </div>
 
-        <dl v-for="(charge, index) in my_charges" :key="index">
-          <dt>{{ charge.description || 'fee' | capitalize }}</dt>
-          <dd>{{ charge.amount | currency }}</dd>
-        </dl>
-        
       </div>
-      <pre>total: {{ $bill.total | currency }}</pre>
-      <pre>balance: {{ $bill.balance | currency }}</pre>
-      <!-- <pre>{{ $bill.has_transfers }}</pre> -->
-      <!-- <pre>{{ $bill.transfers_fetched }}</pre> -->
-
-      <!-- {{ $bill.transfers }} -->
 
       <transfers-table :model="$bill" />
 
@@ -63,10 +63,10 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import session from '@/session'
+// import session from '@/session'
 import Bill from '@/models/bill'
+import charges from '@/components/charges'
 import transfersTable from './transfers'
-// import transfersTable from '@/views/transfers/table'
 import splitRow from './split_row'
 
 import transferModal from '@/components/modals/bill/transfer'
@@ -88,13 +88,13 @@ export default {
       })
     }
   },
-  computed: {
-    my_charges() {
-      return this.$bill.tenants.find(model => {
-        return model.id === session.$user.id
-      }).charges
-    }
-  },
+  // computed: {
+  //   my_charges() {
+  //     return this.$bill.tenants.find(model => {
+  //       return model.id === session.$user.id
+  //     }).charges
+  //   }
+  // },
   async created() {
     await this.fetch()
     this.fetched = true
@@ -102,9 +102,6 @@ export default {
   methods: {
     async fetch() {
       await this.$bill.fetch()
-      // if (this.$bill.has_transfers) {
-        // this.$bill.fetchTransfers()
-      // }
     },
     showModal() {
       this.modal_visible = true
@@ -114,9 +111,33 @@ export default {
     }
   },
   components: {
-    transfersTable,
+    charges,
     splitRow,
+    transfersTable,
     transferModal
   }
 }
 </script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<style lang="scss" scoped>
+.total {
+  font-weight: bold;
+  border: 0;
+}
+
+.summary {
+  width: 300px;
+  float: right;
+}
+
+.charges {
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+</style>
+

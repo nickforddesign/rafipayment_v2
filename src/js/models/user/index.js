@@ -26,8 +26,6 @@ export default class User extends Model {
             : ``
         },
         funding_sources() {
-          // console.log('hi')
-          // console.log(path(['payment', 'funding_sources'], this))
           const funding_sources_array = path(['payment', 'funding_sources'], this)
           if (funding_sources_array) {
             return funding_sources_array.filter(funding_source => {

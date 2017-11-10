@@ -86,9 +86,7 @@ export default {
       this.$emit('error', error)
     },
     processDwollaResponse(response) {
-      console.log({response})
-      // const id = _.get(response, '_links.funding-source.href').split('funding-sources/')[1]
-      const id = path(['_links.funding-source', 'href'], response).split('funding-sources/')[1]
+      const id = path(['_links', 'funding-source', 'href'], response).split('funding-sources/')[1]
       const body = {
         id
       }
@@ -97,7 +95,6 @@ export default {
         body
       })
       .then(async (data) => {
-        // console.log({data})
         this.$emit('complete', data)
       })
       .catch((error) => {

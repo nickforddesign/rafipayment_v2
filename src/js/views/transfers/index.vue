@@ -1,72 +1,23 @@
 <template>
-  <div>
-    <header>
-      <div class="meta">
-        <h2>Ledger({{ collection.length }})</h2>
-      </div>
-      <div class="actions">
-        <search />
-        <button @click="add" class="primary">Add New Transfer</button>
-      </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Date</td>
-          <td>Destination</td>
-          <td>Source</td>
-          <td>Type</td>
-          <td>Status</td>
-          <td width="80px" align="right">Amount</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
-    <transfer-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
-  </div>
+  <component :is="$user.role"></component>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Collection } from 'vue-collections'
-import Transfer from '@/models/transfer'
-
-import row from './row'
-import transferModal from '@/components/modals/transfer'
+import session from '@/session'
+import admin from './roles/admin/index'
+import tenant from './roles/tenant/index'
 
 export default {
-  name: 'ledger',
-  data() {
-    return {
-      modal_visible: false
-    }
-  },
-  collection() {
-    return new Collection({
-      basePath: 'transfers',
-      model: Transfer
-    })
-  },
-  created() {
-    this.$collection.fetch()
-  },
-  methods: {
-    add() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
-    },
-    confirmModal() {
-      this.$collection.fetch()
+  models: {
+    user() {
+      return session.$user
     }
   },
   components: {
-    row,
-    transferModal
+    admin,
+    tenant
   }
 }
 </script>

@@ -12,8 +12,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import { path } from 'ramda'
-// import session from '@/session'
 import Transfer from '@/models/transfer'
 
 export default {

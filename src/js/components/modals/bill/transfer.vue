@@ -2,9 +2,24 @@
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Add Transfer</h1>
     <div slot="body">
-      <field name="amount" :errors="errors">
-        <currency v-model="amount" v-validate="'required'" ref="default" />
-      </field>
+      <div v-if="mode === 'simple'">
+        <field name="amount" :errors="errors">
+          <currency v-model="amount" v-validate="'required'" ref="default" />
+        </field>
+
+        <button class="small" @click="setMode('advanced')">Advanced</button>
+      </div>
+      <div v-else>
+        <field name="amount" :errors="errors">
+          <currency v-model="amount" v-validate="'required'" ref="default" />
+        </field>
+
+        <field name="date" :errors="errors">
+          <date-picker v-model="scheduled_date" v-validate="'required'" />
+        </field>
+
+        <button class="small" @click="setMode('simple')">Simple</button>
+      </div>
     </div>
   </modal>
 </template>
@@ -12,8 +27,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import Transfer from '@/models/transfer/new'
 import { Deferred, parseCurrency } from '@/utils'
+import Transfer from '@/models/transfer/new'
 
 export default {
   name: 'modal-transfer-add',
@@ -23,12 +38,34 @@ export default {
   },
   data() {
     return {
-      amount: null
+      amount: null,
+      scheduled_date: null,
+      mode: 'simple'
+    }
+  },
+  models: {
+    transfer() {
+      const self = this
+      return new Transfer(null, {
+        url() {
+          return self.model.url
+        }
+      })
+    }
+  },
+  watch: {
+    mode(val) {
+      if (val === 'simple') {
+        this.date = null
+      }
     }
   },
   methods: {
     close() {
       this.$emit('close')
+    },
+    setMode(mode) {
+      this.mode = mode
     },
     async validate() {
       const deferred = new Deferred()
@@ -48,9 +85,12 @@ export default {
         amount: parseCurrency(this.amount, Number)
       }
 
-      const request = this.$request(this.model.url, {
-        method: 'post',
-        body
+      if (this.scheduled_date) {
+        body.scheduled_date = this.scheduled_date
+      }
+
+      const request = this.$transfer.save(body, {
+        method: 'post'
       })
       request.then(response => {
         this.confirm()

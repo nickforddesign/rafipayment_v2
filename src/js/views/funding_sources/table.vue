@@ -62,17 +62,13 @@ export default {
     })
   },
   async created() {
-    await this.$collection.fetch()
+    await this.fetch()
     this.fetched = true
   },
-  // computed: {
-  //   funding_sources() {
-  //     return this.collection.filter(model => {
-  //       return !model.removed
-  //     })
-  //   }
-  // },
   methods: {
+    async fetch() {
+      await this.$collection.fetch()
+    },
     showModal() {
       this.modal_visible = true
     },

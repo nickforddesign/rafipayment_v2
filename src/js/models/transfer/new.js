@@ -1,5 +1,5 @@
 import { Model } from 'vue-models'
-import { ObjectId, Currency } from '@/modules/types'
+import { ObjectId, ISODate, Currency } from '@/modules/types'
 
 export default class Transfer extends Model {
   static defaults() {
@@ -19,6 +19,9 @@ export default class Transfer extends Model {
       },
       amount: {
         type: Currency
+      },
+      scheduled_date: {
+        type: ISODate
       },
       source_funding_source: {
         type: String

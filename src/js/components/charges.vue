@@ -2,7 +2,7 @@
   <div class="charges">
     <div class="row">
       <user-card :model="$user" />
-      <div class="actions">
+      <div class="actions" v-if="basePath">
         <button @click="showModal">Add Charge</button>
       </div>
     </div>
@@ -29,7 +29,7 @@
 <script>
 import User from '@/models/user'
 import UserCard from '@/components/cards/user'
-import ChargeRow from '@/views/bills/roles/admin/charge_row'
+import ChargeRow from '@/views/bills/charge_row'
 import ChargeModal from '@/components/modals/bill/charge'
 
 export default {

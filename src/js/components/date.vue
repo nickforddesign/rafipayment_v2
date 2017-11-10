@@ -26,10 +26,10 @@ export default {
   },
   watch: {
     value(val) {
-      this.input_value = val
+      this.input_value = moment.utc(val).format('YYYY-MM-DD')
     },
     input_value(val) {
-      this.$emit('input', val)
+      this.$emit('input', moment.utc(this.input_value).toISOString())
     }
   }
 }
