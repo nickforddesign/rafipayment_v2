@@ -5,7 +5,7 @@ export default class FundingSource extends Model {
   static defaults() {
     return {
       name: 'funding_source',
-      basePath: 'account/payment/funding_sources'
+      basePath: 'account/funding_sources'
     }
   }
   static schema() {

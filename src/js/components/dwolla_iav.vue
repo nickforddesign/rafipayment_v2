@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     iav_token_endpoint() {
-      return 'account/payment/funding_sources/iav'
+      return 'account/funding_sources/iav'
     }
   },
   async mounted() {

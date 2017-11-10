@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="collection-view">
     <header>
       <div class="meta">
         <h2>Bills({{ collection.length }})</h2>

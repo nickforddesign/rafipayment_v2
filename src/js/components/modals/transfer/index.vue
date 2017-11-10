@@ -45,7 +45,7 @@ import { Collection } from 'vue-collections'
 import { Deferred } from '@/utils'
 
 const fundingSourcesCollection = new Collection({
-  basePath: 'account/payment/funding_sources'
+  basePath: 'account/funding_sources'
 })
 
 const tenantsCollection = new Collection({

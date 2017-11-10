@@ -54,7 +54,7 @@
             </tr>
           </thead>
           <tbody>
-            <split-row v-for="(period, index) in $lease.periods" :lease="$lease" :period="period" :key="index" />
+            <split-row v-for="(period, index) in my_periods" :lease="$lease" :period="period" :key="index" />
           </tbody>
         </table>
       </div>
@@ -115,9 +115,11 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import session from '@/session'
 import Lease from '@/models/lease'
 import tenantsTable from '@/views/tenants/table'
 import splitRow from './split_row'
+import { mergeDeepRight } from 'ramda'
 
 export default {
   name: 'lease',
@@ -135,6 +137,22 @@ export default {
       })
     }
   },
+  computed: {
+    my_periods() {
+      const my_periods = this.$lease.tenants.find(tenant => {
+        return tenant.id === session.$user.id
+      }).periods
+
+      const periods = this.$lease.periods.map(lease_period => {
+        lease_period.period_amount = lease_period.amount
+        const match = my_periods.find(period => {
+          return period.id === lease_period.id
+        }) || {}
+        return mergeDeepRight(lease_period, match)
+      })
+      return periods
+    }
+  },
   async created() {
     await this.fetch()
     this.fetched = true
@@ -143,13 +161,11 @@ export default {
     async fetch() {
       return this.$lease.fetch()
     },
-    remove() {
+    async remove() {
       const confirmed = confirm(`Are you sure you want to remove ${this.$lease.address}?`)
       if (confirmed) {
-        this.$lease.destroy()
-        .then(() => {
-          this.$router.push('/leases')
-        })
+        await this.$lease.destroy()
+        this.$router.push('/leases')
       }
     }
   },

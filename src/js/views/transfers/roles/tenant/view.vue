@@ -33,7 +33,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Scheduled</dt>
-              <dd>{{ $transfer.scheduled_date || '–' }}</dd>
+              <dd>{{ scheduled_date_string }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -89,9 +89,6 @@
             </dl>
           </div>
         </div>
-        <div>
-          {{ $transfer.created_response }}
-        </div>
       </div>
     </div>
     <loading v-else />
@@ -101,6 +98,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import moment from 'moment'
 import Transfer from '@/models/transfer'
 
 export default {
@@ -115,7 +113,7 @@ export default {
       return new Transfer({
         id: this.$route.params.id
       }, {
-        basePath: 'account/payment/transfers'
+        basePath: 'account/transfers'
       })
     }
   },
@@ -123,6 +121,13 @@ export default {
     await this.$transfer.fetch()
     this.checkIfCancellable()
     this.fetched = true
+  },
+  computed: {
+    scheduled_date_string() {
+      return this.$transfer.scheduled_date
+        ? moment.utc(this.$transfer.scheduled_date).format('MM/DD/YYYY h:mm:ss:a')
+        : '–'
+    }
   },
   methods: {
     checkIfCancellable() {

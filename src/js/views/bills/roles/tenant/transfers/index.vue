@@ -9,7 +9,6 @@
           <thead>
             <tr>
               <td>Date</td>
-              <td>Destination</td>
               <td>Source</td>
               <td>Type</td>
               <td>Status</td>

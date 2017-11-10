@@ -34,7 +34,7 @@ export default {
     async remove() {
       const confirmed = confirm(`Are you sure you want to delete ${this.model.name}?`)
       if (confirmed) {
-        await this.$request(`account/payment/funding_sources/${this.model.id}`, {
+        await this.$request(`account/funding_sources/${this.model.id}`, {
           method: 'delete'
         })
         await this.$parent.fetch()
@@ -43,7 +43,7 @@ export default {
     async set_primary() {
       const confirmed = confirm(`Are you sure you want to change your primary payment method to ${this.model.name}`)
       if (confirmed) {
-        await this.$request('account/payment/funding_sources', {
+        await this.$request('account/funding_sources', {
           method: 'put',
           body: {
             funding_source: this.model.id

@@ -19,7 +19,6 @@ import { Deferred, parseCurrency } from '@/utils'
 export default {
   name: 'modal-lease-split',
   props: {
-    // model: Object,
     confirm: Function,
     path: String,
     amount: {
@@ -50,7 +49,7 @@ export default {
       this.loading = true
 
       const body = {
-        split: parseCurrency(this.split_amount, Number)
+        amount: parseCurrency(this.split_amount, Number)
       }
       const request = this.$request(this.path, {
         method: 'put',

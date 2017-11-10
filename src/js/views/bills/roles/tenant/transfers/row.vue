@@ -1,9 +1,12 @@
 <template>
   <tr @click="goToModel">
     <td>
-      <a :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</a>
+      <span v-if="$transfer.scheduled_date">
+        <a :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.scheduled_date | moment('MM/DD/YYYY') }}</a>
+        <span class="flag neutral">Scheduled</span>
+      </span>
+      <a v-else :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</a>
     </td>
-    <td>{{ $transfer.destination_name }}</td>
     <td>{{ $transfer.source_name }}</td>
     <td>{{ $transfer.type }}</td>
     <td>{{ $transfer.status }}</td>

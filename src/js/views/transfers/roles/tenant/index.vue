@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="collection-view">
     <header>
       <div class="meta">
         <h2>Ledger({{ collection.length }})</h2>
@@ -46,7 +46,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'account/payment/transfers',
+      basePath: 'account/transfers',
       model: Transfer
     })
   },

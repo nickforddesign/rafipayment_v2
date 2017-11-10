@@ -85,7 +85,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'account/payment/funding_sources'
+      basePath: 'account/funding_sources'
     })
   },
   watch: {

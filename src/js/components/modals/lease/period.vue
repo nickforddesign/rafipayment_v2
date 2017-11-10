@@ -8,7 +8,7 @@
       </field>
 
       <field name="amount" :errors="errors">
-        <currency v-model="amount" v-validate="'required'" name="split" />
+        <currency v-model="amount" v-validate="'required'" name="amount" />
       </field>
 
     </div>

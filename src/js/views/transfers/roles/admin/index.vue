@@ -9,7 +9,7 @@
         <button @click="add" class="primary">Add New Transfer</button>
       </div>
     </header>
-    <table>
+    <table class="collection-view">
       <thead>
         <tr>
           <td>Date</td>

@@ -25,12 +25,12 @@ export default class Transfer extends Model {
         },
         address() {
           return `${this.property.address}, ${unitsHelper(this.unit.name)}`
-        },
-        created_response() {
-          return this.responses.find(response => {
-            return !response.error
-          })
         }
+        // created_response() {
+        //   return this.responses.find(response => {
+        //     return !response.error
+        //   })
+        // }
       },
       methods: {
         async fetchCancel() {

@@ -7,7 +7,7 @@ export default class Transfer extends Model {
       name: 'transfers',
       computed: {
         basePath() {
-          return 'account/payment/transfers'
+          return 'account/transfers'
         }
       }
     }
