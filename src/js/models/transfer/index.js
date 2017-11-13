@@ -5,10 +5,14 @@ import { unitsHelper } from '@/utils'
 
 const resolve = {
   tenant(model) {
-    return `${model.resolved.first_name} ${model.resolved.last_name}`
+    if (model.resolved) {
+      return `${model.resolved.first_name} ${model.resolved.last_name}`
+    }
   },
   company(model) {
-    return model.resolved.name
+    if (model.resolved) {
+      return model.resolved.name
+    }
   }
 }
 

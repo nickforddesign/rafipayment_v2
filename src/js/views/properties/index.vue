@@ -1,27 +1,26 @@
 <template>
   <div class="collection-view">
-    <header>
-      <div class="meta">
-        <h2>Properties({{collection.length}})</h2>
+    <collection name="properties" :$collection="$collection" :limit="5" :paginate="true">
+      <div slot="actions">
+        <button @click="add" class="primary">Add New Property</button>
       </div>
-      <div class="actions">
-        <search />
-        <button class="primary" @click="add">Add New Property</button>
-      </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Address</td>
-          <td>Units</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+      <table slot="content">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Address</td>
+            <td>Units</td>
+          </tr>
+        </thead>
+        <tbody>
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </tbody>
+      </table>
+    </collection>
+
     <property-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
+
   </div>
 </template>
 
@@ -29,6 +28,7 @@
 
 <script>
 import { Collection } from 'vue-collections'
+import collection from '@/components/collection'
 import Property from '@/models/property'
 
 import row from './row'
@@ -49,7 +49,7 @@ export default {
     })
   },
   created() {
-    this.$collection.fetch()
+    // this.$collection.fetch()
   },
   methods: {
     add() {
@@ -64,6 +64,7 @@ export default {
   },
   components: {
     row,
+    collection,
     propertyModal
   }
 }

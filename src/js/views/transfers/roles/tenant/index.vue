@@ -1,29 +1,27 @@
 <template>
   <div class="collection-view">
-    <header>
-      <div class="meta">
-        <h2>Ledger({{ collection.length }})</h2>
-      </div>
-      <div class="actions">
-        <search />
+    <collection name="ledger" :$collection="$collection" :limit="5" :paginate="true">
+      <div slot="actions">
         <button @click="add" class="primary">Add New Transfer</button>
       </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Date</td>
-          <td>Destination</td>
-          <td>Source</td>
-          <td>Type</td>
-          <td>Status</td>
-          <td width="80px" align="right">Amount</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+      
+      <table slot="content">
+        <thead>
+          <tr>
+            <td>Date</td>
+            <td>Destination</td>
+            <td>Source</td>
+            <td>Type</td>
+            <td>Status</td>
+            <td width="80px" align="right">Amount</td>
+          </tr>
+        </thead>
+        <tbody>
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </tbody>
+      </table>
+    </collection>
+
     <transfer-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
@@ -32,6 +30,7 @@
 
 <script>
 import { Collection } from 'vue-collections'
+import collection from '@/components/collection'
 import Transfer from '@/models/transfer'
 
 import row from '../../row'
@@ -50,10 +49,13 @@ export default {
       model: Transfer
     })
   },
-  created() {
-    this.$collection.fetch()
-  },
   methods: {
+    async fetch() {
+      this.fetched = false
+      this.$collection.reset()
+      await this.$collection.fetch()
+      this.fetched = true
+    },
     add() {
       this.modal_visible = true
     },
@@ -61,14 +63,19 @@ export default {
       this.modal_visible = false
     },
     confirmModal() {
-      this.$collection.fetch()
+      this.fetch()
     }
   },
   components: {
     row,
+    collection,
     transferModal
   }
 }
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+</style>
+

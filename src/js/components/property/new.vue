@@ -130,6 +130,8 @@ export default {
     getAddressData(address_data, place_data) {
       const data = {
         address: place_data.name,
+        number: address_data.street_number || '',
+        street: address_data.route,
         city: address_data.locality,
         state: address_data.administrative_area_level_1,
         country: address_data.country,
