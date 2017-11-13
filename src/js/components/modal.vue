@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { path } from 'ramda'
+
 export default {
   name: 'modal',
   props: {
@@ -36,6 +38,16 @@ export default {
   data() {
     return {
       loading: false
+    }
+  },
+  mounted() {
+    try {
+      const default_focus = path(['$refs', 'default'], this.$parent)
+      if (default_focus) {
+        default_focus.focus()
+      }
+    } catch (error) {
+      console.warn(error)
     }
   },
   computed: {
