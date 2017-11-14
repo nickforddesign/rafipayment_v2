@@ -1,3 +1,5 @@
+import { pickBy } from 'ramda'
+
 // convert state <-> abbr
 
 import statesHelper from './states'
@@ -40,6 +42,14 @@ export function load (url) {
     script.onerror = reject
     window.document.head.appendChild(script)
   })
+}
+
+// trim properties from obj if value is in array
+
+export function trimObj (obj, ...values) {
+  return pickBy((val, key) => {
+    return ![...values].includes(val)
+  }, obj)
 }
 
 // check if local storage is supported

@@ -41,7 +41,10 @@ export default {
   name: 'modal-lease--add',
   props: {
     model: Object,
-    confirm: Function
+    confirm: Function,
+    property: Object,
+    unit: Object,
+    tenants: Array
   },
   data() {
     return {
@@ -59,7 +62,7 @@ export default {
         tenants: null,
         lease: new Lease()
       },
-      current_step: null,
+      current_step: 0,
       loading: false
     }
   },
@@ -77,7 +80,18 @@ export default {
     }
   },
   created() {
-    this.current_step = 0
+    // inject any models that were preselected
+    if (this.property) {
+      this.models.property = this.property
+      this.current_step = 1
+    }
+    if (this.unit) {
+      this.models.unit = this.unit
+      this.current_step = 2
+    }
+    if (this.tenants && this.tenants.length) {
+      this.models.tenants = this.tenants
+    }
   },
   computed: {
     has_back() {
@@ -202,7 +216,10 @@ export default {
     text-align: center;
   }
   .back-button {
-    margin-bottom: 20px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    // margin-bottom: 20px;
   }
   .actions {
     margin-top: 20px;

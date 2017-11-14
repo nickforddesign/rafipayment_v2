@@ -1,6 +1,6 @@
 <template>
   <div class="container x-sm">
-    <h2>Who will be residing here?</h2>
+    <h2>Who are the tenants?</h2>
 
     <button @click="previous" class="back-button">Back</button>
 
@@ -68,7 +68,7 @@ export default {
   },
   created() {
     if (this.models.tenants) {
-      this.models.tenants = null
+      this.tenants = this.models.tenants
     }
     this.fetch()
   },

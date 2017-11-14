@@ -1,29 +1,27 @@
 <template>
   <div>
-    <header>
-      <div class="meta">
-        <h2>Ledger({{ collection.length }})</h2>
-      </div>
-      <div class="actions">
-        <search />
+    <collection name="ledger" :$collection="$collection" :limit="10" :paginate="true">
+      <div slot="actions">
         <button @click="add" class="primary">Add New Transfer</button>
       </div>
-    </header>
-    <table class="collection-view">
-      <thead>
-        <tr>
-          <td>Date</td>
-          <td>Destination</td>
-          <td>Source</td>
-          <td>Type</td>
-          <td>Status</td>
-          <td width="80px" align="right">Amount</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+      <table slot="content">
+        <thead>
+          <tr>
+            <td>Date</td>
+            <td>Destination</td>
+            <td>Source</td>
+            <td>Type</td>
+            <td>Status</td>
+            <td width="80px" align="right">Amount</td>
+          </tr>
+        </thead>
+        <tbody>
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </tbody>
+      </table>
+    </collection>
+
     <transfer-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
@@ -32,6 +30,8 @@
 
 <script>
 import { Collection } from 'vue-collections'
+import collection from '@/components/collection'
+
 import Transfer from '@/models/transfer'
 
 import row from '../../row'
@@ -50,9 +50,9 @@ export default {
       model: Transfer
     })
   },
-  created() {
-    this.$collection.fetch()
-  },
+  // created() {
+  //   this.$collection.fetch()
+  // },
   methods: {
     add() {
       this.modal_visible = true
@@ -66,6 +66,7 @@ export default {
   },
   components: {
     row,
+    collection,
     transferModal
   }
 }

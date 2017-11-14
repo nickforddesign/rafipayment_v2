@@ -77,6 +77,12 @@ export default {
       charges: []
     }
   },
+  created() {
+    this.models.lease.charges = []
+    this.models.tenants.forEach(tenant => {
+      tenant.charges = []
+    })
+  },
   computed: {
     tenants() {
       return this.models.tenants
@@ -152,7 +158,8 @@ export default {
 .box {
   .close {
     position: absolute;
-    right: 20px;
+    right: 14px;
+    top: 6px;
     z-index: 10;
     background: transparent;
     box-shadow: none;

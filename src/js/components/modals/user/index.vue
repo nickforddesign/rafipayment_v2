@@ -11,7 +11,7 @@
       </field>
 
       <field name="email" :errors="errors">
-        <input type="email" v-model="email" v-validate="'required|email'" name="email">r
+        <input type="email" v-model="email" v-validate="'required|email'" name="email">
       </field>
 
       <field name="phone" :errors="errors">
@@ -44,8 +44,8 @@
 <script>
 import Company from '@/models/company'
 import { Collection } from 'vue-collections'
-import { Deferred } from '@/utils'
-import User from '@/models/user'
+import { Deferred, trimObj } from '@/utils'
+import User from '@/models/user/new'
 import session from '@/session'
 
 export default {
@@ -56,12 +56,10 @@ export default {
     role: String
   },
   collection() {
-    // if (session.$user.role === 'superadmin' && this.role !== 'superadmin') {
     return new Collection({
       basePath: 'companies',
       model: Company
     })
-    // }
   },
   data() {
     return {
@@ -92,7 +90,6 @@ export default {
     async validate() {
       const deferred = new Deferred()
       let passed = await this.$validator.validateAll()
-      console.log({passed})
       if (passed) {
         await this.confirmChange()
         deferred.resolve()
@@ -104,8 +101,8 @@ export default {
     async confirmChange() {
       this.loading = true
 
-      const data = this.$data
-      console.log()
+      const data = trimObj(this.$data, '')
+
       const request = this.$user.save(data)
       request.then(response => {
         this.confirm()

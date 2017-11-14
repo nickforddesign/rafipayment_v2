@@ -53,7 +53,9 @@
         </div>
       </div>
     </div>
-    <leases-table :data="$unit" :path="`leases?filter_unit=${$unit.id}`" />
+    <leases-table :data="$unit" :path="`leases?filter_unit=${$unit.id}`" @add="showModal" />
+
+    <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :property="$property" :unit="$unit" />
   </div>
 </template>
 
@@ -61,7 +63,9 @@
 
 <script>
 import Unit from '@/models/unit'
+import Property from '@/models/property'
 
+import leaseModal from '@/components/modals/lease'
 import leasesTable from '@/views/leases/table'
 
 export default {
@@ -71,23 +75,43 @@ export default {
       return new Unit({
         id: this.$route.params.id
       })
+    },
+    property() {
+      return new Property()
+    }
+  },
+  data() {
+    return {
+      modal_visible: false
     }
   },
   created() {
-    this.$unit.fetch()
+    this.fetch()
   },
   methods: {
-    remove() {
+    async fetch() {
+      await this.$unit.fetch()
+      this.$property = this.$unit.property
+    },
+    async remove() {
       const confirmed = confirm(`Are you sure you want to remove ${this.$unit.address}?`)
       if (confirmed) {
-        this.$unit.destroy()
-        .then(() => {
-          this.$router.push('/units')
-        })
+        await this.$unit.destroy()
+        this.$router.push('/units')
       }
+    },
+    showModal() {
+      this.modal_visible = true
+    },
+    closeModal() {
+      this.modal_visible = false
+    },
+    confirmModal() {
+      this.fetch()
     }
   },
   components: {
+    leaseModal,
     leasesTable
   }
 }

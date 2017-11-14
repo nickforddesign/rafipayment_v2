@@ -50,7 +50,9 @@
           </div>
         </div>
       </div>
-      <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" />
+      <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal" />
+      <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :tenants="[$user]" />
+
       <transfers-table v-if="fetched" :data="$user.payment" :path="`tenants/${$user.id}/transfers`" />
     </div>
     <loading v-else />
@@ -62,13 +64,15 @@
 <script>
 import User from '@/models/user'
 import leasesTable from '@/views/leases/table'
+import leaseModal from '@/components/modals/lease'
 import transfersTable from '@/views/transfers/table'
 
 export default {
   name: 'tenant',
   data() {
     return {
-      fetched: false
+      fetched: false,
+      modal_visible: false
     }
   },
   models: {
@@ -76,25 +80,39 @@ export default {
       return new User({
         role: 'tenant',
         id: this.$route.params.id
+      }, {
+        persist: true
       })
     }
   },
-  async created() {
-    await this.$user.fetch()
-    this.fetched = true
+  created() {
+    this.fetch()
   },
   methods: {
-    remove() {
+    async fetch() {
+      this.fetched = false
+      await this.$user.fetch()
+      this.fetched = true
+    },
+    async remove() {
       const confirmed = confirm(`Are you sure you want to remove ${this.$user.full_name}?`)
       if (confirmed) {
-        this.$user.destroy()
-        .then(() => {
-          this.$router.push('/superadmins')
-        })
+        await this.$user.destroy()
+        this.$router.push('/superadmins')
       }
+    },
+    showModal() {
+      this.modal_visible = true
+    },
+    closeModal() {
+      this.modal_visible = false
+    },
+    confirmModal() {
+      this.fetch()
     }
   },
   components: {
+    leaseModal,
     leasesTable,
     transfersTable
   }

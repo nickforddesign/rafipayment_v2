@@ -84,7 +84,7 @@ export default {
       type: null,
       mode: 'simple',
       start_date: '2017-09-01',
-      end_date: '2018-09-01',
+      end_date: null,
       rent: null,
       periods: [{
         start_date: '2017-09-01',

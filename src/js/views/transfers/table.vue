@@ -4,7 +4,7 @@
       Payments
     </div>
     <div v-if="fetched">
-      <table>
+      <table v-if="collection.length">
         <thead>
           <tr>
             <td>Date</td>
@@ -19,6 +19,9 @@
           <row v-for="(model, index) in collection" :key="index" :model="model" />
         </tbody>
       </table>
+      <empty v-else>
+        <div slot="message">No payments yet</div>
+      </empty>
     </div>
     <loading v-else type="table" />
   </div>

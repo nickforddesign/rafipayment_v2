@@ -31,6 +31,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { trimObj } from '@/utils'
 import User from '@/models/user/new'
 
 export default {
@@ -57,13 +58,14 @@ export default {
     async add() {
       const passed = await this.$validator.validateAll()
       if (passed) {
-        this.$user = {
-          first_name: this.first_name,
-          last_name: this.last_name,
-          email: this.email,
-          phone: this.phone,
-          password: this.password
-        }
+        // this.$user = {
+        //   first_name: this.first_name,
+        //   last_name: this.last_name,
+        //   email: this.email,
+        //   phone: this.phone,
+        //   password: this.password
+        // }
+        this.$user = trimObj(this.$data, '')
         this.$parent.addTenant(this.$user)
         this.$parent.new = false
       }

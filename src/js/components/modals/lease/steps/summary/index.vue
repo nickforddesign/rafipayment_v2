@@ -25,7 +25,10 @@
       </dl>
       <dl>
         <dt>End Date</dt>
-        <dd>{{ models.lease.end_date | moment }}</dd>
+        <dd>
+          <span v-if="models.lease.end_date">{{ models.lease.end_date | moment }}</span>
+          <span v-else>–</span>
+        </dd>
       </dl>
       <dl>
         <dt>Bill Due Day</dt>
@@ -136,7 +139,8 @@ export default {
     }
   },
   created() {
-    console.log(this.models.tenants)
+    console.log(this.models.lease)
+    // console.log(this.models.tenants)
   },
   methods: {
     complete(model) {

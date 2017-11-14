@@ -20,10 +20,13 @@
             <row v-for="(model, index) in collection" :key="index" :model="model" />
           </tbody>
         </table>
+        <div class="actions text-center">
+          <button class="primary" slot="actions" @click="emitAdd">Add Lease</button>          
+        </div>
       </div>
       <empty v-else>
         <div slot="message">This {{ $parent.$options.name }} doesn't have any leases yet</div>
-        <button class="primary" slot="actions" @click="showModal">Add Lease</button>
+        <button class="primary" slot="actions" @click="emitAdd">Add Lease</button>
       </empty>
     </div>
     <loading v-else type="table" />
@@ -45,8 +48,7 @@ export default {
   },
   data() {
     return {
-      fetched: false,
-      modal_visible: false
+      fetched: false
     }
   },
   collection() {
@@ -59,8 +61,8 @@ export default {
     this.fetched = true
   },
   methods: {
-    showModal() {
-      this.modal_visible = true
+    emitAdd() {
+      this.$emit('add')
     }
   },
   components: {
@@ -68,3 +70,13 @@ export default {
   }
 }
 </script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.actions {
+  &.text-center {
+    margin-top: 20px;
+  }
+}
+</style>
