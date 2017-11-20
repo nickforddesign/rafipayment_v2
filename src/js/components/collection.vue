@@ -130,7 +130,9 @@ export default {
     },
     $route(val) {
       const page_number = val.query.page
-      this.setCurrent(page_number)
+      if (page_number !== undefined) {
+        this.setCurrent(page_number)
+      }
       this.initFilters()
     },
     filters(val) {
@@ -216,11 +218,11 @@ export default {
         new_query = mergeDeepRight(new_query, filter_map)
       }
 
-      console.log(this.current_page_index)
-
-      new_query = mergeDeepRight(new_query, {
-        page: this.current_page_index + 1
-      })
+      if (this.current_page_index) {
+        new_query = mergeDeepRight(new_query, {
+          page: this.current_page_index + 1
+        })
+      }
 
       this.$router.push({
         query: new_query
@@ -235,7 +237,6 @@ export default {
       }
     },
     setCurrent(page_number) {
-      console.log('setting page', page_number)
       this.current_page_index = page_number - 1
     },
     paginator_class(n) {

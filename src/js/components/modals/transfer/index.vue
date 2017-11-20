@@ -6,7 +6,7 @@
         <currency v-model="amount" v-validate="'required'" />
       </field>
       <field name="source" :errors="errors">
-        <select-menu v-if="funding_sources_fetched" v-model="source_funding_source" v-validate="'required'" name="source">
+        <select-menu v-if="funding_sources_fetched" v-model="source_funding_source" v-validate="'required'" data-vv-path="field_value" name="source">
           <option disabled value="">Please select one</option>
           <option 
             v-for="(funding_source, index) in funding_sources.models"
@@ -20,7 +20,7 @@
       </field>
 
       <field name="destination" :errors="errors">
-        <select-menu v-if="tenants_fetched" v-model="destination_user" v-validate="'required'" name="destination">
+        <select-menu v-if="tenants_fetched" v-model="destination_user" v-validate="'required'" data-vv-path="field_value" name="destination">
           <option disabled value="">Please select one</option>
           <option 
             v-for="(tenant, index) in tenants.models"

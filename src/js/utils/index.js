@@ -74,6 +74,7 @@ export function setStorage(key, value) {
 }
 
 export function getStorage(key) {
+  console.log(hasLocalStorage)
   return hasLocalStorage
     ? localStorage.getItem(key)
     : null

@@ -34,18 +34,20 @@
 <script>
 import { getStorage, setStorage, clearStorage } from '@/utils'
 
-const remember_me = JSON.parse(getStorage('remember_me'))
-
 export default {
   data() {
     return {
       loading: false,
       email: getStorage('previous_login'),
       password: 'password',
-      remember_me: remember_me === undefined
-        ? true
-        : remember_me
+      remember_me: false
     }
+  },
+  created() {
+    const remember_me = JSON.parse(getStorage('remember_me'))
+    this.remember_me = remember_me === undefined
+      ? true
+      : remember_me
   },
   watch: {
     remember_me(val) {
@@ -72,6 +74,7 @@ export default {
         body
       })
       .then(response => {
+        setStorage('previous_login', this.email)
         this.$store.dispatch('login', response)
       })
       .catch(this.handleError)
@@ -85,7 +88,9 @@ export default {
     },
     manageCredentials() {
       if (this.remember_me) {
-        setStorage('previous_login', this.email)
+        if (this.email) {
+          setStorage('previous_login', this.email)
+        }
       } else {
         clearStorage('previous_login')
       }
