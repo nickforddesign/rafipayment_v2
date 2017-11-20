@@ -1,8 +1,8 @@
 <template>
   <tr>
-    <td>{{ model.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
+    <td>{{ model.body.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
     <td>
-      {{ model.topic }}
+      {{ model.body.topic }}
     </td>
   </tr>
 </template>

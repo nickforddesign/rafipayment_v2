@@ -65,6 +65,26 @@ export function localStorageSupported () {
   }
 }
 
+const hasLocalStorage = localStorageSupported()
+
+export function setStorage(key, value) {
+  return hasLocalStorage
+    ? localStorage.setItem(key, value)
+    : null
+}
+
+export function getStorage(key) {
+  return hasLocalStorage
+    ? localStorage.getItem(key)
+    : null
+}
+
+export function clearStorage(key) {
+  return hasLocalStorage
+    ? localStorage.removeItem(key)
+    : null
+}
+
 // reset state of model or vuex store
 
 export function resetState (state, defaults) {

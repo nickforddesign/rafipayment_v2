@@ -2,7 +2,7 @@
   <div class="search-container">
     <form @submit.prevent="submit">
       <input type="text" v-model="search_text">
-      <search-icon @click="emitClick" />
+      <search-icon @click="submit" />
     </form>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     submit() {
-      console.log('search')
+      this.$emit('submit', this.search_text)
     },
     emitClick(e) {
       this.$emit('click', e)

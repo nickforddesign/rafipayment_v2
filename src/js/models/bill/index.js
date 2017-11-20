@@ -57,7 +57,12 @@ export default class Bill extends Model {
         type: ObjectId
       },
       unit: {
-        type: ObjectId
+        type: Object,
+        properties: {
+          id: {
+            type: ObjectId
+          }
+        }
       },
       lease: {
         type: ObjectId

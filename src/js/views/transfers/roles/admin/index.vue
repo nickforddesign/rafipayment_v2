@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collection name="ledger" :$collection="$collection" :limit="10" :paginate="true">
+    <collection name="ledger" :$collection="$collection">
       <div slot="actions">
         <button @click="add" class="primary">Add New Transfer</button>
       </div>
@@ -30,8 +30,6 @@
 
 <script>
 import { Collection } from 'vue-collections'
-import collection from '@/components/collection'
-
 import Transfer from '@/models/transfer'
 
 import row from '../../row'
@@ -50,9 +48,6 @@ export default {
       model: Transfer
     })
   },
-  // created() {
-  //   this.$collection.fetch()
-  // },
   methods: {
     add() {
       this.modal_visible = true
@@ -66,7 +61,6 @@ export default {
   },
   components: {
     row,
-    collection,
     transferModal
   }
 }

@@ -1,26 +1,24 @@
 <template>
-  <div class="collection-view">
-    <header>
-      <div class="meta">
-        <h2>Tenants({{ collection.length }})</h2>
+  <div>
+    <collection name="tenants" :$collection="$collection">
+      <div slot="actions">
+        <button @click="add" class="primary">Add New Tenant</button>
       </div>
-      <div class="actions">
-        <search />
-        <button class="primary" @click="add">Add New Tenant</button>
-      </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Address</td>
-          <td>Created</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+      <table slot="content">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Address</td>
+            <td>Created</td>
+          </tr>
+        </thead>
+        <tbody>
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </tbody>
+      </table>
+    </collection>
+
     <user-modal role="tenant" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
@@ -47,13 +45,7 @@ export default {
       model: User
     })
   },
-  created() {
-    this.fetch()
-  },
   methods: {
-    fetch() {
-      this.$collection.fetch()
-    },
     add() {
       this.modal_visible = true
     },

@@ -23,7 +23,9 @@
           </dl>
           <dl>
             <dt>Address</dt>
-            <dd>{{ $bill.target }}</dd>
+            <dd>
+              <router-link :to="`/units/${$bill.unit.id}`">{{ $bill.target }}</router-link>
+            </dd>
           </dl>
           <dl>
             <dt>Balance</dt>

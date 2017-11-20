@@ -150,6 +150,8 @@
       
     </div>
 
+    <bills-table :basePath="`bills?filter_lease=${$lease.id}`"></bills-table>
+
     <period-modal v-if="modals.period" :path="`${$lease.url}/periods`" @close="closeModal('period')" :confirm="fetch" />
     <charge-modal v-if="modals.lease_charge" :path="`${$lease.url}/charges`" @close="closeModal('lease_charge')" :confirm="fetch" />
   </div>
@@ -170,6 +172,9 @@ import chargeRow from './charge_row'
 // modals
 import periodModal from '@/components/modals/lease/period'
 import chargeModal from '@/components/modals/lease/charge'
+
+// tables
+import billsTable from '@/views/bills/table'
 
 export default {
   name: 'lease',
@@ -222,6 +227,7 @@ export default {
     }
   },
   components: {
+    billsTable,
     periodModal,
     chargeModal,
     chargeRow,

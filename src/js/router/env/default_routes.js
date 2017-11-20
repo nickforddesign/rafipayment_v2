@@ -188,17 +188,17 @@ const routes = [
       auth: ['superadmin']
     },
     component(resolve) {
-      require(['@/views/webhook_subscriptions/index'], resolve)
+      require(['@/views/webhook_subscriptions'], resolve)
     }
   },
   {
-    name: 'Webhook Events',
-    path: '/webhook-events',
+    name: 'Webhooks',
+    path: '/webhooks',
     meta: {
       auth: ['superadmin']
     },
     component(resolve) {
-      require(['@/views/webhook_events/index'], resolve)
+      require(['@/views/webhooks'], resolve)
     }
   },
   {

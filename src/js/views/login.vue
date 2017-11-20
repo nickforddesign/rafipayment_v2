@@ -20,6 +20,9 @@
         </password>
       </field>
 
+      <input type="checkbox" v-model="remember_me" id="remember_me">
+      <label for="remember_me">Remember me</label>
+
       <button type="submit">Login</button>
     </form>
     <router-link to="/forgot">Forgot password?</router-link>
@@ -29,22 +32,34 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { getStorage, setStorage, clearStorage } from '@/utils'
+
+const remember_me = JSON.parse(getStorage('remember_me'))
+
 export default {
   data() {
     return {
       loading: false,
-      email: 'dwallace@rafiproperties.com',
-      password: 'password'
+      email: getStorage('previous_login'),
+      password: 'password',
+      remember_me: remember_me === undefined
+        ? true
+        : remember_me
+    }
+  },
+  watch: {
+    remember_me(val) {
+      setStorage('remember_me', val)
+      this.manageCredentials()
     }
   },
   methods: {
     async submit() {
-      if (this.loading) {
-        return false
-      }
-      const passed = await this.$validator.validateAll()
-      if (passed) {
-        this.login()
+      if (!this.loading) {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          this.login()
+        }
       }
     },
     login() {
@@ -52,7 +67,7 @@ export default {
         email: this.email,
         password: this.password
       }
-      this.$request('/session/login', {
+      this.$request('session/login', {
         method: 'post',
         body
       })
@@ -67,6 +82,13 @@ export default {
         'Invalid username or password',
         'required'
       )
+    },
+    manageCredentials() {
+      if (this.remember_me) {
+        setStorage('previous_login', this.email)
+      } else {
+        clearStorage('previous_login')
+      }
     }
   }
 }

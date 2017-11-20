@@ -25,7 +25,7 @@
           <router-link to="/webhook-subscriptions">Subscriptions</router-link>
         </li>
         <li>
-          <router-link to="/webhook-events">Events</router-link>
+          <router-link to="/webhooks">Events</router-link>
         </li>
       </ul>
     </li>

@@ -1,6 +1,6 @@
 <template>
   <div class="collection-view">
-    <collection name="properties" :$collection="$collection" :limit="5" :paginate="true">
+    <collection name="properties" :$collection="$collection">
       <div slot="actions">
         <button @click="add" class="primary">Add New Property</button>
       </div>

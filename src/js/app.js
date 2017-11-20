@@ -20,6 +20,7 @@ import Empty from '@/components/empty'
 import DatePicker from '@/components/date'
 import Search from '@/components/search'
 import Searchable from '@/components/searchable'
+import Collection from '@/components/collection'
 
 Vue.config.productionTip = false
 
@@ -36,7 +37,8 @@ const components = [
   Empty,
   DatePicker,
   Search,
-  Searchable
+  Searchable,
+  Collection
 ]
 
 const install = (Vue) => {

@@ -1,28 +1,26 @@
 <template>
-  <div class="collection-view">
-    <header>
-      <div class="meta">
-        <h2>Units({{collection.length}})</h2>
+  <div>
+    <collection name="units" :$collection="$collection">
+      <div slot="actions">
+        <button @click="add" class="primary">Add New Unit</button>
       </div>
-      <div class="actions">
-        <search />
-        <button class="primary" @click="add">Add New Unit</button>
-      </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Unit</td>
-          <td>Property</td>
-          <td>Current Lease</td>
-          <td>Beds</td>
-          <td>Baths</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+      <table slot="content">
+        <thead>
+          <tr>
+            <td>Unit</td>
+            <td>Property</td>
+            <td>Current Lease</td>
+            <td>Beds</td>
+            <td>Baths</td>
+          </tr>
+        </thead>
+        <tbody>
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </tbody>
+      </table>
+    </collection>
+
     <unit-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
@@ -34,7 +32,6 @@ import { Collection } from 'vue-collections'
 import Unit from '@/models/unit'
 
 import row from './row'
-
 import unitModal from '@/components/modals/unit'
 
 export default {
@@ -49,9 +46,6 @@ export default {
       basePath: 'units',
       model: Unit
     })
-  },
-  created() {
-    this.$collection.fetch()
   },
   methods: {
     add() {

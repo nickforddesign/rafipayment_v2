@@ -1,26 +1,25 @@
 <template>
-  <div class="collection-view">
-    <header>
-      <div class="meta">
-        <h2>Bills({{ collection.length }})</h2>
+  <div>
+    <collection name="bills" :$collection="$collection">
+      <div slot="actions">
+        <button @click="add" class="primary">Add New Bill</button>
       </div>
-      <div class="actions">
-        <search />
-      </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Due Date</td>
-          <td>Target</td>
-          <td>Type</td>
-          <td>Balance</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+      <table slot="content">
+        <thead>
+          <tr>
+            <td>Due Date</td>
+            <td>Target</td>
+            <td>Type</td>
+            <td>Balance</td>
+          </tr>
+        </thead>
+        <tbody>
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </tbody>
+      </table>
+    </collection>
+
   </div>
 </template>
 
@@ -44,9 +43,6 @@ export default {
       basePath: 'bills',
       model: Bill
     })
-  },
-  created() {
-    this.$collection.fetch()
   },
   methods: {
     add() {

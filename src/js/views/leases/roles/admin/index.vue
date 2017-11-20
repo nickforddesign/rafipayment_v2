@@ -1,29 +1,27 @@
 <template>
   <div>
-    <header>
-      <div class="meta">
-        <h2>Leases({{ collection.length }})</h2>
-      </div>
-      <div class="actions">
-        <search />
+    <collection name="leases" :$collection="$collection">
+      <div slot="actions">
         <button @click="add" class="primary">Add New Lease</button>
       </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Property</td>
-          <td>Unit</td>
-          <td>Start Date</td>
-          <td>End Date</td>
-          <td>Duration</td>
-          <td>Current Rent</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+      <table slot="content">
+        <thead>
+         <tr>
+           <td>Property</td>
+           <td>Unit</td>
+           <td>Start Date</td>
+           <td>End Date</td>
+           <td>Duration</td>
+           <td>Current Rent</td>
+         </tr>
+        </thead>
+        <tbody>
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </tbody>
+      </table>
+    </collection>
+
     <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
@@ -49,9 +47,6 @@ export default {
       basePath: 'leases',
       model: Lease
     })
-  },
-  created() {
-    this.$collection.fetch()
   },
   methods: {
     add() {

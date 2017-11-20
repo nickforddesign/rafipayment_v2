@@ -1,5 +1,5 @@
 import { path } from 'ramda'
-import { localStorageSupported } from '@/utils'
+import { setStorage, getStorage, clearStorage } from '@/utils'
 
 const defaults = () => ({
   logged_in: false,
@@ -9,31 +9,11 @@ const defaults = () => ({
     role: '',
     session: {
       refresh: {
-        token: getRefresh()
+        token: getStorage('refresh_token')
       }
     }
   }
 })
-
-const hasLocalStorage = localStorageSupported()
-
-function setRefresh(token) {
-  return hasLocalStorage
-    ? localStorage.setItem('refresh_token', token)
-    : null
-}
-
-function getRefresh() {
-  return hasLocalStorage
-    ? localStorage.getItem('refresh_token')
-    : null
-}
-
-function clearRefresh() {
-  return hasLocalStorage
-    ? localStorage.removeItem('refresh_token')
-    : null
-}
 
 export default {
   defaults,
@@ -56,16 +36,15 @@ export default {
     LOGIN(state, user) {
       state.user = user
       state.logged_in = true
-
-      setRefresh(this.getters['session:refresh'].token)
+      setStorage('refresh_token', this.getters['session:refresh'].token)
     },
     LOGOUT(state) {
       this.dispatch('reset_all')
-      clearRefresh()
+      clearStorage('refresh_token')
     },
     REFRESH(state, session) {
       state.user.session = session
-      setRefresh(this.getters['session:refresh'].token)
+      getStorage('refresh_token', this.getters['session:refresh'].token)
     }
   },
   actions: {

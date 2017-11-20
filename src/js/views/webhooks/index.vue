@@ -1,16 +1,11 @@
 <template>
   <div>
-    <collection name="admins" :$collection="$collection">
-      <div slot="actions">
-        <button @click="add" class="primary">Add New Admin</button>
-      </div>
-
+    <collection name="webhooks" :$collection="$collection" :searchable="false">
       <table slot="content">
         <thead>
           <tr>
-            <td>Name</td>
-            <td>Address</td>
             <td>Created</td>
+            <td>Topic</td>
           </tr>
         </thead>
         <tbody>
@@ -18,8 +13,6 @@
         </tbody>
       </table>
     </collection>
-
-    <user-modal role="admin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>
 
@@ -28,9 +21,6 @@
 <script>
 import { Collection } from 'vue-collections'
 import row from './row'
-import User from '@/models/user'
-
-import userModal from '@/components/modals/user'
 
 export default {
   name: 'admins',
@@ -41,24 +31,16 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'admins',
-      model: User
+      basePath: 'payment/webhooks'
     })
   },
-  methods: {
-    add() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
-    },
-    confirmModal() {
-      this.$collection.fetch()
-    }
-  },
+  // methods: {
+  //   fetch() {
+  //     this.$collection.fetch()
+  //   }
+  // },
   components: {
-    row,
-    userModal
+    row
   }
 }
 </script>

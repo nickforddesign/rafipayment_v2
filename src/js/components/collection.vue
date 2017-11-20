@@ -4,7 +4,6 @@
       <div class="meta">
         <h2>
           {{ name | capitalize }}
-          ({{ collection.length }}/{{ $collection.total_count || 0 }})
         </h2>
         <div v-if="filters.length">
           <div v-for="(filter, index) in filters" :key="index" class="filter">
@@ -14,6 +13,7 @@
         </div>
       </div>
       <div class="actions">
+        <search @submit="search" v-if="searchable" />
         <slot name="actions" />
       </div>
     </header>
@@ -21,11 +21,18 @@
     <slot name="content" v-if="fetched" />
     <loading v-else />
 
-    <ul class="pagination" v-if="paginate && page_count > 1">
-      <li v-for="(n, index) in page_count" :key="index">
-        <a href="#" @click.prevent="setCurrent(n)" :class="[paginator_class(n)]">{{ n }}</a>
-      </li>
-    </ul>
+    <div class="pagination-container" v-if="paginate && page_count > 1">
+      <div class="summary">
+        <!-- Page {{ current_page_index + 1 }} of {{ page_count }}, -->
+        {{ skip + 1 }} - {{ skip + collection.length }} of {{ $collection.total_count || 0 }} items
+      </div>
+      <ul class="pagination">
+        <li v-for="(n, index) in page_count" :key="index">
+          <a href="#" @click.prevent="setCurrent(n)" :class="[paginator_class(n)]">{{ n }}</a>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </template>
 
@@ -35,7 +42,7 @@
 import { mergeDeepRight } from 'ramda'
 
 export default {
-  name: 'collection-table',
+  name: 'collection',
   props: {
     name: {
       type: String
@@ -50,6 +57,10 @@ export default {
     paginate: {
       type: Boolean,
       default: true
+    },
+    searchable: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -58,6 +69,7 @@ export default {
       modal_visible: false,
       current_page_index: 0,
       original_base: '',
+      search_term: '',
       filters: []
     }
   },
@@ -79,26 +91,34 @@ export default {
     },
     basePath() {
       let basePath = this.original_base
-      const has_pagination = !basePath.includes('paginator') && this.paginate
-      if (has_pagination) {
-        basePath += `?paginator_limit=${this.limit}&paginator_skip=${this.skip}`
-      }
-      if (this.filters.length) {
-        const filterQuery = this.filters.map(filter => {
-          return `filter_${filter.key}=${filter.value}`
-        })
-        basePath += has_pagination
-          ? '&'
-          : '?'
-        basePath += filterQuery
+
+      if (!this.search_term) {
+        const has_pagination = !basePath.includes('paginator') && this.paginate
+        if (has_pagination) {
+          basePath += `?paginator_limit=${this.limit}&paginator_skip=${this.skip}`
+        }
+        if (this.filters.length) {
+          const filterQuery = this.filters.map(filter => {
+            return `filter_${filter.key}=${filter.value}`
+          })
+          basePath += has_pagination
+            ? '&'
+            : '?'
+          basePath += filterQuery
+        }
+      } else {
+        basePath += `?search=${this.search_term.split(' ').join(',')}`
       }
       return basePath
     }
   },
   watch: {
     current_page_index(val) {
+      console.log('current changed', val)
       this.updateUrl()
-      this.fetch()
+      if (this.fetched) {
+        this.fetch()
+      }
     },
     $route(val) {
       const page_number = val.query.page
@@ -126,10 +146,22 @@ export default {
       await this.$collection.fetch()
       this.fetched = true
     },
+    search(term) {
+      this.clearAll()
+      this.search_term = term
+    },
     initPagination() {
       if (this.paginate) {
-        const page_number = this.$route.query.page || 1
-        this.setCurrent(page_number)
+        const page_query = this.$route.query.page
+        let page_number = page_query || 1
+
+        if (isNaN(page_number)) {
+          page_number = 1
+          this.setCurrent(page_number)
+          this.updateUrl()
+        } else {
+          this.setCurrent(page_number)
+        }
       }
     },
     initFilters() {
@@ -164,6 +196,10 @@ export default {
     clearFilters() {
       this.filters = []
     },
+    clearAll() {
+      this.clearFilters()
+      this.current_page_index = 0
+    },
     updateUrl() {
       let new_query = {}
 
@@ -174,6 +210,8 @@ export default {
         }, {})
         new_query = mergeDeepRight(new_query, filter_map)
       }
+
+      console.log(this.current_page_index)
 
       new_query = mergeDeepRight(new_query, {
         page: this.current_page_index + 1
@@ -257,6 +295,16 @@ $pagination-border-radius: 5px;
       }
     }
   }
+}
+
+.summary {
+  margin: 30px 0 6px;
+  font-size: 0.75em;
+}
+
+.search-container {
+  position: relative;
+  top: 7px;
 }
 </style>
 
