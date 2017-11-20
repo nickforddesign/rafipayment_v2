@@ -7,13 +7,14 @@
     <td>{{ $lease.start_date | moment('M/D/YYYY', true) }}</td>
     <td>{{ $lease.end_date | moment('M/D/YYYY', true) }}</td>
     <td>{{ $lease.length.months }} Mo.</td>
-    <td>{{ $lease.periods_sorted[$lease.current_period].amount | currency }}</td>
+    <td>{{ current_rent }}</td>
   </tr>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { prettyCurrency } from '@/utils'
 import Lease from '@/models/lease'
 
 export default {
@@ -22,6 +23,13 @@ export default {
   models: {
     lease() {
       return new Lease(this.model)
+    }
+  },
+  computed: {
+    current_rent() {
+      return this.$lease.is_active
+        ? prettyCurrency(this.$lease.periods_sorted[this.$lease.current_period].amount)
+        : '–'
     }
   },
   methods: {

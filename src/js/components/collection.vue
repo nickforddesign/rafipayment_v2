@@ -18,7 +18,13 @@
       </div>
     </header>
       
-    <slot name="content" v-if="fetched" />
+    <slot name="content" v-if="fetched && collection.length" />
+    <empty v-else-if="fetched && !collection.length">
+      <div slot="message">There are no {{ collection_name || name }} yet</div>
+      <!-- <div slot="actions">
+        <slot name="actions" />
+      </div> -->
+    </empty>
     <loading v-else />
 
     <div class="pagination-container" v-if="paginate && page_count > 1">
@@ -45,6 +51,9 @@ export default {
   name: 'collection',
   props: {
     name: {
+      type: String
+    },
+    collection_name: {
       type: String
     },
     $collection: {
@@ -114,7 +123,6 @@ export default {
   },
   watch: {
     current_page_index(val) {
-      console.log('current changed', val)
       this.updateUrl()
       if (this.fetched) {
         this.fetch()
@@ -153,15 +161,12 @@ export default {
     initPagination() {
       if (this.paginate) {
         const page_query = this.$route.query.page
-        let page_number = page_query || 1
 
-        if (isNaN(page_number)) {
-          page_number = 1
-          this.setCurrent(page_number)
-          this.updateUrl()
-        } else {
-          this.setCurrent(page_number)
-        }
+        const page_number = isNaN(page_query) || page_query === undefined
+          ? 1
+          : page_query
+        this.setCurrent(page_number)
+        this.updateUrl()
       }
     },
     initFilters() {
@@ -230,6 +235,7 @@ export default {
       }
     },
     setCurrent(page_number) {
+      console.log('setting page', page_number)
       this.current_page_index = page_number - 1
     },
     paginator_class(n) {

@@ -20,6 +20,8 @@
       </table>
     </collection>
 
+    <bill-modal v-if="modal_visible" @close="closeModal" :confirm="fetch" />
+
   </div>
 </template>
 
@@ -28,6 +30,8 @@
 <script>
 import { Collection } from 'vue-collections'
 import Bill from '@/models/bill'
+
+import BillModal from '@/components/modals/bill'
 
 import row from '../../row'
 
@@ -45,6 +49,9 @@ export default {
     })
   },
   methods: {
+    fetch() {
+      this.$collection.fetch()
+    },
     add() {
       this.modal_visible = true
     },
@@ -56,7 +63,8 @@ export default {
     }
   },
   components: {
-    row
+    row,
+    BillModal
   }
 }
 </script>

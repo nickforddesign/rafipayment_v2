@@ -9,8 +9,6 @@ import Property from '@/models/property'
 import Unit from '@/models/unit'
 import User from '@/models/user'
 
-console.log(User.schema())
-
 export default class Lease extends Model {
   static defaults() {
     return {
@@ -19,6 +17,9 @@ export default class Lease extends Model {
         this.split_amount = undefined
       },
       computed: {
+        is_active() {
+          return this.current_period !== undefined
+        },
         current_period() {
           const dates = this.periods_sorted.reduce((acc, period) => {
             acc.push(moment.utc(period.start_date))
@@ -65,6 +66,10 @@ export default class Lease extends Model {
             ? months + ' Months'
             : days + ' Days'
           return { months, days, auto }
+        },
+        label() {
+          console.log(`${moment.utc(this.start_date).format('M/D/YY')} – ${moment.utc(this.end_date).format('M/D/YY')}`)
+          return `${moment.utc(this.start_date).format('M/D/YY')} – ${moment.utc(this.end_date).format('M/D/YY')}`
         }
         /*
         tenants_sorted() {

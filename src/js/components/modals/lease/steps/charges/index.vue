@@ -9,8 +9,9 @@
 
       <div class="box" v-for="(charge, index) in charges" :key="index">
         <button class="close small" @click="removeCharge(index)">X</button>
-        <field name="amount" :errors="errors">
-          <currency v-model="charge.amount" />
+
+        <field :name="`amount ${index}`" label="Amount" :errors="errors">
+          <currency v-model="charge.amount" :name="`amount ${index}`" data-vv-as="amount" v-validate="'required|min_currency:0.01|max_currency:5000'" />
         </field>
 
         <field name="description">
@@ -36,8 +37,8 @@
           <label :for="`tenant-${index}`">Specific Tenant</label>
         </field>
 
-        <field name="tenant" v-if="charge.target_tenant">
-          <select-menu v-model="charge.tenant" v-validate="'required'" name="tenant">
+        <field :name="`tenant ${index}`" label="Tenant" :errors="errors" v-if="charge.target_tenant">
+          <select-menu v-model="charge.tenant" v-validate="'required'" data-vv-as="tenant" :name="`tenant ${index}`" data-vv-value-path="field_value">
             <option disabled value="">Please select one</option>
             <option
               v-for="(tenant, index) in tenants"

@@ -74,7 +74,6 @@ export default {
       if (this.omit) {
         output = this.models.filter(model => {
           return !this.omit.find(item => model.id === item.id)
-          // return !this.omit.includes(model)
         })
       }
       if (this.query) {

@@ -2,7 +2,7 @@
   <div class="field-group">
     <legend>{{ legend }}</legend>
     <slot></slot>
-    <validation v-if="errors" :name="name" :errors="errors"></validation>
+    <validation v-if="errors" :name="name" :errors="errors" />
   </div>
 </template>
 
