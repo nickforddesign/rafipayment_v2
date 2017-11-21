@@ -144,8 +144,7 @@ export default {
             await tenant.save({
               first_name: tenant.first_name,
               last_name: tenant.last_name,
-              email: tenant.email,
-              password: tenant.password
+              email: tenant.email
             })
           }
           return tenant

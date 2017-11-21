@@ -86,9 +86,9 @@ export default {
       this.$emit('error', error)
     },
     processDwollaResponse(response) {
-      const id = path(['_links', 'funding-source', 'href'], response).split('funding-sources/')[1]
+      const funding_source = path(['_links', 'funding-source', 'href'], response).split('funding-sources/')[1]
       const body = {
-        id
+        funding_source
       }
       return this.$request(this.iav_token_endpoint, {
         method: 'post',

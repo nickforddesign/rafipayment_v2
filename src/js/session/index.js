@@ -54,6 +54,15 @@ const session = new Vue({
         store.dispatch(endpoint, response)
       }
     },
+    async activate(vm, token) {
+      const response = await vm.$request('session/invite', {
+        method: 'put',
+        body: {
+          token
+        }
+      })
+      store.dispatch('activate', response)
+    },
     check_access_token() {
       const expiration_date = path(['expiration', '$date'], this.access)
       const expires = moment.utc(expiration_date)

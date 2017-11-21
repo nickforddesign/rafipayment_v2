@@ -27,11 +27,11 @@
         <div v-if="periods.length">
           <legend>Billing Periods</legend>
           <div class="box" v-for="(period, index) in periods" :key="index">
-            <field name="start date" :errors="errors">
-              <date-picker v-model="period.start_date" v-validate="'required'" name="start date" />
+            <field :name="`start date ${index}`" label="Start Date" :errors="errors">
+              <date-picker v-model="period.start_date" v-validate="'required'" data-vv-as="start date" :name="`start date ${index}`" />
             </field>
-            <field name="amount" :errors="errors">
-              <currency v-model="period.amount" v-validate="'required|min_currency:0.01'" name="amount" />
+            <field :name="`amount ${index}`" label="Amount" :errors="errors">
+              <currency v-model="period.amount" v-validate="'required|min_currency:0.01'" data-vv-as="amount" :name="`amount ${index}`" />
             </field>
           </div>
         </div>

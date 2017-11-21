@@ -18,7 +18,7 @@
         <input type="text" v-model="phone">
       </field>
 
-      <field name="password" :errors="errors">
+      <field name="password" :errors="errors" v-if="role === 'superadmin'">
         <password v-model="password" v-validate="'required'" name="password" />
       </field>
 

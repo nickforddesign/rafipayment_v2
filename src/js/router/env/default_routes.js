@@ -12,6 +12,16 @@ const routes = [
     }
   },
   {
+    name: 'Activation',
+    path: '/activate',
+    meta: {
+      auth: false
+    },
+    component(resolve) {
+      require(['@/views/activate'], resolve)
+    }
+  },
+  {
     name: 'Dashboard',
     path: '/dashboard',
     meta: {

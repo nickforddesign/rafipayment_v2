@@ -17,9 +17,9 @@
       <input type="text" name="phone" v-model="phone">
     </field>
 
-    <field name="password" :errors="errors">
+    <!-- <field name="password" :errors="errors">
       <password v-model="password" v-validate="'required'" name="password" />
-    </field>
+    </field> -->
 
     <div class="actions" :errors="errors">
       <button class="primary" @click="add">Add</button>
@@ -65,6 +65,7 @@ export default {
         //   phone: this.phone,
         //   password: this.password
         // }
+        console.log(trimObj(this.$data, ''))
         this.$user = trimObj(this.$data, '')
         this.$parent.addTenant(this.$user)
         this.$parent.new = false

@@ -101,7 +101,7 @@ export default class User extends Model {
         type: String
       },
       password: {
-        type: Boolean
+        // type: Boolean
       },
       charges: {
         type: Array

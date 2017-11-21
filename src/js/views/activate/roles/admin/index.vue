@@ -1,0 +1,19 @@
+<template>
+  <div>
+    Hello new admin
+  </div>
+</template>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<script>
+export default {
+  name: 'activate-admin'
+}
+</script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+  
+</style>

@@ -129,6 +129,7 @@ export default {
     top: 10px;
     left: 10px;
     z-index: 4;
+    pointer-events: none;
   }
 
   input {

@@ -45,6 +45,10 @@ export default {
     REFRESH(state, session) {
       state.user.session = session
       getStorage('refresh_token', this.getters['session:refresh'].token)
+    },
+    ACTIVATE(state, user) {
+      state.user = user
+      // setStorage('refresh_token', this.getters['session:refresh'].token)
     }
   },
   actions: {
@@ -56,6 +60,9 @@ export default {
     },
     refresh({ commit }, { session }) {
       commit('REFRESH', session)
+    },
+    activate({ commit }, user) {
+      commit('ACTIVATE', user)
     }
   }
 }

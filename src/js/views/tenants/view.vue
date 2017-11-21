@@ -49,11 +49,18 @@
           <div class="grid__col grid__col--1-of-2">
           </div>
         </div>
+
       </div>
+
+      <div v-if="!$user.password" class="actions">
+        <button class="primary" @click="invite">Send Invite</button>
+      </div>
+
       <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal" />
       <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :tenants="[$user]" />
 
       <transfers-table v-if="fetched" :data="$user.payment" :path="`tenants/${$user.id}/transfers`" />
+      
     </div>
     <loading v-else />
   </div>
@@ -109,6 +116,12 @@ export default {
     },
     confirmModal() {
       this.fetch()
+    },
+    async invite() {
+      const response = await this.$request(`${this.$user.url}/invite`, {
+        method: 'POST'
+      })
+      console.log(response)
     }
   },
   components: {
@@ -118,3 +131,9 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.actions {
+  margin-bottom: 20px;
+}
+</style>

@@ -1,9 +1,9 @@
 // import { path, clone } from 'ramda'
 import moment from 'moment'
-// import session from '@/session'
+import session from '@/session'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
-import { parseCurrency, statesHelper, unitsHelper } from '@/utils'
+import { statesHelper, unitsHelper } from '@/utils'
 
 import Property from '@/models/property'
 import Unit from '@/models/unit'
@@ -68,14 +68,11 @@ export default class Lease extends Model {
           return { months, days, auto }
         },
         label() {
-          console.log(`${moment.utc(this.start_date).format('M/D/YY')} – ${moment.utc(this.end_date).format('M/D/YY')}`)
           return `${moment.utc(this.start_date).format('M/D/YY')} – ${moment.utc(this.end_date).format('M/D/YY')}`
-        }
-        /*
+        },
         tenants_sorted() {
           return this.tenants.sort((a, b) => {
-            // return _.get(this.split, a._id) !== undefined
-            return path([a._id], this.split) !== undefined
+            return a.period.length
               ? -1
               : 1
           }).sort((a, b) => {
@@ -83,7 +80,8 @@ export default class Lease extends Model {
               ? -1
               : 1
           })
-        },
+        }
+        /*
         splits() {
           // let split = _.merge({}, this.split || {})
           let split = clone(this.split || {})
@@ -131,6 +129,29 @@ export default class Lease extends Model {
         */
       },
       methods: {
+        getSuggestedSplit(period_id) {
+          const period = this.periods.find(period => period.id === period_id)
+          console.log(period)
+          let missing_splits = 0
+          const tenant_periods = this.tenants.map(tenant => {
+            const tenant_period = tenant.periods.find(period => period.id === period_id)
+            if (tenant_period) {
+              return tenant_period
+            } else {
+              missing_splits++
+            }
+          }).filter(item => item)
+          console.log(tenant_periods)
+          const rent_covered = tenant_periods.reduce((acc, item) => {
+            return acc + item.amount
+          }, 0)
+          console.log({rent_covered})
+          const rent_missing = period.amount - rent_covered
+          console.log({rent_missing})
+          console.log(missing_splits)
+          const suggested = rent_missing / missing_splits
+          return suggested
+        },
         getTerm(format = 'MM/DD/YYYY') {
           const utc = moment.utc
           const start = format
@@ -145,31 +166,31 @@ export default class Lease extends Model {
             end = false
           }
           return { start, end }
-        },
-        validateSplit(input) {
-          this.split_amount = parseCurrency(input, Number)
-          // if input exceeds rent remaining, use max possible amount
-          let output
-          if (this.rent_remaining < 0) {
-            this.split_amount = null
-            output = {
-              validated: false,
-              amount: this.rent_remaining
-            }
-          } else if (isNaN(this.split_amount)) {
-            output = {
-              validated: false,
-              amount: ''
-            }
-          } else {
-            output = {
-              validated: true,
-              amount: this.split_amount
-            }
-          }
-          this.split_amount = false
-          return output
         }
+        // validateSplit(input) {
+        //   this.split_amount = parseCurrency(input, Number)
+        //   // if input exceeds rent remaining, use max possible amount
+        //   let output
+        //   if (this.rent_remaining < 0) {
+        //     this.split_amount = null
+        //     output = {
+        //       validated: false,
+        //       amount: this.rent_remaining
+        //     }
+        //   } else if (isNaN(this.split_amount)) {
+        //     output = {
+        //       validated: false,
+        //       amount: ''
+        //     }
+        //   } else {
+        //     output = {
+        //       validated: true,
+        //       amount: this.split_amount
+        //     }
+        //   }
+        //   this.split_amount = false
+        //   return output
+        // }
       }
     }
   }
@@ -190,16 +211,7 @@ export default class Lease extends Model {
       removed: {
         type: Boolean
       },
-      autopay: {
-        type: Object
-      },
       bill_due_day: {
-        type: Number
-      },
-      bill_generation_day: {
-        type: Number
-      },
-      bill_overdue_day: {
         type: Number
       },
       start_date: {
@@ -237,21 +249,6 @@ export default class Lease extends Model {
           amount: Currency
         }
       },
-      split: {
-        type: Object
-      },
-      first_bill_generation_date: {
-        type: ISODate
-      },
-      last_bill_generation_date: {
-        type: ISODate
-      },
-      status: {
-        type: Object
-      },
-      type: {
-        type: String
-      },
       tenants: {
         type: Array,
         items: {
@@ -267,10 +264,6 @@ export default class Lease extends Model {
         type: Object,
         properties: Unit.schema()
       }
-      // split_amount: {
-      //   type: Boolean,
-      //   default: false
-      // }
     }
   }
 }
