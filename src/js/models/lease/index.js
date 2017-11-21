@@ -13,9 +13,9 @@ export default class Lease extends Model {
   static defaults() {
     return {
       name: 'lease',
-      beforeMount() {
-        this.split_amount = undefined
-      },
+      // beforeMount() {
+      //   this.split_amount = undefined
+      // },
       computed: {
         is_active() {
           return this.current_period !== undefined
@@ -131,7 +131,7 @@ export default class Lease extends Model {
       methods: {
         getSuggestedSplit(period_id) {
           const period = this.periods.find(period => period.id === period_id)
-          console.log(period)
+          // console.log(period)
           let missing_splits = 0
           const tenant_periods = this.tenants.map(tenant => {
             const tenant_period = tenant.periods.find(period => period.id === period_id)
@@ -141,14 +141,14 @@ export default class Lease extends Model {
               missing_splits++
             }
           }).filter(item => item)
-          console.log(tenant_periods)
+          // console.log(tenant_periods)
           const rent_covered = tenant_periods.reduce((acc, item) => {
             return acc + item.amount
           }, 0)
-          console.log({rent_covered})
+          // console.log({rent_covered})
           const rent_missing = period.amount - rent_covered
-          console.log({rent_missing})
-          console.log(missing_splits)
+          // console.log({rent_missing})
+          // console.log(missing_splits)
           const suggested = rent_missing / missing_splits
           return suggested
         },

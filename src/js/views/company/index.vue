@@ -10,7 +10,7 @@
         <button class="primary">Edit</button>
       </div>
     </header>
-    <div class="table">
+    <div class="table-container">
       <div class="header">
         Basic Information
       </div>
@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div class="table">
+    <div class="table-container">
       <div class="header">
         Account Representative
       </div>

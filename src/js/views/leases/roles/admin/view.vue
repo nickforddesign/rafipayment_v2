@@ -13,7 +13,7 @@
 
     <div class="grid">
       <div class="grid__col grid__col--1-of-2">
-        <div class="table">
+        <div class="table-container">
           <div class="header">
             Unit Information
           </div>
@@ -48,8 +48,8 @@
           </dl>
         </div>
         
-        <!-- <div class="table" v-if="$lease.periods.length > 1"> -->
-        <div class="table">
+        <!-- <div class="table-container" v-if="$lease.periods.length > 1"> -->
+        <div class="table-container">
           <div class="header">
             Lease Terms
           </div>
@@ -110,7 +110,7 @@
 
     </div>
 
-    <div class="table">
+    <div class="table-container">
       <div class="header">
         Lease Charges
       </div>
@@ -141,7 +141,7 @@
       </empty>
     </div>
 
-    <div class="table">
+    <div class="table-container">
       <div class="header">
         Tenant Charges
       </div>

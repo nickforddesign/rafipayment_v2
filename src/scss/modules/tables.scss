@@ -1,22 +1,32 @@
 @import '~%/colors';
 
-header {
-  display: flex;
-  align-items: center;
+.table {
+  display: table;
 
-  .meta {
-    flex: 1 0 0;
+  .thead {
+    display: table-header-group;
   }
-  .actions {
-    flex: 2 0 0;
-    text-align: right;
 
-    & > div {
-      display: inline-block;
-    }
+  .tbody {
+    display: table-row-group;
+  }
+
+  .tr {
+    display: table-row;
+  }
+
+  .td {
+    display: table-cell;
   }
 }
 
+
+.table-container {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+// table header
 .header {
   display: flex;
   align-items: center;
@@ -39,19 +49,6 @@ header {
   }
 }
 
-dl {
-  padding: 20px 0;
-  border-bottom: 1px solid $color-text-medium;
-
-  dt {
-    color: $color-text-medium;
-  }
-}
-
-.table {
-  position: relative;
-  margin-bottom: 30px;
-}
 
 table {
   width: 100%;

@@ -1,9 +1,12 @@
 dl {
   display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid $color-text-medium;
 
   dt {
     width: 20%;
     flex: 1 0 0;
+    color: $color-text-medium;
   }
   dd {
     flex: 2 0 0;

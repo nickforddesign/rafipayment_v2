@@ -12,7 +12,7 @@
         </div>
       </header>
 
-      <div class="table">
+      <div class="table-container">
         <div class="header">
           Basic Information
         </div>
@@ -38,8 +38,8 @@
         </div>
       </div>
 
-      <!-- <div class="table" v-if="$lease.periods.length < 1"> -->
-      <div class="table">
+      <!-- <div class="table-container" v-if="$lease.periods.length < 1"> -->
+      <div class="table-container">
         <div class="header">
           Billing Periods
         </div>
@@ -59,7 +59,7 @@
         </table>
       </div>
 
-      <div class="table">
+      <div class="table-container">
         <div class="header">
           Unit Information
         </div>

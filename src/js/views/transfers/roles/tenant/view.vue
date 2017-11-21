@@ -13,7 +13,7 @@
         </div>
       </header>
 
-      <div class="table">
+      <div class="table-container">
         <div class="header">
           Transfer Information
         </div>
@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <div class="table">
+      <div class="table-container">
         <div class="header">
           Status
         </div>

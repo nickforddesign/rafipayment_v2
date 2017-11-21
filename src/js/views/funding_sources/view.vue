@@ -10,7 +10,7 @@
         <button class="primary" @click="showModal('name')">Edit</button>
       </div>
     </header>
-    <div class="table">
+    <div class="table-container">
       <div class="header">
         Funding Source Information
       </div>
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div v-if="$funding_source.microdeposits" class="table">
+    <div v-if="$funding_source.microdeposits" class="table-container">
       <div class="header">
         Microdeposits
       </div>

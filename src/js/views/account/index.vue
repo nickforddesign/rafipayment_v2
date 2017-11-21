@@ -10,7 +10,7 @@
           <button class="primary" @click="showModal('name')">Edit</button>
         </div>
       </header>
-      <div class="table">
+      <div class="table-container">
         <div class="header">
           Basic Information
         </div>
