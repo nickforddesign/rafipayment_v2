@@ -1,6 +1,6 @@
 <template>
   <div class="collection-view">
-    <collection name="ledger" :$collection="$collection" :limit="5" :paginate="true">
+    <collection name="ledger" :$collection="$collection" collection_name="transfers" :limit="5" :paginate="true">
       <div slot="actions">
         <button @click="add" class="primary">Add New Transfer</button>
       </div>

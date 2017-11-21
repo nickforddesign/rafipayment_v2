@@ -139,6 +139,7 @@ export default {
   },
   computed: {
     my_periods() {
+      console.log(this.$lease.tenants)
       const my_periods = this.$lease.tenants.find(tenant => {
         return tenant.id === session.$user.id
       }).periods
