@@ -1,11 +1,11 @@
 <template>
-  <tr @click="goToModel">
-    <td>
+  <div class="tr" @click="goToModel">
+    <div class="td">
       <a :href="$user.urlRoot" @click.prevent>{{ $user.full_name }}</a>
-    </td>
-    <td>{{ $user.email }}</td>
-    <td>{{ $user.created | moment('MM/DD/YYYY') }}</td>
-  </tr>
+    </div>
+    <div class="td">{{ $user.email }}</div>
+    <div class="td">{{ $user.created | moment('MM/DD/YYYY') }}</div>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->

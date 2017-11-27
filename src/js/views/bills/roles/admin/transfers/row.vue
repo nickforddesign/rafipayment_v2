@@ -1,16 +1,16 @@
 <template>
-  <tr @click="goToModel">
-    <td>
+  <div class="tr" @click="goToModel">
+    <div class="td">
       <a :href="`/${$transfer.urlRoot}`" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</a>
-    </td>
-    <td>Destination</td>
-    <td>Source</td>
-    <td>{{ $transfer.type }}</td>
-    <td>
+    </div>
+    <div class="td">Destination</div>
+    <div class="td">Source</div>
+    <div class="td">{{ $transfer.type }}</div>
+    <div class="td">
       <span :class="['flag', status_class]">{{ $transfer.status }}</span>
-    </td>
-    <td align="right">{{ $transfer.amount | currency }}</td>
-  </tr>
+    </div>
+    <div class="td" align="right">{{ $transfer.amount | currency }}</div>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->

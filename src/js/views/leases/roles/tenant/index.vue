@@ -8,7 +8,17 @@
         <search />
       </div>
     </header>
-    <table>
+    <responsive-table :columns="[
+      'Property',
+      'Unit',
+      'Start Date',
+      'End Date',
+      'Duration',
+      'Current Rent'
+    ]">
+      <row v-for="(model, index) in collection" :key="index" :model="model" />
+    </responsive-table>
+    <!-- <table>
       <thead>
         <tr>
           <td>Property</td>
@@ -22,7 +32,7 @@
       <tbody>
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </tbody>
-    </table>
+    </table> -->
   </div>
 </template>
 

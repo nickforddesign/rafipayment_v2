@@ -66,7 +66,7 @@
 
       <!-- Single Billing Period -->
 
-      <div class="table grid__col grid__col--1-of-2">
+      <div class="table-container grid__col grid__col--1-of-2">
         <!-- <div v-if="$lease.periods.length === 1">
           <div class="header">
             Lease Terms
@@ -116,20 +116,16 @@
       </div>
 
       <div v-if="$lease.charges.length">
-        <table>
-          <thead>
-            <tr>
-              <td>Type</td>
-              <td>Date</td>
-              <td>Description</td>
-              <td>Amount</td>
-              <td>Actions</td>
-            </tr>
-          </thead>
-          <tbody>
-            <charge-row v-for="(charge, index) in $lease.charges" :key="index" :model="charge" :basePath="`${$lease.url}/charges`" />
-          </tbody>
-        </table>
+        <responsive-table :columns="[
+          'Type',
+          'Date',
+          'Description',
+          'Amount',
+          'Actions'
+        ]">
+          <charge-row v-for="(charge, index) in $lease.charges" :key="index" :model="charge" :basePath="`${$lease.url}/charges`" />
+        </responsive-table>
+
         <div class="actions text-center">
           <button @click="showModal('lease_charge')">Add lease charge</button>
         </div>

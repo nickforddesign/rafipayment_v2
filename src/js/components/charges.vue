@@ -6,18 +6,17 @@
         <button @click="showModal">Add Charge</button>
       </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <td>Type</td>
-          <td>Description</td>
-          <td width="20%" class="text-right">Amount</td>
-        </tr>
-      </thead>
-      <tbody>
-        <charge-row v-for="(charge, index) in $user.charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
-      </tbody>
-    </table>
+    <responsive-table :columns="[
+      'Type',
+      'Description',
+      {
+        name: 'Amount',
+        class: 'text-right',
+        width: '20%'
+      }
+    ]">
+      <charge-row v-for="(charge, index) in $user.charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
+    </responsive-table>
 
     <charge-modal v-if="modal_visible" @close="closeModal" :confirm="fetch" :path="`${$user.url}/charges`" />
 

@@ -1,9 +1,9 @@
 <template>
-  <tr>
-    <td>{{ $charge.type | capitalize}}</td>
-    <td>{{ $charge.description | limit }}</td>
-    <td class="text-right">{{ $charge.amount | currency }}</td>
-  </tr>
+  <div class="tr">
+    <div class="td">{{ $charge.type | capitalize}}</div>
+    <div class="td">{{ $charge.description | limit }}</div>
+    <div class="td text-right">{{ $charge.amount | currency }}</div>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->

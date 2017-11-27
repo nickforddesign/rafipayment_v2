@@ -1,14 +1,14 @@
 <template>
-  <tr @click="goToModel">
-    <td>
+  <div class="tr" @click="goToModel">
+    <div class="td">
       <a :href="`/${$lease.urlRoot}`" @click.prevent>{{ $lease.property.address }}</a>
-    </td>
-    <td>{{ $lease.unit.name }}</td>
-    <td>{{ $lease.start_date | moment('M/D/YYYY', true) }}</td>
-    <td>{{ $lease.end_date | moment('M/D/YYYY', true) }}</td>
-    <td>{{ $lease.length.months }} Mo.</td>
-    <td>{{ current_rent }}</td>
-  </tr>
+    </div>
+    <div class="td">{{ $lease.unit.name }}</div>
+    <div class="td">{{ $lease.start_date | moment('M/D/YYYY', true) }}</div>
+    <div class="td">{{ $lease.end_date | moment('M/D/YYYY', true) }}</div>
+    <div class="td">{{ $lease.length.months }} Mo.</div>
+    <div class="td">{{ current_rent }}</div>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->

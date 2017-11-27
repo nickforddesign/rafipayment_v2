@@ -7,21 +7,21 @@
       </div>
     </div>
     <div v-if="fetched">
-      <table v-if="collection.length">
-        <thead>
-          <tr>
-            <td>Date</td>
-            <td>Destination</td>
-            <td>Source</td>
-            <td>Type</td>
-            <td>Status</td>
-            <td width="80px" align="right">Amount</td>
-          </tr>
-        </thead>
-        <tbody>
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </tbody>
-      </table>
+       <responsive-table v-if="collection.length" :columns="[
+        'Date',
+        'Destination',
+        'Source',
+        'Type',
+        'Status',
+        {
+          name: 'Amount',
+          class: 'text-right' ,
+          width: '80px'
+        }
+      ]">
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
+      </responsive-table>
+
       <empty v-else>
         <div slot="message">There are no payments on this bill yet</div>
       </empty>

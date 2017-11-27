@@ -1,11 +1,11 @@
 <template>
-  <tr @click="goToModel">
-    <td>
-      <a :href="$property.urlRoot" @click.prevent>{{ $property.name }}</a>
-    </td>
-    <td>{{ $property.address }}</td>
-    <td>-</td>
-  </tr>
+  <div class="tr" @click="goToModel">
+    <div class="td">
+      <a :href="`/${$property.urlRoot}`" @click.prevent>{{ $property.name }}</a>
+    </div>
+    <div class="td">{{ $property.address }}</div>
+    <div class="td">-</div>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     goToModel() {
-      this.$router.push(this.$property.urlRoot)
+      this.$router.push(`/${this.$property.urlRoot}`)
     }
   }
 }

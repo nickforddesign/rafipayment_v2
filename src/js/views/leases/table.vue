@@ -5,21 +5,17 @@
     </div>
     <div v-if="fetched">
       <div v-if="collection.length">
-        <table>
-          <thead>
-            <tr>
-              <td>Property</td>
-              <td>Unit</td>
-              <td>Start Date</td>
-              <td>End Date</td>
-              <td>Duration</td>
-              <td>Current Rent</td>
-            </tr>
-          </thead>
-          <tbody>
-            <row v-for="(model, index) in collection" :key="index" :model="model" />
-          </tbody>
-        </table>
+        <responsive-table :columns="[
+          'Property',
+          'Unit',
+          'Start Date',
+          'End Date',
+          'Duration',
+          'Current Rent'
+        ]">
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </responsive-table>
+
         <div class="actions text-center">
           <button class="primary" slot="actions" @click="emitAdd">Add Lease</button>          
         </div>

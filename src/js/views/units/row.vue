@@ -1,13 +1,13 @@
 <template>
-  <tr @click="goToModel">
-    <td>
+  <div class="tr" @click="goToModel">
+    <div class="td">
       <a :href="`/${$unit.urlRoot}`" @click.prevent>{{ $unit.name }}</a>
-    </td>
-    <td>{{ $unit.property_name }}</td>
-    <td>-</td>
-    <td>{{ $unit.bed_count }}</td>
-    <td>{{ $unit.bath_count }}</td>
-  </tr>
+    </div>
+    <div class="td">{{ $unit.property_name }}</div>
+    <div class="td">-</div>
+    <div class="td">{{ $unit.bed_count }}</div>
+    <div class="td">{{ $unit.bath_count }}</div>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->

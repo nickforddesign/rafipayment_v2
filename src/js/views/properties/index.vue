@@ -5,18 +5,14 @@
         <button @click="add" class="primary">Add New Property</button>
       </div>
 
-      <table slot="content">
-        <thead>
-          <tr>
-            <td>Name</td>
-            <td>Address</td>
-            <td>Units</td>
-          </tr>
-        </thead>
-        <tbody>
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </tbody>
-      </table>
+      <responsive-table slot="content" :columns="[
+        'Name',
+        'Address',
+        'Units'
+      ]">
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
+      </responsive-table>
+
     </collection>
 
     <property-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />

@@ -5,19 +5,15 @@
         <button @click="add" class="primary">Add New Bill</button>
       </div>
 
-      <table slot="content">
-        <thead>
-          <tr>
-            <td>Due Date</td>
-            <td>Target</td>
-            <td>Type</td>
-            <td>Balance</td>
-          </tr>
-        </thead>
-        <tbody>
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </tbody>
-      </table>
+      <responsive-table slot="content" :columns="[
+        'Due Date',
+        'Target',
+        'Type',
+        'Balance'
+      ]">
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
+      </responsive-table>
+
     </collection>
 
     <bill-modal v-if="modal_visible" @close="closeModal" :confirm="fetch" />

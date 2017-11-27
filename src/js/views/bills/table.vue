@@ -6,26 +6,22 @@
           Bills
         </slot>
       </div>
-      <div class="actions">
+      <!-- <div class="actions">
         <slot name="actions">
-          <!-- <button class="small" @click="showModal">Add Payment Method</button> -->
+          <button class="small" @click="showModal">Add Payment Method</button>
         </slot>
-      </div>
+      </div> -->
     </div>
     <div v-if="fetched">
-      <table v-if="collection.length">
-        <thead>
-          <tr>
-            <td>Due Date</td>
-            <td>Target</td>
-            <td>Type</td>
-            <td>Balance</td>
-          </tr>
-        </thead>
-        <tbody>
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </tbody>
-      </table>
+      <responsive-table v-if="collection.length" :columns="[
+        'Due Date',
+        'Target',
+        'Type',
+        'Balance'
+      ]">
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
+      </responsive-table>
+
       <empty v-else>
         <div slot="message">This {{ $parent.$options.name }} doesn't have any bills yet</div>
         <button class="primary" slot="actions" @click="showModal">Add Bill</button>
@@ -33,7 +29,6 @@
     </div>
     <loading v-else type="table" />
 
-    <!-- <funding-source-modal v-if="modal_visible" @close="closeModal" @complete="fetch" /> -->
   </div>
 </template>
 
@@ -41,7 +36,6 @@
 
 <script>
 import { Collection } from 'vue-collections'
-// import fundingSourceModal from '@/components/modals/funding_source'
 
 import row from './row'
 
@@ -57,7 +51,6 @@ export default {
     }
   },
   collection() {
-    console.log(this.basePath)
     return new Collection({
       basePath: this.basePath
     })
@@ -79,7 +72,6 @@ export default {
   },
   components: {
     row
-    // fundingSourceModal
   }
 }
 </script>

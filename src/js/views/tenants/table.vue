@@ -5,18 +5,13 @@
     </div>
     <!-- <div v-if="fetched"> -->
       <div v-if="collection.length">
-        <table>
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Address</td>
-              <td>Created</td>
-            </tr>
-          </thead>
-          <tbody>
-            <row v-for="(model, index) in collection" :key="index" :model="model" />
-          </tbody>
-        </table>
+        <responsive-table :columns="[
+          'Name',
+          'Address',
+          'Created'
+        ]">
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </responsive-table>
       </div>
       <empty v-else>
         <div slot="message">This {{ $parent.$options.name }} doesn't have any tenants yet</div>

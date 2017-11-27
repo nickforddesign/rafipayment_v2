@@ -3,20 +3,16 @@
     <div class="row">
       <user-card :model="$user" />
     </div>
-    <table>
-      <thead>
-        <tr>
-          <td>Type</td>
-          <td>Date</td>
-          <td>Description</td>
-          <td>Amount</td>
-          <td>Actions</td>
-        </tr>
-      </thead>
-      <tbody>
-        <charge-row v-for="(charge, index) in $user.charges" :key="index" :basePath="`${$user.url}/charges`" :model="charge" />
-      </tbody>
-    </table>
+
+    <responsive-table v-if="$user.charges.length" :columns="[
+      'Type',
+      'Date',
+      'Description',
+      'Amount',
+      'Actions'
+    ]">
+      <charge-row v-for="(charge, index) in $user.charges" :key="index" :basePath="`${$user.url}/charges`" :model="charge" />
+    </responsive-table>
 
     <div class="actions text-center">
       <button @click="addCharge">Add tenant charge</button>
@@ -95,6 +91,7 @@ export default {
 .user-card {
   width: 300px;
   margin: 0;
+  box-shadow: none;
 }
 .actions {
   margin-top: 10px;

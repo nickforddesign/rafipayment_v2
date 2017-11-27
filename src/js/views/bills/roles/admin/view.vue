@@ -9,7 +9,7 @@
       </header>
 
       <div class="grid">
-        <div class="table grid__col grid__col--1-of-2">
+        <div class="table-container grid__col grid__col--1-of-2">
           <div class="header">
             Basic Information
           </div>
@@ -33,7 +33,7 @@
           </dl>
         </div>
 
-        <div class="table grid__col grid__col--1-of-2">
+        <div class="table-container grid__col grid__col--1-of-2">
           <div class="header">
             Tenants
           </div>
@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <div class="table charges">
+      <div class="table-container charges">
         <div class="header">
           Charges
         </div>
@@ -133,6 +133,7 @@ export default {
   .user-card {
     width: 300px;
     margin: 0;
+    box-shadow: none;
   }
 }
 

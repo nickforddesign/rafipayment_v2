@@ -5,18 +5,14 @@
         <button @click="add" class="primary">Add New Admin</button>
       </div>
 
-      <table slot="content">
-        <thead>
-          <tr>
-            <td>Name</td>
-            <td>Address</td>
-            <td>Created</td>
-          </tr>
-        </thead>
-        <tbody>
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </tbody>
-      </table>
+      <responsive-table slot="content" :columns="[
+        'Name',
+        'Address',
+        'Created'
+      ]">
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
+      </responsive-table>
+      
     </collection>
 
     <user-modal role="admin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />

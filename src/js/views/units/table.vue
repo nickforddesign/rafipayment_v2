@@ -5,20 +5,16 @@
     </div>
     <div v-if="fetched">
       <div v-if="collection.length">
-        <table>
-          <thead>
-            <tr>
-              <td>Unit</td>
-              <td>Property</td>
-              <td>Current Lease</td>
-              <td>Beds</td>
-              <td>Baths</td>
-            </tr>
-          </thead>
-          <tbody>
-            <row v-for="(model, index) in collection" :key="index" :model="model" />
-          </tbody>
-        </table>
+        <responsive-table :columns="[
+          'Unit',
+          'Property',
+          'Current Lease',
+          'Beds',
+          'Baths'
+        ]">
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </responsive-table>
+
       </div>
       <empty v-else>
         <div slot="message">This property doesn't have any units yet</div>

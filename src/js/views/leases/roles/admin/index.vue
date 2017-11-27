@@ -5,21 +5,17 @@
         <button @click="add" class="primary">Add New Lease</button>
       </div>
 
-      <table slot="content">
-        <thead>
-         <tr>
-           <td>Property</td>
-           <td>Unit</td>
-           <td>Start Date</td>
-           <td>End Date</td>
-           <td>Duration</td>
-           <td>Current Rent</td>
-         </tr>
-        </thead>
-        <tbody>
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </tbody>
-      </table>
+      <responsive-table slot="content" :columns="[
+        'Property',
+        'Unit',
+        'Start Date',
+        'End Date',
+        'Duration',
+        'Current Rent'
+      ]">
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
+      </responsive-table>
+
     </collection>
 
     <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
