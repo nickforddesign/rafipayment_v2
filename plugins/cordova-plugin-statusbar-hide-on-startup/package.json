@@ -1,0 +1,65 @@
+{
+  "_from": "cordova-plugin-statusbar-hide-on-startup@~0.1.7",
+  "_id": "cordova-plugin-statusbar-hide-on-startup@0.1.7",
+  "_inBundle": false,
+  "_integrity": "sha1-73B5DY6jWgc3W/BtLbZVGd8F+e0=",
+  "_location": "/cordova-plugin-statusbar-hide-on-startup",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cordova-plugin-statusbar-hide-on-startup@~0.1.7",
+    "name": "cordova-plugin-statusbar-hide-on-startup",
+    "escapedName": "cordova-plugin-statusbar-hide-on-startup",
+    "rawSpec": "~0.1.7",
+    "saveSpec": null,
+    "fetchSpec": "~0.1.7"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-statusbar-hide-on-startup/-/cordova-plugin-statusbar-hide-on-startup-0.1.7.tgz",
+  "_shasum": "ef70790d8ea35a07375bf06d2db65519df05f9ed",
+  "_spec": "cordova-plugin-statusbar-hide-on-startup@~0.1.7",
+  "_where": "/home/groot/Sites/rafipayment_v2",
+  "author": {
+    "name": "Seva Safris"
+  },
+  "bugs": {
+    "url": "https://github.com/SevaSafris/cordova-plugin-statusbar-hide-on-startup/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-statusbar-hide-on-startup",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova plugin to hide the statusbar on startup for iOS devices.",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "homepage": "https://github.com/SevaSafris/cordova-plugin-statusbar-hide-on-startup#readme",
+  "keywords": [
+    "cordova",
+    "ios",
+    "app",
+    "statusbar",
+    "hide",
+    "startup",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-statusbar-hide-on-startup",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/SevaSafris/cordova-plugin-statusbar-hide-on-startup.git"
+  },
+  "version": "0.1.7"
+}
