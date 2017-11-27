@@ -1,14 +1,23 @@
+# mac filesystem
 .DS_Store
-node_modules/
-dist/
-/coverage/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Editor directories and files
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+# node packages
+node_modules/
+
+# debug logs
+npm-debug.log
+yarn-error.log
+/test/unit/coverage
+/test/e2e/reports
+selenium-debug.log
+/stats.json
+
+# test coverage
+/coverage/
+
+# cordova files
+/dist/
+/www/
+/platforms/
+/plugins/
+#/res/
