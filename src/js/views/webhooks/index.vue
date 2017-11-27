@@ -1,17 +1,14 @@
 <template>
   <div>
     <collection name="webhooks" :$collection="$collection" :searchable="false">
-      <table slot="content">
-        <thead>
-          <tr>
-            <td>Created</td>
-            <td>Topic</td>
-          </tr>
-        </thead>
-        <tbody>
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </tbody>
-      </table>
+
+      <responsive-table slot="content" :columns="[
+        'Created',
+        'Topic'
+      ]">
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
+      </responsive-table>
+
     </collection>
   </div>
 </template>
@@ -34,11 +31,6 @@ export default {
       basePath: 'payment/webhooks'
     })
   },
-  // methods: {
-  //   fetch() {
-  //     this.$collection.fetch()
-  //   }
-  // },
   components: {
     row
   }

@@ -1,10 +1,10 @@
 <template>
-  <tr>
-    <td>{{ model.body.created | moment('MM/DD/YYYY h:mm:ssa') }}</td>
-    <td>
+  <div class="tr">
+    <div class="td">{{ model.body.created | moment('MM/DD/YYYY h:mm:ssa') }}</div>
+    <div class="td">
       {{ model.body.topic }}
-    </td>
-  </tr>
+    </div>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->

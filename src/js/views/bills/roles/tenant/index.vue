@@ -1,23 +1,20 @@
 <template>
-  <div class="collection-view">
-    <header>
-      <div class="meta">
-        <h2>Bills({{ collection.length }})</h2>
+  <div>
+    <collection name="bills" :$collection="$collection">
+      <div slot="actions">
+        <button @click="add" class="primary">Add New Bill</button>
       </div>
-      <div class="actions">
-        <search />
-      </div>
-    </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Due Date</td>
-        </tr>
-      </thead>
-      <tbody>
+
+      <responsive-table slot="content" :columns="[
+        'Due Date',
+        'Target',
+        'Type',
+        'Balance'
+      ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+      </responsive-table>
+
+    </collection>
   </div>
 </template>
 

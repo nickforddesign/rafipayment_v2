@@ -9,18 +9,15 @@
         <button class="primary" @click="add">Add New Superadmin</button>
       </div>
     </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Address</td>
-          <td>Created</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+    <responsive-table :columns="[
+      'Name',
+      'Email',
+      'Created'
+    ]">
+      <row v-for="(model, index) in collection" :key="index" :model="model" />
+    </responsive-table>
+
     <user-modal role="superadmin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>

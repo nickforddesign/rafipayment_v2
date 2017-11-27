@@ -9,19 +9,16 @@
         <button class="primary" @click="add">Add New Subscription</button>
       </div>
     </header>
-    <table>
-      <thead>
-        <tr>
-          <td>URL</td>
-          <td>Created</td>
-          <td>Paused</td>
-          <td>Actions</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+    <responsive-table :columns="[
+      'URL',
+      'Created',
+      'Paused',
+      'Actions'
+    ]">
+      <row v-for="(model, index) in collection" :key="index" :model="model" />
+    </responsive-table>
+
     <webhook-modal role="admin" v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>

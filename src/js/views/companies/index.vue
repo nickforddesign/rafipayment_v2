@@ -9,18 +9,15 @@
         <button class="primary" @click="add">Add New Company</button>
       </div>
     </header>
-    <table>
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Created</td>
-          <td>Account Representative</td>
-        </tr>
-      </thead>
-      <tbody>
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table>
+
+    <responsive-table :columns="[
+      'Name',
+      'Created',
+      'Account Representative'
+    ]">
+      <row v-for="(model, index) in collection" :key="index" :model="model" />
+    </responsive-table>
+
     <company-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
   </div>
 </template>

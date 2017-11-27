@@ -1,38 +1,18 @@
 <template>
   <div>
-    <header>
-      <div class="meta">
-        <h2>Leases({{ collection.length }})</h2>
-      </div>
-      <div class="actions">
-        <search />
-      </div>
-    </header>
-    <responsive-table :columns="[
-      'Property',
-      'Unit',
-      'Start Date',
-      'End Date',
-      'Duration',
-      'Current Rent'
-    ]">
-      <row v-for="(model, index) in collection" :key="index" :model="model" />
-    </responsive-table>
-    <!-- <table>
-      <thead>
-        <tr>
-          <td>Property</td>
-          <td>Unit</td>
-          <td>Start Date</td>
-          <td>End Date</td>
-          <td>Duration</td>
-          <td>Current Rent</td>
-        </tr>
-      </thead>
-      <tbody>
+    <collection name="leases" :$collection="$collection">
+      <responsive-table slot="content" :columns="[
+        'Property',
+        'Unit',
+        'Start Date',
+        'End Date',
+        'Duration',
+        'Current Rent'
+      ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </tbody>
-    </table> -->
+      </responsive-table>
+
+    </collection>
   </div>
 </template>
 
@@ -56,9 +36,6 @@ export default {
       basePath: 'account/leases',
       model: Lease
     })
-  },
-  created() {
-    this.$collection.fetch()
   },
   components: {
     row

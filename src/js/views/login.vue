@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center">
     <logo />
     <form class="box small" @submit.prevent="submit">
       <field name="email" :errors="errors">

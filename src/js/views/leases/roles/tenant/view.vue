@@ -43,20 +43,17 @@
         <div class="header">
           Billing Periods
         </div>
-        <table>
-          <thead>
-            <tr>
-              <td>Start Date</td>
-              <td>End Date</td>
-              <td>Amount</td>
-              <td>Your Split</td>
-              <td>Actions</td>
-            </tr>
-          </thead>
-          <tbody>
-            <split-row v-for="(period, index) in my_periods" :lease="$lease" :period="period" :key="index" />
-          </tbody>
-        </table>
+
+        <responsive-table :columns="[
+          'Start Date',
+          'End Date',
+          'Amount',
+          'Your Split',
+          'Actions'
+        ]">
+          <split-row v-for="(period, index) in my_periods" :lease="$lease" :period="period" :key="index" />
+        </responsive-table>
+
       </div>
 
       <div class="table-container">
