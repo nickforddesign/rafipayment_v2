@@ -97,5 +97,6 @@ export default {
 .user-card {
   width: 300px;
   margin: 0;
+  box-shadow: none;
 }
 </style>

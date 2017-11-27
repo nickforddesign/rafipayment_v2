@@ -5,20 +5,21 @@
     </div>
     <div v-if="model.has_transfers">
       <div v-if="model.transfers.length">
-        <table>
-          <thead>
-            <tr>
-              <td>Date</td>
-              <td>Source</td>
-              <td>Type</td>
-              <td>Status</td>
-              <td width="80px" align="right">Amount</td>
-            </tr>
-          </thead>
-          <tbody>
-            <row v-for="(model, index) in collection" :key="index" :model="model" />
-          </tbody>
-        </table>
+
+        <responsive-table :columns="[
+          'Date',
+          'Source',
+          'Type',
+          'Status',
+          {
+            name: 'Amount',
+            width: '80px',
+            class: 'text-right'
+          }
+        ]">
+          <row v-for="(model, index) in collection" :key="index" :model="model" />
+        </responsive-table>
+
       </div>
       <loading v-else type="table" />
     </div>
