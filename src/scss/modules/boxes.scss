@@ -1,6 +1,6 @@
 @import 'colors';
 
-.box {
+@mixin box_style {
   position: relative;
   padding: 1.25rem;
   margin: 0 auto;
@@ -10,6 +10,10 @@
   color: $color-box-text;
   box-shadow: 0 2px 3px hsla(0,0%,4%,.1), 0 0 0 1px hsla(0,0%,4%,.1);
   overflow: hidden;
+}
+
+.box {
+  @include box_style;
 
   header {
     padding: 12px 14px;

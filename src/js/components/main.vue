@@ -11,7 +11,6 @@
 </template>
 
 <script>
-// import _ from 'lodash'
 import { path } from 'ramda'
 import { mapGetters } from 'vuex'
 import Navigation from './nav'
@@ -51,6 +50,12 @@ export default {
 @import '~%/breakpoints';
 
 $sidebar-width: 230px;
+
+main {
+  &.content {
+    padding: 0 10px;
+  }
+}
 
 @media (min-width: $breakpoint-medium) {
 

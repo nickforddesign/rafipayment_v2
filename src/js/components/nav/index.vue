@@ -63,6 +63,8 @@ export default {
 @import '~%/breakpoints';
 @import '~%/colors';
 
+$nav-height: 72px;
+
 // mobile first
 
 nav {
@@ -133,6 +135,20 @@ nav {
       background: transparent; /* make scrollbar transparent */
     }
   }
+}
+
+.nav-container {
+  position: fixed;
+  top: 0;
+  height: $nav-height;
+  width: 100%;
+  z-index: 9;
+  background: $color-background-dark;
+}
+
+.logo {
+  width: 80px;
+  margin-top: 10px;
 }
 
 @media (min-width: $breakpoint-small) {
@@ -229,6 +245,15 @@ nav {
 
   .nav-toggle {
     display: none;
+  }
+
+  .nav-container {
+    height: 100%;
+    bottom: 0;
+    
+    .logo {
+      width: 100%;
+    }
   }
 
   .nav {

@@ -1,134 +1,116 @@
 @import '~%/colors';
+@import '~%/boxes';
+@import '~%/breakpoints';
 
-.table {
-  display: table;
-  width: 100%;
+// mobile
 
-  .thead {
-    display: table-header-group;
-    // border-bottom: 1px solid white;
-    // margin-bottom: 10px;
+@media (max-width: $breakpoint-medium) {
+  .table {
+    .thead {
+      display: none;
+    }
+    .tbody {
+      .tr {
+        @include box_style;
+      }
+    }
+  }
+}
+
+// tablet & desktop
+
+@media (min-width: $breakpoint-medium) {
+  // css tables
+  .table {
+    display: table;
+    width: 100%;
 
     .tr {
-      .th {
-        margin-bottom: 10px;
-        padding: 14px 20px;
-        border-bottom: 1px solid white;
-      }
-      &:hover {
-        background: lighten($color-background-default, 2%);
-      }
-      &:nth-child(even) {
-        background: $color-box-background;
-        border-top: 1px solid lighten($color-box-background, 10%);
-        border-bottom: 1px solid lighten($color-box-background, 10%);
+      display: table-row;
+    }
 
+    .td {
+      display: table-cell;
+    }
+
+    .th {
+      display: table-cell;
+    }
+
+    .thead {
+      display: table-header-group;
+
+      .tr {
+        .th {
+          margin-bottom: 10px;
+          padding: 14px 20px;
+          border-bottom: 1px solid white;
+        }
         &:hover {
-          background: lighten($color-box-background, 2%);
+          background: lighten($color-background-default, 2%);
+        }
+        &:nth-child(even) {
+          background: $color-box-background;
+          border-top: 1px solid lighten($color-box-background, 10%);
+          border-bottom: 1px solid lighten($color-box-background, 10%);
+
+          &:hover {
+            background: lighten($color-box-background, 2%);
+          }
+        }
+      }
+    }
+
+    .tbody {
+      display: table-row-group;
+      color: $color-text-medium;
+
+      .tr {
+        .td {
+          padding: 20px;
+        }
+        &:hover {
+          background: lighten($color-background-default, 2%);
+        }
+        &:nth-child(even) {
+          background: $color-box-background;
+          border-top: 1px solid lighten($color-box-background, 10%);
+          border-bottom: 1px solid lighten($color-box-background, 10%);
+
+          &:hover {
+            background: lighten($color-box-background, 2%);
+          }
         }
       }
     }
   }
 
-  .tbody {
-    display: table-row-group;
-    color: $color-text-medium;
+  // table container
+  .table-container {
+    position: relative;
+    margin-bottom: 30px;
+  }
 
-    .tr {
-      .td {
-        padding: 20px;
-      }
-      &:hover {
-        background: lighten($color-background-default, 2%);
-      }
-      &:nth-child(even) {
-        background: $color-box-background;
-        border-top: 1px solid lighten($color-box-background, 10%);
-        border-bottom: 1px solid lighten($color-box-background, 10%);
+  // table header
+  .header {
+    display: flex;
+    align-items: center;
+    background: $color-box-background;
+    padding: 12px 16px;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    letter-spacing: 1px;
 
-        &:hover {
-          background: lighten($color-box-background, 2%);
-        }
+    .meta {
+      flex: 1 0 0;
+    }
+    .actions {
+      flex: 2 0 0;
+      text-align: right;
+
+      & > div {
+        display: inline-block;
       }
     }
   }
-
-  .tr {
-    display: table-row;
-  }
-
-  .td {
-    display: table-cell;
-  }
-
-  .th {
-    display: table-cell;
-  }
 }
-
-
-.table-container {
-  position: relative;
-  margin-bottom: 30px;
-}
-
-// table header
-.header {
-  display: flex;
-  align-items: center;
-  background: $color-box-background;
-  padding: 12px 16px;
-  text-transform: uppercase;
-  font-size: 0.8em;
-  letter-spacing: 1px;
-
-  .meta {
-    flex: 1 0 0;
-  }
-  .actions {
-    flex: 2 0 0;
-    text-align: right;
-
-    & > div {
-      display: inline-block;
-    }
-  }
-}
-
-
-// table {
-//   width: 100%;
-
-//   thead {
-//     border-bottom: 1px solid white;
-//     margin-bottom: 10px;
-
-//     tr {
-//       td {
-//         padding: 14px 20px;
-//       }
-//     }
-//   }
-
-//   tbody {
-//     color: $color-text-medium;
-
-//     tr {
-//       td {
-//         padding: 20px;
-//       }
-//       &:hover {
-//         background: lighten($color-background-default, 2%);
-//       }
-//       &:nth-child(even) {
-//         background: $color-box-background;
-//         border-top: 1px solid lighten($color-box-background, 10%);
-//         border-bottom: 1px solid lighten($color-box-background, 10%);
-
-//         &:hover {
-//           background: lighten($color-box-background, 2%);
-//         }
-//       }
-//     }
-//   }
-// }

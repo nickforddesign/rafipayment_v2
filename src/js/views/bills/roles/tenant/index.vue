@@ -1,9 +1,6 @@
 <template>
   <div>
-    <collection name="bills" :$collection="$collection">
-      <div slot="actions">
-        <button @click="add" class="primary">Add New Bill</button>
-      </div>
+    <collection name="bills" :$collection="$collection" :searchable="false">
 
       <responsive-table slot="content" :columns="[
         'Due Date',
@@ -28,30 +25,11 @@ import row from '../../row'
 
 export default {
   name: 'leases',
-  data() {
-    return {
-      modal_visible: false
-    }
-  },
   collection() {
     return new Collection({
       basePath: 'account/bills',
       model: Bill
     })
-  },
-  created() {
-    this.$collection.fetch()
-  },
-  methods: {
-    add() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
-    },
-    confirmModal() {
-      this.$collection.fetch()
-    }
   },
   components: {
     row
