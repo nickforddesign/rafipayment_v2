@@ -75,6 +75,7 @@ nav {
   z-index: 2;
   text-align: left;
   color: $color-nav-text;
+  background: $color-background-dark;
 
   .divider {
     height: 1px;
@@ -99,7 +100,8 @@ nav {
 
   a {
     display: block;
-    padding: 26px 20px;
+    // padding: 26px 20px;
+    padding: 18px 20px;
     font-weight: bold;
     text-transform: uppercase;
     color: $color-nav-text;
@@ -120,11 +122,20 @@ nav {
   }
 }
 
-@media (min-width: $breakpoint-small) {
+.nav {
+  .panel {
+    width: 100%;
+    text-align: center;
+    overflow-y: scroll;
 
-  // .nav {
-  //   width: 240px;
-  // }
+    &::-webkit-scrollbar {
+      width: 0px;
+      background: transparent; /* make scrollbar transparent */
+    }
+  }
+}
+
+@media (min-width: $breakpoint-small) {
 
   nav {
     a {
@@ -148,7 +159,7 @@ nav {
 
 .nav {
   .logo {
-    display: block;
+    display: inline-block;
     width: 180px;
   }
 

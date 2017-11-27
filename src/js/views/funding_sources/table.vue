@@ -13,19 +13,18 @@
       </div>
     </div>
     <div v-if="fetched">
-      <table v-if="collection.length">
-        <thead>
-          <tr>
-            <td>Name</td>
-            <td>Status</td>
-            <td>Created</td>
-            <td>Actions</td>
-          </tr>
-        </thead>
-        <tbody>
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </tbody>
-      </table>
+      <responsive-table v-if="collection.length" :columns="[
+        'Name',
+        'Status',
+        'Created',
+        {
+          name: 'Actions',
+          class: 'text-right'
+        }
+      ]">
+        <row v-for="(model, index) in collection" :key="index" :model="model" />
+      </responsive-table>
+
       <empty v-else>
         <div slot="message">You don't have any payment methods yet</div>
         <button class="primary" slot="actions" @click="showModal">Add Payment Method</button>
