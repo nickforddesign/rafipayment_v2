@@ -34,5 +34,16 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false
+  },
+  cordova: {
+    env: require('./cordova.env'),
+    index: path.resolve(__dirname, '../www/index.html'),
+    assetsRoot: path.resolve(__dirname, '../www'),
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '',
+    productionSourceMap: true,
+    productionGzip: false,
+    productionGzipExtensions: ['js', 'css'],
+    bundleAnalyzerReport: process.env.npm_config_report
   }
 }

@@ -3,7 +3,6 @@
 @import '~%/breakpoints';
 
 // mobile
-
 @media (max-width: $breakpoint-medium) {
   .table {
     .thead {
@@ -18,9 +17,7 @@
 }
 
 // tablet & desktop
-
 @media (min-width: $breakpoint-medium) {
-  // css tables
   .table {
     display: table;
     width: 100%;
