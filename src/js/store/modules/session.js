@@ -44,7 +44,7 @@ export default {
     },
     REFRESH(state, session) {
       state.user.session = session
-      getStorage('refresh_token', this.getters['session:refresh'].token)
+      setStorage('refresh_token', this.getters['session:refresh'].token)
     },
     ACTIVATE(state, user) {
       state.user = user

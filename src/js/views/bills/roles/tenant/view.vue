@@ -63,7 +63,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import session from '@/session'
 import Bill from '@/models/bill'
 import charges from '@/components/charges'
 import transfersTable from './transfers'
@@ -88,13 +87,6 @@ export default {
       })
     }
   },
-  // computed: {
-  //   my_charges() {
-  //     return this.$bill.tenants.find(model => {
-  //       return model.id === session.$user.id
-  //     }).charges
-  //   }
-  // },
   async created() {
     await this.fetch()
     this.fetched = true

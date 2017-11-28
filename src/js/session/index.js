@@ -74,6 +74,9 @@ const session = new Vue({
         }
       }
       return output
+    },
+    set_refresh_token(session) {
+      store.dispatch('refresh', session)
     }
   }
 })

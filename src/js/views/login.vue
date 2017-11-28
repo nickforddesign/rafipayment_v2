@@ -25,7 +25,10 @@
 
       <button type="submit">Login</button>
     </form>
-    <router-link to="/forgot">Forgot password?</router-link>
+
+    <div class="actions">
+      <router-link to="/forgot">Forgot password?</router-link>
+    </div>
   </div>
 </template>
 
@@ -108,5 +111,8 @@ export default {
 }
 .box {
   width: 360px;
+}
+.actions {
+  margin-top: 20px;
 }
 </style>

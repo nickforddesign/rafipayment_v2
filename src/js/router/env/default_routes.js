@@ -1,12 +1,29 @@
 import Login from '@/views/login'
-// import Forgot from '@/views/forgot'
-// import Reset from '@/views/reset'
+import Forgot from '@/views/forgot'
+import Reset from '@/views/reset'
 import NotFound from '@/views/404'
 
 const routes = [
   {
+    name: 'Login',
     path: '/',
     component: Login,
+    meta: {
+      auth: false
+    }
+  },
+  {
+    name: 'Forgot',
+    path: '/forgot',
+    component: Forgot,
+    meta: {
+      auth: false
+    }
+  },
+  {
+    name: 'Reset',
+    path: '/reset',
+    component: Reset,
     meta: {
       auth: false
     }
