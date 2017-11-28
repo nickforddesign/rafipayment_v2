@@ -8,7 +8,7 @@
         </div>
         <div class="actions">
           <button class="link" @click="remove">Delete</button>
-          <button class="primary">Edit</button>
+          <button class="primary" @click="showModal('name')">Edit</button>
         </div>
       </header>
       <div class="table-container">
@@ -56,8 +56,10 @@
         <button class="primary" @click="invite">Send Invite</button>
       </div>
 
-      <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal" />
-      <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :tenants="[$user]" />
+      <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal('lease')" />
+      <lease-modal v-if="modals.lease" @close="closeModal('lease')" :confirm="confirmModal" :tenants="[$user]" />
+
+      <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="confirmModal" />
 
       <transfers-table v-if="fetched" :data="$user.payment" :path="`transfers?filter_parties=${$user.id}`" />
       
@@ -72,6 +74,7 @@
 import User from '@/models/user'
 import leasesTable from '@/views/leases/table'
 import leaseModal from '@/components/modals/lease'
+import nameModal from '@/components/modals/user/name'
 import transfersTable from '@/views/transfers/table'
 
 export default {
@@ -79,7 +82,10 @@ export default {
   data() {
     return {
       fetched: false,
-      modal_visible: false
+      modals: {
+        lease: false,
+        name: false
+      }
     }
   },
   models: {
@@ -108,14 +114,14 @@ export default {
         this.$router.push('/superadmins')
       }
     },
-    showModal() {
-      this.modal_visible = true
+    showModal(modal) {
+      this.modals[modal] = true
     },
-    closeModal() {
-      this.modal_visible = false
+    closeModal(modal) {
+      this.modals[modal] = false
     },
-    confirmModal() {
-      this.fetch()
+    async confirmModal() {
+      await this.fetch()
     },
     async invite() {
       const response = await this.$request(`${this.$user.url}/invite`, {
@@ -127,6 +133,7 @@ export default {
   components: {
     leaseModal,
     leasesTable,
+    nameModal,
     transfersTable
   }
 }

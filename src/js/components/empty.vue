@@ -29,6 +29,7 @@ export default {
 
 .empty-collection {
   margin-top: 20px;
+  margin-bottom: 20px;
   padding: 30px;
   border: 2px dashed #aaa;
   background: $color-box-background;
