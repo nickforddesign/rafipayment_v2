@@ -56,9 +56,7 @@
     </div>
 
     <units-table :data="this.$property" v-if="fetched" />
-    <!-- <div class="actions">
-      <button @click="remove">Delete</button>
-    </div> -->
+
   </div>
 </template>
 
@@ -92,14 +90,7 @@ export default {
     })
   },
   created() {
-    this.$property.fetch()
-      .then(() => {
-        this.fetched = true
-      })
-    this.$collection.fetch()
-      .then(() => {
-        this.banks_fetched = true
-      })
+    this.fetch()
   },
   computed: {
     funding_source() {
@@ -110,13 +101,21 @@ export default {
     }
   },
   methods: {
-    remove() {
+    fetch() {
+      this.$property.fetch()
+        .then(() => {
+          this.fetched = true
+        })
+      this.$collection.fetch()
+        .then(() => {
+          this.banks_fetched = true
+        })
+    },
+    async remove() {
       const confirmed = confirm(`Are you sure you want to remove ${this.$property.address}?`)
       if (confirmed) {
-        this.$property.destroy()
-        .then(() => {
-          this.$router.push('/properties')
-        })
+        await this.$property.destroy()
+        this.$router.push('/properties')
       }
     }
   },

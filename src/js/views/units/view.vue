@@ -7,7 +7,7 @@
       </div>
       <div class="actions">
         <button class="link" @click="remove">Delete</button>
-        <button class="primary">Edit</button>
+        <button class="primary" @click="showModal('unit')">Edit</button>
       </div>
     </header>
     <div class="table-container">
@@ -39,8 +39,8 @@
         </div>
         <div class="grid__col grid__col--1-of-2">
           <dl>
-            <dt>Beds</dt>
-            <dd>{{ $unit.bed_count }}</dd>
+            <dt>Baths</dt>
+            <dd>{{ $unit.bath_count }}</dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
@@ -53,9 +53,10 @@
         </div>
       </div>
     </div>
-    <leases-table :data="$unit" :path="`leases?filter_unit=${$unit.id}`" @add="showModal" />
+    <leases-table :data="$unit" :path="`leases?filter_unit=${$unit.id}`" @add="showModal('lease')" />
 
-    <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :property="$property" :unit="$unit" />
+    <lease-modal v-if="modals.lease" @close="closeModal('lease')" :confirm="confirmModal" :property="$property" :unit="$unit" />
+    <unit-modal v-if="modals.unit" @close="closeModal('unit')" :confirm="confirmModal" :model="$unit.$data" />
   </div>
 </template>
 
@@ -65,6 +66,7 @@
 import Unit from '@/models/unit'
 import Property from '@/models/property'
 
+import unitModal from '@/components/modals/unit/edit'
 import leaseModal from '@/components/modals/lease'
 import leasesTable from '@/views/leases/table'
 
@@ -82,7 +84,10 @@ export default {
   },
   data() {
     return {
-      modal_visible: false
+      modals: {
+        lease: false,
+        unit: false
+      }
     }
   },
   created() {
@@ -100,11 +105,11 @@ export default {
         this.$router.push('/units')
       }
     },
-    showModal() {
-      this.modal_visible = true
+    showModal(modal) {
+      this.modals[modal] = true
     },
-    closeModal() {
-      this.modal_visible = false
+    closeModal(modal) {
+      this.modals[modal] = false
     },
     confirmModal() {
       this.fetch()
@@ -112,7 +117,8 @@ export default {
   },
   components: {
     leaseModal,
-    leasesTable
+    leasesTable,
+    unitModal
   }
 }
 </script>

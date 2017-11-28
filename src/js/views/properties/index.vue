@@ -44,9 +44,6 @@ export default {
       model: Property
     })
   },
-  created() {
-    // this.$collection.fetch()
-  },
   methods: {
     add() {
       this.modal_visible = true

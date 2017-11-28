@@ -2,6 +2,9 @@
   <div class="table collection-view">
     <div class="header">
       Units
+      <div class="actions">
+        <button class="primary small" @click="showModal">Add Unit</button>
+      </div>
     </div>
     <div v-if="fetched">
       <div v-if="collection.length">
@@ -22,6 +25,8 @@
       </empty>
     </div>
     <loading v-else type="table" />
+
+    <unit-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :model="data" />
   </div>
 </template>
 
@@ -29,7 +34,7 @@
 
 <script>
 import { Collection } from 'vue-collections'
-
+import unitModal from '@/components/modals/unit'
 import row from './row'
 
 export default {
@@ -48,17 +53,29 @@ export default {
       basePath: `units?filter_property=${this.data.id}`
     })
   },
-  async created() {
-    await this.$collection.fetch()
-    this.fetched = true
+  created() {
+    this.fetch()
   },
   methods: {
+    async fetch() {
+      this.$collection.reset()
+      await this.$collection.fetch()
+      this.fetched = true
+    },
     showModal() {
       this.modal_visible = true
+    },
+    closeModal() {
+      this.modal_visible = false
+    },
+    confirmModal() {
+      this.fetch()
+      // this.$parent.fetch()
     }
   },
   components: {
-    row
+    row,
+    unitModal
   }
 }
 </script>

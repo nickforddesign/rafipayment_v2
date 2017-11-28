@@ -24,7 +24,8 @@ export default {
       type: Boolean,
       default: false
     },
-    disabled: Boolean
+    disabled: Boolean,
+    value: [String, Object, Number]
   },
   data() {
     return {
@@ -54,6 +55,11 @@ export default {
   methods: {
     emitChange(e, value) {
       this.$emit('input', this.field_value)
+    }
+  },
+  watch: {
+    value(val) {
+      this.field_value = val
     }
   }
 }
