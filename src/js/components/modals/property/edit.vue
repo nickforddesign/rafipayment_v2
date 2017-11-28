@@ -1,8 +1,8 @@
 <template>
   <modal @close="close" :confirm="validate">
-    <h1 slot="header">Add Property</h1>
+    <h1 slot="header">Edit Property</h1>
     <div slot="body">
-      <new-property v-model="place" ref="property_form" />
+      <property-form v-model="place" :model="model" ref="property_form" />
     </div>
   </modal>
 </template>
@@ -11,11 +11,11 @@
 
 <script>
 import { Deferred } from '@/utils'
-import Property from '@/models/property/new'
-import newProperty from '@/components/property/form'
+import Property from '@/models/property'
+import PropertyForm from '@/components/property/form'
 
 export default {
-  name: 'modal-property--add',
+  name: 'modal-property--edit',
   props: {
     model: Object,
     confirm: Function
@@ -27,7 +27,7 @@ export default {
   },
   models: {
     property() {
-      return new Property()
+      return new Property(this.model.$data)
     }
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
     }
   },
   components: {
-    newProperty
+    PropertyForm
   }
 }
 </script>

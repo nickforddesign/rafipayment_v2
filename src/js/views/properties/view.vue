@@ -57,6 +57,8 @@
 
     <units-table :data="this.$property" v-if="fetched" />
 
+    <property-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :model="$property" />
+
   </div>
 </template>
 
@@ -67,7 +69,8 @@ import { path } from 'ramda'
 import { Collection } from 'vue-collections'
 import Property from '@/models/property'
 
-import unitsTable from '@/views/units/table'
+import PropertyModal from '@/components/modals/property/edit'
+import UnitsTable from '@/views/units/table'
 
 export default {
   name: 'property',
@@ -130,7 +133,8 @@ export default {
     }
   },
   components: {
-    unitsTable
+    UnitsTable,
+    PropertyModal
   }
 }
 </script>

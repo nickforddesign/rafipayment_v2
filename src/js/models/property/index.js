@@ -1,5 +1,5 @@
 import { Model } from 'vue-models'
-import { ObjectId, ISODate } from '@/modules/types'
+import { ObjectId, ISODate, StringOrNull } from '@/modules/types'
 
 export default class Property extends Model {
   static defaults() {
@@ -47,7 +47,7 @@ export default class Property extends Model {
         type: String
       },
       funding_source: {
-        type: String
+        type: StringOrNull
       }
     }
   }

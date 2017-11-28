@@ -2,7 +2,13 @@
   <div>
     <div v-if="loaded">
       <field name="address" :errors="errors">
+        <div v-if="model">
+          <input type="checkbox" id="new_address" name="new_address" v-model="new_address">
+          <label for="new_address">New Address</label>
+        </div>
+
         <vue-google-autocomplete
+          v-if="show_address"
           id="map"
           ref="default"
           placeholder="Start typing"
@@ -15,13 +21,13 @@
         <input type="text" v-model="name">
       </field>
 
-      <field name="pay-into account" :errors="errors">
+      <field name="pay-into account" :errors="errors" v-if="fetched">
         <input type="radio" id="primary" name="use_primary" :value="true" v-model="use_primary">
         <label for="primary">Primary</label>
         <input type="radio" id="other" name="use_primary" :value="false" v-model="use_primary">
         <label for="other">Use Other</label>
 
-        <select-menu v-if="!use_primary" v-model="funding_source" v-validate="'required'" name="pay-into account">
+        <select-menu v-if="!use_primary" v-model="funding_source" v-validate="'required'" name="pay-into account" class="funding-source">
           <option disabled value="">Please select one</option>
           <option 
             v-for="(funding_source, index) in collection"
@@ -32,6 +38,7 @@
           </option>
         </select-menu>
       </field>
+      <loading v-else type="input" />
     </div>
     <loading v-else />
   </div>
@@ -45,7 +52,7 @@ import { Collection } from 'vue-collections'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 
 import config from '@/config'
-import { Deferred, load } from '@/utils'
+import { load } from '@/utils'
 
 let places_loaded = false
 
@@ -53,25 +60,19 @@ export default {
   name: 'new-property',
   props: {
     model: Object,
-    confirm: Function,
-    errors: [Object]
+    confirm: Function
   },
   data() {
     return {
       loaded: false,
+      fetched: false,
+      new_address: false,
       use_primary: true,
       // model data
       name: '',
       place: false,
       funding_source: null
     }
-  },
-  beforeCreate() {
-    // HACK: vee-validate creates an instance of itself on all nested components
-    // so this.errors is conflicting between the prop and the computed property
-    // if (this.errors) {
-    delete this.$options.computed.errors
-    // }
   },
   async beforeMount() {
     if (!places_loaded) {
@@ -80,8 +81,16 @@ export default {
     }
     this.loaded = true
   },
-  created() {
-    this.$collection.fetch()
+  async created() {
+    if (this.model) {
+      this.name = this.model.name
+      this.place = this.model.place_data
+    }
+    await this.fetch()
+    if (this.model && this.model.funding_source) {
+      this.use_primary = false
+      this.funding_source = this.model.funding_source
+    }
   },
   collection() {
     return new Collection({
@@ -90,11 +99,15 @@ export default {
   },
   watch: {
     async place(val) {
-      if (!isEmpty(val)) {
+      if (!isEmpty(val) && !!val) {
         this.errors.remove('address')
         await this.validate()
         this.emit()
       }
+    },
+    async new_address(val) {
+      this.errors.remove('address')
+      this.emit()
     },
     name() {
       this.emit()
@@ -104,15 +117,14 @@ export default {
         this.funding_source = null
       }
     },
-    funding_source() {
+    funding_source(val) {
       this.emit()
     }
   },
   methods: {
     async validate() {
-      const deferred = new Deferred()
-      let passed = true
-      if (!this.place) {
+      let passed = await this.$validator.validateAll()
+      if ((this.model && this.new_address && !this.place) || !this.model && !this.place) {
         this.$validator.errors.add(
           'address',
           'Please select an address',
@@ -120,12 +132,11 @@ export default {
         )
         passed = false
       }
-      if (passed) {
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+      return passed
+    },
+    async fetch() {
+      await this.$collection.fetch()
+      this.fetched = true
     },
     getAddressData(address_data, place_data) {
       const data = {
@@ -149,6 +160,13 @@ export default {
       this.$emit('input', data)
     }
   },
+  computed: {
+    show_address() {
+      return this.model
+        ? this.new_address
+        : true
+    }
+  },
   components: {
     VueGoogleAutocomplete
   }
@@ -156,3 +174,13 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.funding-source {
+  margin-top: 10px;
+}
+#map {
+  margin-top: 20px;
+}
+</style>
+

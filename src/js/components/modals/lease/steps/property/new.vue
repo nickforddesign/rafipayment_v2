@@ -2,11 +2,9 @@
   <div>
     <h1 slot="header">Add Property</h1>
     <div slot="body">
-      <new-property v-model="place" :errors="errors" />
-      <!-- {{ place }} -->
-      <!-- {{ $property }} -->
+      <new-property v-model="place" ref="property_form" />
       <div class="actions">
-        <button v-if="place.address" @click="complete">Next</button>
+        <button v-if="place.address" @click="validate">Next</button>
       </div>
     </div>
   </div>
@@ -16,7 +14,7 @@
 
 <script>
 import Property from '@/models/property/new'
-import newProperty from '@/components/property/new'
+import newProperty from '@/components/property/form'
 
 export default {
   name: 'lease-add--property---new',
@@ -33,6 +31,12 @@ export default {
     }
   },
   methods: {
+    async validate() {
+      const passed = await this.$refs.property_form.validate()
+      if (passed) {
+        this.complete()
+      }
+    },
     complete() {
       this.$property = this.place
       this.next()

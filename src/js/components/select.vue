@@ -36,6 +36,9 @@ export default {
     if (this.$slots.default && this.options) {
       throw new Error('Cannot use both content slot and options property')
     }
+    if (this.value) {
+      this.field_value = this.value
+    }
   },
   computed: {
     field_disabled() {
@@ -59,6 +62,7 @@ export default {
   },
   watch: {
     value(val) {
+      console.log('changed async!', val)
       this.field_value = val
     }
   }
