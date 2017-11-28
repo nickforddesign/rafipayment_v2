@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collection name="leases" :$collection="$collection">
+    <collection name="leases" :$collection="$collection" :searchable="false">
       <responsive-table slot="content" :columns="[
         'Property',
         'Unit',

@@ -106,6 +106,7 @@ export default {
   },
   methods: {
     fetch() {
+      this.fetched = false
       this.$property.fetch()
         .then(() => {
           this.fetched = true
