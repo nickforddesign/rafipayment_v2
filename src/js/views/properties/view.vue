@@ -7,7 +7,7 @@
       </div>
       <div class="actions">
         <button class="link" @click="remove">Delete</button>
-        <button class="primary">Edit</button>
+        <button class="primary" @click="showModal">Edit</button>
       </div>
     </header>
     <div class="table-container">
@@ -74,7 +74,8 @@ export default {
   data() {
     return {
       fetched: false,
-      banks_fetched: false
+      banks_fetched: false,
+      modal_visible: false
     }
   },
   models: {
@@ -117,6 +118,15 @@ export default {
         await this.$property.destroy()
         this.$router.push('/properties')
       }
+    },
+    showModal() {
+      this.modal_visible = true
+    },
+    closeModal() {
+      this.modal_visible = false
+    },
+    confirmModal() {
+      this.fetch()
     }
   },
   components: {

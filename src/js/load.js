@@ -10,14 +10,19 @@ import config from '@/config'
 import session from '@/session'
 import loading from '@/components/loading'
 
+const version = process.env.VERSION
+
 // global styles
 import '../scss/styles.scss'
 
 Vue.use(VueRequests, {
   root: config.api,
   headers: {
-    Access() {
+    access() {
       return path(['getters', 'session:access', 'token'], store)
+    },
+    rafipayment_client() {
+      return `Web/${version}`
     }
   },
   async before() {
