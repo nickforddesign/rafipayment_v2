@@ -2,12 +2,12 @@
   <div>
     <collection name="tenants" :$collection="$collection">
       <div slot="actions">
-        <button @click="add" class="primary">Add New Tenant</button>
+        <button @click="add" class="primary">Add Tenant</button>
       </div>
 
       <responsive-table slot="content" :columns="[
         'Name',
-        'Address',
+        'Email',
         'Created'
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />

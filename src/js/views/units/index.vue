@@ -2,7 +2,7 @@
   <div>
     <collection name="units" :$collection="$collection">
       <div slot="actions">
-        <button @click="add" class="primary">Add New Unit</button>
+        <button @click="add" class="primary">Add Unit</button>
       </div>
 
       <responsive-table slot="content" :columns="[

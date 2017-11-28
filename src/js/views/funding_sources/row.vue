@@ -1,12 +1,12 @@
 <template>
   <div class="tr" @click="goToModel">
-    <div class="td">{{ model.name }} <span v-if="is_primary" class="flag success">Primary</span></div>
-    <div class="td">{{ model.status }}</div>
-    <div class="td">{{ model.created | moment('MM/DD/YYYY') }}</div>
-    <div class="td text-right">
+    <cell>{{ model.name }} <span v-if="is_primary" class="flag success">Primary</span></cell>
+    <cell>{{ model.status }}</cell>
+    <cell>{{ model.created | moment('MM/DD/YYYY') }}</cell>
+    <cell className="text-right">
       <button class="small" @click.stop="set_primary" v-if="!is_balance && !is_primary">Set as Primary</button>
       <button class="small" @click.stop="remove" v-if="!is_balance">Remove</button>
-    </div>
+    </cell>
   </div>
 </template>
 

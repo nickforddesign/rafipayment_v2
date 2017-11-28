@@ -6,11 +6,11 @@
           Bills
         </slot>
       </div>
-      <!-- <div class="actions">
+      <div class="actions">
         <slot name="actions">
-          <button class="small" @click="showModal">Add Payment Method</button>
+          <button class="small" @click="viewAll">View All</button>
         </slot>
-      </div> -->
+      </div>
     </div>
     <div v-if="fetched">
       <responsive-table v-if="collection.length" :columns="[
@@ -40,7 +40,7 @@ import { Collection } from 'vue-collections'
 import row from './row'
 
 export default {
-  name: 'transfers-table',
+  name: 'bills-table',
   props: {
     basePath: String
   },
@@ -52,7 +52,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: this.basePath
+      basePath: `${this.basePath}&paginator_limit=5`
     })
   },
   async created() {
@@ -68,6 +68,9 @@ export default {
     },
     closeModal() {
       this.modal_visible = false
+    },
+    viewAll() {
+      this.$router.push(`/${this.basePath}`)
     }
   },
   components: {

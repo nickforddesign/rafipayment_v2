@@ -5,25 +5,23 @@
         <h2>
           {{ name | capitalize }}
         </h2>
-        <div v-if="filters.length">
-          <div v-for="(filter, index) in filters" :key="index" class="filter">
-            {{ filter.key | capitalize }}: {{ filter.value }}
-            <button class="x-small" @click="removeFilter(filter)">X</button>
-          </div>
-        </div>
       </div>
       <div class="actions">
         <search @submit="search" v-if="searchable" />
         <slot name="actions" />
       </div>
     </header>
+
+    <div v-if="filters.length" class="filters">
+      <div v-for="(filter, index) in filters" :key="index" class="filter">
+        {{ filter.key | capitalize }}: {{ filter.value }}
+        <button class="x-small" @click="removeFilter(filter)">X</button>
+      </div>
+    </div>
       
     <slot name="content" v-if="fetched && collection.length" />
     <empty v-else-if="fetched && !collection.length">
       <div slot="message">There are no {{ collection_name || name }} yet</div>
-      <!-- <div slot="actions">
-        <slot name="actions" />
-      </div> -->
     </empty>
     <loading v-else />
 
@@ -143,8 +141,8 @@ export default {
   },
   methods: {
     init() {
-      this.initPagination()
       this.initFilters()
+      this.initPagination()
       if (!this.$collection.modified) {
         this.updateBasePath()
         this.$collection.modified = true
@@ -304,6 +302,10 @@ $pagination-border-radius: 5px;
   }
 }
 
+.filters {
+  margin-bottom: 10px;
+}
+
 .summary {
   margin: 30px 0 6px;
   font-size: 0.75em;
@@ -312,6 +314,12 @@ $pagination-border-radius: 5px;
 .search-container {
   position: relative;
   top: 7px;
+}
+
+header {
+  h2 {
+    margin: 0 10px 0 0;
+  }
 }
 </style>
 

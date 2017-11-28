@@ -59,7 +59,7 @@
       <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal" />
       <lease-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :tenants="[$user]" />
 
-      <transfers-table v-if="fetched" :data="$user.payment" :path="`tenants/${$user.id}/transfers`" />
+      <transfers-table v-if="fetched" :data="$user.payment" :path="`transfers?filter_parties=${$user.id}`" />
       
     </div>
     <loading v-else />

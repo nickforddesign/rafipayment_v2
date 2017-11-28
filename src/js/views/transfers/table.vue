@@ -1,7 +1,10 @@
 <template>
   <div class="table collection-view">
     <div class="header">
-      Payments
+      Recent Payments
+      <div class="actions">
+        <button class="small" @click="viewAll">View all</button>
+      </div>
     </div>
     <div v-if="fetched">
       <responsive-table v-if="collection.length" :columns="[
@@ -47,12 +50,18 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: this.path
+      basePath: `${this.path}&paginator_limit=5`
     })
   },
   async created() {
     await this.$collection.fetch()
     this.fetched = true
+  },
+  methods: {
+    viewAll() {
+      // console.log(this.path)
+      this.$router.push(`/${this.path}`)
+    }
   },
   components: {
     row

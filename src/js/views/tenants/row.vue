@@ -1,10 +1,10 @@
 <template>
   <div class="tr" @click="goToModel">
-    <div class="td">
+    <cell>
       <a :href="`/${$user.urlRoot}`" @click.prevent>{{ $user.full_name }}</a>
-    </div>
-    <div class="td">{{ $user.email }}</div>
-    <div class="td">{{ $user.created | moment('MM/DD/YYYY') }}</div>
+    </cell>
+    <cell>{{ $user.email }}</cell>
+    <cell>{{ $user.created | moment('MM/DD/YYYY') }}</cell>
   </div>
 </template>
 

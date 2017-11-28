@@ -1,10 +1,10 @@
 <template>
   <div class="tr" @click="goToModel">
-    <div class="td">
+    <cell>
       <a :href="`/${$property.urlRoot}`" @click.prevent>{{ $property.name }}</a>
-    </div>
-    <div class="td">{{ $property.address }}</div>
-    <div class="td">-</div>
+    </cell>
+    <cell>{{ $property.address }}</cell>
+    <cell>-</cell>
   </div>
 </template>
 

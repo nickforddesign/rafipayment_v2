@@ -1,14 +1,12 @@
 <template>
   <div class="tr">
-    <div class="td">{{ model.url }}</div>
-    <div class="td">{{ model.created | moment('MM/DD/YYYY') }}</div>
-    <div class="td">
-      {{ model.paused }}
-    </div>
-    <div class="td">
+    <cell>{{ model.url }}</cell>
+    <cell>{{ model.created | moment('MM/DD/YYYY') }}</cell>
+    <cell>{{ model.paused }}</cell>
+    <cell>
       <button class="small" @click.stop="toggle">{{ paused_action }}</button>
       <button class="small" @click.stop="remove">Remove</button>
-    </div>
+    </cell>
   </div>
 </template>
 

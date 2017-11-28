@@ -6,7 +6,7 @@
       </div>
       <div class="actions">
         <search />
-        <button class="primary" @click="add">Add New Company</button>
+        <button class="primary" @click="add">Add Company</button>
       </div>
     </header>
 

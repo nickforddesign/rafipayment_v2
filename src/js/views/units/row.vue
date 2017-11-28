@@ -1,12 +1,12 @@
 <template>
   <div class="tr" @click="goToModel">
-    <div class="td">
+    <cell>
       <a :href="`/${$unit.urlRoot}`" @click.prevent>{{ $unit.name }}</a>
-    </div>
-    <div class="td">{{ $unit.property_name }}</div>
-    <div class="td">-</div>
-    <div class="td">{{ $unit.bed_count }}</div>
-    <div class="td">{{ $unit.bath_count }}</div>
+    </cell>
+    <cell>{{ $unit.property_name }}</cell>
+    <cell>-</cell>
+    <cell>{{ $unit.bed_count }}</cell>
+    <cell>{{ $unit.bath_count }}</cell>
   </div>
 </template>
 

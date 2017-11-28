@@ -1,9 +1,7 @@
 <template>
   <div class="tr">
-    <div class="td">{{ model.body.created | moment('MM/DD/YYYY h:mm:ssa') }}</div>
-    <div class="td">
-      {{ model.body.topic }}
-    </div>
+    <cell>{{ model.body.created | moment('MM/DD/YYYY h:mm:ssa') }}</cell>
+    <cell>{{ model.body.topic }}</cell>
   </div>
 </template>
 

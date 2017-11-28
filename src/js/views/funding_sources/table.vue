@@ -19,7 +19,8 @@
         'Created',
         {
           name: 'Actions',
-          class: 'text-right'
+          class: 'text-right',
+          label: false
         }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />

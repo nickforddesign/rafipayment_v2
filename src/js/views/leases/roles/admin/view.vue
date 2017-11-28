@@ -7,7 +7,7 @@
       </div>
       <div class="actions">
         <button class="link" @click="remove">Delete</button>
-        <button class="primary">Edit</button>
+        <!-- <button class="primary">Edit</button> -->
       </div>
     </header>
 

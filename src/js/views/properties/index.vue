@@ -2,7 +2,7 @@
   <div class="collection-view">
     <collection name="properties" :$collection="$collection">
       <div slot="actions">
-        <button @click="add" class="primary">Add New Property</button>
+        <button @click="add" class="primary">Add Property</button>
       </div>
 
       <responsive-table slot="content" :columns="[

@@ -201,6 +201,14 @@ select {
   white-space: nowrap;
   -webkit-appearance: none;
 
+  option {
+    color: $color-text-dark;
+
+    &:disabled {
+      color: $color-text-medium;
+    }
+  }
+
   &.chosen {
     max-width: 100%;
     width: 300px;

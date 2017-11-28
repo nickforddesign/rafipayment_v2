@@ -2,7 +2,7 @@
   <div>
     <collection name="ledger" collection_name="transfers" :$collection="$collection">
       <div slot="actions">
-        <button @click="add" class="primary">Add New Transfer</button>
+        <button @click="add" class="primary">Add Transfer</button>
       </div>
 
       <responsive-table slot="content" :columns="[
@@ -14,7 +14,8 @@
         {
           name: 'Amount',
           class: 'text-right' ,
-          width: '80px'
+          width: '80px',
+          label: false
         }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />

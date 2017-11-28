@@ -21,6 +21,7 @@ import DatePicker from '@/components/date'
 import Search from '@/components/search'
 import Searchable from '@/components/searchable'
 import ResponsiveTable from '@/components/table'
+import Cell from '@/components/table/cell'
 import Collection from '@/components/collection'
 
 Vue.config.productionTip = false
@@ -40,6 +41,7 @@ const components = [
   Search,
   Searchable,
   ResponsiveTable,
+  Cell,
   Collection
 ]
 

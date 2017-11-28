@@ -18,10 +18,20 @@ export default {
   name: 'responsive-table',
   props: {
     columns: [Array]
-  },
-  created() {
-    console.log(this.columns)
   }
+  // beforeMount() {
+  //   console.log(this)
+  // }
+  // mounted() {
+  //   // add column labels for mobile
+  //   const $rows = this.$slots.default
+  //   $rows.forEach(($row, index) => {
+  //     const $cols = $row.elm.querySelectorAll('.td')
+  //     $cols.forEach(($col, index) => {
+  //       $col.innerHTML = `<label>${this.columns[index]}</label>${$col.innerHTML}`
+  //     })
+  //   })
+  // }
 }
 </script>
 <style scoped lang="scss">
