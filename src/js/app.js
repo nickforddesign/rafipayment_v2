@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
+import VCalendar from 'v-calendar'
+import 'v-calendar/lib/v-calendar.min.css'
+
 import router from '@/router'
 
 import store from '@/store'
@@ -60,6 +63,7 @@ const install = (Vue) => {
   }
 
   Vue.use(VeeValidate)
+  Vue.use(VCalendar)
 }
 
 install(Vue)

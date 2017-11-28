@@ -1,6 +1,10 @@
 <template>
   <div class="date-input">
-    <input type="date" v-model="input_value" :name="name">
+    <!-- <input type="date" v-model="input_value" :name="name"> -->
+    <v-date-picker
+      mode='single'
+      v-model='input_value'>
+    </v-date-picker>
   </div>
 </template>
 
@@ -22,11 +26,11 @@ export default {
   },
   created() {
     const value = this.value || undefined
-    this.input_value = moment.utc(value).format('YYYY-MM-DD')
+    this.input_value = moment.utc(value).toDate()
   },
   watch: {
     value(val) {
-      this.input_value = moment.utc(val).format('YYYY-MM-DD')
+      this.input_value = moment.utc(val).toDate()
     },
     input_value(val) {
       this.$emit('input', moment.utc(this.input_value).toISOString())
