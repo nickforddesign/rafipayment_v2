@@ -1,10 +1,10 @@
 <template>
   <div class="tr">
-    <div class="td">{{ period.start_date | moment('M/DD/YYYY', true) }}</div>
-    <div class="td">{{ period.id }}</div>
-    <div class="td">{{ period.period_amount | currency }}</div>
-    <div class="td">{{ split | currency }}</div>
-    <div class="td">
+    <cell>{{ period.start_date | moment('M/DD/YYYY', true) }}</cell>
+    <cell>{{ period.id }}</cell>
+    <cell>{{ period.period_amount | currency }}</cell>
+    <cell>{{ split | currency }}</cell>
+    <cell className="text-right">
       <button class="small" @click="showModal">Edit Split</button>
       <split-modal
         v-if="modal_visible"
@@ -12,7 +12,7 @@
         :confirm="fetch"
         :path="`account/leases/${lease.id}/periods/${period.id}`"
         :amount="split" />
-    </div>
+    </cell>
   </div>
 </template>
 

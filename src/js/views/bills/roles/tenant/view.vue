@@ -130,6 +130,7 @@ export default {
 .summary {
   width: 300px;
   float: right;
+  margin-right: 20px;
 }
 
 .charges {

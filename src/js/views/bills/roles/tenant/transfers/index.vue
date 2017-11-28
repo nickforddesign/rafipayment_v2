@@ -33,6 +33,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { Collection } from 'vue-collections'
 import row from './row'
 
 export default {
@@ -46,10 +47,17 @@ export default {
       fetched: false
     }
   },
-  computed: {
-    collection() {
-      return this.model.transfers
-    }
+  collection() {
+    const self = this
+    return new Collection({
+      basePath() {
+        return `account/transfers?filter_bill=${self.model.id}&sort_created=-1`
+      }
+    })
+  },
+  async created() {
+    await this.$collection.fetch()
+    this.fetched = true
   },
   components: {
     row

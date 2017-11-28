@@ -49,7 +49,11 @@
           'End Date',
           'Amount',
           'Your Split',
-          'Actions'
+          {
+            name: 'Actions',
+            class: 'text-right',
+            label: false
+          }
         ]">
           <split-row v-for="(period, index) in my_periods" :lease="$lease" :period="period" :key="index" />
         </responsive-table>

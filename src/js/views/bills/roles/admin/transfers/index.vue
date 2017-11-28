@@ -9,7 +9,6 @@
     <div v-if="fetched">
        <responsive-table v-if="collection.length" :columns="[
         'Date',
-        'Destination',
         'Source',
         'Type',
         'Status',

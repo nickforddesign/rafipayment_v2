@@ -3,8 +3,7 @@
     <div class="td">
       <a :href="`/${$transfer.urlRoot}`" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</a>
     </div>
-    <div class="td">Destination</div>
-    <div class="td">Source</div>
+    <div class="td">{{ $transfer.source.resolved.first_name }} {{ $transfer.source.resolved.last_name }}</div>
     <div class="td">{{ $transfer.type }}</div>
     <div class="td">
       <span :class="['flag', status_class]">{{ $transfer.status }}</span>

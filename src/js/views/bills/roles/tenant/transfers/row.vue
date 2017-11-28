@@ -7,7 +7,7 @@
       </span>
       <a v-else :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</a>
     </div>
-    <div class="td">{{ $transfer.source_name }}</div>
+    <div class="td">{{ $transfer.source.resolved.first_name }}</div>
     <div class="td">{{ $transfer.type }}</div>
     <div class="td">{{ $transfer.status }}</div>
     <div class="td text-right">{{ $transfer.amount | currency }}</div>
