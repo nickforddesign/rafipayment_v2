@@ -6,10 +6,6 @@
           <legend>Lease</legend>
           <h2>{{ $lease.address }}</h2>
         </div>
-        <div class="actions">
-          <button class="link" @click="remove">Delete</button>
-          <button class="primary">Edit</button>
-        </div>
       </header>
 
       <div class="table-container">
@@ -68,21 +64,13 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Unit Name</dt>
-              <dd>
-                <router-link :to="`/units/${$lease.unit.id}`">
-                  {{ $lease.unit.name }}
-                </router-link>
-              </dd>
+              <dd>{{ $lease.unit.name }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Property</dt>
-              <dd>
-                <router-link :to="`/properties/${$lease.property.id}`">
-                  {{ $lease.property.name }}
-                </router-link>
-              </dd>
+              <dd>{{ $lease.property.name }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
