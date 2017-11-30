@@ -61,6 +61,10 @@ a {
     text-decoration: underline;
   }
 
+  &:focus {
+    outline: none;
+  }
+
   &:active {
     color: darken($color-highlight, 8%);
     text-decoration: none;

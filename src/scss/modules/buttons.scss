@@ -23,6 +23,10 @@ button, .button {
   white-space: nowrap;
   -webkit-font-smoothing: antialiased;
 
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
   &:hover {
     color: $color-button-text;
     box-shadow: 0 3px 4px rgba(0,0,0, 0.3);

@@ -4,8 +4,8 @@
     <cell>{{ model.created | moment('MM/DD/YYYY') }}</cell>
     <cell>{{ model.paused }}</cell>
     <cell>
-      <button class="small" @click.stop="toggle">{{ paused_action }}</button>
-      <button class="small" @click.stop="remove">Remove</button>
+      <button class="small" @click.stop="promptToggle">{{ paused_action }}</button>
+      <button class="small danger" @click.stop="promptRemove">Remove</button>
     </cell>
   </div>
 </template>
@@ -13,11 +13,15 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 
 export default {
   name: 'row',
   props: ['model'],
   computed: {
+    $collection() {
+      return this.$parent.$parent.$collection
+    },
     paused_action() {
       return this.model.paused
         ? 'unpause'
@@ -25,33 +29,41 @@ export default {
     }
   },
   methods: {
-    toggle() {
+    promptToggle() {
+      app.confirm(
+        `Are you sure you want to ${this.paused_action} ${this.model.url}?`,
+        this.toggle,
+        `${this.paused_action} subscription`,
+        ['OK', 'Cancel'],
+        'neutral'
+      )
+    },
+    async toggle() {
       const body = {
         paused: !this.model.paused
       }
-      const confirmed = confirm(`Are you sure you want to ${this.paused_action} ${this.model.url}?`)
-      if (confirmed) {
-        this.$request(`payment/webhook_subscriptions/${this.model.id}`, {
-          method: 'put',
-          body
-        })
-        .then(() => {
-          this.$parent.$collection.reset()
-          this.$parent.$collection.fetch()
-        })
-      }
+      await this.$request(`payment/webhook_subscriptions/${this.model.id}`, {
+        method: 'put',
+        body
+      })
+      this.$collection.reset()
+      this.$collection.fetch()
     },
-    remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.model.url}?`)
-      if (confirmed) {
-        this.$request(`payment/webhook_subscriptions/${this.model.id}`, {
-          method: 'delete'
-        })
-        .then(() => {
-          this.$parent.$collection.reset()
-          this.$parent.$collection.fetch()
-        })
-      }
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to remove ${this.model.url}?`,
+        this.remove,
+        'Delete subscription'
+      )
+    },
+    async remove() {
+      this.$request(`payment/webhook_subscriptions/${this.model.id}`, {
+        method: 'delete'
+      })
+      .then(() => {
+        this.$collection.reset()
+        this.$collection.fetch()
+      })
     }
   }
 }

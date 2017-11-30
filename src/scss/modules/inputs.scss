@@ -24,6 +24,10 @@ input, textarea {
     background: $color-highlight;
   }
 
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
   &:hover {
     background-color: $color-input-background-hover;
     // border-color: $color-input-border-hover;
@@ -184,6 +188,10 @@ input, textarea {
 
 textarea {
   transition: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
 }
 
 select {
@@ -200,6 +208,10 @@ select {
   color: $color-input-text;
   white-space: nowrap;
   -webkit-appearance: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
 
   option {
     color: $color-text-dark;

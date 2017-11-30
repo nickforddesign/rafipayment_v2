@@ -6,7 +6,7 @@
     <td>{{ $charge.amount | currency }}</td>
     <td>
       <button class="x-small" @click="edit">Edit</button>
-      <button class="x-small" @click="remove">Delete</button>
+      <button class="x-small" @click="promptRemove">Delete</button>
 
       <charge-modal v-if="modal_visible" @close="closeModal" :confirm="$parent.fetch" :model="$charge" />
     </td>
@@ -17,6 +17,7 @@
 
 <script>
 import moment from 'moment'
+import app from '@/app'
 import { prettyCurrency } from '@/utils'
 import Charge from '@/models/lease/charge'
 
@@ -52,12 +53,16 @@ export default {
     closeModal() {
       this.modal_visible = false
     },
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to delete the ${this.$charge.type} charge of ${prettyCurrency(this.$charge.amount)}?`,
+        this.remove,
+        'Remove charge'
+      )
+    },
     async remove() {
-      const confirmed = confirm(`Are you sure you want to delete the ${this.$charge.type} charge of ${prettyCurrency(this.$charge.amount)}?`)
-      if (confirmed) {
-        await this.$charge.destroy()
-        this.$parent.fetch()
-      }
+      await this.$charge.destroy()
+      this.$parent.fetch()
     }
   },
   components: {

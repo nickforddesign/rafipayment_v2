@@ -6,7 +6,7 @@
         <h2>{{ $company.name }}</h2>
       </div>
       <div class="actions">
-        <button class="link" @click="remove">Delete</button>
+        <button class="link" @click="promptRemove">Delete</button>
         <button class="primary">Edit</button>
       </div>
     </header>
@@ -111,8 +111,9 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import Company from '@/models/company'
-import adminsTable from '@/views/admins/table'
+import AdminsTable from '@/views/admins/table'
 
 export default {
   name: 'company',
@@ -127,12 +128,20 @@ export default {
     this.$company.fetch()
   },
   methods: {
-    remove() {
-      console.log('remove')
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to delete ${this.$company.name}?`,
+        this.remove,
+        'Delete company'
+      )
+    },
+    async remove() {
+      await this.$company.destroy()
+      this.$router.push(`/companies`)
     }
   },
   components: {
-    adminsTable
+    AdminsTable
   }
 }
 </script>
