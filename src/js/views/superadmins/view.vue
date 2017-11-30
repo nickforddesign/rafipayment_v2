@@ -6,7 +6,7 @@
         <h2>{{ $user.full_name }}</h2>
       </div>
       <div class="actions">
-        <button class="link" @click="remove">Delete</button>
+        <button class="link" @click="promptRemove">Delete</button>
         <button class="primary">Edit</button>
       </div>
     </header>
@@ -55,6 +55,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import User from '@/models/user'
 
 export default {
@@ -71,14 +72,16 @@ export default {
     this.$user.fetch()
   },
   methods: {
-    remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.$user.full_name}?`)
-      if (confirmed) {
-        this.$user.destroy()
-        .then(() => {
-          this.$router.push('/superadmins')
-        })
-      }
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to remove ${this.$user.full_name}?`,
+        this.remove,
+        'Delete user'
+      )
+    },
+    async remove() {
+      await this.$user.destroy()
+      this.$router.push('/superadmins')
     }
   }
 }

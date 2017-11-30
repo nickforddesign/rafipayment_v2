@@ -5,17 +5,17 @@
 
       <header>
         <div class="meta">
-          <legend>Transfer</legend>
+          <legend>Payment</legend>
           <h2>{{ $transfer.amount | currency }}</h2>
         </div>
         <div class="actions">
-          <button class="danger" @click="cancel" v-if="$transfer.cancellable">Cancel</button>
+          <button class="danger" @click="promptCancel" v-if="$transfer.cancellable">Cancel</button>
         </div>
       </header>
 
       <div class="table-container">
         <div class="header">
-          Transfer Information
+          Payment Information
         </div>
         <div class="grid">
           <div class="grid__col grid__col--1-of-2">
@@ -99,7 +99,9 @@
 
 <script>
 import moment from 'moment'
+import app from '@/app'
 import Transfer from '@/models/transfer'
+import { prettyCurrency } from '@/utils'
 
 export default {
   name: 'transfer',
@@ -133,12 +135,16 @@ export default {
     checkIfCancellable() {
       this.$transfer.fetchCancel()
     },
+    promptCancel() {
+      app.confirm(
+        `Are you sure you want to cancel this payment of ${prettyCurrency(this.$transfer.amount)}?`,
+        this.cancel,
+        'Cancel Payment'
+      )
+    },
     async cancel() {
-      const confirmed = confirm(`Are you sure you want to cancel this transfer?`)
-      if (confirmed) {
-        await this.$transfer.cancel()
-        this.$router.push('/transfers')
-      }
+      await this.$transfer.cancel()
+      this.$router.push('/transfers')
     }
   }
 }

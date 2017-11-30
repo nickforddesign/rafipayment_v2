@@ -69,10 +69,63 @@ const install = (Vue) => {
 install(Vue)
 
 /* eslint-disable no-new */
-new Vue({
+const app = new Vue({
   el: '.app-container',
   store,
   router,
   template: '<App></App>',
-  components: { App }
+  components: { App },
+  computed: {
+    is_cordova() {
+      return process.env.NODE_ENV === 'cordova'
+    }
+  },
+  methods: {
+    alert(
+      message = '',
+      callback = () => {},
+      title = 'Alert',
+      button_label = 'OK',
+      confirm_class = 'primary'
+    ) {
+      const createAlert = this.is_cordova
+        ? navigator.notification.alert
+        : modalAlert
+      return createAlert(message, callback, title, button_label, confirm_class)
+    },
+    confirm(
+      message = '',
+      callback = () => {},
+      title = 'Confirm',
+      button_labels = ['OK', 'Cancel'],
+      confirm_class = 'danger'
+    ) {
+      const createAlert = this.is_cordova
+        ? navigator.notification.confirm
+        : modalConfirm
+      return createAlert(message, callback, title, button_labels, confirm_class)
+    }
+  }
 })
+
+function modalAlert(message, callback, title, button_label, confirm_class) {
+  return app.$store.dispatch('alert_show', {
+    message,
+    callback,
+    title,
+    button_label,
+    confirm_class
+  })
+}
+
+function modalConfirm(message, callback, title, button_labels, confirm_class) {
+  return app.$store.dispatch('alert_show', {
+    message,
+    callback,
+    title,
+    button_labels,
+    confirm_class
+  })
+}
+
+export default app

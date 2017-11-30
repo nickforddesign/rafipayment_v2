@@ -6,7 +6,7 @@
         <h2>{{ $funding_source.name }}</h2>
       </div>
       <div class="actions">
-        <button class="link" @click="remove">Delete</button>
+        <button class="link" @click="promptRemove">Delete</button>
         <button class="primary" @click="showModal('name')">Edit</button>
       </div>
     </header>
@@ -69,9 +69,10 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import FundingSource from '@/models/funding_source'
-import nameModal from '@/components/modals/funding_source/name'
-import microdepositsModal from '@/components/modals/funding_source/microdeposits'
+import NameModal from '@/components/modals/funding_source/name'
+import MicrodepositsModal from '@/components/modals/funding_source/microdeposits'
 
 export default {
   name: 'funding-source',
@@ -100,17 +101,21 @@ export default {
     closeModal(modal) {
       this.modals[modal] = false
     },
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to remove ${this.$funding_source.name}?`,
+        this.remove,
+        'Delete bank account'
+      )
+    },
     async remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.$funding_source.name}?`)
-      if (confirmed) {
-        await this.$funding_source.destroy()
-        this.$router.push('/account')
-      }
+      await this.$funding_source.destroy()
+      this.$router.push(`/leases`)
     }
   },
   components: {
-    nameModal,
-    microdepositsModal
+    NameModal,
+    MicrodepositsModal
   }
 }
 </script>

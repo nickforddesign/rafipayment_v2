@@ -6,7 +6,7 @@
         <h2>{{ $unit.address }}</h2>
       </div>
       <div class="actions">
-        <button class="link" @click="remove">Delete</button>
+        <button class="link" @click="promptRemove">Delete</button>
         <button class="primary" @click="showModal('unit')">Edit</button>
       </div>
     </header>
@@ -63,12 +63,13 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import Unit from '@/models/unit'
 import Property from '@/models/property'
 
-import unitModal from '@/components/modals/unit/edit'
-import leaseModal from '@/components/modals/lease'
-import leasesTable from '@/views/leases/table'
+import UnitModal from '@/components/modals/unit/edit'
+import LeaseModal from '@/components/modals/lease'
+import LeasesTable from '@/views/leases/table'
 
 export default {
   name: 'unit',
@@ -98,12 +99,16 @@ export default {
       await this.$unit.fetch()
       this.$property = this.$unit.property
     },
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to remove ${this.$unit.address}?`,
+        this.remove,
+        'Delete unit'
+      )
+    },
     async remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.$unit.address}?`)
-      if (confirmed) {
-        await this.$unit.destroy()
-        this.$router.push('/units')
-      }
+      await this.$unit.destroy()
+      this.$router.push(`/properties/${this.$property.id}`)
     },
     showModal(modal) {
       this.modals[modal] = true
@@ -116,9 +121,9 @@ export default {
     }
   },
   components: {
-    leaseModal,
-    leasesTable,
-    unitModal
+    LeaseModal,
+    LeasesTable,
+    UnitModal
   }
 }
 </script>

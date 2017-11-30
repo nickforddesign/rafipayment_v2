@@ -6,7 +6,7 @@
         <h2>{{ $lease.address }}</h2>
       </div>
       <div class="actions">
-        <button class="link" @click="remove">Delete</button>
+        <button class="link" @click="promptRemove">Delete</button>
         <!-- <button class="primary">Edit</button> -->
       </div>
     </header>
@@ -156,21 +156,22 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import Lease from '@/models/lease'
 
 // cards
-import period from './period'
-import tenant from './tenant'
+import Period from './period'
+import Tenant from './tenant'
 
 // rows
-import chargeRow from './charge_row'
+import ChargeRow from './charge_row'
 
 // modals
-import periodModal from '@/components/modals/lease/period'
-import chargeModal from '@/components/modals/lease/charge'
+import PeriodModal from '@/components/modals/lease/period'
+import ChargeModal from '@/components/modals/lease/charge'
 
 // tables
-import billsTable from '@/views/bills/table'
+import BillsTable from '@/views/bills/table'
 
 export default {
   name: 'lease',
@@ -197,14 +198,16 @@ export default {
     fetch() {
       this.$lease.fetch()
     },
-    remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.$lease.address}?`)
-      if (confirmed) {
-        this.$lease.destroy()
-        .then(() => {
-          this.$router.push('/leases')
-        })
-      }
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to remove ${this.$lease.address}?`,
+        this.remove,
+        'Delete lease'
+      )
+    },
+    async remove() {
+      await this.$lease.destroy()
+      this.$router.push(`/leases`)
     },
     showModal(modal) {
       this.modals[modal] = true
@@ -223,12 +226,12 @@ export default {
     }
   },
   components: {
-    billsTable,
-    periodModal,
-    chargeModal,
-    chargeRow,
-    tenant,
-    period
+    BillsTable,
+    PeriodModal,
+    ChargeModal,
+    ChargeRow,
+    Tenant,
+    Period
   }
 }
 </script>

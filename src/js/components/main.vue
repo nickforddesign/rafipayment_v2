@@ -1,12 +1,15 @@
 <template>
-  <div id="app">
+  <div class="app-container">
     <div v-if="logged_in" class="nav-container">
       <logo />
+      <!-- <button @click="alert">Test Alert</button>
+      <button @click="confirm">Test Confirm</button> -->
       <navigation />
     </div>
     <main :class="[main_class]">
       <router-view></router-view>
     </main>
+    <alert v-if="alert_visible" />
   </div>
 </template>
 
@@ -14,6 +17,8 @@
 import { path } from 'ramda'
 import { mapGetters } from 'vuex'
 import Navigation from './nav'
+import Alert from './alert'
+// import app from '@/app'
 
 export default {
   name: 'app',
@@ -24,7 +29,8 @@ export default {
         : null
     },
     ...mapGetters({
-      logged_in: 'session:logged_in'
+      logged_in: 'session:logged_in',
+      alert_visible: 'app:alert_visible'
     })
   },
   watch: {
@@ -35,12 +41,32 @@ export default {
   },
   methods: {
     getRedirect() {
-      // return _.get(this.$route, 'query.redirect') || '/dashboard'
       return path(['query', 'redirect'], this.$route) || '/dashboard'
     }
+    // alert() {
+    //   app.alert(
+    //     'This is a test alert',
+    //     this.callback,
+    //     'Test alert',
+    //     'Yes',
+    //     'neutral'
+    //   )
+    // },
+    // confirm() {
+    //   app.confirm(
+    //     'This is a test confirm',
+    //     this.callback,
+    //     'Test confirm'
+    //     // ['Yes', 'No']
+    //   )
+    // },
+    // callback() {
+    //   console.log('yep')
+    // }
   },
   components: {
-    Navigation
+    Navigation,
+    Alert
   }
 }
 </script>
@@ -75,10 +101,8 @@ main {
     &.content {
       position: absolute;
       left: $sidebar-width;
-      // right: 0;
       top: 0;
       bottom: 0;
-      // margin-left: $sidebar-width;
       width: 1200px;
       max-width: calc(100% - #{$sidebar-width});
       padding: 30px;

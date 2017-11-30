@@ -6,7 +6,7 @@
         <h2>{{ $property.name }}</h2>
       </div>
       <div class="actions">
-        <button class="link" @click="remove">Delete</button>
+        <button class="link" @click="promptRemove">Delete</button>
         <button class="primary" @click="showModal">Edit</button>
       </div>
     </header>
@@ -65,6 +65,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import { path } from 'ramda'
 import { Collection } from 'vue-collections'
 import Property from '@/models/property'
@@ -116,12 +117,16 @@ export default {
           this.banks_fetched = true
         })
     },
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to remove ${this.$property.address}?`,
+        this.remove,
+        'Delete property'
+      )
+    },
     async remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.$property.address}?`)
-      if (confirmed) {
-        await this.$property.destroy()
-        this.$router.push('/properties')
-      }
+      await this.$property.destroy()
+      this.$router.push(`/properties`)
     },
     showModal() {
       this.modal_visible = true

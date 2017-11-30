@@ -2,7 +2,7 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <legend>Superadmin</legend>
+        <legend>Admin</legend>
         <h2>{{ $user.full_name }}</h2>
       </div>
       <div class="actions">
@@ -58,6 +58,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import User from '@/models/user'
 
 export default {
@@ -74,14 +75,16 @@ export default {
     this.$user.fetch()
   },
   methods: {
-    remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.$user.full_name}?`)
-      if (confirmed) {
-        this.$user.destroy()
-        .then(() => {
-          this.$router.push('/superadmins')
-        })
-      }
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to remove ${this.$user.full_name}?`,
+        this.remove,
+        'Delete user'
+      )
+    },
+    async remove() {
+      await this.$user.destroy()
+      this.$router.push('/admins')
     }
   }
 }

@@ -7,7 +7,7 @@
           <h2>{{ $user.full_name }}</h2>
         </div>
         <div class="actions">
-          <button class="link" @click="remove">Delete</button>
+          <button class="link" @click="promptRemove">Delete</button>
           <button class="primary" @click="showModal('name')">Edit</button>
         </div>
       </header>
@@ -71,11 +71,12 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import User from '@/models/user'
-import leasesTable from '@/views/leases/table'
-import leaseModal from '@/components/modals/lease'
-import nameModal from '@/components/modals/user/name'
-import transfersTable from '@/views/transfers/table'
+import LeasesTable from '@/views/leases/table'
+import LeaseModal from '@/components/modals/lease'
+import NameModal from '@/components/modals/user/name'
+import TransfersTable from '@/views/transfers/table'
 
 export default {
   name: 'tenant',
@@ -107,12 +108,16 @@ export default {
       await this.$user.fetch()
       this.fetched = true
     },
+    promptRemove() {
+      app.confirm(
+        `Are you sure you want to remove ${this.$user.full_name}?`,
+        this.remove,
+        'Delete user'
+      )
+    },
     async remove() {
-      const confirmed = confirm(`Are you sure you want to remove ${this.$user.full_name}?`)
-      if (confirmed) {
-        await this.$user.destroy()
-        this.$router.push('/superadmins')
-      }
+      await this.$user.destroy()
+      this.$router.push('/tenants')
     },
     showModal(modal) {
       this.modals[modal] = true
@@ -124,17 +129,23 @@ export default {
       await this.fetch()
     },
     async invite() {
-      const response = await this.$request(`${this.$user.url}/invite`, {
+      await this.$request(`${this.$user.url}/invite`, {
         method: 'POST'
       })
-      console.log(response)
+      app.alert(
+        `Invitation email has been sent to ${this.$user.email}`,
+        null,
+        'Invitation sent',
+        'OK',
+        'success'
+      )
     }
   },
   components: {
-    leaseModal,
-    leasesTable,
-    nameModal,
-    transfersTable
+    LeaseModal,
+    LeasesTable,
+    NameModal,
+    TransfersTable
   }
 }
 </script>

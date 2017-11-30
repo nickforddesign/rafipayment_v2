@@ -9,10 +9,11 @@ const defaults = () => ({
   alert_visible: false,
   forgot_email: '',
   alert: {
-    header: '',
-    message: '',
-    actions: {},
-    button_labels: []
+    header: null,
+    message: null,
+    button_label: null,
+    button_labels: null,
+    confirm_class: null
   }
 })
 
@@ -60,7 +61,6 @@ export default {
     },
     ALERT_SHOW(state, alert) {
       state.alert_visible = true
-      // _.extend(state.alert, alert)
       state.alert = mergeDeepRight(state.alert, alert)
     },
     ALERT_HIDE(state) {

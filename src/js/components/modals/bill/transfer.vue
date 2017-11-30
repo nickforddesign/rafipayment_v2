@@ -27,7 +27,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Deferred, parseCurrency } from '@/utils'
+import app from '@/app'
+import { Deferred, parseCurrency, prettyCurrency } from '@/utils'
 import Transfer from '@/models/transfer/new'
 
 export default {
@@ -94,6 +95,11 @@ export default {
       })
       request.then(response => {
         this.confirm()
+        app.alert(
+          `Your payment of ${prettyCurrency(this.amount)} has been received and is now processing. Thank you!`,
+          null,
+          'Payment Successful'
+        )
       })
       .catch(error => {
         console.log({error})
