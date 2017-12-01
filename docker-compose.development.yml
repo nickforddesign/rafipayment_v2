@@ -7,7 +7,7 @@ services:
     environment:
       - NODE_ENV=development
     volumes:
-      - rafipayment_frontend_data:/static/
+      - rafipayment_frontend_data:/app/
     ports:
       - 3737:8080
 
