@@ -10,7 +10,7 @@ services:
       - rafipayment_frontend_data:/app/
     ports:
       - 3737:8080
-    command: npm run build
+    command: tail -f /dev/null
 
 volumes:
   rafipayment_frontend_data:
