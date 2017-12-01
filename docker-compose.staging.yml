@@ -7,10 +7,10 @@ services:
     environment:
       - NODE_ENV=staging
     volumes:
-      - rafipayment_frontend_data:/app/
+      - rafipayment_frontend_data:/app/dist/
     ports:
       - 3737:8080
-    command: tail -f /dev/null
+    command: npm run build
 
 volumes:
   rafipayment_frontend_data:
