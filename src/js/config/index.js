@@ -1,3 +1,3 @@
 const env = process.env.NODE_ENV
-const config = import(`./env/${env}`)
+const config = require(`./env/${env}`).default
 export default config
