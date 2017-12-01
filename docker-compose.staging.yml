@@ -6,8 +6,8 @@ services:
     container_name: frontend
     environment:
       - NODE_ENV=staging
-    # volumes:
-      # - rafipayment_frontend_data:/app/
+    volumes:
+      - rafipayment_frontend_data:/app/
     ports:
       - 3737:8080
     command: tail -f /dev/null
