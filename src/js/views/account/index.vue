@@ -64,8 +64,8 @@
       </div>
       
       <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="fetch" />
-      <password-modal v-if="modals.password" @close="closeModal('password')" :model="$user" />
-      <email-modal v-if="modals.email" @close="closeModal('email')" :model="$user" />
+      <password-modal v-if="modals.password" @close="closeModal('password')" :model="$user" :confirm="fetch" />
+      <email-modal v-if="modals.email" @close="closeModal('email')" :model="$user" :confirm="fetch" />
     </div>
     <loading v-else />
   </div>

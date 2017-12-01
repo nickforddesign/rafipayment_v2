@@ -39,6 +39,20 @@ const routes = [
     }
   },
   {
+    name: 'Confirm Email',
+    path: '/confirm/email',
+    component(resolve) {
+      require(['@/views/confirm/email'], resolve)
+    }
+  },
+  // {
+  //   name: 'Confirm Phone',
+  //   path: '/confirm/phone',
+  //   component(resolve) {
+  //     require('@/views/confirm/phone')
+  //   }
+  // },
+  {
     name: 'Dashboard',
     path: '/dashboard',
     meta: {

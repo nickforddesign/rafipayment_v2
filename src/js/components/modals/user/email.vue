@@ -14,6 +14,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import { Deferred } from '@/utils'
 
 export default {
@@ -46,17 +47,18 @@ export default {
       this.loading = true
 
       const body = this.$data
-      const request = this.$request('account/profile/email', {
+      await this.$request('account/profile/email', {
         method: 'post',
         body
       })
-      request.then(response => {
-        this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      this.confirm()
+      app.alert(
+        `A confirmation email has been sent to ${this.email}, please use the link to verify your new email address.`,
+        null,
+        'Confirm email',
+        'OK',
+        'success'
+      )
     }
   }
 }
