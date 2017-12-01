@@ -9,6 +9,7 @@
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
+    "staging": "node build/build-staging.js",
     "cordova": "node build/build-cordova.js",
     "lint": "eslint --ext .js,.vue src",
     "test": "export NODE_ENV=test && jest",
