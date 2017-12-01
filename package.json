@@ -38,13 +38,14 @@
     "phonegap-plugin-push": "^2.1.1",
     "ramda": "^0.25.0",
     "v-calendar": "^0.3.2",
-    "vee-validate": "^2.0.0-rc.18",
+    "vee-validate": "^2.0.0-rc.25",
     "vue-become": "^1.0.0",
     "vue-collections": "git+ssh://git@github.com/nickforddesign/vue-collections.git",
     "vue-google-autocomplete": "^1.0.13",
     "vue-models": "^1.4.5",
     "vue-requests": "^1.1.0",
     "vue-router": "^2.7.0",
+    "vue-the-mask": "^0.11.1",
     "vuex": "^2.4.1"
   },
   "devDependencies": {

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VeeValidate from 'vee-validate'
 import VCalendar from 'v-calendar'
 import 'v-calendar/lib/v-calendar.min.css'
+import VueTheMask from 'vue-the-mask'
 
 import router from '@/router'
 
@@ -16,13 +17,14 @@ import Select from '@/components/select'
 import Validation from '@/components/validation'
 import Field from '@/components/field'
 import NumberInput from '@/components/number'
-import Currency from '@/components/currency'
-import Password from '@/components/password'
+import PhoneInput from '@/components/phone'
+import CurrencyInput from '@/components/currency'
+import PasswordInput from '@/components/password'
+import DateInput from '@/components/date'
+import SearchInput from '@/components/search'
+import Searchable from '@/components/searchable'
 import Modal from '@/components/modal'
 import Empty from '@/components/empty'
-import DatePicker from '@/components/date'
-import Search from '@/components/search'
-import Searchable from '@/components/searchable'
 import ResponsiveTable from '@/components/table'
 import Cell from '@/components/table/cell'
 import Collection from '@/components/collection'
@@ -36,12 +38,13 @@ const components = [
   Validation,
   Field,
   NumberInput,
-  Currency,
-  Password,
+  PhoneInput,
+  CurrencyInput,
+  PasswordInput,
   Modal,
   Empty,
-  DatePicker,
-  Search,
+  DateInput,
+  SearchInput,
   Searchable,
   ResponsiveTable,
   Cell,
@@ -64,6 +67,7 @@ const install = (Vue) => {
 
   Vue.use(VeeValidate)
   Vue.use(VCalendar)
+  Vue.use(VueTheMask)
 }
 
 install(Vue)

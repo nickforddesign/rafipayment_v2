@@ -19,6 +19,15 @@ const validators = {
       return pattern.test(value)
     }
   },
+  phone: {
+    getMessage() {
+      return 'Please enter a valid US phone number'
+    },
+    validate(value, args) {
+      const pattern = /^\d{10}$/
+      return pattern.test(value)
+    }
+  },
   min_currency: {
     getMessage(field, args) {
       return `Must be greater than $${args[0]}`

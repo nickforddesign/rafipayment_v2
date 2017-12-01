@@ -1,20 +1,15 @@
+
 <template>
-  <div class="date-input">
-    <!-- <input type="date" v-model="input_value" :name="name"> -->
-    <v-date-picker
-      mode='single'
-      v-model='input_value'>
-    </v-date-picker>
+  <div class="phone-input">
+    <the-mask :mask="'(###) ###-####'" v-model="input_value" ref="input" />
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import moment from 'moment'
-
 export default {
-  name: 'date-picker',
+  name: 'phone',
   props: {
     value: String
   },
@@ -25,14 +20,16 @@ export default {
   },
   created() {
     const value = this.value || undefined
-    this.input_value = moment.utc(value).toDate()
+    this.input_value = value
   },
   watch: {
-    value(val) {
-      this.input_value = moment.utc(val).toDate()
-    },
     input_value(val) {
-      this.$emit('input', moment.utc(this.input_value).toISOString())
+      this.$emit('input', val)
+    }
+  },
+  methods: {
+    focus() {
+      // this.$refs.input.focus()
     }
   }
 }

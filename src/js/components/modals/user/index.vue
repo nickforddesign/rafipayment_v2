@@ -15,7 +15,7 @@
       </field>
 
       <field name="phone" :errors="errors">
-        <input type="text" v-model="phone">
+        <phone v-model="phone" v-validate.disable="'phone'" name="phone" />
       </field>
 
       <field name="password" :errors="errors" v-if="role === 'superadmin'">

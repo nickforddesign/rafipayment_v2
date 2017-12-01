@@ -45,13 +45,13 @@ const routes = [
       require(['@/views/confirm/email'], resolve)
     }
   },
-  // {
-  //   name: 'Confirm Phone',
-  //   path: '/confirm/phone',
-  //   component(resolve) {
-  //     require('@/views/confirm/phone')
-  //   }
-  // },
+  {
+    name: 'Confirm Phone',
+    path: '/confirm/phone',
+    component(resolve) {
+      require(['@/views/confirm/phone'], resolve)
+    }
+  },
   {
     name: 'Dashboard',
     path: '/dashboard',

@@ -87,8 +87,12 @@ export default {
     },
     processDwollaResponse(response) {
       const funding_source = path(['_links', 'funding-source', 'href'], response).split('funding-sources/')[1]
+      const status = path(['_links', 'verify-micro-deposits'], response)
+        ? 'unverified'
+        : 'verified'
       const body = {
-        funding_source
+        funding_source,
+        status
       }
       return this.$request(this.iav_token_endpoint, {
         method: 'post',
