@@ -66,6 +66,7 @@ const push = {
     return localStorage.getItem('registrationId')
   },
   register() {
+    console.log('register')
     return this.vm.$request(`account/devices`, {
       method: 'post',
       body: {

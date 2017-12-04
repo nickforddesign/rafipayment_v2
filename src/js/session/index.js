@@ -33,7 +33,7 @@ const session = new Vue({
     },
     logged_in(val) {
       // console.log('logged_in changed', val)
-      if (this.is_cordova && this.val) {
+      if (this.is_cordova && val) {
         push.register()
       }
     }
@@ -92,10 +92,16 @@ const session = new Vue({
       store.dispatch('refresh', session)
     },
     async logout() {
-      if (this.is_cordova) {
+      // if (this.is_cordova) {
+      //   await push.unregister()
+      // }
+      try {
         await push.unregister()
+      } catch (error) {
+        error
+      } finally {
+        this.$store.dispatch('logout')
       }
-      this.$store.dispatch('logout')
     }
   }
 })

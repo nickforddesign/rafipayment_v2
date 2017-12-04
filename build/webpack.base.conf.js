@@ -13,8 +13,8 @@ if (process.env.NODE_ENV === 'production') {
   property = 'build'
 } else if (process.env.NODE_ENV === 'cordova') {
   property = 'cordova'
-} else if (process.env.NODE_ENV === 'ui') {
-  property = 'ui'
+} else if (process.env.NODE_ENV === 'staging') {
+  property = 'staging'
 } else {
   property = 'dev'
 }

@@ -39,8 +39,6 @@ Vue.use(VueRequests, {
 Vue.use(VueModels)
 Vue.use(VueCollections)
 
-console.log('load app...')
-
 // push notifications
 if (env === 'cordova') {
   const push = require('./modules/push_notifications')
