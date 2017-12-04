@@ -7,16 +7,29 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+var property;
+
+if (process.env.NODE_ENV === 'production') {
+  property = 'build'
+} else if (process.env.NODE_ENV === 'cordova') {
+  property = 'cordova'
+} else if (process.env.NODE_ENV === 'ui') {
+  property = 'ui'
+} else {
+  property = 'dev'
+}
+
+var assetsPublicPath = config[property].assetsPublicPath
+var assetsRoot = config[property].assetsRoot
+
 module.exports = {
   entry: {
     app: './src/js/load.js'
   },
   output: {
-    path: config.build.assetsRoot,
+    path: assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
