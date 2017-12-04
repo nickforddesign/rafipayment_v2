@@ -11,6 +11,7 @@ import session from '@/session'
 import loading from '@/components/loading'
 
 const version = process.env.VERSION
+const env = process.env.NODE_ENV
 
 // global styles
 import '../scss/styles.scss'
@@ -37,6 +38,14 @@ Vue.use(VueRequests, {
 
 Vue.use(VueModels)
 Vue.use(VueCollections)
+
+console.log('load app...')
+
+// push notifications
+if (env === 'cordova') {
+  const push = require('./modules/push_notifications')
+  push.init(Vue)
+}
 
 export default new Vue({
   el: '#app',

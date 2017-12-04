@@ -11,6 +11,10 @@ Vue.use(VueModels, {
   schemaWarnings: false
 })
 
+const push = process.env.NODE_ENV === 'cordova'
+  ? require('@/modules/push_notifications')
+  : null
+
 const session = new Vue({
   store,
   name: 'session',
@@ -26,9 +30,18 @@ const session = new Vue({
   watch: {
     user(val) {
       this.$user = this.user
+    },
+    logged_in(val) {
+      // console.log('logged_in changed', val)
+      if (this.is_cordova && this.val) {
+        push.register()
+      }
     }
   },
   computed: {
+    is_cordova() {
+      return process.env.NODE_ENV === 'cordova'
+    },
     ...mapGetters({
       access: 'session:access',
       user: 'session:user',
@@ -77,6 +90,12 @@ const session = new Vue({
     },
     set_refresh_token(session) {
       store.dispatch('refresh', session)
+    },
+    async logout() {
+      if (this.is_cordova) {
+        await push.unregister()
+      }
+      this.$store.dispatch('logout')
     }
   }
 })
