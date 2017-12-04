@@ -49,6 +49,10 @@ export default {
     } catch (error) {
       console.warn(error)
     }
+    document.body.classList.add('lock')
+  },
+  beforeDestroy() {
+    document.body.classList.remove('lock')
   },
   computed: {
     has_confirm() {
