@@ -25,12 +25,8 @@ export default {
       return new FundingSource(this.model)
     }
   },
-  created() {
-    console.log(this.$user)
-  },
   computed: {
     $user() {
-      console.log('user', this.$parent.$user)
       return this.$parent.$parent.$user
     },
     is_balance() {
