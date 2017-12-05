@@ -7,7 +7,7 @@
       </div>
       <div class="actions">
         <button class="link" @click="promptRemove">Delete</button>
-        <button class="primary">Edit</button>
+        <button class="primary" @click="showModal('name')">Edit</button>
       </div>
     </header>
     <div class="table-container">
@@ -49,9 +49,14 @@
         </div>
       </div>
     </div>
+    <div v-if="!$user.password" class="actions">
+      <button class="primary" @click="invite">Send Invite</button>
+    </div>
     <!-- <div class="actions">
       <button @click="remove">Delete</button>
     </div> -->
+    <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="confirmModal" />
+
   </div>
 </template>
 
@@ -61,8 +66,18 @@
 import app from '@/app'
 import User from '@/models/user'
 
+import NameModal from '@/components/modals/user/name'
+
 export default {
   name: 'admin',
+  data() {
+    return {
+      fetched: false,
+      modals: {
+        name: false
+      }
+    }
+  },
   models: {
     user() {
       return new User({
@@ -84,8 +99,43 @@ export default {
     },
     async remove() {
       await this.$user.destroy()
-      this.$router.push('/admins')
+      this.$router.push('/tenants')
+    },
+    showModal(modal) {
+      this.modals[modal] = true
+    },
+    closeModal(modal) {
+      this.modals[modal] = false
+    },
+    async confirmModal() {
+      await this.fetch()
+    },
+    invite() {
+      this.$request(`${this.$user.url}/invite`, {
+        method: 'POST'
+      })
+      .then(() => {
+        app.alert(
+          `Invitation email has been sent to ${this.$user.email}`,
+          null,
+          'Invitation sent',
+          'OK',
+          'success'
+        )
+      })
+      .catch(() => {
+        app.alert(
+          `Failed to send invite to ${this.$user.email}`,
+          null,
+          'Invitation failed',
+          'OK',
+          'danger'
+        )
+      })
     }
+  },
+  components: {
+    NameModal
   }
 }
 </script>
