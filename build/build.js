@@ -1,6 +1,6 @@
 require('./check-versions')()
 
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV =  production'
 
 const ora = require('ora')
 const rm = require('rimraf')
@@ -9,7 +9,7 @@ const path = require('path')
 const webpack = require('webpack')
 const chalk = require('chalk')
 const config = require('../config')
-const webpack_config = require('./webpack.production.conf')
+const webpack_config = require('./webpack.build.conf')
 const mergeDeepRight = require('ramda/src/mergeDeepRight')
 
 const final_path = path.resolve(__dirname, '../dist')
@@ -22,8 +22,36 @@ rm(webpack_config.output.path, err => {
   webpack(webpack_config, (err, stats) => {
     spinner.stop()
 
-    // check for errors in build and in project
-    if (err || stats.hasErrors()) throw err
+    // webpack errors
+    if (err) {
+      console.error(err.stack || err)
+      if (err.details) {
+        console.error(err.details)
+      } else  {
+        console.error(err.stack || err)
+      }
+      process.exit(0)
+    }
+
+    // report on build process
+    process.stdout.write(stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false
+    }) + '\n\n')
+
+    // const info = stats.toJson()
+    // if (stats.hasWarnings()) {
+    //   console.warn(info.warnings)
+    // }
+
+    // if build failed, stop
+    if (stats.hasErrors()) {
+      console.log(chalk.red('  Build failed with errors.\n'))
+      process.exit(1)
+    }
 
     rm(final_path + '/*', err => {
       if (err) throw err
@@ -32,19 +60,6 @@ rm(webpack_config.output.path, err => {
         .then(() => {
           rm(webpack_config.output.path, err => {
             if (err) throw err
-
-            process.stdout.write(stats.toString({
-              colors: true,
-              modules: false,
-              children: false,
-              chunks: false,
-              chunkModules: false
-            }) + '\n\n')
-
-            if (stats.hasErrors()) {
-              console.log(chalk.red('  Build failed with errors.\n'))
-              process.exit(1)
-            }
 
             console.log(chalk.cyan('  Build complete.\n'))
             console.log(chalk.yellow(
