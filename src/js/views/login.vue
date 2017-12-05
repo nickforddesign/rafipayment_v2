@@ -29,7 +29,6 @@
     <div class="actions">
       <router-link to="/forgot">Forgot password?</router-link>
     </div>
-    test
   </div>
 </template>
 
@@ -101,6 +100,7 @@ export default {
     }
   }
 }
+>
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
