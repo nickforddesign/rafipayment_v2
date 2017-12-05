@@ -4,7 +4,7 @@ process.env.NODE_ENV = 'staging'
 
 const ora = require('ora')
 const rm = require('rimraf')
-const mv = require('mv')
+const move = require('glob-move')
 const path = require('path')
 const webpack = require('webpack')
 const chalk = require('chalk')
@@ -23,50 +23,37 @@ rm(webpackConfig.output.path, err => {
     spinner.stop()
     if (err) throw err
 
-    process.stdout.write(stats.toString({
-      colors: true,
-      modules: false,
-      children: false,
-      chunks: false,
-      chunkModules: false
-    }) + '\n\n')
-
-    if (stats.hasErrors()) {
-      console.log(chalk.red('  Build failed with errors.\n'))
-      process.exit(1)
-    }
-
-    console.log(chalk.cyan('  Build complete.\n'))
-    console.log(chalk.yellow(
-      '  Tip: built files are meant to be served over an HTTP server.\n' +
-      '  Opening index.html over file:// won\'t work.\n'
-    ))
-    
-    rm(finalPath, err => {
+    rm(finalPath + '/*', err => {
       if (err) throw err
 
-      mv(webpackConfig.output.path, finalPath, err => {
-        if (err) throw err
+      move(webpackConfig.output.path + '/*', finalPath)
+        .then(() => {
+          rm(webpackConfig.output.path, err => {
+            if (err) throw err
 
-        process.stdout.write(stats.toString({
-          colors: true,
-          modules: false,
-          children: false,
-          chunks: false,
-          chunkModules: false
-        }) + '\n\n')
+            process.stdout.write(stats.toString({
+              colors: true,
+              modules: false,
+              children: false,
+              chunks: false,
+              chunkModules: false
+            }) + '\n\n')
 
-        if (stats.hasErrors()) {
-          console.log(chalk.red('  Build failed with errors.\n'))
-          process.exit(1)
-        }
+            if (stats.hasErrors()) {
+              console.log(chalk.red('  Build failed with errors.\n'))
+              process.exit(1)
+            }
 
-        console.log(chalk.cyan('  Build complete.\n'))
-        console.log(chalk.yellow(
-          '  Tip: built files are meant to be served over an HTTP server.\n' +
-          '  Opening index.html over file:// won\'t work.\n'
-        ))
-      })
+            console.log(chalk.cyan('  Build complete.\n'))
+            console.log(chalk.yellow(
+              '  Tip: built files are meant to be served over an HTTP server.\n' +
+              '  Opening index.html over file:// won\'t work.\n'
+            ))
+          })
+        })
+        .catch(err => {
+          throw err
+        })
     })
   })
 })
