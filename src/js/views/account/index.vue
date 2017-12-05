@@ -75,6 +75,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import session from '@/session'
 import User from '@/models/user'
 
 import NameModal from '@/components/modals/user/name'
@@ -114,7 +115,7 @@ export default {
       this.loaded = true
     },
     logout() {
-      this.$store.dispatch('logout')
+      session.logout()
     },
     showModal(name) {
       this.modals[name] = true

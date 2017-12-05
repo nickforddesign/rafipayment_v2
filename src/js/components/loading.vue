@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     className() {
-      if (['input', 'table', 'data'].includes(this.type)) {
+      if (!this.is_full) {
         return this.type
       }
     },
@@ -56,19 +56,26 @@ export default {
           position: 'fixed'
         }
       }
+    },
+    is_full() {
+      return !this.type
     }
   },
   watch: {
     visible(val) {
-      if (val) {
-        document.body.classList.add('lock')
-      } else {
-        document.body.classList.remove('lock')
+      if (this.is_full) {
+        if (val) {
+          document.body.classList.add('lock')
+        } else {
+          document.body.classList.remove('lock')
+        }
       }
     }
   },
   beforeDestroy() {
-    document.body.classList.remove('lock')
+    if (this.is_full) {
+      document.body.classList.remove('lock')
+    }
   }
 }
 </script>

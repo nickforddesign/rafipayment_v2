@@ -17,6 +17,7 @@ selenium-debug.log
 
 # cordova files
 /dist/
+/dist_temp/
 /www/
 /platforms/
 /plugins/

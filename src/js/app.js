@@ -1,3 +1,6 @@
+// external libraries
+import './lib'
+
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
 import VCalendar from 'v-calendar'

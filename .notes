@@ -1,19 +1,8 @@
 - new notifications
   - email updated - to original
 
-- tenants/:id/leases
-  X- chris needs to fix baemo
-
-- change admin transfers to /payment/transfers
-
-
 - tenants
-  - /account/payment/transfers - get all my transfers, make a new transfer
-
-  - /account/leases - get all my leases
-  - /account/leases/:id - get one lease (might not need /account/)
-  - endpoints for editing split, changing autopay
-
   - /account/bills/current - get all current bills
   - /account/bills/past - get closed bills
+  
   

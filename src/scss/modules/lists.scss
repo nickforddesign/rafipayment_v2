@@ -4,12 +4,12 @@ dl {
   border-bottom: 1px solid $color-text-medium;
 
   dt {
-    width: 20%;
-    flex: 1 0 0;
+    // width: 20%;
+    flex: 1 0 auto;
     color: $color-text-medium;
   }
   dd {
-    flex: 2 0 0;
+    flex: 1 0 auto;
     text-align: right;
   }
 }

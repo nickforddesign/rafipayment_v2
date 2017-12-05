@@ -9,7 +9,10 @@
           <h2>{{ $transfer.amount | currency }}</h2>
         </div>
         <div class="actions">
-          <button class="danger" @click="promptCancel" v-if="$transfer.cancellable">Cancel</button>
+          <div v-if="fetched_cancel">
+            <button class="danger" @click="cancel" v-if="$transfer.cancellable">Cancel</button>
+          </div>
+          <loading v-else type="input" />
         </div>
       </header>
 
@@ -107,7 +110,8 @@ export default {
   name: 'transfer',
   data() {
     return {
-      fetched: false
+      fetched: false,
+      fetched_cancel: false
     }
   },
   models: {
@@ -132,8 +136,9 @@ export default {
     }
   },
   methods: {
-    checkIfCancellable() {
-      this.$transfer.fetchCancel()
+    async checkIfCancellable() {
+      await this.$transfer.fetchCancel()
+      this.fetched_cancel = true
     },
     promptCancel() {
       app.confirm(
