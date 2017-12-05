@@ -62,6 +62,8 @@
       <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="confirmModal" />
 
       <transfers-table v-if="fetched" :data="$user.payment" :path="`transfers?filter_parties=${$user.id}`" />
+
+      <events-table v-if="fetched" :user="$user" />
       
     </div>
     <loading v-else />
@@ -76,6 +78,7 @@ import User from '@/models/user'
 import LeasesTable from '@/views/leases/table'
 import LeaseModal from '@/components/modals/lease'
 import NameModal from '@/components/modals/user/name'
+import EventsTable from '@/views/notifications/table'
 import TransfersTable from '@/views/transfers/table'
 
 export default {
@@ -128,23 +131,35 @@ export default {
     async confirmModal() {
       await this.fetch()
     },
-    async invite() {
-      await this.$request(`${this.$user.url}/invite`, {
+    invite() {
+      this.$request(`${this.$user.url}/invite`, {
         method: 'POST'
       })
-      app.alert(
-        `Invitation email has been sent to ${this.$user.email}`,
-        null,
-        'Invitation sent',
-        'OK',
-        'success'
-      )
+      .then(() => {
+        app.alert(
+          `Invitation email has been sent to ${this.$user.email}`,
+          null,
+          'Invitation sent',
+          'OK',
+          'success'
+        )
+      })
+      .catch(() => {
+        app.alert(
+          `Failed to send invite to ${this.$user.email}`,
+          null,
+          'Invitation failed',
+          'OK',
+          'danger'
+        )
+      })
     }
   },
   components: {
     LeaseModal,
     LeasesTable,
     NameModal,
+    EventsTable,
     TransfersTable
   }
 }

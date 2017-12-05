@@ -24,7 +24,6 @@
 
 <script>
 import { Collection } from 'vue-collections'
-import collection from '@/components/collection'
 import Property from '@/models/property'
 
 import row from './row'
@@ -57,7 +56,6 @@ export default {
   },
   components: {
     row,
-    collection,
     propertyModal
   }
 }

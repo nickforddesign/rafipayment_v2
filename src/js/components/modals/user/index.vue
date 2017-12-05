@@ -101,7 +101,7 @@ export default {
     async confirmChange() {
       this.loading = true
 
-      const data = trimObj(this.$data, '')
+      const data = trimObj(this.$data, '', undefined)
 
       const request = this.$user.save(data)
       request.then(response => {

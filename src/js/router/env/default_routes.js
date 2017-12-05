@@ -293,6 +293,16 @@ const routes = [
     }
   },
   {
+    name: 'Events',
+    path: '/events',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager']
+    },
+    component(resolve) {
+      require(['@/views/notifications'], resolve)
+    }
+  },
+  {
     path: '*',
     name: '404',
     component: NotFound

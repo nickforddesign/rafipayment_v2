@@ -108,10 +108,14 @@ export default {
           const filterQuery = this.filters.map(filter => {
             return `filter_${filter.key}=${filter.value}`
           })
+          console.log(filterQuery)
+          console.log({has_pagination})
+          console.log(basePath)
           basePath += has_pagination
             ? '&'
             : '?'
-          basePath += filterQuery
+          basePath += filterQuery.join('&')
+          console.log(basePath)
         }
       } else {
         basePath += `?search=${this.search_term.split(' ').join(',')}`
