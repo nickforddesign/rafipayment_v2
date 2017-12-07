@@ -10,7 +10,7 @@
         </div>
         <div class="actions">
           <div v-if="fetched_cancel">
-            <button class="danger" @click="cancel" v-if="$transfer.cancellable">Cancel</button>
+            <button class="danger" @click="promptCancel" v-if="$transfer.cancellable">Cancel</button>
           </div>
           <loading v-else type="input" />
         </div>
