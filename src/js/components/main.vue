@@ -1,14 +1,16 @@
 <template>
   <div class="app-container">
     <div v-if="logged_in" class="nav-container">
-      <div class="logo-container">
-        <transition name="fade">
+
+      <div :class="['logo-container', back_class]">
+        <!-- <transition name="fade"> -->
           <button v-if="has_back" @click="$router.goBack" class="back-button">
             <icon-arrow-left />
           </button>
-          <logo v-else></logo>
-        </transition>
+          <logo />
+        <!-- </transition> -->
       </div>
+      
       <navigation />
     </div>
     <main :class="[main_class]">
@@ -35,6 +37,11 @@ export default {
     },
     has_back() {
       return this.$route.meta.back
+    },
+    back_class() {
+      if (this.has_back) {
+        return 'back-visible'
+      }
     },
     ...mapGetters({
       logged_in: 'session:logged_in',
@@ -93,6 +100,17 @@ main {
     border-radius: 0;
     background: transparent;
   }
+
+  &.back-visible {
+    .logo {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .back-button {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
 }
 
 @media (min-width: $breakpoint-medium) {
@@ -107,6 +125,17 @@ main {
     .logo-container {
       width: 100%;
       height: auto;
+      margin: 0;
+
+      .back-button {
+        display: none;
+      }
+
+      &.back-visible {
+        .logo {
+          opacity: 1;
+        }
+      }
     }
 
     .logo {
