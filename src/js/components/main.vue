@@ -7,8 +7,8 @@
           <button v-if="has_back" @click="$router.goBack" class="back-button">
             <icon-arrow-left />
           </button>
-          <logo />
         <!-- </transition> -->
+        <logo />
       </div>
       
       <navigation />
@@ -88,6 +88,7 @@ main {
 
   .logo {
     position: absolute;
+    z-index: 1;
   }
   .back-button {
     position: absolute;
@@ -98,7 +99,8 @@ main {
     padding: 0;
     box-shadow: none;
     border-radius: 0;
-    background: transparent;
+    background: $color-background-dark;
+    z-index: 2;
   }
 
   &.back-visible {
