@@ -21,7 +21,6 @@ const router = new Router({
 })
 
 router.goBack = () => {
-  // const back = _.get(router.currentRoute, 'meta.back')
   const back = path(['meta', 'back'], router.currentRoute)
   if (typeof back === 'string') {
     router.push(back)

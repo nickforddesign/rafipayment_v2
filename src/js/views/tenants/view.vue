@@ -43,7 +43,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Phone</dt>
-              <dd>{{ $user.phone || '–'}}</dd>
+              <dd>{{ $user.phone | phone }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -56,13 +56,11 @@
         <button class="primary" @click="invite">Send Invite</button>
       </div>
 
-      <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal('lease')" />
-      <lease-modal v-if="modals.lease" @close="closeModal('lease')" :confirm="confirmModal" :tenants="[$user]" />
-
       <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="confirmModal" />
-
+      <lease-modal v-if="modals.lease" @close="closeModal('lease')" :confirm="confirmModal" :tenants="[$user]" />
+      
+      <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal('lease')" />
       <transfers-table v-if="fetched" :data="$user.payment" :path="`transfers?filter_parties=${$user.id}`" />
-
       <events-table v-if="fetched" :user="$user" />
       
     </div>

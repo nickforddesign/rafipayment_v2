@@ -1,9 +1,14 @@
 <template>
   <div class="app-container">
     <div v-if="logged_in" class="nav-container">
-      <logo />
-      <!-- <button @click="alert">Test Alert</button>
-      <button @click="confirm">Test Confirm</button> -->
+      <div class="logo-container">
+        <transition name="fade">
+          <button v-if="has_back" @click="$router.goBack" class="back-button">
+            <icon-arrow-left />
+          </button>
+          <logo v-else></logo>
+        </transition>
+      </div>
       <navigation />
     </div>
     <main :class="[main_class]">
@@ -18,7 +23,7 @@ import { path } from 'ramda'
 import { mapGetters } from 'vuex'
 import Navigation from './nav'
 import Alert from './alert'
-// import app from '@/app'
+import IconArrowLeft from './icons/arrow-left'
 
 export default {
   name: 'app',
@@ -27,6 +32,9 @@ export default {
       return this.logged_in
         ? 'content'
         : null
+    },
+    has_back() {
+      return this.$route.meta.back
     },
     ...mapGetters({
       logged_in: 'session:logged_in',
@@ -43,30 +51,11 @@ export default {
     getRedirect() {
       return path(['query', 'redirect'], this.$route) || '/dashboard'
     }
-    // alert() {
-    //   app.alert(
-    //     'This is a test alert',
-    //     this.callback,
-    //     'Test alert',
-    //     'Yes',
-    //     'neutral'
-    //   )
-    // },
-    // confirm() {
-    //   app.confirm(
-    //     'This is a test confirm',
-    //     this.callback,
-    //     'Test confirm'
-    //     // ['Yes', 'No']
-    //   )
-    // },
-    // callback() {
-    //   console.log('yep')
-    // }
   },
   components: {
     Navigation,
-    Alert
+    Alert,
+    IconArrowLeft
   }
 }
 </script>
@@ -83,6 +72,29 @@ main {
   }
 }
 
+.logo-container {
+  position: relative;
+  width: 60px;
+  height: 35px;
+  margin: 6px;
+  color: $color-text-default;
+
+  .logo {
+    position: absolute;
+  }
+  .back-button {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin-top: 16px;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+    background: transparent;
+  }
+}
+
 @media (min-width: $breakpoint-medium) {
 
   .nav-container {
@@ -92,7 +104,13 @@ main {
     bottom: 0;
     background: $color-nav-background;
 
+    .logo-container {
+      width: 100%;
+      height: auto;
+    }
+
     .logo {
+      position: relative;
       padding: 20px;
     }
   }

@@ -1,38 +1,36 @@
 <template>
   <div>
-    <collection name="bills" :$collection="$collection" :searchable="false">
-
-      <responsive-table slot="content" :columns="[
-        'Due Date',
-        'Target',
-        'Type',
-        'Balance'
-      ]">
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
-      </responsive-table>
-
-    </collection>
+    <ul class="tabs">
+      <li>
+        <router-link :to="`/bills/current`">Current</router-link>
+      </li>
+      <li>
+        <router-link :to="`/bills/past`">Past</router-link>
+      </li>
+    </ul>
+    <router-view />
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Collection } from 'vue-collections'
-import Bill from '@/models/bill'
-
-import row from '../../row'
-
 export default {
   name: 'leases',
-  collection() {
-    return new Collection({
-      basePath: 'account/bills',
-      model: Bill
-    })
+  created() {
+    this.checkUrl()
   },
-  components: {
-    row
+  watch: {
+    $route() {
+      this.checkUrl()
+    }
+  },
+  methods: {
+    checkUrl() {
+      if (this.$route.path === '/bills') {
+        this.$router.replace(`/bills/current`)
+      }
+    }
   }
 }
 </script>

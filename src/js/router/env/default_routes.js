@@ -86,7 +86,10 @@ const routes = [
     name: 'Property',
     path: '/properties/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager']
+      auth: ['superadmin', 'admin', 'manager'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/properties/view'], resolve)
@@ -106,7 +109,10 @@ const routes = [
     name: 'Unit',
     path: '/units/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager']
+      auth: ['superadmin', 'admin', 'manager'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/units/view'], resolve)
@@ -126,7 +132,10 @@ const routes = [
     name: 'Lease',
     path: '/leases/:id',
     meta: {
-      auth: ['admin', 'manager', 'tenant']
+      auth: ['admin', 'manager', 'tenant'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/leases/view'], resolve)
@@ -146,7 +155,10 @@ const routes = [
     name: 'Company',
     path: '/companies/:id',
     meta: {
-      auth: ['superadmin']
+      auth: ['superadmin'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/companies/view'], resolve)
@@ -176,7 +188,10 @@ const routes = [
     name: 'Superadmin',
     path: '/superadmins/:id',
     meta: {
-      auth: ['superadmin']
+      auth: ['superadmin'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/superadmins/view'], resolve)
@@ -196,7 +211,10 @@ const routes = [
     name: 'Admin',
     path: '/admins/:id',
     meta: {
-      auth: ['superadmin', 'admin']
+      auth: ['superadmin', 'admin'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/admins/view'], resolve)
@@ -216,7 +234,10 @@ const routes = [
     name: 'Tenant',
     path: '/tenants/:id',
     meta: {
-      auth: ['superadmin', 'admin']
+      auth: ['superadmin', 'admin'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/tenants/view'], resolve)
@@ -256,7 +277,10 @@ const routes = [
     name: 'Transfer',
     path: '/transfers/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager', 'tenant']
+      auth: ['superadmin', 'admin', 'manager', 'tenant'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/transfers/view'], resolve)
@@ -270,13 +294,38 @@ const routes = [
     },
     component(resolve) {
       require(['@/views/bills'], resolve)
-    }
+    },
+    children: [
+      {
+        name: 'Current Bills',
+        path: 'current',
+        meta: {
+          auth: ['admin', 'manager', 'tenant']
+        },
+        component(resolve) {
+          require(['@/views/bills/current'], resolve)
+        }
+      },
+      {
+        name: 'Past Bills',
+        path: 'past',
+        meta: {
+          auth: ['admin', 'manager', 'tenant']
+        },
+        component(resolve) {
+          require(['@/views/bills/past'], resolve)
+        }
+      }
+    ]
   },
   {
     name: 'Bill',
     path: '/bills/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager', 'tenant']
+      auth: ['superadmin', 'admin', 'manager', 'tenant'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/bills/view'], resolve)
@@ -286,7 +335,10 @@ const routes = [
     name: 'Funding Source',
     path: '/funding_sources/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager', 'tenant']
+      auth: ['superadmin', 'admin', 'manager', 'tenant'],
+      back($router) {
+        $router.back()
+      }
     },
     component(resolve) {
       require(['@/views/funding_sources/view'], resolve)

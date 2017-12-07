@@ -42,7 +42,7 @@
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Phone</dt>
-            <dd>{{ $user.phone || '–'}}</dd>
+            <dd>{{ $user.phone | phone }}</dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
