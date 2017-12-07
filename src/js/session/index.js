@@ -32,7 +32,6 @@ const session = new Vue({
       this.$user = this.user
     },
     logged_in(val) {
-      // console.log('logged_in changed', val)
       if (this.is_cordova && val) {
         push.register()
       }
@@ -65,6 +64,7 @@ const session = new Vue({
           }
         }, false)
         store.dispatch(endpoint, response)
+        this.fetch_primary(vm, response)
       }
     },
     async activate(vm, token) {
@@ -75,6 +75,12 @@ const session = new Vue({
         }
       })
       store.dispatch('activate', response)
+      this.fetch_primary(response)
+    },
+    async fetch_primary(vm, user) {
+      const primary_id = user.payment.primary_funding_source
+      const response = await vm.$request(`account/funding_sources/${primary_id}`)
+      store.dispatch('set_primary', response)
     },
     check_access_token() {
       const expiration_date = path(['expiration', '$date'], this.access)
@@ -92,9 +98,6 @@ const session = new Vue({
       store.dispatch('refresh', session)
     },
     async logout() {
-      // if (this.is_cordova) {
-      //   await push.unregister()
-      // }
       try {
         await push.unregister()
       } catch (error) {

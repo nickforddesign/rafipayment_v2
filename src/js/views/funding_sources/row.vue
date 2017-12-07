@@ -5,7 +5,8 @@
     <cell>{{ model.created | moment('MM/DD/YYYY') }}</cell>
     <cell className="text-right">
       <button class="small" @click.stop="promptPrimary" v-if="!is_balance && !is_primary">Set as Primary</button>
-      <button class="small" @click.stop="promptRemove" v-if="!is_balance">Remove</button>
+      <button class="small" @click.stop="promptRemove" v-if="!is_balance && !is_primary">Remove</button>
+      <span v-if="is_balance || is_primary">–</span>
     </cell>
   </div>
 </template>
@@ -27,7 +28,7 @@ export default {
   },
   computed: {
     $user() {
-      return this.$parent.$parent.$user
+      return this.$parent.$parent.$parent.$user
     },
     is_balance() {
       return this.$funding_source.type === 'balance'

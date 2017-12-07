@@ -54,8 +54,9 @@
 
       <transfers-table :model="$bill" />
 
-      <button class="primary" @click="showModal">Make a Payment</button>
+      <!-- <button class="primary" @click="showModal">Make a Payment</button> -->
       <transfer-modal v-if="modal_visible" :model="$bill" @close="closeModal" :confirm="fetch" />
+
     </div>
   </div>
 </template>
@@ -63,11 +64,14 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { mapGetters } from 'vuex'
+
 import Bill from '@/models/bill'
 import charges from '@/components/charges'
 import transfersTable from './transfers'
 import splitRow from './split_row'
 
+import validatePrimary from '@/utils/validatePrimary'
 import transferModal from '@/components/modals/bill/transfer'
 
 export default {
@@ -91,12 +95,19 @@ export default {
     await this.fetch()
     this.fetched = true
   },
+  computed: {
+    ...mapGetters({
+      primary_funding_source: 'session:primary'
+    })
+  },
   methods: {
     async fetch() {
       await this.$bill.fetch()
     },
     showModal() {
-      this.modal_visible = true
+      if (validatePrimary(this.primary_funding_source)) {
+        this.modal_visible = true
+      }
     },
     closeModal() {
       this.modal_visible = false

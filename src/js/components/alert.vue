@@ -48,7 +48,6 @@ export default {
   },
   mounted() {
     if (this.$refs.default) {
-      console.log(this.$refs.default)
       this.$refs.default.focus()
     }
     document.body.classList.add('lock')

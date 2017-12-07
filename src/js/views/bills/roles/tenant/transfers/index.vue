@@ -2,6 +2,9 @@
   <div class="table collection-view">
     <div class="header">
       Payments
+      <div class="actions">
+        <button class="small" @click="$parent.showModal">Make a Payment</button>
+      </div>
     </div>
     <div v-if="model.has_transfers">
       <div v-if="model.transfers.length">

@@ -3,6 +3,7 @@ import { setStorage, getStorage, clearStorage } from '@/utils'
 
 const defaults = () => ({
   logged_in: false,
+  primary: null,
   user: {
     first_name: '',
     last_name: '',
@@ -30,6 +31,9 @@ export default {
     },
     'session:logged_in': state => {
       return state.logged_in
+    },
+    'session:primary': state => {
+      return state.primary
     }
   },
   mutations: {
@@ -48,7 +52,9 @@ export default {
     },
     ACTIVATE(state, user) {
       state.user = user
-      // setStorage('refresh_token', this.getters['session:refresh'].token)
+    },
+    SET_PRIMARY(state, data) {
+      state.primary = data
     }
   },
   actions: {
@@ -63,6 +69,9 @@ export default {
     },
     activate({ commit }, user) {
       commit('ACTIVATE', user)
+    },
+    set_primary({ commit }, data) {
+      commit('SET_PRIMARY', data)
     }
   }
 }
