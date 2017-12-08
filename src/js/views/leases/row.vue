@@ -6,8 +6,8 @@
     <cell>{{ $lease.unit.name }}</cell>
     <cell>{{ $lease.start_date | moment('M/D/YYYY', true) }}</cell>
     <cell>{{ $lease.end_date | moment('M/D/YYYY', true) }}</cell>
-    <cell>{{ $lease.length.months }} Mo.</cell>
-    <cell>{{ current_rent }}</cell>
+    <cell>{{ lease_length }}</cell>
+    <cell className="text-right">{{ current_rent }}</cell>
   </div>
 </template>
 
@@ -30,6 +30,11 @@ export default {
       return this.$lease.is_active
         ? prettyCurrency(this.$lease.periods_sorted[this.$lease.current_period].amount)
         : '–'
+    },
+    lease_length() {
+      return this.$lease.length.months
+        ? `${this.$lease.length.months} Mo.`
+        : 'N/A'
     }
   },
   methods: {

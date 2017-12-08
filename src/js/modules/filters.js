@@ -29,7 +29,7 @@ const filters = {
     return value + (options[(remainder - 20) % 10] || options[remainder] || options[0])
   },
   moment(value = '', format = 'l', utc = true) {
-    let output
+    let output = '–'
     const target = utc
       ? moment.utc
       : moment

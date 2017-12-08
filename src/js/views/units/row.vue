@@ -14,6 +14,7 @@
 
 <script>
 import Unit from '@/models/unit'
+// import Lease from '@/models/lease'
 
 export default {
   name: 'row',
@@ -22,6 +23,9 @@ export default {
     unit() {
       return new Unit()
     }
+    // lease() {
+    //   return new Lease()
+    // }
   },
   created() {
     this.$unit = this.model

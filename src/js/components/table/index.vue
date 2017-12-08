@@ -2,7 +2,7 @@
   <div class="table">
     <div class="thead">
       <div class="tr">
-        <div class="th" v-for="(column, index) in columns" :key="index" :width="column.width" :class="column.class">
+        <div class="th" v-for="(column, index) in columns" :key="index" :style="{ width: column.width }" :class="column.class">
           <span v-if="typeof column === 'object'">{{ column.name }}</span>
           <span v-else>{{ column }}</span>
         </div>

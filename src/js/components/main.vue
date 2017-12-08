@@ -155,6 +155,7 @@ main {
       width: 1200px;
       max-width: calc(100% - #{$sidebar-width});
       padding: 30px;
+      overflow-y: scroll;
       text-align: left;
     }
   }

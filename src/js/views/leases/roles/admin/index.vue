@@ -11,7 +11,11 @@
         'Start Date',
         'End Date',
         'Duration',
-        'Current Rent'
+        {
+          name: 'Current Rent',
+          class: 'text-right',
+          width: '130px'
+        }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>
