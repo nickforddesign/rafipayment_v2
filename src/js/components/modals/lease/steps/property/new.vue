@@ -34,6 +34,11 @@ export default {
     async validate() {
       const passed = await this.$refs.property_form.validate()
       if (passed) {
+        await this.$property.save(this.place, {
+          query: {
+            save: false
+          }
+        })
         this.complete()
       }
     },
