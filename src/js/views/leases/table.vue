@@ -55,13 +55,17 @@ export default {
       basePath: this.path
     })
   },
-  async created() {
-    await this.$collection.fetch()
-    this.fetched = true
+  created() {
+    this.fetch()
   },
   methods: {
     emitAdd() {
       this.$emit('add')
+    },
+    async fetch() {
+      this.$collection.reset()
+      await this.$collection.fetch()
+      this.fetched = true
     }
   },
   components: {

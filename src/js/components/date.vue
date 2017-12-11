@@ -3,8 +3,7 @@
     <!-- <input type="date" v-model="input_value" :name="name"> -->
     <v-date-picker
       mode='single'
-      v-model='input_value'>
-    </v-date-picker>
+      v-model='input_value' />
   </div>
 </template>
 
@@ -16,7 +15,7 @@ import moment from 'moment'
 export default {
   name: 'date-picker',
   props: {
-    value: String
+    value: [String, Object]
   },
   data() {
     return {
@@ -25,11 +24,11 @@ export default {
   },
   created() {
     const value = this.value || undefined
-    this.input_value = moment.utc(value).toDate()
+    this.input_value = new Date(moment.utc(value).format('MM/DD/YYYY'))
   },
   watch: {
-    value(val) {
-      this.input_value = moment.utc(val).toDate()
+    value(value) {
+      this.input_value = new Date(moment.utc(value).format('MM/DD/YYYY'))
     },
     input_value(val) {
       this.$emit('input', moment.utc(this.input_value).toISOString())

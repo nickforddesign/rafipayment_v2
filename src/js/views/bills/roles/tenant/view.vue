@@ -52,10 +52,10 @@
 
       </div>
 
-      <transfers-table :model="$bill" />
+      <transfers-table :model="$bill" ref="transfers_table" />
 
       <!-- <button class="primary" @click="showModal">Make a Payment</button> -->
-      <transfer-modal v-if="modal_visible" :model="$bill" @close="closeModal" :confirm="fetch" />
+      <transfer-modal v-if="modal_visible" :model="$bill" @close="closeModal" :confirm="refetch" />
 
     </div>
   </div>
@@ -103,6 +103,10 @@ export default {
   methods: {
     async fetch() {
       await this.$bill.fetch()
+    },
+    async refetch() {
+      await this.$bill.fetch()
+      this.$refs.transfers_table.fetch()
     },
     showModal() {
       if (validatePrimary(this.primary_funding_source)) {

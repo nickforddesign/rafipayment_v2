@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <leases-table :data="$unit" :path="`leases?filter_unit=${$unit.id}`" @add="showModal('lease')" />
+    <leases-table :data="$unit" :path="`leases?filter_unit=${$unit.id}`" @add="showModal('lease')" ref="leases_table" />
 
     <lease-modal v-if="modals.lease" @close="closeModal('lease')" :confirm="confirmModal" :property="$property" :unit="$unit" />
     <unit-modal v-if="modals.unit" @close="closeModal('unit')" :confirm="confirmModal" :model="$unit.$data" />
@@ -116,8 +116,9 @@ export default {
     closeModal(modal) {
       this.modals[modal] = false
     },
-    confirmModal() {
-      this.fetch()
+    async confirmModal() {
+      await this.fetch()
+      this.$refs.leases_table.fetch()
     }
   },
   components: {

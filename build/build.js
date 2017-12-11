@@ -9,7 +9,7 @@ const path = require('path')
 const webpack = require('webpack')
 const chalk = require('chalk')
 const config = require('../config')
-const webpack_config = require('./webpack.build.conf')
+const webpack_config = require('./webpack.prod.conf')
 const mergeDeepRight = require('ramda/src/mergeDeepRight')
 
 const final_path = path.resolve(__dirname, '../dist')

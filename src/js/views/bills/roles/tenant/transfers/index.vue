@@ -58,9 +58,15 @@ export default {
       }
     })
   },
-  async created() {
-    await this.$collection.fetch()
-    this.fetched = true
+  created() {
+    this.fetch()
+  },
+  methods: {
+    async fetch() {
+      this.$collection.reset()
+      await this.$collection.fetch()
+      this.fetched = true
+    }
   },
   components: {
     row
