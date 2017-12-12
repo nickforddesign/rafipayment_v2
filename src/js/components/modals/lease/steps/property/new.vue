@@ -13,6 +13,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import Property from '@/models/property/new'
 import newProperty from '@/components/property/form'
 
@@ -34,12 +35,21 @@ export default {
     async validate() {
       const passed = await this.$refs.property_form.validate()
       if (passed) {
-        await this.$property.save(this.place, {
+        this.$property.save(this.place, {
           query: {
-            save: false
+            action_save: false
           }
         })
-        this.complete()
+        .then(() => {
+          this.complete()
+        })
+        .catch(() => {
+          app.alert(
+            'Could not save',
+            null,
+            'Validation Failed'
+          )
+        })
       }
     },
     complete() {

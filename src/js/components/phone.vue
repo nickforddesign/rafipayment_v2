@@ -19,8 +19,9 @@ export default {
     }
   },
   created() {
-    const value = this.value || undefined
-    this.input_value = value
+    if (this.value) {
+      this.input_value = this.value
+    }
   },
   watch: {
     input_value(val) {

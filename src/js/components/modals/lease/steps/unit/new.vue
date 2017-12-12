@@ -19,7 +19,7 @@
       </field>
 
       <div class="actions">
-        <button v-if="name" @click="complete">Next</button>
+        <button v-if="name" @click="validate">Next</button>
       </div>
     </div>
   </div>
@@ -48,6 +48,12 @@ export default {
     }
   },
   methods: {
+    async validate() {
+      const passed = await this.$validator.validateAll()
+      if (passed) {
+        this.complete()
+      }
+    },
     complete() {
       this.$unit = this.$data
       this.next()
