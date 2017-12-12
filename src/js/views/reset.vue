@@ -29,6 +29,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import session from '@/session'
 
 export default {
@@ -45,6 +46,8 @@ export default {
     this.token = this.$route.query.token
     if (this.token) {
       this.sendToken()
+    } else {
+      this.showError()
     }
   },
   watch: {
@@ -68,17 +71,20 @@ export default {
         this.sendPassword()
       }
     },
-    async sendToken() {
+    sendToken() {
       const body = {
         token: this.token
       }
-      const response = await this.$request('account/profile/password/check', {
+      this.$request('account/profile/password/check', {
         body,
         method: 'put'
       })
-
-      this.check = true
-      return response
+      .then(() => {
+        this.check = true
+      })
+      .catch(() => {
+        this.showError()
+      })
     },
     async sendPassword() {
       const body = {
@@ -90,11 +96,18 @@ export default {
         method: 'put'
       })
 
-      console.log(response)
-
       session.set_refresh_token(response)
       session.refresh_session(this)
       return response
+    },
+    showError() {
+      app.alert(
+        'It looks like the password reset link you used is no longer valid.',
+        this.$router.push('/'),
+        'Invalid link',
+        'OK',
+        'danger'
+      )
     }
   }
 }
