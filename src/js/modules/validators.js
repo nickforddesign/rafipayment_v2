@@ -39,7 +39,7 @@ const validators = {
   },
   max_currency: {
     getMessage(field, args) {
-      return `Transfer amount may not exceed $${args[0]}`
+      return `Amount may not exceed $${args[0]}`
     },
     validate(value, args) {
       const parsed = parseCurrency(value)

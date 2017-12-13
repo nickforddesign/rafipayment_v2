@@ -1,22 +1,24 @@
 <template>
   <div class="app-container">
-    <div v-if="logged_in" class="nav-container">
+    <component :is="hoc_name" >
+      <div v-if="logged_in" class="nav-container">
 
-      <div :class="['logo-container', back_class]">
-        <!-- <transition name="fade"> -->
-          <button v-if="has_back" @click="$router.goBack" class="back-button">
-            <icon-arrow-left />
-          </button>
-        <!-- </transition> -->
-        <logo />
+        <div :class="['logo-container', back_class]">
+          <!-- <transition name="fade"> -->
+            <button v-if="has_back" @click="$router.goBack" class="back-button">
+              <icon-arrow-left />
+            </button>
+          <!-- </transition> -->
+          <logo />
+        </div>
+
+        <navigation />
       </div>
-      
-      <navigation />
-    </div>
-    <main :class="[main_class]">
-      <router-view></router-view>
-    </main>
-    <alert v-if="alert_visible" />
+      <main :class="[main_class]">
+        <router-view></router-view>
+      </main>
+      <alert v-if="alert_visible" />
+    </component>
   </div>
 </template>
 
@@ -26,6 +28,9 @@ import { mapGetters } from 'vuex'
 import Navigation from './nav'
 import Alert from './alert'
 import IconArrowLeft from './icons/arrow-left'
+
+import Tenant from '@/components/roles/tenant'
+import Admin from '@/components/roles/admin'
 
 export default {
   name: 'app',
@@ -43,8 +48,12 @@ export default {
         return 'back-visible'
       }
     },
+    hoc_name() {
+      return this.role || 'none'
+    },
     ...mapGetters({
       logged_in: 'session:logged_in',
+      role: 'session:role',
       alert_visible: 'app:alert_visible'
     })
   },
@@ -62,7 +71,9 @@ export default {
   components: {
     Navigation,
     Alert,
-    IconArrowLeft
+    IconArrowLeft,
+    Tenant,
+    Admin
   }
 }
 </script>

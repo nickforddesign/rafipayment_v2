@@ -1,5 +1,5 @@
 <template>
-  <div class="container x-sm activate-tenant">
+  <div class="container x-sm">
     <component v-if="current !== null" :is="steps[current].name" :step="steps[current]" />
   </div>
 </template>
@@ -36,7 +36,6 @@ export default {
   async created() {
     await this.$collection.fetch()
     this.steps = getSteps(session.$user, this.collection)
-    console.log(this.steps)
     this.getCurrentStep()
   },
   methods: {
@@ -65,47 +64,3 @@ export default {
   }
 }
 </script>
-
-<!--/////////////////////////////////////////////////////////////////////////-->
-
-<style lang="scss">
-@import '~%/colors';
-
-.activate-tenant {
-  .grid {
-    text-align: center;
-
-    .grid__col {
-      margin-bottom: 30px;
-    }
-  }
-  h2 {
-    font-weight: bold;
-    margin-bottom: 40px;
-  }
-  h3 {
-    margin-bottom: 10px;
-    color: $color-grey-60;
-    font-size: 0.9em;
-    font-weight: 500;
-    text-transform: uppercase;
-  }
-  h4 {
-    margin: 0;
-    font-size: 1.1em;
-    font-weight: 500;
-  }
-  .actions {
-    margin: 10px 0 30px;
-    // margin-bottom: 30px;
-
-    & > div {
-      margin-bottom: 12px;
-    }
-  }
-  .note {
-    font-size: 0.8em;
-    margin: 30px 0;
-  }
-}
-</style>

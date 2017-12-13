@@ -9,9 +9,11 @@
       </div>
     </div>
 
-    <field name="my split" :errors="errors">
-      <currency v-model="amount" />
-    </field>
+    <div class="container amount">
+      <field name="rent split" :errors="errors">
+        <currency v-model="amount" v-validate="'required|min_currency:0.00|max_currency:5000'" name="rent split" />
+      </field>
+    </div>
 
     <div class="actions">
       <button class="primary">Confirm</button>
@@ -49,9 +51,11 @@ export default {
     }
   },
   methods: {
-    validate() {
-      // validate split here
-      this.save()
+    async validate() {
+      const passed = await this.$validator.validateAll()
+      if (passed) {
+        this.save()
+      }
     },
     async save() {
       const body = {
@@ -73,5 +77,9 @@ export default {
 <style scoped lang="scss">
 .grid {
   text-align: center;
+}
+.container.amount {
+  width: 300px;
+  margin-bottom: 30px;
 }
 </style>

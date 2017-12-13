@@ -23,6 +23,9 @@ export default {
     'session:user': state => {
       return state.user
     },
+    'session:role': state => {
+      return state.user.role
+    },
     'session:access': state => {
       return path(['user', 'session', 'access'], state)
     },

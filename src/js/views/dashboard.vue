@@ -1,6 +1,11 @@
 <template>
   <div>
-    <h2>Dashboard</h2>
+    <header>
+      <div class="meta">
+        <!-- <legend>Dashboard</legend> -->
+        <h2>Dashboard</h2>
+      </div>
+    </header>
     <pre>{{ $user }}</pre>
   </div>
 </template>

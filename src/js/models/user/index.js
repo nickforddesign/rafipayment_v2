@@ -1,4 +1,4 @@
-import { path } from 'ramda'
+// import { path } from 'ramda'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate } from '@/modules/types'
 
@@ -24,17 +24,17 @@ export default class User extends Model {
           return this.role
             ? `${this.first_name[0]}${this.last_name[0]}`.toUpperCase()
             : ``
-        },
-        funding_sources() {
-          const funding_sources_array = path(['payment', 'funding_sources'], this)
-          if (funding_sources_array) {
-            return funding_sources_array.filter(funding_source => {
-              return funding_source.removed !== true
-            })
-          } else {
-            return []
-          }
         }
+        // funding_sources() {
+        //   const funding_sources_array = path(['payment', 'funding_sources'], this)
+        //   if (funding_sources_array) {
+        //     return funding_sources_array.filter(funding_source => {
+        //       return funding_source.removed !== true
+        //     })
+        //   } else {
+        //     return []
+        //   }
+        // }
       }
     }
   }

@@ -1,7 +1,10 @@
 <template>
   <form @submit.prevent="validate">
     <h2>Welcome {{ $user.first_name }}!</h2>
-    Create a password to activate your account.
+    
+    <div class="message">
+      Create a password to activate your account.
+    </div>
 
     <field name="password" :errors="errors">
       <password v-model="password" name="password" v-validate="'required'" />

@@ -3,23 +3,30 @@
     <h2>Review your lease</h2>
 
     <div class="grid">
-      <div class="grid__col grid__col--1-of-2">
-        <h3>Start Date</h3>
-        <h4>{{ step.lease.start_date | moment }}</h4>
-      </div>
-      <div class="grid__col grid__col--1-of-2">
-        <h3>End Date</h3>
-        <h4>{{ end_date }}</h4>
+      <div class="grid__col grid__col--1-of-1" v-if="step.lease.periods.length === 1">
+        <h3>Address</h3>
+        <h4>{{ $lease.address }}</h4>
       </div>
     </div>
 
     <div class="grid">
-      <div class="grid__col grid__col--1-of-1" v-if="step.lease.periods.length === 1">
+      <div class="grid__col grid__col--1-of-2">
+        <h3>Start Date</h3>
+        <h4>{{ $lease.start_date | moment }}</h4>
+      </div>
+      <div class="grid__col grid__col--1-of-2">
+        <h3>End Date</h3>
+        <h4>{{ $lease.end_date | moment }}</h4>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="grid__col grid__col--1-of-1" v-if="$lease.periods.length === 1">
         <h3>Total Monthly Rent</h3>
-        <h4 class="amount">{{ step.lease.periods[0].amount | currency }}</h4>
+        <h4 class="amount">{{ $lease.periods[0].amount | currency }}</h4>
       </div>
 
-      <div class="grid__col grid__col--1-of-1" v-else v-for="(period, index) in step.lease.periods" :key="index">
+      <div class="grid__col grid__col--1-of-1" v-else v-for="(period, index) in $lease.periods" :key="index">
         <h3>Billing Period {{ index + 1 }}</h3>
         <h4 class="amount">{{ period.amount | currency }}</h4>
       </div>
@@ -49,20 +56,20 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import moment from 'moment'
 import session from '@/session'
+import Lease from '@/models/lease'
 
 export default {
   name: 'show-lease',
   props: ['step'],
+  models: {
+    lease() {
+      return new Lease(this.step.lease)
+    }
+  },
   computed: {
     roommates() {
-      return this.step.lease.tenants.filter(tenant => tenant.id !== session.$user.id)
-    },
-    end_date() {
-      return this.step.lease.end_date
-        ? moment.utc(this.step.lease.end_date).format('M/D/YYYY')
-        : 'N/A'
+      return this.$lease.tenants.filter(tenant => tenant.id !== session.$user.id)
     }
   },
   methods: {

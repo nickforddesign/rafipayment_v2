@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="activate">
     <component :is="$user.role"></component>
   </div>
 </template>
@@ -27,5 +27,3 @@ export default {
   }
 }
 </script>
-
-<!--/////////////////////////////////////////////////////////////////////////-->
