@@ -62,7 +62,6 @@ export default {
   },
   watch: {
     value(val) {
-      console.log('changed async!', val)
       this.field_value = val
     }
   }

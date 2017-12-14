@@ -9,7 +9,10 @@
         'Due Date',
         'Target',
         'Type',
-        'Balance'
+        {
+          name: 'Balance',
+          class: 'text-right'
+        }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>

@@ -62,7 +62,7 @@ export default {
     },
     async remove() {
       await this.$funding_source.destroy()
-      await this.$parent.fetch()
+      this.$emit('refetch')
     },
     promptPrimary() {
       app.confirm(

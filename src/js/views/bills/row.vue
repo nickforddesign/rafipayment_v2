@@ -1,11 +1,11 @@
 <template>
   <div class="tr" @click="goToModel">
     <cell>
-      <a :href="$bill.url" @click.prevent>{{ $bill.due_date | moment }}</a>
+      <a :href="$bill.url" @click.prevent>{{ $bill.due_date | moment('MM/DD/YY') }}</a>
     </cell>
     <cell>{{ $bill.target }}</cell>
     <cell>{{ $bill.type }}</cell>
-    <cell>{{ $bill.balance | currency }}</cell>
+    <cell className="text-right">{{ $bill.balance | currency }}</cell>
   </div>
 </template>
 

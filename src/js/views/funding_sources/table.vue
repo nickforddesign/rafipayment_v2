@@ -23,7 +23,7 @@
           label: false
         }
       ]">
-        <row v-for="(model, index) in collection" :key="index" :model="model" />
+        <row v-for="(model, index) in collection" :key="index" :model="model" @refetch="fetch" />
       </responsive-table>
 
       <empty v-else>
@@ -61,13 +61,15 @@ export default {
       basePath: `account/funding_sources`
     })
   },
-  async created() {
-    await this.fetch()
-    this.fetched = true
+  created() {
+    this.fetch()
   },
   methods: {
     async fetch() {
+      this.fetched = false
+      this.$collection.reset()
       await this.$collection.fetch()
+      this.fetched = true
     },
     showModal() {
       this.modal_visible = true

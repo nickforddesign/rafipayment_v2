@@ -211,6 +211,9 @@ export default class Lease extends Model {
       removed: {
         type: Boolean
       },
+      display_id: {
+        type: String
+      },
       bill_due_day: {
         type: Number
       },
