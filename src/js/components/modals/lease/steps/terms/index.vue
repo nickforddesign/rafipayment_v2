@@ -2,7 +2,7 @@
   <div>
     <h2>What are the terms of this lease?</h2>
 
-    <button @click="previous" class="back-button">Back</button>
+    <button @click="previous" class="back-button small">Back</button>
 
     <div v-if="type" class="content">
 
@@ -168,7 +168,11 @@ export default {
       this.$emit('next')
     },
     previous() {
-      this.$emit('previous')
+      if (this.type) {
+        this.type = null
+      } else {
+        this.$emit('previous')
+      }
     },
     addPeriod() {
       this.periods.push({

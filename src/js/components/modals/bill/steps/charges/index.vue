@@ -2,8 +2,6 @@
   <div class="container x-sm">
     <h2>What are the charges on the bill?</h2>
 
-    <button @click="previous" class="back-button">Back</button>
-
     <div v-if="charges.length">
       <legend>Charges</legend>
 
@@ -35,18 +33,18 @@
     </div>
 
     <div class="actions">
-      <div>
-        <button class="link" @click="addCharge">Add Charge</button>
-      </div>
-
       <div class="validation container" v-show="errors.has('charges')">
-        <span class="error">
+        <div class="error">
           {{ errors.first('charges') }}
-        </span>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <button class="link" @click="addCharge">Add Charge</button>
       </div>
     
       <div>
-        <button class="primary" @click="complete">Next</button>
+        <button class="primary" @click="validate">Next</button>
       </div>
     </div>
     
@@ -56,8 +54,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import { Deferred } from '@/utils'
-
 export default {
   name: 'bill-add--charges',
   props: {
@@ -106,32 +102,18 @@ export default {
       this.charges.splice(index, 1)
     },
     async validate() {
-      // const deferred = new Deferred()
-      // console.log(this.charges)
-      // if (!this.charges.length) {
-      //   this.errors.add(
-      //     'charges',
-      //     'Bills must have at least 1 charge',
-      //     'required'
-      //   )
-      // }
-      const passed = this.$validator.validateAll()
-      return passed && !this.errors.any()
-        ? Promise.resolve()
-        : Promise.reject()
+      const passed = await this.$validator.validateAll()
+      if (passed && !this.errors.any()) {
+        this.complete()
+      }
     },
     async complete(model) {
-      // const lease_charges = []
-      // const tenant_charges = []
-      await this.validate()
-
       const tenants = []
 
       this.charges.map(charge => {
         const tenant = this.models.lease.tenants.find(tenant => {
           return tenant.email === charge.tenant
         })
-        // tenant.charges = []
         tenant.charges.push({
           amount: charge.amount,
           date: charge.date,
@@ -146,8 +128,6 @@ export default {
       })
 
       this.models.tenants = tenants
-
-      console.log(this.models.tenants)
 
       this.next()
     },
@@ -164,6 +144,8 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style lang="scss" scoped>
+@import '~%/colors';
+
 .box {
   overflow: visible;
 
@@ -175,5 +157,12 @@ export default {
     background: transparent;
     box-shadow: none;
   }
+}
+.error {
+  padding: 14px;
+  margin: 20px 0;
+  background: rgba($color-status-danger, 0.7);
+  border: $color-status-danger 1px solid;
+  border-radius: 4px;
 }
 </style>

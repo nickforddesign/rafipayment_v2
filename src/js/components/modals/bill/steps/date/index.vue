@@ -4,7 +4,7 @@
       <date-picker v-model="due_date" v-validate="'required'" name="due date" />
     </field>
     
-    <button @click="next">Next</button>
+    <button class="primary" @click="next">Complete</button>
   </div>
 </template>
 

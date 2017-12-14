@@ -1,125 +1,125 @@
 <template>
-  <div class="container x-sm">
+  <div>
+    <button @click="previous" class="back-button small">Back</button>
 
-    <button @click="previous" class="back-button">Back</button>
+    <div class="container x-sm">
+      <h2>Summary</h2>
 
-    <h2>Summary</h2>
+      <div class="group">
+        <legend>Location</legend>
+        <dl>
+          <dt>Property</dt>
+          <dd>{{ models.property.name }}</dd>
+        </dl>
+        <dl>
+          <dt>Unit</dt>
+          <dd>{{ models.unit.name }}</dd>
+        </dl>
+      </div>
 
-    <div class="group">
-      <legend>Location</legend>
-      <dl>
-        <dt>Property</dt>
-        <dd>{{ models.property.name }}</dd>
-      </dl>
-      <dl>
-        <dt>Unit</dt>
-        <dd>{{ models.unit.name }}</dd>
-      </dl>
-    </div>
-
-    <div class="group">
-      <legend>Terms</legend>
-      <dl>
-        <dt>Start Date</dt>
-        <dd>{{ models.lease.start_date | moment }}</dd>
-      </dl>
-      <dl>
-        <dt>End Date</dt>
-        <dd>
-          <span v-if="models.lease.end_date">{{ models.lease.end_date | moment }}</span>
-          <span v-else>–</span>
-        </dd>
-      </dl>
-      <dl>
-        <dt>Bill Due Day</dt>
-        <dd>{{ models.lease.bill_due_day }}</dd>
-      </dl>
-      <dl v-if="models.lease.periods.length === 1">
-        <dt>Rent</dt>
-        <dd>{{ models.lease.periods[0].amount | currency }}</dd>
-      </dl>
-    </div>
-
-    <div class="group" v-if="models.lease.periods.length > 1">
-      <legend>Billing Periods</legend>
-      <div v-for="(period, index) in models.lease.periods" :key="index">
+      <div class="group">
+        <legend>Terms</legend>
         <dl>
           <dt>Start Date</dt>
-          <dd>{{ period.start_date | moment }}</dd>
+          <dd>{{ models.lease.start_date | moment }}</dd>
         </dl>
         <dl>
-          <dt>Amount</dt>
-          <dd>{{ period.amount | currency }}</dd>
+          <dt>End Date</dt>
+          <dd>
+            <span v-if="models.lease.end_date">{{ models.lease.end_date | moment }}</span>
+            <span v-else>–</span>
+          </dd>
         </dl>
-      </div>
-    </div>
-
-    <div class="group">
-      <legend>Tenants</legend>
-      <div v-for="(tenant, index) in models.tenants" :key="index">
-        <div class="row">
-          <user-card :model="tenant" />
-        </div>
-
-        <table v-if="tenant.charges.length">
-          <thead>
-            <tr>
-              <td>Type</td>
-              <td>Date</td>
-              <td>Amount</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(charge, index) in tenant.charges" :key="index">
-              <td>
-                <span v-if="charge.date">Scheduled</span>
-                <span v-else>Recurring</span>
-              </td>
-              <td>{{ charge.date }}</td>
-              <td>{{ charge.amount }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      
-    </div>
-
-    <div class="group">
-      <legend>Fees / Credits</legend>
-      <div v-for="(charge, index) in models.lease.charges" :key="index">
         <dl>
-          <dt>Amount</dt>
-          <dd>{{ charge.amount | currency }}</dd>
+          <dt>Bill Due Day</dt>
+          <dd>{{ models.lease.bill_due_day }}</dd>
         </dl>
+        <dl v-if="models.lease.periods.length === 1">
+          <dt>Rent</dt>
+          <dd>{{ models.lease.periods[0].amount | currency }}</dd>
+        </dl>
+      </div>
 
-        <div v-if="charge.date">
+      <div class="group" v-if="models.lease.periods.length > 1">
+        <legend>Billing Periods</legend>
+        <div v-for="(period, index) in models.lease.periods" :key="index">
           <dl>
-            <dt>Type</dt>
-            <dd>Scheduled</dd>
+            <dt>Start Date</dt>
+            <dd>{{ period.start_date | moment }}</dd>
           </dl>
-
           <dl>
-            <dt>Date</dt>
-            <dd>{{ charge.date | moment }}</dd>
+            <dt>Amount</dt>
+            <dd>{{ period.amount | currency }}</dd>
           </dl>
         </div>
+      </div>
 
-        <div v-else>
-          <dl>
-            <dt>Type</dt>
-            <dd>Recurring</dd>
-          </dl>
+      <div class="group">
+        <legend>Tenants</legend>
+        <div v-for="(tenant, index) in models.tenants" :key="index">
+          <div class="row">
+            <user-card :model="tenant" />
+          </div>
+
+          <table v-if="tenant.charges.length">
+            <thead>
+              <tr>
+                <td>Type</td>
+                <td>Date</td>
+                <td>Amount</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(charge, index) in tenant.charges" :key="index">
+                <td>
+                  <span v-if="charge.date">Scheduled</span>
+                  <span v-else>Recurring</span>
+                </td>
+                <td>{{ charge.date }}</td>
+                <td>{{ charge.amount }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
+        
       </div>
-    </div>
 
-    <div class="actions">
-      <div>
-        <button class="primary" @click="complete">Complete</button>
+      <div class="group">
+        <legend>Fees / Credits</legend>
+        <div v-for="(charge, index) in models.lease.charges" :key="index">
+          <dl>
+            <dt>Amount</dt>
+            <dd>{{ charge.amount | currency }}</dd>
+          </dl>
+
+          <div v-if="charge.date">
+            <dl>
+              <dt>Type</dt>
+              <dd>Scheduled</dd>
+            </dl>
+
+            <dl>
+              <dt>Date</dt>
+              <dd>{{ charge.date | moment }}</dd>
+            </dl>
+          </div>
+
+          <div v-else>
+            <dl>
+              <dt>Type</dt>
+              <dd>Recurring</dd>
+            </dl>
+          </div>
+
+        </div>
       </div>
-    </div>
-    
+
+      <div class="actions">
+        <div>
+          <button class="primary" @click="complete">Complete</button>
+        </div>
+      </div>
+    </div>  
   </div>
 </template>
 
@@ -137,10 +137,6 @@ export default {
     return {
       charges: []
     }
-  },
-  created() {
-    console.log(this.models.lease)
-    // console.log(this.models.tenants)
   },
   methods: {
     complete(model) {

@@ -216,8 +216,10 @@ export default {
   }
   .back-button {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 0;
+    left: 0;
+    // top: 20px;
+    // left: 20px;
     // margin-bottom: 20px;
   }
   .actions {

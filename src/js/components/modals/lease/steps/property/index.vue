@@ -3,7 +3,7 @@
     <h2>Where is the unit that will be leased?</h2>
 
     <div v-if="type" class="content">
-      <button @click="previous" class="back-button">Back</button>
+      <button @click="previous" class="back-button small">Back</button>
       <component :is="type" />
     </div>
 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Which lease is the bill for?</h2>
     <div v-if="fetched" class="lease-select">
       <div v-if="collection.length">
         <searchable :collection="collection" display="label" v-model="selected" :focus="true" :model="Lease" />

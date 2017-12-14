@@ -1,10 +1,10 @@
 <template>
-  <div class="container x-sm">
+  <div>
     <h2>Who are the tenants?</h2>
 
-    <button @click="previous" class="back-button">Back</button>
+    <button @click="previous" class="back-button small">Back</button>
 
-    <div v-if="!this.new">
+    <div v-if="!this.new" class="container x-sm">
       <searchable :collection="collection" display="full_name" :model="User" @input="addTenant" v-model="selected" :omit="tenants" />
 
       <ul>

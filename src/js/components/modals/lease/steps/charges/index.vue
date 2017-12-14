@@ -1,10 +1,10 @@
 <template>
-  <div class="container x-sm">
+  <div>
     <h2>Are there any additional fees / credits?</h2>
 
-    <button @click="previous" class="back-button">Back</button>
+    <button @click="previous" class="back-button small">Back</button>
 
-    <div v-if="charges.length">
+    <div v-if="charges.length" class="container x-sm">
       <legend>Charges</legend>
 
       <div class="box" v-for="(charge, index) in charges" :key="index">
@@ -54,11 +54,11 @@
     </div>
 
     <div class="actions">
-      <div>
+      <div class="text-center">
         <button class="link" @click="addCharge">Add Charge</button>
       </div>
       <div>
-        <button class="primary" @click="complete">Next</button>
+        <button class="primary" @click="validate">Next</button>
       </div>
     </div>
     
@@ -101,6 +101,12 @@ export default {
     },
     removeCharge(index) {
       this.charges.splice(index, 1)
+    },
+    async validate() {
+      const passed = await this.$validator.validateAll()
+      if (passed) {
+        this.complete()
+      }
     },
     complete(model) {
       const lease_charges = []

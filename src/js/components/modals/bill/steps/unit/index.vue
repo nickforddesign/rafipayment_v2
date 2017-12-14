@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Which unit is the bill for?</h2>
     <div v-if="fetched" class="unit-select">
       <div v-if="collection.length">
         <searchable :collection="collection" display="name" v-model="selected" :focus="true" />

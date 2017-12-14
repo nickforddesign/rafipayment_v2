@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Which property is the bill for?</h2>
     <div v-if="fetched" class="property-select">
       <div v-if="collection.length">
         <searchable :collection="collection" display="address" v-model="selected" :focus="true" />
