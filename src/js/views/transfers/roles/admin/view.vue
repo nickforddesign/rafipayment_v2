@@ -30,10 +30,10 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Created</dt>
-              <dd>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</dd>
+              <dd>{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</dd>
             </dl>
           </div>
-          <div class="grid__col grid__col--1-of-2">
+          <div class="grid__col grid__col--1-of-2" v-if="$transfer.scheduled_date">
             <dl>
               <dt>Scheduled</dt>
               <dd>{{ $transfer.scheduled_date || '–' }}</dd>
@@ -88,7 +88,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Bank Transfer Status</dt>
-              <dd>{{ $transfer.bank_transfer_status }}</dd>
+              <dd>{{ $transfer.bank_transfer_status || '–' }}</dd>
             </dl>
           </div>
         </div>

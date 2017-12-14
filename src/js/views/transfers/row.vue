@@ -2,10 +2,10 @@
   <div class="tr" @click="goToModel">
     <cell>
       <span v-if="!$transfer.cancelled && !$transfer.processed && $transfer.scheduled_date">
-        <a :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.scheduled_date | moment('MM/DD/YYYY') }}</a>
+        <a :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.scheduled_date | moment('M/D/YY') }}</a>
         <span class="flag success">Scheduled</span>
       </span>
-      <a v-else :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</a>
+      <a v-else :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mma') }}</a>
     </cell>
     <cell>{{ $transfer.destination_name }}</cell>
     <cell>{{ $transfer.source_name }}</cell>
