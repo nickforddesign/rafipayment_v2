@@ -1,11 +1,15 @@
 <template>
   <div class="tr" @click="goToModel">
     <cell>{{ model.name }} <span v-if="is_primary" class="flag success">Primary</span></cell>
-    <cell>{{ model.status }}</cell>
+    <cell>
+      <span :class="['text-color', status_class]">
+        {{ model.status }}
+      </span>
+    </cell>
     <cell>{{ model.created | moment('MM/DD/YYYY') }}</cell>
     <cell className="text-right">
       <button class="small" @click.stop="promptPrimary" v-if="!is_balance && !is_primary">Set as Primary</button>
-      <button class="small" @click.stop="promptRemove" v-if="!is_balance && !is_primary">Remove</button>
+      <button class="small danger" @click.stop="promptRemove" v-if="!is_balance && !is_primary">Remove</button>
       <span v-if="is_balance || is_primary">–</span>
     </cell>
   </div>
@@ -36,6 +40,13 @@ export default {
     is_primary() {
       const primary_id = path(['payment', 'primary_funding_source'], this.$user)
       return this.$funding_source.id === primary_id
+    },
+    status_class() {
+      const map = {
+        verified: 'success',
+        unverified: 'warning'
+      }
+      return map[this.$funding_source.status]
     }
   },
   methods: {

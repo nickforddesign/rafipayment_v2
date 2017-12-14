@@ -31,6 +31,7 @@ import IconArrowLeft from './icons/arrow-left'
 
 import Tenant from '@/components/roles/tenant'
 import Admin from '@/components/roles/admin'
+import None from '@/components/roles/none'
 
 export default {
   name: 'app',
@@ -73,7 +74,8 @@ export default {
     Alert,
     IconArrowLeft,
     Tenant,
-    Admin
+    Admin,
+    None
   }
 }
 </script>

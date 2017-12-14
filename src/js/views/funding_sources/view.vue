@@ -36,7 +36,11 @@
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Status</dt>
-            <dd>{{ $funding_source.status }}</dd>
+            <dd>
+              <span :class="['text-color', status_class]">
+                {{ $funding_source.status }}
+              </span>
+            </dd>
           </dl>
         </div>
       </div>
@@ -93,6 +97,15 @@ export default {
   },
   created() {
     this.$funding_source.fetch()
+  },
+  computed: {
+    status_class() {
+      const map = {
+        verified: 'success',
+        unverified: 'warning'
+      }
+      return map[this.$funding_source.status]
+    }
   },
   methods: {
     showModal(modal) {

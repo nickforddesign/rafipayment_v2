@@ -1,9 +1,9 @@
 <template>
   <div class="text-center">
     <logo />
-    <form class="box small" @submit.prevent="submit">
+    <form class="box small" @submit.prevent="validate">
       <field name="email" :errors="errors" :disabled="this.submitted">
-        <input type="text" v-model="email" name="email">
+        <input type="text" v-model="email" name="email" v-validate="'required|email'" autocomplete="off">
       </field>
 
       <button type="submit">Submit</button>
@@ -18,6 +18,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
+
 export default {
   name: 'forgot-password',
   data() {
@@ -27,6 +29,12 @@ export default {
     }
   },
   methods: {
+    async validate() {
+      const passed = await this.$validator.validateAll()
+      if (passed) {
+        this.submit()
+      }
+    },
     async submit() {
       if (!this.submitted) {
         await this.request()
@@ -37,11 +45,31 @@ export default {
       const body = {
         email: this.email
       }
-      const response = await this.$request('account/profile/password', {
+      const response = this.$request('account/profile/password', {
         body,
         method: 'post'
       })
-      alert(`Thank you, an email has been sent to ${this.email}`)
+
+      response
+      .then(() => {
+        app.alert(
+          `Thank you, a password reset email has been sent to ${this.email}`,
+          null,
+          'Email Sent',
+          'OK',
+          'success'
+        )
+      })
+      .catch((error) => {
+        app.alert(
+          `Sorry, we couldn't find a user with that email address`,
+          null,
+          error.message,
+          'OK',
+          'danger'
+        )
+      })
+
       return response
     },
     async send() {

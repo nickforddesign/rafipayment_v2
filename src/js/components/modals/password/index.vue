@@ -25,7 +25,7 @@
 </template>
 
 <script>
-// import app from '@/app'
+import app from '@/app'
 import { Deferred } from '@/utils'
 
 export default {
@@ -76,15 +76,16 @@ export default {
       const data = {
         password: this.password
       }
-      return this.model.save(data, { path: 'profile' })
+      return this.model.save(data)
         .then((response) => {
           this.loading = true
-          alert('Your password has been updated')
-          // app.alert(
-          //   'Please check the new email address for a verification link',
-          //   this.confirm,
-          //   'Verify Email'
-          // )
+          app.alert(
+            'Your new password has been saved',
+            this.confirm,
+            'Password Updated',
+            'OK',
+            'success'
+          )
         })
     }
   }

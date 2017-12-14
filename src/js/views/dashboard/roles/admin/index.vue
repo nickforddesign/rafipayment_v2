@@ -1,12 +1,23 @@
 <template>
-  <div>
+  <div class="model-view">
     <header>
       <div class="meta">
-        <!-- <legend>Dashboard</legend> -->
         <h2>Dashboard</h2>
       </div>
+      <div class="actions">
+        <button class="primary">Create New</button>
+      </div>
     </header>
-    <pre>{{ $user }}</pre>
+    <div class="table-container">
+      <div class="header">
+        Reports
+      </div>
+    </div>
+    <div class="table-container">
+      <div class="header">
+        Recently Updated
+      </div>
+    </div>
   </div>
 </template>
 
