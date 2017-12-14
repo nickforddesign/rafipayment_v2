@@ -30,7 +30,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Email</dt>
-              <dd>{{ $user.email }} <button class="x-small" @click="showModal('email')">Edit</button></dd>
+              <dd>{{ $user.email }} <button class="x-small" @click="showModal('email')">Edit</button></dd> 
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -65,8 +65,8 @@
       
       <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="fetch" />
       <password-modal v-if="modals.password" @close="closeModal('password')" :model="$user" :confirm="fetch" />
-      <email-modal v-if="modals.email" @close="closeModal('email')" :model="$user" :confirm="fetch" />
-      <phone-modal v-if="modals.phone" @close="closeModal('phone')" :model="$user" :confirm="fetch" />
+      <email-modal v-if="modals.email" @close="closeModal('email')" :model="$user" :confirm="fetch" :account="true" />
+      <phone-modal v-if="modals.phone" @close="closeModal('phone')" :model="$user" :confirm="fetch" :account="true" />
     </div>
     <loading v-else />
   </div>

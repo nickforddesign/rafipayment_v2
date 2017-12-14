@@ -31,7 +31,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Email</dt>
-              <dd>{{ $user.email }}</dd>
+              <dd>{{ $user.email }} <button class="x-small" @click="showModal('email')">Edit</button></dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -57,6 +57,7 @@
       </div>
 
       <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="confirmModal" />
+      <email-modal v-if="modals.email" @close="closeModal('email')" :model="$user" :confirm="confirmModal" />
       <lease-modal v-if="modals.lease" @close="closeModal('lease')" :confirm="confirmModal" :tenants="[$user]" />
       
       <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal('lease')" />
@@ -76,6 +77,7 @@ import User from '@/models/user'
 import LeasesTable from '@/views/leases/table'
 import LeaseModal from '@/components/modals/lease'
 import NameModal from '@/components/modals/user/name'
+import EmailModal from '@/components/modals/user/email'
 import EventsTable from '@/views/notifications/table'
 import TransfersTable from '@/views/transfers/table'
 
@@ -86,7 +88,8 @@ export default {
       fetched: false,
       modals: {
         lease: false,
-        name: false
+        name: false,
+        email: false
       }
     }
   },
@@ -157,6 +160,7 @@ export default {
     LeaseModal,
     LeasesTable,
     NameModal,
+    EmailModal,
     EventsTable,
     TransfersTable
   }

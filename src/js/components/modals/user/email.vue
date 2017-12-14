@@ -21,7 +21,8 @@ export default {
   name: 'modal-user-email',
   props: {
     model: Object,
-    confirm: Function
+    confirm: Function,
+    account: Boolean
   },
   data() {
     return {
@@ -43,7 +44,17 @@ export default {
       }
       return deferred.promise
     },
-    async confirmChange() {
+    confirmChange() {
+      return this.account
+        ? this.saveToAccount()
+        : this.saveToUser()
+    },
+    async saveToUser() {
+      this.loading = true
+      await this.model.save(this.$data)
+      this.confirm()
+    },
+    async saveToAccount() {
       this.loading = true
 
       const body = this.$data

@@ -42,7 +42,7 @@ export default {
     return {
       loading: false,
       email: getStorage('previous_login'),
-      password: 'password',
+      password: null,
       remember_me: false
     }
   },

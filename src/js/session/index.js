@@ -2,13 +2,10 @@ import { path } from 'ramda'
 import moment from 'moment'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-// import { Collection } from 'vue-collections'
 import VueModels from 'vue-models'
 
 import store from '@/store'
 import User from '@/models/user'
-// import Lease from '@/models/lease'
-// import getOnboardingSteps from '@/utils/onboarding/tenant_secondary'
 
 Vue.use(VueModels, {
   schemaWarnings: false
@@ -68,7 +65,6 @@ const session = new Vue({
         }, false)
         store.dispatch(endpoint, response)
         this.fetch_primary(vm, response)
-        // this.check_onboarding(vm, response)
       }
     },
     async activate(vm, token) {
@@ -83,15 +79,11 @@ const session = new Vue({
     },
     async fetch_primary(vm, user) {
       const primary_id = user.payment.primary_funding_source
-      const response = await vm.$request(`account/funding_sources/${primary_id}`)
-      store.dispatch('set_primary', response)
+      if (primary_id) {
+        const response = await vm.$request(`account/funding_sources/${primary_id}`)
+        store.dispatch('set_primary', response)
+      }
     },
-    // async check_onboarding(vm, user) {
-    //   if (user.role === 'tenant') {
-    //     const leases = await vm.$request('account/leases')
-    //     const steps = getOnboardingSteps(user, leases)
-    //   }
-    // },
     check_access_token() {
       const expiration_date = path(['expiration', '$date'], this.access)
       const expires = moment.utc(expiration_date)

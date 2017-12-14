@@ -18,7 +18,9 @@
       By continuing, you agree to the Rafi Payment <a href="http://payment.rafiproperties.com/terms" target="_blank">terms of use</a> and <a href="http://payment.rafiproperties.com/privacy">privacy policy</a>
     </div>
 
-    <button class="primary">Next</button>
+    <div class="actions">
+      <button class="primary">Next</button>
+    </div>
   </form>
 </template>
 
