@@ -24,11 +24,9 @@ export default class Bill extends Model {
         },
         balance() {
           if (this.has_transfers) {
-            // if (this.transfers_resolved.length) {
             return this.total - this.transfers.reduce((acc, transfer) => {
               return acc + parseCurrency(transfer.amount, Number)
             }, 0)
-            // }
           } else {
             return this.total
           }

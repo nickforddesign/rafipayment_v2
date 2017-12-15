@@ -1,3 +1,4 @@
+@import '~%/breakpoints';
 // page header
 header {
   display: flex;
@@ -12,6 +13,21 @@ header {
 
     & > div {
       display: inline-block;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-small) {
+  header {
+    position: fixed;
+    top: 28px;
+    left: 50%;
+    z-index: 9;
+    transform: translateX(-50%);
+    text-align: center;
+
+    legend {
+      display: none;
     }
   }
 }

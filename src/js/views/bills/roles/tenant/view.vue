@@ -53,8 +53,6 @@
       </div>
 
       <transfers-table :model="$bill" ref="transfers_table" />
-
-      <!-- <button class="primary" @click="showModal">Make a Payment</button> -->
       <transfer-modal v-if="modal_visible" :model="$bill" @close="closeModal" :confirm="refetch" />
 
     </div>

@@ -8,7 +8,7 @@
       </div>
       <div class="actions">
         <slot name="actions">
-          <button class="small" @click="showModal">Add Payment Method</button>
+          <button class="small" @click="showModal">Add New</button>
         </slot>
       </div>
     </div>

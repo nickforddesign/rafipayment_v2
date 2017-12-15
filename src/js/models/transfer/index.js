@@ -1,4 +1,3 @@
-// import { path } from 'ramda'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
 import { unitsHelper } from '@/utils'
@@ -29,12 +28,14 @@ export default class Transfer extends Model {
         },
         address() {
           return `${this.property.address}, ${unitsHelper(this.unit.name)}`
+        },
+        source_status() {
+          return this.status.split('_').pop()
+        },
+        destination_status() {
+          const status = this.bank_transfer_status || this.status
+          return status.split('_').pop()
         }
-        // created_response() {
-        //   return this.responses.find(response => {
-        //     return !response.error
-        //   })
-        // }
       },
       methods: {
         async fetchCancel() {

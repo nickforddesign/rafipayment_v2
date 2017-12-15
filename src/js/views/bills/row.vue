@@ -1,7 +1,7 @@
 <template>
   <div class="tr" @click="goToModel">
     <cell>
-      <a :href="$bill.url" @click.prevent>{{ $bill.due_date | moment('MM/DD/YY') }}</a>
+      <a :href="$bill.url" @click.prevent>{{ $bill.due_date | moment }}</a>
     </cell>
     <cell>{{ $bill.target }}</cell>
     <cell>{{ $bill.type }}</cell>

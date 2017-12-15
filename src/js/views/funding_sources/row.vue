@@ -1,6 +1,15 @@
 <template>
   <div class="tr" @click="goToModel">
-    <cell>{{ model.name }} <span v-if="is_primary" class="flag success">Primary</span></cell>
+    <cell>
+      <div class="flexbox">
+        <div class="flex">
+          {{ model.name }}
+        </div>
+        <div v-if="is_primary" class="solid primary-label">
+          <span class="flag success">Primary</span>
+        </div>
+      </div>
+    </cell>
     <cell>
       <span :class="['text-color', status_class]">
         {{ model.status }}
@@ -87,3 +96,10 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.primary-label {
+  margin-left: 10px;
+}
+</style>
+

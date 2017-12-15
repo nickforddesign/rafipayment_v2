@@ -4,7 +4,16 @@ import { ObjectId, ISODate, Currency } from '@/modules/types'
 export default class Period extends Model {
   static defaults() {
     return {
-      name: 'charge'
+      name: 'charge',
+      computed: {
+        charge_type() {
+          return this.type
+            ? this.type
+            : this.amount > 0
+              ? 'fee'
+              : 'credit'
+        }
+      }
     }
   }
   static schema() {

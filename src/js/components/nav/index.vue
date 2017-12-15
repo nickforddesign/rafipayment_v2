@@ -67,6 +67,15 @@ $nav-height: 72px;
 
 // mobile first
 
+.nav-container {
+  position: fixed;
+  top: 0;
+  height: $nav-height;
+  width: 100%;
+  z-index: 900;
+  background: $color-background-dark;
+}
+
 nav {
   display: none;
   position: fixed;
@@ -135,15 +144,6 @@ nav {
       background: transparent; /* make scrollbar transparent */
     }
   }
-}
-
-.nav-container {
-  position: fixed;
-  top: 0;
-  height: $nav-height;
-  width: 100%;
-  z-index: 9;
-  background: $color-background-dark;
 }
 
 .logo {

@@ -1,6 +1,6 @@
 <template>
   <div class="tr">
-    <div class="td">{{ $charge.type | replace | capitalize }}</div>
+    <div class="td">{{ $charge.charge_type | replace | capitalize }}</div>
     <div class="td">{{ $charge.description | limit(30) }}</div>
     <div class="td text-right">{{ $charge.amount | currency }}</div>
   </div>

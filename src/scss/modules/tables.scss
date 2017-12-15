@@ -12,15 +12,23 @@
       .tr {
         @include box_style;
 
-        a {
-          display: inline-block;
-          font-size: 1.3em;
-          margin-bottom: 10px;
-        }
+        // a {
+        //   display: inline-block;
+        //   font-size: 1.3em;
+        //   margin-bottom: 10px;
+        // }
         .td {
           &:first-child {
+            display: inline-block;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+
             label {
               display: none;
+            }
+
+            .flag {
+              font-size: 12px;
             }
           }
         }
