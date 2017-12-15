@@ -117,7 +117,13 @@ nav {
   text-align: left;
   color: $color-nav-text;
   background: $color-nav-background;
+  overflow-y: scroll;
   // pointer-events: none;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+  }
 
   .user {
     margin: 20px 0;
