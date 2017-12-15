@@ -9,8 +9,13 @@
     <nav
       :class="{ 'visible': nav_visible }"
       @click="close">
-      <div class="panel small scroll-y">
-        <logo></logo>
+      <div class="scroll-y">
+        <!-- <logo></logo> -->
+
+        <div class="user">
+          <avatar :initials="$user.initials" :color="$user.avatar_color" />
+          {{ $user.full_name }}
+        </div>
         <component :is="$user.role"></component>
       </div>
     </nav>
@@ -26,6 +31,8 @@ import admin from './roles/admin'
 import manager from './roles/manager'
 import tenant from './roles/tenant'
 
+import avatar from '@/components/cards/avatar'
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -40,6 +47,14 @@ export default {
       nav_visible: 'app:nav_visible'
     })
   },
+  watch: {
+    nav_visible(val) {
+      const method = val
+        ? 'add'
+        : 'remove'
+      document.body.classList[method]('nav-visible')
+    }
+  },
   methods: {
     close() {
       this.$store.dispatch('nav_hide')
@@ -52,7 +67,8 @@ export default {
     superadmin,
     admin,
     manager,
-    tenant
+    tenant,
+    avatar
   }
 }
 </script>
@@ -63,46 +79,72 @@ export default {
 @import '~%/breakpoints';
 @import '~%/colors';
 
-$nav-height: 72px;
+$header-height: 72px;
+$nav-width: 230px;
 
 // mobile first
 
-.nav-container {
+.app-container {
+  transform: none;
+  transition: 0.5s transform;
+}
+
+.nav-visible {
+  .app-container {
+    transform: translateX(-#{$nav-width});
+    transition: 0.5s transform;
+  }
+}
+
+.header-container {
   position: fixed;
   top: 0;
-  height: $nav-height;
+  height: $header-height;
   width: 100%;
   z-index: 900;
   background: $color-background-dark;
 }
 
 nav {
-  display: none;
+  // display: none;
   position: fixed;
   top: 0;
-  right: 0;
+  // right: 0;
   bottom: 0;
-  left: 0;
+  width: $nav-width;
+  left: 100%;
   z-index: 2;
   text-align: left;
   color: $color-nav-text;
-  background: $color-background-dark;
+  background: $color-nav-background;
+  // pointer-events: none;
+
+  .user {
+    margin: 20px 0;
+    text-align: center;
+
+    .avatar {
+      margin: 0 auto 14px;
+      // display: inline-block;
+    }
+  }
 
   .divider {
     height: 1px;
     background: $color-grey-50;
   }
 
-  &.visible {
-    display: block;
-  }
+  // &.visible {
+    // display: block;
+    // pointer-events: auto;
+  // }
 
   ul {
     text-align: left;
-  }
 
-  li {
-    margin: 0;
+    li {
+      margin: 0;
+    }
   }
 
   legend {
@@ -116,6 +158,7 @@ nav {
     font-weight: bold;
     text-transform: uppercase;
     color: $color-nav-text;
+    border-bottom: 1px solid #666;
 
     &:hover {
       text-decoration: none;
@@ -197,7 +240,7 @@ nav {
   right: 14px;
   width: 36px;
   height: 36px;
-  z-index: 3;
+  z-index: 9999;
 
   div {
     position: relative;
@@ -237,10 +280,36 @@ nav {
 }
 
 @media (min-width: $breakpoint-medium) {
+
+  .app-container {
+    transform: none;
+  }
+
+  .header-container {
+    width: $nav-width;
+  }
+
+  .nav-visible {
+    .app-container {
+      transform: none;
+    }
+  }
+
   nav {
     display: block;
     position: relative;
-    background-color: transparent;
+    left: 0;
+    height: 100vh;
+    padding-top: 140px;
+    background: $color-input-background;
+    // bottom: 0;
+    // top: 100px;
+    // background-color: transparent;
+    // pointer-events: auto;
+
+    .user {
+      display: none;
+    }
   }
 
   .nav-toggle {
@@ -250,7 +319,7 @@ nav {
   .nav-container {
     height: 100%;
     bottom: 0;
-    
+
     .logo {
       width: 100%;
     }
@@ -258,6 +327,10 @@ nav {
 
   .nav {
     position: relative;
+
+    a {
+      border: none;
+    }
 
     .logo {
       display: none;

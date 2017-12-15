@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <component :is="hoc_name" >
-      <div v-if="logged_in" class="nav-container">
+      <div v-if="logged_in" class="header-container">
 
         <div :class="['logo-container', back_class]">
           <!-- <transition name="fade"> -->
@@ -12,8 +12,10 @@
           <logo />
         </div>
 
-        <navigation />
       </div>
+
+      <navigation v-if="logged_in" />
+      
       <main :class="[main_class]">
         <router-view></router-view>
       </main>
@@ -86,9 +88,26 @@ export default {
 
 $sidebar-width: 230px;
 
+.app-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  // overflow: hidden;
+}
+
 main {
+  // &.content {
+  //   padding: 0 10px;
+  // }
   &.content {
-    padding: 0 10px;
+    padding: 0 10px 50px;
+    margin-top: 70px;
+    overflow-y: scroll;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
   }
 }
 
@@ -130,12 +149,13 @@ main {
 
 @media (min-width: $breakpoint-medium) {
 
-  .nav-container {
+  .header-container {
     position: fixed;
     width: $sidebar-width;
     top: 0;
     bottom: 0;
-    background: $color-nav-background;
+    // background: $color-nav-background;
+    background: transparent;
 
     .logo-container {
       width: 100%;
@@ -155,6 +175,8 @@ main {
 
     .logo {
       position: relative;
+      width: 100%;
+      margin: 0;
       padding: 20px;
     }
   }
@@ -167,6 +189,7 @@ main {
       bottom: 0;
       width: 1200px;
       max-width: calc(100% - #{$sidebar-width});
+      margin: 0;
       padding: 30px;
       overflow-y: scroll;
       text-align: left;
