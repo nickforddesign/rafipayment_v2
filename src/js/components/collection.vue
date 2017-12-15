@@ -98,24 +98,24 @@ export default {
     },
     basePath() {
       let basePath = this.original_base
+      const has_query = basePath.includes('?')
+      const joiner = has_query
+        ? '&'
+        : '?'
 
       if (!this.search_term) {
         const has_pagination = !basePath.includes('paginator') && this.paginate
         if (has_pagination) {
-          basePath += `?paginator_limit=${this.limit}&paginator_skip=${this.skip}`
+          basePath += `${joiner}paginator_limit=${this.limit}&paginator_skip=${this.skip}`
         }
         if (this.filters.length) {
           const filterQuery = this.filters.map(filter => {
             return `filter_${filter.key}=${filter.value}`
           })
-          console.log(filterQuery)
-          console.log({has_pagination})
-          console.log(basePath)
           basePath += has_pagination
             ? '&'
-            : '?'
+            : joiner
           basePath += filterQuery.join('&')
-          console.log(basePath)
         }
       } else {
         basePath += `?search=${this.search_term.split(' ').join(',')}`

@@ -98,7 +98,9 @@ export default {
         app.alert(
           `Your payment of ${prettyCurrency(this.amount)} has been received and is now processing. Thank you!`,
           null,
-          'Payment Successful'
+          'Payment Successful',
+          'OK',
+          'success'
         )
       })
       .catch(error => {

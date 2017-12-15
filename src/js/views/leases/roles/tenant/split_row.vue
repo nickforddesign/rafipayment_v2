@@ -1,7 +1,7 @@
 <template>
   <div class="tr">
-    <cell>{{ period.start_date | moment('M/DD/YYYY', true) }}</cell>
-    <cell>{{ period.id }}</cell>
+    <cell>{{ period.start_date | moment }}</cell>
+    <cell>{{ end_date | moment }}</cell>
     <cell>{{ period.period_amount | currency }}</cell>
     <cell>{{ split | currency }}</cell>
     <cell className="text-right">
@@ -19,13 +19,16 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import moment from 'moment'
+
 import session from '@/session'
 import splitModal from '@/components/modals/lease/split'
 
 export default {
   props: [
     'period',
-    'lease'
+    'lease',
+    'index'
   ],
   data() {
     return {
@@ -47,6 +50,14 @@ export default {
       } else {
         return ''
       }
+    },
+    end_date() {
+      return this.next_period
+        ? moment.utc(this.next_period.start_date).subtract(1, 'days')
+        : this.lease.end_date
+    },
+    next_period() {
+      return this.lease.periods[this.index + 1]
     }
   },
   methods: {

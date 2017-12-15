@@ -30,7 +30,14 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Email</dt>
-              <dd>{{ $user.email }} <button class="x-small" @click="showModal('email')">Edit</button></dd> 
+              <dd>
+                <div class="flexbox">
+                  <span class="flex">{{ $user.email }}</span>
+                  <div class="actions solid">
+                    <button class="x-small" @click="showModal('email')">Edit</button>
+                  </div>
+                </div>
+              </dd> 
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">

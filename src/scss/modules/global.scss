@@ -10,13 +10,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: $color-text-default;
   background-color: $color-background-default;
+  overflow-x: hidden;
 
-  &.lock {
-    .app-container {
-      overflow: hidden;
-      height: calc(100vh - 120px);
-    }
-  }
+  // &.lock {
+  //   .app-container {
+  //     overflow: hidden;
+  //     height: calc(100vh - 120px);
+  //   }
+  // }
 }
 
 ::selection {

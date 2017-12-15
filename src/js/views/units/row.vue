@@ -6,7 +6,10 @@
     <cell>{{ $unit.property_name }}</cell>
     <cell>{{ $unit.bed_count }}</cell>
     <cell>{{ $unit.bath_count }}</cell>
-    <cell>{{ active_lease_ids.join(', ') }}</cell>
+    <cell>
+      <span v-if="leases_fetched">{{ active_lease_ids.join(', ') }}</span>
+      <loading v-else type="data" />
+    </cell>
   </div>
 </template>
 
@@ -33,13 +36,15 @@ export default {
   },
   data() {
     return {
-      active_leases: []
+      active_leases: [],
+      leases_fetched: false
     }
   },
   async created() {
     this.$unit = this.model
     await this.$collection.fetch()
     this.active_leases = this.getActiveLeases()
+    this.leases_fetched = true
   },
   computed: {
     has_active_lease() {

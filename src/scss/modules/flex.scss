@@ -1,0 +1,15 @@
+.flexbox {
+  display: flex;
+
+  .flex {
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  .solid {
+    flex: 1;
+  }
+}

@@ -4,12 +4,15 @@ dl {
   border-bottom: 1px solid $color-text-medium;
 
   dt {
-    // width: 20%;
     flex: 1 0 auto;
     color: $color-text-medium;
+    margin-right: 10px;
   }
   dd {
-    flex: 1 0 auto;
+    // flex: 1 0 auto;
     text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }

@@ -51,7 +51,7 @@
             label: false
           }
         ]">
-          <split-row v-for="(period, index) in my_periods" :lease="$lease" :period="period" :key="index" />
+          <split-row v-for="(period, index) in my_periods" :lease="$lease" :period="period" :key="index" :index="index" />
         </responsive-table>
 
       </div>
@@ -128,7 +128,6 @@ export default {
   },
   computed: {
     my_periods() {
-      console.log(this.$lease.tenants)
       const my_periods = this.$lease.tenants.find(tenant => {
         return tenant.id === session.$user.id
       }).periods
