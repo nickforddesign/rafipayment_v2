@@ -11,9 +11,9 @@
         <responsive-table :columns="[
           'Unit',
           'Property',
-          'Current Lease',
           'Beds',
-          'Baths'
+          'Baths',
+          'Current Lease'
         ]">
           <row v-for="(model, index) in collection" :key="index" :model="model" />
         </responsive-table>
@@ -34,6 +34,7 @@
 
 <script>
 import { Collection } from 'vue-collections'
+import Unit from '@/models/unit'
 import unitModal from '@/components/modals/unit'
 import row from './row'
 
@@ -50,7 +51,8 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: `units?filter_property=${this.data.id}`
+      basePath: `units?filter_property=${this.data.id}`,
+      model: Unit
     })
   },
   created() {

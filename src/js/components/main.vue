@@ -16,8 +16,10 @@
 
       <navigation v-if="logged_in" />
       
-      <main :class="[main_class]">
-        <router-view></router-view>
+      <main>
+        <div :class="[main_class]">
+          <router-view></router-view>
+        </div>
       </main>
       <alert v-if="alert_visible" />
     </component>
@@ -100,7 +102,7 @@ main {
   // &.content {
   //   padding: 0 10px;
   // }
-  &.content {
+  .content {
     padding: 0 10px 50px;
     margin-top: 70px;
     overflow-y: scroll;
@@ -182,7 +184,7 @@ main {
   }
 
   main {
-    &.content {
+    .content {
       position: absolute;
       left: $sidebar-width;
       top: 0;

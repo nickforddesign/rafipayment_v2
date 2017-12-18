@@ -19,6 +19,7 @@
         <component :is="$user.role"></component>
       </div>
     </nav>
+    <div class="overlay" v-if="nav_visible" @click="toggle" />
   </div>
 </template>
 
@@ -87,12 +88,32 @@ $nav-width: 230px;
 .app-container {
   transform: none;
   transition: 0.5s transform;
+  
+  main {
+    filter: blur(0px);
+    transition: 0.5s all;
+  }
+
+  nav {
+    box-shadow: none;
+    transition: 0.5s all;
+  }
 }
 
 .nav-visible {
   .app-container {
     transform: translateX(-#{$nav-width});
     transition: 0.5s transform;
+    
+    main {
+      filter: blur(12px);
+      transition: 0.5s all;
+    }
+
+    nav {
+      box-shadow: 0 -3px 30px rgba(34, 33, 62, 0.9);
+      transition: 0.5s all;
+    }
   }
 }
 
@@ -102,23 +123,20 @@ $nav-width: 230px;
   height: $header-height;
   width: 100%;
   z-index: 900;
-  background: $color-background-dark;
 }
 
 nav {
-  // display: none;
   position: fixed;
   top: 0;
-  // right: 0;
   bottom: 0;
   width: $nav-width;
   left: 100%;
-  z-index: 2;
+  z-index: 999;
   text-align: left;
   color: $color-nav-text;
   background: $color-nav-background;
   overflow-y: scroll;
-  // pointer-events: none;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -131,7 +149,6 @@ nav {
 
     .avatar {
       margin: 0 auto 14px;
-      // display: inline-block;
     }
   }
 
@@ -139,11 +156,6 @@ nav {
     height: 1px;
     background: $color-grey-50;
   }
-
-  // &.visible {
-    // display: block;
-    // pointer-events: auto;
-  // }
 
   ul {
     text-align: left;
@@ -164,7 +176,7 @@ nav {
     font-weight: bold;
     text-transform: uppercase;
     color: $color-nav-text;
-    border-bottom: 1px solid #666;
+    // border-bottom: 1px solid #666;
 
     &:hover {
       text-decoration: none;
@@ -183,15 +195,13 @@ nav {
 }
 
 .nav {
-  .panel {
-    width: 100%;
-    text-align: center;
-    overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-      width: 0px;
-      background: transparent; /* make scrollbar transparent */
-    }
+  .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
   }
 }
 
@@ -308,10 +318,6 @@ nav {
     height: 100vh;
     padding-top: 140px;
     background: $color-input-background;
-    // bottom: 0;
-    // top: 100px;
-    // background-color: transparent;
-    // pointer-events: auto;
 
     .user {
       display: none;
