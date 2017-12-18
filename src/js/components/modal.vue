@@ -49,10 +49,10 @@ export default {
     } catch (error) {
       console.warn(error)
     }
-    document.body.classList.add('lock')
+    document.body.classList.add('modal-visible')
   },
   beforeDestroy() {
-    document.body.classList.remove('lock')
+    document.body.classList.remove('modal-visible')
   },
   computed: {
     has_confirm() {

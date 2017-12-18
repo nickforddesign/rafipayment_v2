@@ -12,10 +12,15 @@ body {
   background-color: $color-background-default;
   overflow-x: hidden;
 
-  &.lock {
+  &.lock, &.modal-visible {
     .app-container {
       overflow: hidden;
       height: calc(100vh - 120px);
+    }
+    main {
+      .content {
+        overflow: visible;
+      }
     }
   }
 }
