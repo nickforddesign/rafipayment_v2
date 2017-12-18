@@ -109,6 +109,7 @@ main {
     top: 0;
     bottom: 0;
     width: 100%;
+    z-index: 10000;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }

@@ -49,11 +49,11 @@ export default {
     } catch (error) {
       console.warn(error)
     }
-    // document.body.classList.add('lock')
+    document.body.classList.add('lock')
   },
-  // beforeDestroy() {
-  //   document.body.classList.remove('lock')
-  // },
+  beforeDestroy() {
+    document.body.classList.remove('lock')
+  },
   computed: {
     has_confirm() {
       return this.confirm !== undefined
@@ -109,7 +109,7 @@ export default {
 
 .modal-container {
   @include fixed_fill;
-  z-index: 999;
+  z-index: 9999;
   background: rgba(0,0,0, 0.6);
 
   .modal {
