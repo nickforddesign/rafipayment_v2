@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="divider" />
     <router-link to="/dashboard">Dashboard</router-link>
     <router-link to="/rentroll">Rent Roll</router-link>
     <router-link to="/bills">Bills</router-link>

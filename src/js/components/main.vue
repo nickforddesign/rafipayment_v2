@@ -105,11 +105,12 @@ main {
   .content {
     padding: 0 10px 50px;
     margin-top: 70px;
-    overflow-y: scroll;
     position: fixed;
     top: 0;
     bottom: 0;
     width: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
