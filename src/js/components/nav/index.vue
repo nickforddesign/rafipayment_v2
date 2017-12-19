@@ -4,19 +4,18 @@
       href="#"
       @click.prevent="toggle"
       :class="{ 'nav-toggle': true, 'active': nav_visible }">
-      <div></div><div></div><div></div>
+      <div /><div /><div />
     </a>
     <nav
       :class="{ 'visible': nav_visible }"
       @click="close">
       <div class="scroll-y">
-        <!-- <logo></logo> -->
 
         <div class="user">
           <avatar :initials="$user.initials" :color="$user.avatar_color" />
           {{ $user.full_name }}
         </div>
-        <component :is="$user.role"></component>
+        <component :is="$user.role" />
       </div>
     </nav>
     <div class="overlay" v-if="nav_visible" @click="toggle" />
@@ -95,7 +94,6 @@ $nav-width: 230px;
 
     .content {
       pointer-events: auto;
-      // -webkit-overflow-scrolling: touch;
     }
   }
 
@@ -116,7 +114,6 @@ $nav-width: 230px;
 
       .content {
         pointer-events: none;
-        // -webkit-overflow-scrolling: auto;
       }
     }
 
@@ -182,14 +179,10 @@ nav {
 
   a {
     display: block;
-    // padding: 26px 20px;
-    // padding: 18px 20px;
     padding: 10px 20px;
     font-weight: bold;
-    // text-transform: uppercase;
     font-weight: normal;
     color: $color-nav-text;
-    // border-bottom: 1px solid #666;
 
     &:hover {
       text-decoration: none;
@@ -227,9 +220,7 @@ nav {
 
   nav {
     a {
-      // padding: 10px 20px;
       text-align: left;
-      // font-weight: normal;
       text-transform: none;
     }
 
@@ -250,18 +241,7 @@ nav {
     display: inline-block;
     width: 180px;
   }
-
-  // .panel {
-  //   position: fixed;
-  //   top: 50%;
-  //   left: 50%;
-  //   transform: translateY(-50%) translateX(-50%);
-  // }
 }
-
-// .panel.scroll-y {
-//   max-height: 100vh
-// }
 
 .nav-toggle {
   position: fixed;
@@ -357,10 +337,6 @@ nav {
 
   .nav {
     position: relative;
-
-    // a {
-    //   border: none;
-    // }
 
     .logo {
       display: none;

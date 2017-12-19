@@ -1,5 +1,5 @@
 @import '~%/breakpoints';
-// page header
+
 header {
   display: flex;
   align-items: center;
@@ -17,33 +17,31 @@ header {
   }
 }
 
-@media (max-width: $breakpoint-small) {
-  header {
-    .meta {
-      position: fixed;
-      top: 28px;
-      left: 50%;
-      max-width: calc(100% - 200px);
-      z-index: 9;
-      transform: translateX(-50%);
-      text-align: center;
-      // text-overflow: ellipsis;
-      // white-space: nowrap;
+.title {
+  display: none;
+}
 
-      h2 {
-        font-size: 1.1em;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      }
+@media (max-width: $breakpoint-medium) {
+  .title {
+    display: inline-block;
+    position: fixed;
+    top: 28px;
+    left: 50%;
+    max-width: calc(100% - 200px);
+    z-index: 9;
+    transform: translateX(-50%);
+    text-align: center;
+
+    h2 {
+      font-size: 1.1em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
-
+  }
+  header {
     legend {
       display: none;
     }
-
-    // .actions {
-
-    // }
   }
 }

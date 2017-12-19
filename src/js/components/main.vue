@@ -17,6 +17,10 @@
       <navigation v-if="logged_in" />
       
       <main>
+        <div class="title">
+          <h2>{{ $route.name }}</h2>
+        </div>
+
         <div :class="[main_class]">
           <router-view></router-view>
         </div>
@@ -66,6 +70,9 @@ export default {
     logged_in(val) {
       let path = val ? this.getRedirect() : '/'
       return this.$router.replace(path)
+    },
+    $route() {
+      console.log(this.$route)
     }
   },
   methods: {
