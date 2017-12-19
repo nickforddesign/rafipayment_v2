@@ -28,8 +28,9 @@ export default class Lease extends Model {
           dates.push(moment.utc(this.end_date))
           const today = moment.utc()
           let match
-          dates.forEach((date, index) => {
-            if (date < today && today < dates[index + 1]) {
+          dates.map((date, index) => {
+            const next_date = dates[index + 1]
+            if ((date < today && today < next_date) || date < today && !this.end_date) {
               match = index
             }
           })

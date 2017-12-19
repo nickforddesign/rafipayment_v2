@@ -6,11 +6,18 @@ header {
   align-items: center;
 
   .meta {
-    flex: 1 0 auto;
+    overflow: hidden;
+    
+    h2 {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
   .actions {
-    flex: 1 0 auto;
+    flex: 1;
     text-align: right;
+    margin-left: 10px;
 
     & > div {
       display: inline-block;
@@ -33,9 +40,10 @@ header {
     z-index: 9;
     transform: translateX(-50%);
     text-align: center;
+    text-transform: uppercase;
 
     h2 {
-      font-size: 1.1em;
+      font-size: 1em;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;

@@ -46,14 +46,16 @@ export default {
       alert_loading: false
     }
   },
+  beforeMount() {
+    document.body.classList.add('alert-visible')
+  },
   mounted() {
     if (this.$refs.default) {
       this.$refs.default.focus()
     }
-    document.body.classList.add('lock')
   },
   beforeDestroy() {
-    document.body.classList.remove('lock')
+    document.body.classList.remove('alert-visible')
   },
   computed: {
     has_header() {
@@ -112,7 +114,7 @@ export default {
 
 .alert-container {
   @include fixed_fill;
-  z-index: 9998;
+  z-index: 10000;
   background: rgba(0,0,0, 0.6);
 
   .alert {

@@ -7,7 +7,6 @@
       </div>
       <div class="actions">
         <button class="link" @click="promptRemove">Delete</button>
-        <!-- <button class="primary">Edit</button> -->
       </div>
     </header>
 
@@ -15,8 +14,15 @@
       <div class="grid__col grid__col--1-of-2">
         <div class="table-container">
           <div class="header">
-            Unit Information
+            Basic Information
           </div>
+
+          <dl>
+            <dt>Lease ID</dt>
+            <dd>
+              {{ $lease.display_id }}
+            </dd>
+          </dl>
 
           <dl>
             <dt>Unit Name</dt>

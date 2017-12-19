@@ -35,7 +35,6 @@ export default {
     const { count } = await this.$request(`units/count?filter_property=${this.$property.id}`)
     this.count = count
     this.count_fetched = true
-    // console.log(count)
   },
   methods: {
     goToModel() {

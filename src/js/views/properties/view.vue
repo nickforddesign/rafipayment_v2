@@ -30,7 +30,7 @@
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Units</dt>
-            <dd></dd>
+            <dd>{{ unit_count }}</dd>
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
@@ -42,12 +42,10 @@
         <div class="grid__col grid__col--1-of-2">
           <dl>
             <dt>Bank Account</dt>
-            <dd>
-              <div v-if="banks_fetched">
-                {{ funding_source }}
-              </div>
-              <loading type="data" v-else />
+            <dd v-if="banks_fetched">
+              {{ funding_source }}
             </dd>
+            <loading type="data" v-else />
           </dl>
         </div>
         <div class="grid__col grid__col--1-of-2">
@@ -78,8 +76,10 @@ export default {
   data() {
     return {
       fetched: false,
+      fetched_units: false,
       banks_fetched: false,
-      modal_visible: false
+      modal_visible: false,
+      unit_count: null
     }
   },
   models: {
@@ -94,8 +94,11 @@ export default {
       basePath: 'account/funding_sources'
     })
   },
-  created() {
-    this.fetch()
+  async created() {
+    await this.fetch()
+    const { count } = await this.$request(`units/count?filter_property=${this.$property.id}`)
+    this.unit_count = count
+    this.fetched_units = true
   },
   computed: {
     funding_source() {

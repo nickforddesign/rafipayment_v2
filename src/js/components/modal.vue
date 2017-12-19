@@ -40,6 +40,10 @@ export default {
       loading: false
     }
   },
+  beforeMount() {
+    console.log('go')
+    document.body.classList.add('modal-visible')
+  },
   mounted() {
     try {
       const default_focus = path(['$refs', 'default'], this.$parent)
@@ -49,7 +53,6 @@ export default {
     } catch (error) {
       console.warn(error)
     }
-    document.body.classList.add('modal-visible')
   },
   beforeDestroy() {
     document.body.classList.remove('modal-visible')

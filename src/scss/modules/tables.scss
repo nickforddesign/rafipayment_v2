@@ -2,6 +2,16 @@
 @import '~%/boxes';
 @import '~%/breakpoints';
 
+.table {
+  .tbody {
+    .tr {
+      .td {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
 // mobile
 @media (max-width: $breakpoint-medium) {
   .table {
@@ -12,16 +22,18 @@
       .tr {
         @include box_style;
 
-        // a {
-        //   display: inline-block;
-        //   font-size: 1.3em;
-        //   margin-bottom: 10px;
-        // }
         .td {
+          &:not(:last-child) {
+            margin-bottom: 4px;
+          }
+
           &:first-child {
             display: inline-block;
             font-size: 1.3em;
             margin-bottom: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
 
             label {
               display: none;
@@ -30,6 +42,11 @@
             .flag {
               font-size: 12px;
             }
+          }
+
+          &.actions {
+            margin-top: 14px;
+            margin-bottom: 0;
           }
         }
       }
@@ -129,11 +146,17 @@
   letter-spacing: 1px;
 
   .meta {
-    flex: 1 0 auto;
+    // flex: 1 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .actions {
-    flex: 1 0 auto;
+    // flex: 1 0 auto;
+    flex: 1;
     text-align: right;
+    margin-left: 10px;
 
     & > div {
       display: inline-block;

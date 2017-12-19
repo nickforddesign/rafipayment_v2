@@ -1,22 +1,27 @@
 <template>
   <div class="searchable">
     <div class="query" @click.self="focusInput">
-      <span v-if="selected[display]" class="selected">
-        <span class="selected-name">{{ selected[display] }}</span>
-        <div class="remove" @click="clear"></div>
-      </span>
-      <input
-        type="text"
-        ref="input"
-        v-model="query"
-        @keydown.delete="handleDelete"
-        @keydown.enter="handleEnter"
-        @keydown.esc="handleEscape"
-        @keydown.up="handleUp"
-        @keydown.down="handleDown"
-        @focus="onFocus"
-        @blur="onBlur">
-      <search-icon @click="toggleFocus" />
+      <div class="flexbox">
+        <span v-if="selected[display]" class="selected solid">
+          <span class="selected-name">{{ selected[display] }}</span>
+          <div class="remove" @click="clear"></div>
+        </span>
+        <input
+          type="text"
+          ref="input"
+          class="flex"
+          v-model="query"
+          @keydown.delete="handleDelete"
+          @keydown.enter="handleEnter"
+          @keydown.esc="handleEscape"
+          @keydown.up="handleUp"
+          @keydown.down="handleDown"
+          @focus="onFocus"
+          @blur="onBlur">
+          <div class="solid text-right">
+            <search-icon @click="toggleFocus" />
+          </div>
+      </div>
     </div>
     <ul v-if="focused">
       <div v-if="items.length">
@@ -196,6 +201,8 @@ ul {
   padding: 4px 6px;
   margin-left: 8px;
   border-radius: 4px;
+  line-height: 1.5em;
+  white-space: nowrap;
 }
 
 .query {
@@ -209,10 +216,8 @@ ul {
   }
 
   .search-icon {
-    position: absolute;
     width: 20px;
-    top: 10px;
-    right: 10px;
+    margin: 5px 9px 0 0;
     fill: $color-text-medium;
 
     &:hover {

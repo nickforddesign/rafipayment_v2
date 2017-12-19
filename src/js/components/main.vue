@@ -17,7 +17,7 @@
       <navigation v-if="logged_in" />
       
       <main>
-        <div class="title">
+        <div class="title" v-if="logged_in">
           <h2>{{ $route.name }}</h2>
         </div>
 

@@ -10,15 +10,16 @@ body {
   background-color: $color-background-default;
   overflow-x: hidden;
 
-  &.lock, &.modal-visible {
-    .app-container {
-      overflow: hidden;
-      height: calc(100vh - 120px);
-    }
+  &.modal-visible, &.alert-visible {
     main {
-      .content {
-        overflow: visible;
-      }
+      position: static;
+      z-index: auto;
+    }
+  }
+
+  &.model-visible {
+    .content {
+      overflow: visible;
     }
   }
 }

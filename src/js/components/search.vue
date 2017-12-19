@@ -36,6 +36,7 @@ export default {
 
 <style scoped lang="scss">
 @import '~%/colors';
+@import '~%/breakpoints';
 
 .search-container {
   position: relative;
@@ -55,6 +56,15 @@ export default {
   &:hover {
     fill: white;
     cursor: pointer;
+  }
+}
+
+@media (max-width: $breakpoint-medium) {
+  .search-container {
+
+    input {
+      display: none;
+    }
   }
 }
 </style>

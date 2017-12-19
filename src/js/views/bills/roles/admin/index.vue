@@ -43,7 +43,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'bills',
+      basePath: 'bills?sort_created=-1',
       model: Bill
     })
   },

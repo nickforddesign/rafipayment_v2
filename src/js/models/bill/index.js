@@ -25,7 +25,9 @@ export default class Bill extends Model {
         balance() {
           if (this.has_transfers) {
             return this.total - this.transfers.reduce((acc, transfer) => {
-              return acc + parseCurrency(transfer.amount, Number)
+              return !['customer_transfer_cancelled', 'customer_transfer_failed'].includes(transfer.status)
+                ? acc + parseCurrency(transfer.amount, Number)
+                : acc
             }, 0)
           } else {
             return this.total
