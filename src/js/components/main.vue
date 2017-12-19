@@ -95,6 +95,7 @@ export default {
 @import '~%/colors';
 @import '~%/breakpoints';
 
+$header-height: 72px;
 $sidebar-width: 230px;
 
 .app-container {
@@ -102,17 +103,20 @@ $sidebar-width: 230px;
   top: 0;
   bottom: 0;
   width: 100%;
-  // overflow: hidden;
 }
 
 main {
-  // &.content {
-  //   padding: 0 10px;
-  // }
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: $header-height;
+
   .content {
     padding: 0 10px 50px;
-    margin-top: 70px;
-    position: fixed;
+    margin-top: $header-height;
+    position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
@@ -165,7 +169,6 @@ main {
     width: $sidebar-width;
     top: 0;
     bottom: 0;
-    // background: $color-nav-background;
     background: transparent;
 
     .logo-container {

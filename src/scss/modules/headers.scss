@@ -1,5 +1,6 @@
 @import '~%/breakpoints';
 
+// page headers
 header {
   display: flex;
   align-items: center;
@@ -17,6 +18,7 @@ header {
   }
 }
 
+// mobile headers
 .title {
   display: none;
 }
