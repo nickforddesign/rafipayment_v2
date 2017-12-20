@@ -99,6 +99,7 @@ $nav-width: 230px;
   
   main {
     filter: none;
+    pointer-events: auto;
     transition: 0.5s filter;
 
     .content {
@@ -119,6 +120,7 @@ $nav-width: 230px;
     
     main {
       filter: blur(12px);
+      pointer-events: none;
       transition: 0.5s filter;
 
       .content {
