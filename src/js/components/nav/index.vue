@@ -18,7 +18,13 @@
         <component :is="$user.role" />
       </div>
     </nav>
-    <div class="overlay" v-if="nav_visible" @click="toggle" />
+    <v-touch
+      v-if="nav_visible"
+      class="overlay"
+      @click="toggle"
+      :options="{ touchAction: 'auto' }"
+      @tap="toggle"
+      @panright="toggle" />
   </div>
 </template>
 
@@ -61,6 +67,9 @@ export default {
     },
     toggle() {
       this.$store.dispatch('nav_toggle')
+    },
+    onSwipeRight(e) {
+      console.log(e)
     }
   },
   components: {

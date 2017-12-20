@@ -15,8 +15,13 @@
       </div>
 
       <navigation v-if="logged_in" />
-      
-      <main>
+
+      <v-touch
+        tag="main"
+        :options="{ touchAction: 'auto' }"
+        @panright="onSwipeRight"
+        @panleft="onSwipeLeft">
+
         <div class="title" v-if="logged_in">
           <h2>{{ $route.name }}</h2>
         </div>
@@ -24,21 +29,25 @@
         <div :class="[main_class]">
           <router-view></router-view>
         </div>
-      </main>
+
+      </v-touch>
+
       <alert v-if="alert_visible" />
     </component>
   </div>
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 import { path } from 'ramda'
 import { mapGetters } from 'vuex'
 import Navigation from './nav'
 import Alert from './alert'
 import IconArrowLeft from './icons/arrow-left'
 
-import Tenant from '@/components/roles/tenant'
+import Superadmin from '@/components/roles/superadmin'
 import Admin from '@/components/roles/admin'
+import Tenant from '@/components/roles/tenant'
 import None from '@/components/roles/none'
 
 export default {
@@ -70,22 +79,29 @@ export default {
     logged_in(val) {
       let path = val ? this.getRedirect() : '/'
       return this.$router.replace(path)
-    },
-    $route() {
-      console.log(this.$route)
     }
+    // $route() {
+    //   console.log(this.$route)
+    // }
   },
   methods: {
     getRedirect() {
       return path(['query', 'redirect'], this.$route) || '/dashboard'
-    }
+    },
+    onSwipeRight: debounce(function() {
+      this.$router.goBack()
+    }, 20),
+    onSwipeLeft: debounce(function() {
+      this.$store.dispatch('nav_toggle')
+    }, 20)
   },
   components: {
     Navigation,
     Alert,
     IconArrowLeft,
-    Tenant,
+    Superadmin,
     Admin,
+    Tenant,
     None
   }
 }

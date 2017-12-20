@@ -3,6 +3,7 @@ import './lib'
 
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
+import VueTouch from 'vue-touch'
 import VCalendar from 'v-calendar'
 import 'v-calendar/lib/v-calendar.min.css'
 import VueTheMask from 'vue-the-mask'
@@ -69,6 +70,7 @@ const install = (Vue) => {
   }
 
   Vue.use(VeeValidate)
+  Vue.use(VueTouch)
   Vue.use(VCalendar)
   Vue.use(VueTheMask)
 }
