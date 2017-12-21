@@ -3,5 +3,8 @@ export default {
   // api: 'https://api.staging.rafipayment.com/',
   api: 'https://rafipayment.ngrok.io/',
   google_api_key: 'AIzaSyB3KRRAn8zzaUhkevQtXxn1gXv6IWiyT34',
-  dwolla_env: 'sandbox'
+  dwolla_env: 'sandbox',
+  client() {
+    return 'Web'
+  }
 }

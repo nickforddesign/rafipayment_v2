@@ -23,7 +23,7 @@ Vue.use(VueRequests, {
       return path(['getters', 'session:access', 'token'], store)
     },
     rafipayment_client() {
-      return `Web/${version}`
+      return `${config.client()}/${version}`
     }
   },
   async before() {

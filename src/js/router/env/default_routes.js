@@ -345,13 +345,23 @@ const routes = [
     }
   },
   {
-    name: 'Events',
-    path: '/events',
+    name: 'Notifications',
+    path: '/notifications',
     meta: {
       auth: ['superadmin', 'admin', 'manager']
     },
     component(resolve) {
-      require(['@/views/notifications'], resolve)
+      require(['@/views/events/notifications'], resolve)
+    }
+  },
+  {
+    name: 'Authentication',
+    path: '/authentication',
+    meta: {
+      auth: ['superadmin', 'admin', 'manager']
+    },
+    component(resolve) {
+      require(['@/views/events/authentication'], resolve)
     }
   },
   {

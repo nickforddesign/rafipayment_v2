@@ -1,21 +1,34 @@
 <template>
-  <div class="search-container">
-    <form @submit.prevent="submit">
-      <input type="text" v-model="search_text">
+  <div :class="['search-container', search_state]">
+    <form class="search-form" @submit.prevent="submit">
+      <!-- <close-icon @click="toggle" /> -->
+      <input type="text" v-model="search_text" @blur="toggleIfEmpty" ref="input">
       <search-icon @click="submit" />
     </form>
+    <div class="search-toggle">
+      <search-icon class="test" @click="show" />
+    </div>
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import searchIcon from '@/components/svg/search-icon'
+import searchIcon from '@/components/icons/search'
+import closeIcon from '@/components/icons/close'
 export default {
   name: 'search',
   data() {
     return {
-      search_text: ''
+      search_text: '',
+      search_visible: false
+    }
+  },
+  computed: {
+    search_state() {
+      if (this.search_visible) {
+        return 'visible'
+      }
     }
   },
   methods: {
@@ -24,10 +37,32 @@ export default {
     },
     emitClick(e) {
       this.$emit('click', e)
+    },
+    focus() {
+      console.log('input', this.$refs.input)
+      this.$nextTick(() => {
+        this.$refs.input.focus()
+      })
+    },
+    // toggle() {
+    //   this.search_visible = !this.search_visible
+    // },
+    show() {
+      this.search_visible = true
+      this.focus()
+    },
+    hide() {
+      this.search_visible = false
+    },
+    toggleIfEmpty() {
+      if (!this.search_text) {
+        this.hide()
+      }
     }
   },
   components: {
-    searchIcon
+    searchIcon,
+    closeIcon
   }
 }
 </script>
@@ -40,6 +75,7 @@ export default {
 
 .search-container {
   position: relative;
+  text-align: right;
 
   input {
     padding-right: 30px;
@@ -59,11 +95,31 @@ export default {
   }
 }
 
+.search-toggle {
+  display: none;
+}
+
+.close-icon {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 @media (max-width: $breakpoint-medium) {
   .search-container {
-
-    input {
+    .search-form {
       display: none;
+    }
+    .search-toggle {
+      display: inline-block;
+    }
+    &.visible {
+      .search-form {
+        display: block;
+      }
+      .search-toggle {
+        display: none;
+      }
     }
   }
 }

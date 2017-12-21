@@ -6,9 +6,13 @@
           {{ name | capitalize }}
         </h2>
       </div>
-      <div class="actions">
-        <search @submit="search" v-if="searchable" />
-        <slot name="actions" />
+      <div class="actions flexbox text-right">
+        <div class="solid">
+          <search @submit="search" v-if="searchable" />
+        </div>
+        <div class="flex action-buttons">
+          <slot name="actions" />
+        </div>
       </div>
     </header>
 
@@ -317,7 +321,13 @@ $pagination-border-radius: 5px;
 
 .search-container {
   position: relative;
-  top: 7px;
+  // top: 7px;
+}
+
+.action-buttons {
+  & > div {
+    margin-left: 10px;
+  }
 }
 
 header {

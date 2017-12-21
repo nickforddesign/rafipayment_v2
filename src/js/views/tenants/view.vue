@@ -62,7 +62,8 @@
       
       <leases-table v-if="fetched" :data="$user" :path="`tenants/${$user.id}/leases`" @add="showModal('lease')" />
       <transfers-table v-if="fetched" :data="$user.payment" :path="`transfers?filter_parties=${$user.id}`" />
-      <events-table v-if="fetched" :user="$user" />
+      <notifications-table v-if="fetched" :user="$user" />
+      <auth-events-table v-if="fetched" :user="$user" />
       
     </div>
     <loading v-else />
@@ -78,7 +79,8 @@ import LeasesTable from '@/views/leases/table'
 import LeaseModal from '@/components/modals/lease'
 import NameModal from '@/components/modals/user/name'
 import EmailModal from '@/components/modals/user/email'
-import EventsTable from '@/views/notifications/table'
+import NotificationsTable from '@/views/events/notifications/table'
+import AuthEventsTable from '@/views/events/authentication/table'
 import TransfersTable from '@/views/transfers/table'
 
 export default {
@@ -161,7 +163,8 @@ export default {
     LeasesTable,
     NameModal,
     EmailModal,
-    EventsTable,
+    NotificationsTable,
+    AuthEventsTable,
     TransfersTable
   }
 }

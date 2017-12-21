@@ -12,6 +12,9 @@ var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var env = config.cordova.env
 
 var webpackConfig = merge(baseWebpackConfig, {
+  entry: {
+    app: './src/js/load_cordova.js'
+  },
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.cordova.productionSourceMap,

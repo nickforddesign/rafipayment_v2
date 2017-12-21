@@ -1,22 +1,16 @@
 <template>
   <div class="collection-view">
-    <collection name="properties" :$collection="$collection">
-      <div slot="actions">
-        <button @click="add" class="primary">Add</button>
-      </div>
-
+    <collection name="Events" :$collection="$collection">
       <responsive-table slot="content" :columns="[
-        'Name',
-        'Address',
-        'Units'
+        'Date',
+        'Type',
+        'Title',
+        'Success'
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>
 
     </collection>
-
-    <property-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" />
-
   </div>
 </template>
 
@@ -24,11 +18,9 @@
 
 <script>
 import { Collection } from 'vue-collections'
-import Property from '@/models/property'
+import Event from '@/models/event'
 
 import row from './row'
-
-import propertyModal from '@/components/modals/property'
 
 export default {
   name: 'properties',
@@ -39,8 +31,8 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'properties',
-      model: Property
+      basePath: `events?sort_created=-1`,
+      model: Event
     })
   },
   methods: {
@@ -55,8 +47,7 @@ export default {
     }
   },
   components: {
-    row,
-    propertyModal
+    row
   }
 }
 </script>

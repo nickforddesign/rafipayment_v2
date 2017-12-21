@@ -33,7 +33,7 @@ import { Collection } from 'vue-collections'
 import row from './row'
 
 export default {
-  name: 'events-table',
+  name: 'notifications-table',
   props: {
     user: Object
   },

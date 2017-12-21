@@ -4,7 +4,7 @@
       <responsive-table slot="content" :columns="[
         'Date',
         'Type',
-        'Title',
+        'Client',
         'Success'
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
@@ -31,7 +31,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'events',
+      basePath: `events?sort_created=-1`,
       model: Event
     })
   },

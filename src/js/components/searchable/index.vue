@@ -40,7 +40,7 @@
 import { isEmpty } from 'ramda'
 import { sleep } from '@/utils'
 
-import searchIcon from '@/components/svg/search-icon'
+import searchIcon from '@/components/icons/search'
 import choice from './choice'
 
 export default {
