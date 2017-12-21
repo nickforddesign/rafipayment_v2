@@ -5,6 +5,7 @@
         'Date',
         'Type',
         'Client',
+        'IP',
         'Success'
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />

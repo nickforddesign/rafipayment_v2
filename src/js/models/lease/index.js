@@ -23,13 +23,15 @@ export default class Lease extends Model {
             return acc
           }, [])
           dates.push(moment.utc(this.end_date))
-          const today = moment.utc()
+
+          const today = moment.utc().startOf('day')
+
           let match
           dates.find((start, index) => {
             const next_start = dates[index + 1]
             if (
               (start <= today && today < next_start) ||
-              (start <= today && today <= this.end_date) ||
+              (index === dates.length - 2 && start <= today && today <= moment.utc(this.end_date)) ||
               (start < today && !this.end_date)
             ) {
               match = index

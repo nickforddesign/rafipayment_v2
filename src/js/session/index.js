@@ -78,7 +78,7 @@ const session = new Vue({
       this.fetch_primary(vm, response)
     },
     async fetch_primary(vm, user) {
-      const primary_id = user.payment.primary_funding_source
+      const primary_id = path(['payment', 'primary_funding_source'], user)
       if (primary_id) {
         const response = await vm.$request(`account/funding_sources/${primary_id}`)
         store.dispatch('set_primary', response)
@@ -88,13 +88,7 @@ const session = new Vue({
       const expiration_date = path(['expiration', '$date'], this.access)
       const expires = moment.utc(expiration_date)
       const now = moment.utc()
-      let output = false
-      if (expiration_date) {
-        if (expires < now) {
-          output = true
-        }
-      }
-      return output
+      return expiration_date && expires < now
     },
     set_refresh_token(session) {
       store.dispatch('refresh', session)

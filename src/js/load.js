@@ -23,11 +23,11 @@ Vue.use(VueRequests, {
       return path(['getters', 'session:access', 'token'], store)
     },
     rafipayment_client() {
-      return `${config.client()}/${version}`
+      return `${config.client}/${version}`
     }
   },
   async before() {
-    if (session.check_access_token()) {
+    if (!session.check_access_token()) {
       await session.refresh_access_token(this)
     }
   },

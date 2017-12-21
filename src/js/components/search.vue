@@ -39,14 +39,10 @@ export default {
       this.$emit('click', e)
     },
     focus() {
-      console.log('input', this.$refs.input)
       this.$nextTick(() => {
         this.$refs.input.focus()
       })
     },
-    // toggle() {
-    //   this.search_visible = !this.search_visible
-    // },
     show() {
       this.search_visible = true
       this.focus()
@@ -79,6 +75,7 @@ export default {
 
   input {
     padding-right: 30px;
+    max-width: 100%;
   }
 }
 
@@ -96,7 +93,10 @@ export default {
 }
 
 .search-toggle {
+  position: absolute;
   display: none;
+  width: 24px;
+  right: 0;
 }
 
 .close-icon {
@@ -108,14 +108,18 @@ export default {
 @media (max-width: $breakpoint-medium) {
   .search-container {
     .search-form {
-      display: none;
+      display: inline-block;
+      width: 0;
+      overflow: hidden;
+      transition: 0.4s all;
     }
     .search-toggle {
       display: inline-block;
     }
     &.visible {
       .search-form {
-        display: block;
+        width: 100%;
+        transition: 0.4s all;
       }
       .search-toggle {
         display: none;

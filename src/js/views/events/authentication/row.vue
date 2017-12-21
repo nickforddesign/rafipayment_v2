@@ -1,13 +1,16 @@
 <template>
-  <div class="tr">
+  <div class="tr" @click="showUA">
     <cell>
-      {{ $event.created | moment('M/D/YYYY h:mm:ssa') }}
+      {{ $event.created | moment('M/D/YY h:mma') }}
     </cell>
     <cell>
       {{ $event.data.type || $event.type }}
     </cell>
     <cell>
       {{ $event.source.rafipayment_client }}
+    </cell>
+    <cell>
+      {{ $event.source.ip_address }}
     </cell>
     <cell>
       <span :class="['text-color', status_class]">
@@ -20,6 +23,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import UserEvent from '@/models/event'
 
 export default {
@@ -30,14 +34,20 @@ export default {
       return new UserEvent(this.model)
     }
   },
-  // created() {
-  //   console.log(this.$event)
-  // },
   computed: {
     status_class() {
       return this.$event.success
         ? 'success'
         : 'danger'
+    }
+  },
+  methods: {
+    showUA() {
+      app.alert(
+        this.$event.source.user_agent,
+        null,
+        'User Agent'
+      )
     }
   }
 }

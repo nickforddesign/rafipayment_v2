@@ -16,6 +16,7 @@ header {
   }
   .actions {
     flex: 1;
+    max-width: 100%;
     text-align: right;
     margin-left: 10px;
     white-space: nowrap;
@@ -58,6 +59,9 @@ header {
       h2 {
         margin: 8px 0 10px;
       }
+    }
+    .actions {
+      margin: 0;
     }
   }
 }

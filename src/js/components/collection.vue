@@ -7,10 +7,10 @@
         </h2>
       </div>
       <div class="actions flexbox text-right">
-        <div class="solid">
+        <div class="flex search">
           <search @submit="search" v-if="searchable" />
         </div>
-        <div class="flex action-buttons">
+        <div class="solid action-buttons">
           <slot name="actions" />
         </div>
       </div>
@@ -135,10 +135,8 @@ export default {
       }
     },
     $route(val) {
-      const page_number = val.query.page
-      if (page_number !== undefined) {
-        this.setCurrent(page_number)
-      }
+      const page_number = val.query.page || 1
+      this.setCurrent(page_number)
       this.initFilters()
     },
     filters(val) {
@@ -317,6 +315,12 @@ $pagination-border-radius: 5px;
 .summary {
   margin: 30px 0 6px;
   font-size: 0.75em;
+}
+
+.actions {
+  & > .search {
+    width: 100%;
+  }
 }
 
 .search-container {

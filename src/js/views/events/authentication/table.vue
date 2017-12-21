@@ -11,7 +11,8 @@
         <responsive-table :columns="[
           'Date',
           'Type',
-          'Title',
+          'Client',
+          'IP',
           'Success'
         ]">
           <row v-for="(model, index) in collection" :key="index" :model="model" />
