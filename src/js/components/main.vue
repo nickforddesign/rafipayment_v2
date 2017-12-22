@@ -95,7 +95,8 @@ export default {
     }, 20),
     onSwipeLeft: debounce(function(e) {
       const start = getPanStartPosition(e)
-      const offset = window.outerWidth - start.x
+      const offset = (window.outerWidth || window.innerWidth) - start.x
+      console.log(offset)
       if (offset < 50) {
         this.$store.dispatch('nav_toggle')
       }
