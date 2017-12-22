@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collection name="past bills" :$collection="$collection" :searchable="false">
+    <collection :$collection="$collection" :searchable="false">
 
       <responsive-table slot="content" :columns="[
         'Due Date',

@@ -1,15 +1,17 @@
 <template>
   <transition name="fade">
-    <div class="modal-container" @click.self="closeModal">
+    <div :class="['modal-container', type_class]" @click.self="close">
       <div class="modal" @keyup.esc="handleEscape" @keyup.enter="handleEnter">
         <loading v-if="loading"></loading>
         <div class="modal-header">
-          <button type="button" class="link close" @click="cancel">
-            {{ cancel_label }}
-          </button>
-          <button type="button" class="link confirm" @click="validate" v-if="has_confirm">
-            {{ confirm_label }}
-          </button>
+          <div class="actions">
+            <button type="button" class="close" @click="cancel">
+              {{ cancel_label }}
+            </button>
+            <button class="confirm neutral" @click="validate" v-if="has_confirm">
+              {{ confirm_label }}
+            </button>
+          </div>
 
           <slot name="header">
             <h1>Please confirm</h1>
@@ -33,6 +35,10 @@ export default {
     keywatch: {
       type: Boolean,
       default: true
+    },
+    full: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -41,7 +47,6 @@ export default {
     }
   },
   beforeMount() {
-    console.log('go')
     document.body.classList.add('modal-visible')
   },
   mounted() {
@@ -63,12 +68,14 @@ export default {
     },
     cancel_label() {
       return 'Cancel'
-      // return this.has_confirm
-      //   ? 'Cancel'
-      //   : 'OK'
     },
     confirm_label() {
       return 'OK'
+    },
+    type_class() {
+      if (this.full) {
+        return 'full'
+      }
     }
   },
   methods: {
@@ -109,6 +116,7 @@ export default {
 <style lang="scss">
 @import '~%/colors';
 @import '~%/mixins';
+@import '~%/breakpoints';
 
 .modal-container {
   @include fixed_fill;
@@ -135,32 +143,11 @@ export default {
         font-size: 1em;
         line-height: 2.5em;
       }
-
-      button.link {
-        position: absolute;
-        top: 18px;
-        font-weight: bold;
-        text-transform: capitalize;
-        z-index: 3;
-
-        &:hover {
-          text-decoration: none;
-        }
-      }
-
-      .close {
-        left: 4px;
-      }
-
-      .confirm {
-        right: 4px;
-      }
     }
 
     .modal-body {
       position: relative;
       padding: 14px;
-      // max-height: calc(80vh - 140px);
       max-height: calc(100vh - 70px);
       min-height: calc(100vh - 70px);
 
@@ -182,6 +169,30 @@ export default {
       margin: 7px 0;
     }
   }
+
+  &.full {
+    .modal {
+      .modal-header {
+        button {
+          position: absolute;
+          top: 18px;
+          font-weight: bold;
+          text-transform: capitalize;
+          z-index: 3;
+          background: transparent;
+          color: $color-highlight;
+          box-shadow: none;
+        }
+        .close {
+          left: 4px;
+        }
+
+        .confirm {
+          right: 4px;
+        }
+      }
+    }
+  }
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -199,4 +210,82 @@ export default {
     margin-top: -20px;
   }
 }
+
+@media (max-width: $breakpoint-medium) {
+  .modal-container {
+    .modal {
+      .modal-header {
+        button {
+          position: absolute;
+          top: 18px;
+          font-weight: bold;
+          text-transform: capitalize;
+          z-index: 3;
+          background: transparent;
+          color: $color-highlight;
+          box-shadow: none;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+
+        .close {
+          left: 4px;
+        }
+
+        .confirm {
+          right: 4px;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $breakpoint-medium) {
+  .modal-container:not(.full) {
+    .modal {
+      bottom: initial;
+      right: initial;
+      width: 720px;
+      max-width: 80%;
+      left: 50%;
+      top: 50%;
+      border-radius: 4px;
+      transform: translate(-50%, -50%);
+
+      .modal-body {
+        // min-height: 400px;
+        min-height: 0;
+        // height: 400px;
+        height: auto;
+        max-height: calc(100vh - 100px);
+        padding-bottom: 80px;
+      }
+
+      .modal-header {
+        .actions {
+          position: fixed;
+          display: flex;
+          width: 100%;
+          // height: 70px;
+          left: 0;
+          bottom: 0;
+          margin: 0;
+          z-index: 90;
+
+          button {
+            position: relative;
+            padding: 0.8em 1em;
+            flex: 1 1 0;
+            border-radius: 0;
+            left: initial;
+            right: initial;
+          }
+        }
+      }
+    }
+  }
+}
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <modal @close="close" :keywatch="false">
+  <modal @close="close" :keywatch="false" :full="true">
     <h1 slot="header">New Lease</h1>
     <div slot="body">
       <div v-if="!loading">
