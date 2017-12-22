@@ -2,7 +2,7 @@
   <div :class="classHandler">
     <select :name="name" :disabled="field_disabled" :multiple="field_multiple" @change="emitChange" v-model="field_value">
       <slot>
-        <option v-for="(options, index) in options" :value="option.value" :key="index">
+        <option v-for="(option, index) in options" :value="option.value" :key="index">
           {{ option.label }}
         </option>
       </slot>
@@ -89,6 +89,7 @@ export default {
     border-style: solid;
     border-width: 5px 5px 0 5px;
     transform: translateY(50%);
+    pointer-events: none;
     z-index: 2;
   }
 
@@ -97,6 +98,10 @@ export default {
       opacity: 0.5;
     }
   }
+}
+
+select {
+  padding-right: 24px;
 }
 
 </style>

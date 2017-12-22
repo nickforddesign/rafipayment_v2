@@ -1,4 +1,3 @@
-// import { path, clone } from 'ramda'
 import moment from 'moment'
 import session from '@/session'
 import { Model } from 'vue-models'
@@ -22,19 +21,16 @@ export default class Lease extends Model {
             acc.push(moment.utc(period.start_date))
             return acc
           }, [])
-          dates.push(moment.utc(this.end_date))
+          const end_date = moment.utc(this.end_date)
+          dates.push(end_date)
 
           const today = moment.utc().startOf('day')
 
           let match
           dates.find((start, index) => {
             const next_start = dates[index + 1]
-            if (
-              (start <= today && today < next_start) ||
-              (index === dates.length - 2 && start <= today && today <= moment.utc(this.end_date)) ||
-              (start < today && !this.end_date)
-            ) {
-              match = index
+            if (start <= today && (today < next_start || index === dates.length - 2 && today <= end_date || !this.end_date)) {
+              return (match = index)
             }
           })
           return match
@@ -85,52 +81,6 @@ export default class Lease extends Model {
               : 1
           })
         }
-        /*
-        splits() {
-          // let split = _.merge({}, this.split || {})
-          let split = clone(this.split || {})
-          if (this.split_amount !== false) {
-            split[session.$user.id] = this.split_amount
-          }
-          return split
-        },
-        splits_by_tenant_id() {
-          let split = {}
-          this.tenants.map((tenant) => {
-            // split[tenant._id] = _.get(this.splits, tenant._id)
-            split[tenant._id] = path(tenant._id, [this.splits])
-          })
-          return split
-        },
-        splits_value_array() {
-          return Object.values(this.splits_by_tenant_id)
-        },
-        total_rent_covered() {
-          return this.splits_value_array.reduce((sum, value) => {
-            return value === undefined
-              ? sum
-              : sum + value
-          }, 0)
-        },
-        missing_splits() {
-          return this.splits_value_array.reduce((sum, value) => {
-            return value === undefined
-              ? ++sum
-              : sum
-          }, 0)
-        },
-        rent_remaining() {
-          return this.rent - this.total_rent_covered
-        },
-        total_split() {
-          return Object.keys(this.split).reduce((acc, item) => {
-            return acc + this.split[item]
-          }, 0)
-        },
-        rent_coverage() {
-          return Math.floor(this.total_split / this.rent * 100)
-        }
-        */
       },
       methods: {
         getSuggestedSplit(period_id) {
@@ -166,30 +116,6 @@ export default class Lease extends Model {
           }
           return { start, end }
         }
-        // validateSplit(input) {
-        //   this.split_amount = parseCurrency(input, Number)
-        //   // if input exceeds rent remaining, use max possible amount
-        //   let output
-        //   if (this.rent_remaining < 0) {
-        //     this.split_amount = null
-        //     output = {
-        //       validated: false,
-        //       amount: this.rent_remaining
-        //     }
-        //   } else if (isNaN(this.split_amount)) {
-        //     output = {
-        //       validated: false,
-        //       amount: ''
-        //     }
-        //   } else {
-        //     output = {
-        //       validated: true,
-        //       amount: this.split_amount
-        //     }
-        //   }
-        //   this.split_amount = false
-        //   return output
-        // }
       }
     }
   }

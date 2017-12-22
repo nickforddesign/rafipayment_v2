@@ -3,7 +3,9 @@
     <header>
       <div class="meta">
         <h2>
-          {{ name | capitalize }}
+          <slot name="header">
+            {{ name | capitalize }}
+          </slot>
         </h2>
       </div>
       <div class="actions flexbox text-right">
