@@ -50,6 +50,8 @@ import Admin from '@/components/roles/admin'
 import Tenant from '@/components/roles/tenant'
 import None from '@/components/roles/none'
 
+import { getPanStartPosition } from '@/utils'
+
 export default {
   name: 'app',
   computed: {
@@ -80,19 +82,23 @@ export default {
       let path = val ? this.getRedirect() : '/'
       return this.$router.replace(path)
     }
-    // $route() {
-    //   console.log(this.$route)
-    // }
   },
   methods: {
     getRedirect() {
       return path(['query', 'redirect'], this.$route) || '/dashboard'
     },
-    onSwipeRight: debounce(function() {
-      this.$router.goBack()
+    onSwipeRight: debounce(function(e) {
+      const start = getPanStartPosition(e)
+      if (start.x < 50) {
+        this.$router.goBack()
+      }
     }, 20),
-    onSwipeLeft: debounce(function() {
-      this.$store.dispatch('nav_toggle')
+    onSwipeLeft: debounce(function(e) {
+      const start = getPanStartPosition(e)
+      const offset = window.outerWidth - start.x
+      if (offset < 50) {
+        this.$store.dispatch('nav_toggle')
+      }
     }, 20)
   },
   components: {

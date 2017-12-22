@@ -139,3 +139,17 @@ export function unitsHelper (number) {
   if (/^[\d]/.test(number)) number = '#' + number
   return number
 }
+
+// get position data for touch
+
+export function getPanStartPosition (event) {
+  const delta_x = event.deltaX
+  const delta_y = event.deltaY
+  const final_x = event.srcEvent.pageX || event.srcEvent.screenX || 0
+  const final_y = event.srcEvent.pageY || event.srcEvent.screenY || 0
+
+  return {
+    x: final_x - delta_x,
+    y: final_y - delta_y
+  }
+}
