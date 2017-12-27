@@ -1,11 +1,10 @@
 <template>
   <div class="nav">
-    <a
-      href="#"
+    <div
       @click.prevent="toggle"
       :class="{ 'nav-toggle': true, 'active': nav_visible }">
       <div /><div /><div />
-    </a>
+    </div>
     <nav
       :class="{ 'visible': nav_visible }"
       @click="close">

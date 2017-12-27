@@ -5,6 +5,7 @@ button, .button {
   display: inline-block;
   position: relative;
   padding: .60em .75em;
+  margin: 0;
   background-color: $color-button-background;
   color: $color-button-text;
   border: 1px solid transparent;

@@ -139,6 +139,10 @@ export default {
       font-size: 0.9em;
 
       h1 {
+        position: absolute;
+        top: 22px;
+        left: 0;
+        width: 100%;
         margin: 0;
         font-size: 1em;
         line-height: 2.5em;
@@ -247,7 +251,8 @@ export default {
     .modal {
       bottom: initial;
       right: initial;
-      width: 720px;
+      // width: 720px;
+      width: 560px;
       max-width: 80%;
       left: 50%;
       top: 50%;
@@ -273,6 +278,9 @@ export default {
           bottom: 0;
           margin: 0;
           z-index: 90;
+          overflow: hidden;
+          border-bottom-left-radius: 4px;
+          border-bottom-right-radius: 4px;
 
           button {
             position: relative;

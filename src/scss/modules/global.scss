@@ -17,9 +17,12 @@ body {
     }
   }
 
-  &.model-visible {
-    .content {
-      overflow: visible;
+  &.modal-visible {
+    main {
+      .content {
+        overflow-y: visible;
+        // overflow-y: hidden;
+      }
     }
   }
 }
