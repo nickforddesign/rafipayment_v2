@@ -1,54 +1,69 @@
 <template>
   <div class="collection-view">
-    <header>
-      <div class="meta">
-        <h2>
-          <slot name="header">
-            {{ name | capitalize }}
-          </slot>
-        </h2>
-      </div>
-      <div class="actions flexbox text-right">
-        <div class="flex search">
-          <search @submit="search" v-if="searchable" />
+    <pull-to :top-load-method="refresh" :top-config="pull_config">
+      <!-- <template slot="top-block" slot-scope="props">
+        <div class="top-load-wrapper">
+          <svg class="icon"
+               :class="{
+                  'icon-arrow': props.state === 'trigger',
+                  'icon-loading': props.state === 'loading'
+               }"
+               aria-hidden="true">
+            <use :xlink:href="iconLink"></use>
+          </svg>
+          {{ props.stateText }}
         </div>
-        <div class="solid action-buttons">
-          <slot name="actions" />
+      </template> -->
+      <header>
+        <div class="meta">
+          <h2>
+            <slot name="header">
+              {{ name | capitalize }}
+            </slot>
+          </h2>
+        </div>
+        <div class="actions flexbox text-right">
+          <div class="flex search">
+            <search @submit="search" v-if="searchable" />
+          </div>
+          <div class="solid action-buttons">
+            <slot name="actions" />
+          </div>
+        </div>
+      </header>
+
+      <div v-if="filters.length" class="filters">
+        <div v-for="(filter, index) in filters" :key="index" class="filter">
+          {{ filter.key | capitalize }}: {{ filter.value }}
+          <button class="x-small" @click="removeFilter(filter)">X</button>
         </div>
       </div>
-    </header>
+        
+      <slot name="content" v-if="fetched && collection.length" />
+      <empty v-else-if="fetched && !collection.length">
+        <div slot="message">There are no {{ collection_name || name }} yet</div>
+      </empty>
 
-    <div v-if="filters.length" class="filters">
-      <div v-for="(filter, index) in filters" :key="index" class="filter">
-        {{ filter.key | capitalize }}: {{ filter.value }}
-        <button class="x-small" @click="removeFilter(filter)">X</button>
+      <div class="pagination-container" v-if="paginate && page_count > 1">
+        <div class="summary">
+          <!-- Page {{ current_page_index + 1 }} of {{ page_count }}, -->
+          {{ skip + 1 }} - {{ skip + collection.length }} of {{ $collection.total_count || 0 }} items
+        </div>
+        <ul class="pagination">
+          <li v-for="(n, index) in page_count" :key="index">
+            <a href="#" @click.prevent="setCurrent(n)" :class="[paginator_class(n)]">{{ n }}</a>
+          </li>
+        </ul>
       </div>
-    </div>
-      
-    <slot name="content" v-if="fetched && collection.length" />
-    <empty v-else-if="fetched && !collection.length">
-      <div slot="message">There are no {{ collection_name || name }} yet</div>
-    </empty>
-    <loading v-else />
-
-    <div class="pagination-container" v-if="paginate && page_count > 1">
-      <div class="summary">
-        <!-- Page {{ current_page_index + 1 }} of {{ page_count }}, -->
-        {{ skip + 1 }} - {{ skip + collection.length }} of {{ $collection.total_count || 0 }} items
-      </div>
-      <ul class="pagination">
-        <li v-for="(n, index) in page_count" :key="index">
-          <a href="#" @click.prevent="setCurrent(n)" :class="[paginator_class(n)]">{{ n }}</a>
-        </li>
-      </ul>
-    </div>
-
+    </pull-to>
+    <loading v-if="!fetched" />
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import PullTo from 'vue-pull-to'
 import { mergeDeepRight } from 'ramda'
 
 export default {
@@ -83,7 +98,17 @@ export default {
       current_page_index: 0,
       original_base: '',
       search_term: '',
-      filters: []
+      filters: [],
+      pull_config: {
+        pullText: 'Pull to refresh', // The text is displayed when you pull down
+        triggerText: 'Release to refresh', // The text that appears when the trigger distance is pulled down
+        loadingText: 'Loading...', // The text in the load
+        doneText: 'Done', // Load the finished text
+        failText: 'Error', // Load failed text
+        loadedStayTime: 0, // Time to stay after loading ms
+        stayDistance: 30, // Trigger the distance after the refresh
+        triggerDistance: 50 // Pull down the trigger to trigger the distance
+      }
     }
   },
   created() {
@@ -161,6 +186,10 @@ export default {
       this.$collection.reset()
       await this.$collection.fetch()
       this.fetched = true
+    },
+    async refresh(loaded) {
+      await this.fetch()
+      loaded('done')
     },
     search(term) {
       this.clearAll()
@@ -249,7 +278,19 @@ export default {
       if (n - 1 === this.current_page_index) {
         return 'active'
       }
+    },
+    stateChange(state) {
+      if (state === 'pull' || state === 'trigger') {
+        this.pull_icon = 'icon-arrow-bottom'
+      } else if (state === 'loading') {
+        this.pull_icon = 'icon-loading'
+      } else if (state === 'loaded-done') {
+        this.pull_icon = 'icon-finish'
+      }
     }
+  },
+  components: {
+    PullTo
   }
 }
 </script>
@@ -340,6 +381,12 @@ header {
   h2 {
     margin: 0 10px 0 0;
   }
+}
+</style>
+
+<style lang="scss">
+.vue-pull-to-wrapper {
+  position: relative;
 }
 </style>
 

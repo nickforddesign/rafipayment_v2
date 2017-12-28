@@ -16,6 +16,9 @@ export default class Property extends Model {
       address: {
         type: String
       },
+      number: {
+        type: String
+      },
       city: {
         type: String
       },

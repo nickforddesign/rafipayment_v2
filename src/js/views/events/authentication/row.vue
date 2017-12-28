@@ -1,5 +1,5 @@
 <template>
-  <div class="tr" @click="showUA">
+  <div class="tr" @click="showData">
     <cell>
       {{ $event.created | moment('M/D/YY h:mma') }}
     </cell>
@@ -42,11 +42,15 @@ export default {
     }
   },
   methods: {
-    showUA() {
+    showData() {
+      let message = this.$event.source.user_agent
+      if (this.$event.error.error) {
+        message += `, Error: ${this.$event.error.message}`
+      }
       app.alert(
-        this.$event.source.user_agent,
+        message,
         null,
-        'User Agent'
+        'More Info'
       )
     }
   }

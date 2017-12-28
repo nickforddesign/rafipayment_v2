@@ -28,6 +28,8 @@
 <script>
 import { clone } from 'ramda'
 
+import app from '@/app'
+
 import Lease from '@/models/lease/new'
 
 import Property from './steps/property'
@@ -164,6 +166,13 @@ export default {
         await this.saveLease()
       } catch (error) {
         console.warn('error', error)
+        app.alert(
+          `${error.message}: ${error.data.message}`,
+          null,
+          'Error',
+          'OK',
+          'danger'
+        )
       } finally {
         this.loading = false
       }

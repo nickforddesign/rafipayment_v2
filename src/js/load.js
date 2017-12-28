@@ -27,7 +27,7 @@ Vue.use(VueRequests, {
     }
   },
   async before() {
-    if (!session.check_access_token()) {
+    if (session.logged_in && !session.check_access_token()) {
       await session.refresh_access_token(this)
     }
   },

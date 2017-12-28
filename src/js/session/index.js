@@ -86,9 +86,9 @@ const session = new Vue({
     },
     check_access_token() {
       const expiration_date = path(['expiration', '$date'], this.access)
-      const expires = moment.utc(expiration_date)
+      const expires = moment.utc(expiration_date).subtract(1, 'minute')
       const now = moment.utc()
-      return expiration_date && expires < now
+      return expiration_date && now < expires
     },
     set_refresh_token(session) {
       store.dispatch('refresh', session)
