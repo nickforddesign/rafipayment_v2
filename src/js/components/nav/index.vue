@@ -41,7 +41,7 @@ import avatar from '@/components/cards/avatar'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'nav',
+  name: 'navigation',
   models: {
     user() {
       return session.$user

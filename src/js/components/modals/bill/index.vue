@@ -1,5 +1,5 @@
 <template>
-  <modal @close="close" :keywatch="false">
+  <modal @close="close" :keywatch="false" :full="true">
     <h1 slot="header">New Bill</h1>
     <div slot="body">
       <div v-if="!loading" class="container sm modal-bill">
@@ -15,6 +15,11 @@
           <div v-if="models.lease" class="breadcrumb">
             <legend>Lease</legend>
             {{ models.lease.label }}
+          </div>
+          <div v-if="models.tenants" class="breadcrumb">
+            <legend>Tenants</legend>
+            <span v-if="models.tenants.length > 1">{{ models.tenants.length }} Tenants</span>
+            <span v-else>{{ models.tenants[0].first_name }} {{ models.tenants[0].last_name }}</span>
           </div>
         </div>
         <button @click="previous" class="back-button small" v-if="has_back">Back</button>
@@ -35,6 +40,7 @@ import Bill from '@/models/bill/new'
 import Property from './steps/property'
 import Unit from './steps/unit'
 import Lease from './steps/lease'
+import Tenants from './steps/tenants'
 import Charges from './steps/charges'
 import DueDate from './steps/date'
 
@@ -53,6 +59,7 @@ export default {
         'property',
         'unit',
         'lease',
+        'tenants',
         'charges',
         'due-date'
       ],
@@ -71,6 +78,7 @@ export default {
     Property,
     Unit,
     Lease,
+    Tenants,
     Charges,
     DueDate
   },
@@ -101,13 +109,9 @@ export default {
         property: this.models.property.id,
         unit: this.models.unit.id,
         lease: this.models.lease.id,
-        tenants: this.models.tenants.map(tenant => {
-          return {
-            id: tenant.id,
-            charges: tenant.charges
-          }
-        }),
-        due_date: this.models.bill.due_date
+        tenants: this.models.tenants.map(tenant => { return { id: tenant.id } }),
+        due_date: this.models.bill.due_date,
+        charges: this.models.bill.charges
       }
       await this.models.bill.save(body)
     },

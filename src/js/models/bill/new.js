@@ -27,6 +27,20 @@ export default class Bill extends Model {
       due_date: {
         type: ISODate
       },
+      charges: {
+        type: Array,
+        items: {
+          type: Object,
+          properties: {
+            amount: {
+              type: Currency
+            },
+            description: {
+              type: String
+            }
+          }
+        }
+      },
       tenants: {
         type: Array,
         items: {
@@ -34,19 +48,25 @@ export default class Bill extends Model {
           properties: {
             id: {
               type: ObjectId
-            },
-            charges: {
-              type: Array,
-              items: {
-                type: Object,
-                properties: {
-                  amount: {
-                    type: Currency
-                  }
-                }
-              }
             }
           }
+          // type: Object,
+          // properties: {
+          //   id: {
+          //     type: ObjectId
+          //   },
+          //   charges: {
+          //     type: Array,
+          //     items: {
+          //       type: Object,
+          //       properties: {
+          //         amount: {
+          //           type: Currency
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
         }
       }
     }

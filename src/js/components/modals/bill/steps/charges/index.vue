@@ -16,7 +16,7 @@
           <input type="text" v-model="charge.description">
         </field>
 
-        <field :name="`tenant ${index}`" label="Tenant" :errors="errors">
+        <!-- <field :name="`tenant ${index}`" label="Tenant" :errors="errors">
           <select-menu v-model="charge.tenant" v-validate="'required'" data-vv-as="tenant" :name="`tenant ${index}`" data-vv-value-path="field_value">
             <option disabled value="">Please select one</option>
             <option
@@ -27,7 +27,7 @@
               {{ tenant.first_name }} {{tenant.last_name }}
             </option>
           </select-menu>
-        </field>
+        </field> -->
 
       </div>
     </div>
@@ -65,9 +65,9 @@ export default {
     }
   },
   created() {
-    this.models.lease.tenants.forEach(tenant => {
-      tenant.charges = []
-    })
+    // this.models.lease.tenants.forEach(tenant => {
+    //   tenant.charges = []
+    // })
     if (!this.charges.length) {
       this.addCharge()
     }
@@ -85,17 +85,16 @@ export default {
       }
     }
   },
-  computed: {
-    tenants() {
-      return this.models.lease.tenants
-    }
-  },
+  // computed: {
+  //   tenants() {
+  //     return this.models.lease.tenants
+  //   }
+  // },
   methods: {
     addCharge() {
       this.charges.push({
         amount: '',
-        description: '',
-        tenant: null
+        description: ''
       })
     },
     removeCharge(index) {
@@ -108,26 +107,26 @@ export default {
       }
     },
     async complete(model) {
-      const tenants = []
+      // const tenants = []
 
-      this.charges.map(charge => {
-        const tenant = this.models.lease.tenants.find(tenant => {
-          return tenant.email === charge.tenant
-        })
-        tenant.charges.push({
-          amount: charge.amount,
-          date: charge.date,
-          description: charge.description
-        })
-      })
+      // this.charges.map(charge => {
+      //   const tenant = this.models.lease.tenants.find(tenant => {
+      //     return tenant.email === charge.tenant
+      //   })
+      //   tenant.charges.push({
+      //     amount: charge.amount,
+      //     date: charge.date,
+      //     description: charge.description
+      //   })
+      // })
 
-      this.models.lease.tenants.map(tenant => {
-        if (tenant.charges.length) {
-          tenants.push(tenant)
-        }
-      })
+      // this.models.lease.tenants.map(tenant => {
+      //   if (tenant.charges.length) {
+      //     tenants.push(tenant)
+      //   }
+      // })
 
-      this.models.tenants = tenants
+      this.models.bill.charges = this.charges
 
       this.next()
     },

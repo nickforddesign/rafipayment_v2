@@ -2,7 +2,7 @@
   <div class="container x-sm">
     <h2>Who are the tenants?</h2>
 
-    <button @click="previous" class="back-button">Back</button>
+    <!-- <button @click="previous" class="back-button">Back</button> -->
 
     <div>
       <searchable :collection="collection" display="full_name" :model="User" @input="addTenant" v-model="selected" :omit="tenants" />
@@ -58,19 +58,13 @@ export default {
     return new Collection({
       basePath: 'tenants',
       model: User
-    })
+    }, this.models.lease.tenants)
   },
   created() {
-    // if (this.models.tenants) {
-    //   console.log('had tenants', this.model.tenants)
-    //   this.tenants = this.models.tenants
-    // }
-
     this.fetch()
   },
   methods: {
     async fetch() {
-      await this.$collection.fetch()
       for (let index in this.collection) {
         this.tenants.push(this.collection[index])
       }

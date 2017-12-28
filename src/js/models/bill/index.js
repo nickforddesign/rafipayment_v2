@@ -16,11 +16,16 @@ export default class Bill extends Model {
           return !!this.transfers.length
         },
         total() {
-          return this.tenants.reduce((acc, tenant) => {
-            return acc + tenant.charges.reduce((acc, charge) => {
+          console.log(this.type)
+          return this.type === 'manual'
+            ? this.charges.reduce((acc, charge) => {
               return acc + charge.amount
             }, 0)
-          }, 0)
+            : this.tenants.reduce((acc, tenant) => {
+              return acc + tenant.charges.reduce((acc, charge) => {
+                return acc + charge.amount
+              }, 0)
+            }, 0)
         },
         balance() {
           if (this.has_transfers) {
@@ -75,6 +80,20 @@ export default class Bill extends Model {
       },
       transfers: {
         type: Array
+      },
+      charges: {
+        type: Array,
+        items: {
+          type: Object,
+          properties: {
+            amount: {
+              type: Currency
+            },
+            description: {
+              type: String
+            }
+          }
+        }
       },
       tenants: {
         type: Array,

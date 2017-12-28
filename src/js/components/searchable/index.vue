@@ -2,7 +2,7 @@
   <div class="searchable">
     <div class="query" @click.self="focusInput">
       <div class="flexbox">
-        <span v-if="selected[display]" class="selected solid">
+        <span v-if="selected[display]" class="selected">
           <span class="selected-name">{{ selected[display] }}</span>
           <div class="remove" @click="clear"></div>
         </span>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <ul v-if="focused">
-      <div v-if="items.length">
+      <div v-if="items && items.length">
         <choice v-for="(model, index) in items" :key="index" :label="display" :model="model" @select="setSelected" />
       </div>
       <div v-else class="empty">
@@ -115,7 +115,7 @@ export default {
       this.$refs.input.blur()
     },
     handleUp() {
-      if (this.items.length) {
+      if (this.items && this.items.length) {
         if (!isEmpty(this.selected)) {
           const current_index = this.items.indexOf(this.selected)
           if (current_index) {
@@ -128,7 +128,7 @@ export default {
       }
     },
     handleDown() {
-      if (this.items.length) {
+      if (this.items && this.items.length) {
         if (!isEmpty(this.selected)) {
           const current_index = this.items.indexOf(this.selected)
           if (current_index + 1 !== this.items.length) {

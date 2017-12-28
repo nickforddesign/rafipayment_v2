@@ -72,7 +72,7 @@ export default class Lease extends Model {
         },
         tenants_sorted() {
           return this.tenants.sort((a, b) => {
-            return a.period.length
+            return a.periods.length
               ? -1
               : 1
           }).sort((a, b) => {
