@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="box flexbox middle" @click="toggle">
+    <div class="user-transfers flexbox middle" @click="toggle">
       <user-card :data="model" :email="false" />
       <div class="solid text-right meta">
         <div>{{ total | currency }}</div>
         <div class="description">{{ model.transfers.length | pluralize('Transfer') }}</div>
       </div>
     </div>
-    <div v-if="expanded">
+    <collapse :expanded="expanded">
       <row v-for="(transfer, index) in model.transfers" :key="index" :model="transfer" />
-    </div>
+    </collapse>
   </div>
 </template>
 
@@ -49,8 +49,11 @@ export default {
 <style scoped lang="scss">
 @import '~%/colors';
 
-.box {
-  width: 100%;
+// .box {
+//   width: 100%;
+// }
+.user-transfers {
+  background: $color-input-background;
 }
 .user-card {
   max-width: 100%;
@@ -59,11 +62,13 @@ export default {
   margin: 0;
 }
 .meta {
-  font-size: 0.9em;
+  padding-right: 20px;
+  font-size: 0.8em;
 
   .description {
     margin-top: 6px;
     color: $color-text-medium;
+    white-space: nowrap;
   }
 }
 </style>

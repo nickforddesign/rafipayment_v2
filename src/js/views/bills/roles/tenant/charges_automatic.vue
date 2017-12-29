@@ -1,23 +1,26 @@
 <template>
   <div class="charges">
     <div class="row" @click="toggle">
-      <user-card :model="$user" />
-      <div class="actions" v-if="basePath">
+      {{ $user.full_name }}
+      <!-- <user-card :model="$user" :email="false" /> -->
+      <div class="actions">
         <div>{{ total | currency }}</div>
         <div class="description">{{ $user.charges.length | pluralize('charge') }}</div>
       </div>
     </div>
-    <responsive-table v-if="expanded" :columns="[
-      'Type',
-      'Info',
-      {
-        name: 'Amount',
-        class: 'text-right',
-        width: '20%'
-      }
-    ]">
-      <charge-row v-for="(charge, index) in $user.charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
-    </responsive-table>
+    <collapse :expanded="expanded">
+      <responsive-table :columns="[
+        'Type',
+        'Info',
+        {
+          name: 'Amount',
+          class: 'text-right',
+          width: '20%'
+        }
+      ]">
+        <charge-row v-for="(charge, index) in $user.charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
+      </responsive-table>
+    </collapse>
   </div>
 </template>
 
@@ -90,17 +93,19 @@ export default {
   .actions {
     flex: 2 0 0;
     text-align: right;
-    padding-right: 20px;
+    // padding-right: 20px;
   }
 }
-.user-card {
-  width: 300px;
-  margin: 0;
-  box-shadow: none;
-}
+// .user-card {
+//   width: 300px;
+//   margin: 0;
+//   box-shadow: none;
+// }
 .description {
   color: #999;
   font-size: 0.8em;
+  margin-top: 6px;
+  white-space: nowrap;
 }
 .actions {
   margin: 0;

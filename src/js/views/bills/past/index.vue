@@ -24,7 +24,7 @@ import Bill from '@/models/bill'
 import row from '../row'
 
 export default {
-  name: 'leases',
+  name: 'bills-past',
   collection() {
     return new Collection({
       basePath: 'account/bills?filter_active=false',

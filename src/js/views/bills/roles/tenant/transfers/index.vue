@@ -8,23 +8,7 @@
 
         <user v-for="(tenant, index) in tenants_with_transfers" :key="index" :model="tenant" />
 
-        <!-- <pre>{{ tenants_with_transfers }}</pre> -->
-
-        <!-- <responsive-table :columns="[
-          'Date',
-          'Source',
-          'Type',
-          'Status',
-          {
-            name: 'Amount',
-            width: '80px',
-            class: 'text-right'
-          }
-        ]">
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
-        </responsive-table> -->
-
-        <button class="primary footer-button" slot="actions" @click="showModal">Make a Payment</button>
+        <button class="primary footer-button" @click="showModal" v-if="model.balance">Make a Payment</button>
 
       </div>
       <loading v-else type="table" />
@@ -42,8 +26,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import Transfer from '@/models/transfer'
-// import row from './row'
 import User from './user'
 
 import TransferModal from '@/components/modals/bill/transfer'
@@ -88,9 +70,6 @@ export default {
   methods: {
     async fetch() {
       this.$emit('fetch')
-      // this.$collection.reset()
-      // await this.$collection.fetch()
-      // this.fetched = true
     },
     showModal() {
       this.modal_visible = true
@@ -110,6 +89,14 @@ export default {
 
 <style scoped lang="scss">
 @import '~%/breakpoints';
+
+.header {
+  text-align: center;
+}
+
+.footer-button {
+  margin-top: 20px;
+}
 
 @media (max-width: $breakpoint-medium) {
   .footer-button {

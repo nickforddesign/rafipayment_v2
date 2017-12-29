@@ -15,6 +15,14 @@ const resolve = {
   }
 }
 
+const status_map = {
+  completed: 'success',
+  created: 'neutral',
+  pending: 'neutral',
+  cancelled: 'danger',
+  failed: 'danger'
+}
+
 export default class Transfer extends Model {
   static defaults() {
     return {
@@ -46,6 +54,9 @@ export default class Transfer extends Model {
           await this.$request(`${this.url}/cancel`, {
             method: 'post'
           })
+        },
+        statusClass(status) {
+          return status_map[status]
         }
       }
     }

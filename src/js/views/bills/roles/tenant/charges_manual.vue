@@ -1,22 +1,18 @@
 <template>
   <div class="charges">
-    <div class="header">
-      Charges
-      <div class="actions" v-if="basePath">
-        <!-- <button class="small" @click="showModal" v-if="add">Add Charge</button> -->
-      </div>
-    </div>
-    <responsive-table :columns="[
+    <charge-row v-for="(charge, index) in charges" :key="index" :model="charge" />
+
+    <!-- <responsive-table :columns="[
       'Type',
-      'Description',
+      'Info',
       {
         name: 'Amount',
         class: 'text-right',
         width: '20%'
       }
     ]">
-      <charge-row v-for="(charge, index) in charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
-    </responsive-table>
+      <charge-row v-for="(charge, index) in charges" :key="index" :model="charge" />
+    </responsive-table> -->
 
   </div>
 </template>
@@ -24,7 +20,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import ChargeRow from '@/views/bills/charge_row'
+
+import ChargeRow from './charge_row'
 
 export default {
   name: 'charges',
@@ -59,25 +56,25 @@ export default {
 <style scoped lang="scss">
 @import '~%/colors';
 
-.charges {
-  margin-top: 10px;
-}
+// .charges {
+//   margin-top: 10px;
+// }
 
-.row {
-  display: flex;
-  align-items: center;
-  background: $color-box-background;
-  text-align: right;
+// .row {
+//   display: flex;
+//   align-items: center;
+//   background: $color-box-background;
+//   text-align: left;
 
-  .actions {
-    flex: 2 0 0;
-    text-align: right;
-    padding-right: 20px;
-  }
-}
-.user-card {
-  width: 300px;
-  margin: 0;
-  box-shadow: none;
-}
+//   .actions {
+//     flex: 2 0 0;
+//     text-align: right;
+//     padding-right: 20px;
+//   }
+// }
+// .user-card {
+//   width: 300px;
+//   margin: 0;
+//   box-shadow: none;
+// }
 </style>

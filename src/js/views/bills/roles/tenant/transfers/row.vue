@@ -6,7 +6,7 @@
     </div>
     <div class="solid text-right">
       <div>{{ $transfer.amount | currency }}</div>
-      <div :class="['description', 'text-color', status_class]">{{ $transfer.source_status }}</div>
+      <div :class="['description', 'text-color', $transfer.statusClass($transfer.source_status)]">{{ $transfer.source_status }}</div>
     </div>
   </div>
 
@@ -23,12 +23,13 @@ import Transfer from '@/models/transfer'
 //   danger: ['cancelled', 'failed']
 // }
 
-const status_map = {
-  completed: 'success',
-  created: 'neutral',
-  cancelled: 'danger',
-  failed: 'danger'
-}
+// const status_map = {
+//   completed: 'success',
+//   created: 'neutral',
+//   pending: 'neutral',
+//   cancelled: 'danger',
+//   failed: 'danger'
+// }
 
 export default {
   name: 'row',
@@ -38,11 +39,11 @@ export default {
       return new Transfer(this.model)
     }
   },
-  computed: {
-    status_class() {
-      return status_map[this.$transfer.source_status]
-    }
-  },
+  // computed: {
+  //   status_class() {
+  //     return status_map[this.$transfer.source_status]
+  //   }
+  // },
   methods: {
     goToModel() {
       this.$router.push(`/${this.$transfer.urlRoot}`)

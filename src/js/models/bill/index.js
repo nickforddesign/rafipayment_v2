@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
 import { parseCurrency, unitsHelper } from '@/utils'
@@ -37,6 +38,52 @@ export default class Bill extends Model {
           } else {
             return this.total
           }
+        },
+        bill_status() {
+          const due_date = moment.utc(this.due_date).startOf('day')
+          const today = moment.utc().startOf('day')
+          const balance = parseFloat(this.better_display_balance)
+          let status
+          if (balance <= 0) {
+            status = 'paid'
+          } else if (due_date < today) {
+            status = 'overdue'
+          } else if (due_date > today) {
+            status = 'future'
+          } else if (due_date.isSame(today)) {
+            status = 'due'
+          }
+          return status
+        },
+        days_from_due() {
+          const due_date = moment.utc(this.due_date).startOf('day')
+          const today = moment.utc().startOf('day')
+          const days = Math.abs(moment.duration(due_date.diff(today)).asDays())
+          return days
+        },
+        message() {
+          const days = this.days_from_due
+
+          let message
+          switch (this.bill_status) {
+            case 'paid':
+              message = `Paid in full`
+              break
+            case 'overdue':
+              message = `Overdue ${days} days`
+              break
+            case 'future':
+              // const autopay = this.has_autopay
+              const autopay = false
+              message = autopay
+                ? `Autopay in ${days} days`
+                : `Due in ${days} days`
+              break
+            case 'due':
+              message = `Due today`
+              break
+          }
+          return message
         }
       }
     }

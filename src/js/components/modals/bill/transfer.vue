@@ -35,13 +35,19 @@ export default {
   name: 'modal-transfer-add',
   props: {
     model: Object,
-    confirm: Function
+    confirm: Function,
+    suggestion: Number
   },
   data() {
     return {
       amount: null,
       scheduled_date: null,
       mode: 'simple'
+    }
+  },
+  mounted() {
+    if (this.suggestion) {
+      this.amount = this.suggestion
     }
   },
   models: {

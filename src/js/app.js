@@ -32,6 +32,7 @@ import Empty from '@/components/empty'
 import ResponsiveTable from '@/components/table'
 import Cell from '@/components/table/cell'
 import Collection from '@/components/collection'
+import Collapse from '@/components/collapse'
 
 Vue.config.productionTip = false
 
@@ -52,7 +53,8 @@ const components = [
   Searchable,
   ResponsiveTable,
   Cell,
-  Collection
+  Collection,
+  Collapse
 ]
 
 const install = (Vue) => {
