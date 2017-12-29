@@ -1,6 +1,6 @@
 <template>
   <div class="collection-view">
-    <pull-to :top-load-method="refresh" :top-config="pull_config">
+    <!-- <pull-to :top-load-method="refresh" :top-config="pull_config"> -->
       <!-- <template slot="top-block" slot-scope="props">
         <div class="top-load-wrapper">
           <svg class="icon"
@@ -55,7 +55,7 @@
           </li>
         </ul>
       </div>
-    </pull-to>
+    <!-- </pull-to> -->
     <loading v-if="!fetched" />
   </div>
 </template>

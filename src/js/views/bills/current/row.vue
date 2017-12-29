@@ -79,7 +79,7 @@ export default {
       this.$emit('fetch')
     },
     goToModel() {
-      this.$router.push(`/${this.$bill.urlRoot}`)
+      this.$router.push(`/bills/${this.$bill.id}`)
     },
     showModal() {
       const current_period = this.$lease.periods[this.$lease.current_period] || {}
