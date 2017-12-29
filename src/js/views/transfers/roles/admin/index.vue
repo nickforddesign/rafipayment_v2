@@ -2,7 +2,7 @@
   <div>
     <collection name="ledger" collection_name="transfers" :$collection="$collection" :searchable="false">
       <div slot="actions">
-        <button @click="exportData">Export</button>
+        <!-- <button @click="exportData">Export</button> -->
         <button @click="add" class="primary">Add Transfer</button>
       </div>
 
@@ -31,7 +31,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import json2csv from 'json2csv'
 import { Collection } from 'vue-collections'
 import Transfer from '@/models/transfer'
 
@@ -60,42 +59,6 @@ export default {
     },
     confirmModal() {
       this.$collection.fetch()
-    },
-    exportData() {
-      // const xls = json2xls(this.collection)
-      const data = json2csv({
-        fields: [
-          'id',
-          'amount'
-          // 'bank_transfer_status',
-          // 'bill',
-          // 'cancelled',
-          // 'company',
-          // 'correlation_id',
-          // 'created',
-          // 'destination',
-          // 'failed',
-          // 'failure',
-          // 'idempotency_key',
-          // 'lease',
-          // 'message',
-          // 'parties',
-          // 'processed',
-          // 'property',
-          // 'resource_id',
-          // 'responses',
-          // 'scheduled_date',
-          // 'source',
-          // 'status',
-          // 'type',
-          // 'unit',
-          // 'updated',
-          // 'webhooks'
-        ],
-        data: this.collection
-      })
-      window.datorm = data
-      console.log({data})
     }
   },
   components: {

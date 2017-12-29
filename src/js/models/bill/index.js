@@ -1,6 +1,7 @@
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
 import { parseCurrency, unitsHelper } from '@/utils'
+import Transfer from '@/models/transfer'
 
 export default class Bill extends Model {
   static defaults() {
@@ -16,7 +17,6 @@ export default class Bill extends Model {
           return !!this.transfers.length
         },
         total() {
-          console.log(this.type)
           return this.type === 'manual'
             ? this.charges.reduce((acc, charge) => {
               return acc + charge.amount
@@ -79,7 +79,11 @@ export default class Bill extends Model {
         type: ISODate
       },
       transfers: {
-        type: Array
+        type: Array,
+        items: {
+          type: Object,
+          properties: Transfer.schema()
+        }
       },
       charges: {
         type: Array,

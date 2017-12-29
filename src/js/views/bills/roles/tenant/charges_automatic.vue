@@ -1,12 +1,13 @@
 <template>
   <div class="charges">
-    <div class="row">
+    <div class="row" @click="toggle">
       <user-card :model="$user" />
       <div class="actions" v-if="basePath">
-        <button @click="showModal" v-if="add">Add Charge</button>
+        <div>{{ total | currency }}</div>
+        <div class="description">{{ $user.charges.length | pluralize('charge') }}</div>
       </div>
     </div>
-    <responsive-table :columns="[
+    <responsive-table v-if="expanded" :columns="[
       'Type',
       'Info',
       {
@@ -17,9 +18,6 @@
     ]">
       <charge-row v-for="(charge, index) in $user.charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
     </responsive-table>
-
-    <charge-modal v-if="add && modal_visible" @close="closeModal" :confirm="fetch" :path="`${$user.url}/charges`" />
-
   </div>
 </template>
 
@@ -29,7 +27,6 @@
 import User from '@/models/user'
 import UserCard from '@/components/cards/user'
 import ChargeRow from '@/views/bills/charge_row'
-import ChargeModal from '@/components/modals/bill/charge'
 
 export default {
   name: 'charges',
@@ -43,7 +40,7 @@ export default {
   },
   data() {
     return {
-      modal_visible: false
+      expanded: false
     }
   },
   models: {
@@ -58,21 +55,19 @@ export default {
       this.$user = val
     }
   },
+  computed: {
+    total() {
+      return this.$user.charges.reduce((acc, item) => acc + item.amount, 0)
+    }
+  },
   methods: {
-    fetch() {
-      this.$parent.fetch()
-    },
-    showModal() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
+    toggle() {
+      this.expanded = !this.expanded
     }
   },
   components: {
     UserCard,
-    ChargeRow,
-    ChargeModal
+    ChargeRow
   }
 }
 </script>
@@ -102,5 +97,12 @@ export default {
   width: 300px;
   margin: 0;
   box-shadow: none;
+}
+.description {
+  color: #999;
+  font-size: 0.8em;
+}
+.actions {
+  margin: 0;
 }
 </style>

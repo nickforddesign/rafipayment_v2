@@ -1,10 +1,10 @@
 <template>
-  <div :class="['box', 'user-card', direction]">
+  <div :class="['user-card', 'box', 'flexbox', 'middle', 'text-left', direction]" @click="emitClick">
     <avatar :initials="$user.initials" :color="$user.avatar_color"></avatar>
     <slot>
       <div class="details text-left">
         <h3>{{ $user.full_name }}</h3>
-        <h6>{{ $user.email }}</h6>
+        <h6 v-if="email">{{ $user.email }}</h6>
       </div>
     </slot>
   </div>
@@ -19,6 +19,10 @@ export default {
   props: {
     data: Object,
     model: Object,
+    email: {
+      type: Boolean,
+      default: true
+    },
     reverse: {
       type: Boolean,
       default: false
@@ -42,6 +46,11 @@ export default {
       return output
     }
   },
+  methods: {
+    emitClick(e) {
+      this.$emit('click', e)
+    }
+  },
   components: {
     Avatar
   }
@@ -51,11 +60,6 @@ export default {
 <style lang="scss">
 .user-card {
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  text-align: left;
 }
 .avatar {
   display: block;
@@ -64,7 +68,7 @@ export default {
 }
 .details {
   width: 70%;
-  margin-left: 20px;
+  margin-left: 8px;
   padding: 0;
   border-left: 0;
 

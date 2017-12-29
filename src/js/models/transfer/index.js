@@ -101,10 +101,20 @@ export default class Transfer extends Model {
         type: Array
       },
       destination: {
-        type: Object
+        type: Object,
+        properties: {
+          id: {
+            type: ObjectId
+          }
+        }
       },
       source: {
-        type: Object
+        type: Object,
+        properties: {
+          id: {
+            type: ObjectId
+          }
+        }
       },
       cancellable: {
         type: Boolean

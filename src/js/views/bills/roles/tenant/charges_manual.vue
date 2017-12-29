@@ -1,24 +1,22 @@
 <template>
   <div class="charges">
-    <div class="row">
-      <user-card :model="$user" />
+    <div class="header">
+      Charges
       <div class="actions" v-if="basePath">
-        <button @click="showModal" v-if="add">Add Charge</button>
+        <!-- <button class="small" @click="showModal" v-if="add">Add Charge</button> -->
       </div>
     </div>
     <responsive-table :columns="[
       'Type',
-      'Info',
+      'Description',
       {
         name: 'Amount',
         class: 'text-right',
         width: '20%'
       }
     ]">
-      <charge-row v-for="(charge, index) in $user.charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
+      <charge-row v-for="(charge, index) in charges" :key="index" :model="charge" :basePath="`${$parent.$bill.url}/charges`" />
     </responsive-table>
-
-    <charge-modal v-if="add && modal_visible" @close="closeModal" :confirm="fetch" :path="`${$user.url}/charges`" />
 
   </div>
 </template>
@@ -26,36 +24,17 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import User from '@/models/user'
-import UserCard from '@/components/cards/user'
 import ChargeRow from '@/views/bills/charge_row'
-import ChargeModal from '@/components/modals/bill/charge'
 
 export default {
   name: 'charges',
   props: {
-    user: Object,
-    add: {
-      type: Boolean,
-      default: true
-    },
+    charges: Array,
     basePath: String
   },
   data() {
     return {
       modal_visible: false
-    }
-  },
-  models: {
-    user() {
-      return new User(this.user, {
-        basePath: `${this.basePath}/tenants`
-      })
-    }
-  },
-  watch: {
-    user(val) {
-      this.$user = val
     }
   },
   methods: {
@@ -70,9 +49,7 @@ export default {
     }
   },
   components: {
-    UserCard,
-    ChargeRow,
-    ChargeModal
+    ChargeRow
   }
 }
 </script>

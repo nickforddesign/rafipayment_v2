@@ -65,11 +65,6 @@ export default {
       this.$router.push(`/transfers?filter_bill=${this.model.id}`)
     }
   },
-  // computed: {
-  //   collection() {
-  //     return this.model.transfers
-  //   }
-  // },
   components: {
     row
   }
