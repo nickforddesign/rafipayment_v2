@@ -105,6 +105,9 @@ export default class Bill extends Model {
       removed: {
         type: Boolean
       },
+      active: {
+        type: Boolean
+      },
       property: {
         type: ObjectId
       },

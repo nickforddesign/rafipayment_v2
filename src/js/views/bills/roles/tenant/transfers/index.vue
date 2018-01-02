@@ -8,14 +8,14 @@
 
         <user v-for="(tenant, index) in tenants_with_transfers" :key="index" :model="tenant" />
 
-        <button class="primary footer-button" @click="showModal" v-if="model.balance">Make a Payment</button>
+        <button v-if="model.active && model.balance" class="primary footer-button" @click="showModal">Make a Payment</button>
 
       </div>
       <loading v-else type="table" />
     </div>
     <empty v-else>
       <div slot="message">There are no payments on this bill yet</div>
-      <button class="primary" slot="actions" @click="showModal">Make a Payment</button>
+      <button v-if="model.active && model.balance" class="primary" slot="actions" @click="showModal">Make a Payment</button>
     </empty>
 
     <transfer-modal :model="model" @close="closeModal" v-if="modal_visible" :confirm="fetch" />
