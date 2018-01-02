@@ -27,6 +27,7 @@
 
 <script>
 import { path } from 'ramda'
+import { toggleStatusBar } from '@/utils'
 
 export default {
   name: 'modal',
@@ -58,9 +59,11 @@ export default {
     } catch (error) {
       console.warn(error)
     }
+    toggleStatusBar(false)
   },
   beforeDestroy() {
     document.body.classList.remove('modal-visible')
+    toggleStatusBar(true)
   },
   computed: {
     has_confirm() {

@@ -50,7 +50,7 @@ import Admin from '@/components/roles/admin'
 import Tenant from '@/components/roles/tenant'
 import None from '@/components/roles/none'
 
-import { getPanStartPosition } from '@/utils'
+import { getPanStartPosition, toggleStatusBar } from '@/utils'
 
 export default {
   name: 'app',
@@ -76,6 +76,9 @@ export default {
       role: 'session:role',
       alert_visible: 'app:alert_visible'
     })
+  },
+  mounted() {
+    toggleStatusBar(true)
   },
   watch: {
     logged_in(val) {

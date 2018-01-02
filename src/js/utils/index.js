@@ -1,3 +1,5 @@
+/* global StatusBar */
+
 import { pickBy } from 'ramda'
 
 // convert state <-> abbr
@@ -10,6 +12,16 @@ export { statesHelper }
 export function isMobile () {
   const regex = /(iP(od|hone|ad))|(IEMobile)|(Windows Phone)|(Blackberry)|(BB10)|(Android.*Mobile)/i
   return regex.test(window.navigator.userAgent)
+}
+
+// toggle cordova status bar
+
+export const toggleStatusBar = (val) => {
+  if (process.env.NODE_ENV === 'cordova') {
+    try {
+      return val ? StatusBar.show() : StatusBar.hide()
+    } catch (e) {}
+  }
 }
 
 // deferred promise
