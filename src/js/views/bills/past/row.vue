@@ -5,22 +5,18 @@
     </cell>
     <cell>{{ $bill.target }}</cell>
     <cell>{{ type | capitalize }}</cell>
-    <cell className="text-right">{{ $bill.balance | currency }}</cell>
+    <cell className="text-right">
+      <span :class="['text-color', status_class]">{{ $bill.balance | currency }}</span>
+    </cell>
 
     <div class="mobile-only">
-      <div class="main">
-        <div class="flexbox">
-          <div>{{ type | capitalize }}</div>
-          <div class="solid text-right text-color" :class="[message_class]">
-            {{ $bill.message }}
-          </div>
-        </div>
-        <div class="text-center">
-          <legend>Balance</legend>
-          <h2>{{ $bill.balance | currency }}</h2>
+      <div class="flexbox">
+        <div class="date">{{ $bill.due_date | moment('MMM YYYY') }}</div>
+        <div class="flex target text-center">{{ $bill.target }}</div>
+        <div class="flex balance background-color" :class="[status_class]">
+          {{ $bill.balance | currency }}
         </div>
       </div>
-      <button class="primary footer-button" v-if="$bill.balance" @click.stop="showModal">Make a Payment</button>
     </div>
   </div>
 </template>
@@ -28,7 +24,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import session from '@/session'
+// import session from '@/session'
 import Bill from '@/models/bill'
 import Lease from '@/models/lease'
 
@@ -58,7 +54,7 @@ export default {
         ? 'rent'
         : 'one-time'
     },
-    message_class() {
+    status_class() {
       const status = this.$bill.bill_status
       return {
         success: [
@@ -80,16 +76,6 @@ export default {
     },
     goToModel() {
       this.$router.push(`/bills/${this.$bill.id}`)
-    },
-    showModal() {
-      const current_period = this.$lease.periods[this.$lease.current_period] || {}
-      const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
-      const my_period = me.periods.find(period => period.id === current_period.id)
-      const amount = my_period && my_period.amount
-      this.$emit('showModal', {
-        amount,
-        model: this.$bill
-      })
     }
   }
 }
@@ -107,11 +93,6 @@ export default {
     padding: 14px;
     font-size: 0.9em;
   }
-
-  .footer-button {
-    width: 100%;
-    border-radius: 0;
-  }
 }
 
 @media (max-width: $breakpoint-medium) {
@@ -127,6 +108,27 @@ export default {
   }
   .mobile-only {
     display: block;
+    font-size: 0.9em;
+
+    .flexbox {
+      & > div {
+        white-space: nowrap;
+        padding: 16px;
+      }
+      .date {
+        width: 90px;
+      }
+      .flex {
+        padding: 16px 10px;
+      }
+      .target {
+        flex: 1;
+      }
+      .balance {
+        width: 100px;
+        text-align: center
+      }
+    }
   }
 }
 </style>

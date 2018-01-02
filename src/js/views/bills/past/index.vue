@@ -21,7 +21,7 @@
 import { Collection } from 'vue-collections'
 import Bill from '@/models/bill'
 
-import row from '../row'
+import row from './row'
 
 export default {
   name: 'bills-past',

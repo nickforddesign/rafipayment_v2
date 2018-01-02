@@ -65,3 +65,30 @@ span.flag {
     color: #b7b7b7;
   }
 }
+
+.background-color {
+  &.neutral {
+    color: $color-text-dark;
+    background-color: $color-status-neutral;
+  }
+
+  &.success {
+    color: $color-text-light;
+    background-color: $color-status-success;
+  }
+
+  &.warning {
+    color: $color-text-dark;
+    background-color: $color-status-warning;
+  }
+
+  &.danger {
+    color: $color-text-light;
+    background-color: $color-status-danger;
+  }
+
+  &.disabled {
+    color: $color-text-light;
+    background-color: #b7b7b7;
+  }
+}

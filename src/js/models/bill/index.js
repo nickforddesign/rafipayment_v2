@@ -42,7 +42,7 @@ export default class Bill extends Model {
         bill_status() {
           const due_date = moment.utc(this.due_date).startOf('day')
           const today = moment.utc().startOf('day')
-          const balance = parseFloat(this.better_display_balance)
+          const balance = parseFloat(this.balance)
           let status
           if (balance <= 0) {
             status = 'paid'
