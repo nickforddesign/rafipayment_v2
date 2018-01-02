@@ -8,7 +8,8 @@
         <router-link :to="`/bills/past`">Past</router-link>
       </li>
     </ul>
-    <router-view />
+    <router-view class="scroll-container" />
+    <!-- <router-view /> -->
   </div>
 </template>
 
@@ -36,3 +37,20 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+@import '~%/breakpoints';
+@import '~%/mixins';
+
+@media (max-width: $breakpoint-medium) {
+  .scroll-container {
+    position: absolute;
+    top: 0;
+    bottom: 50px;
+    left: 10px;
+    right: 10px;
+    
+    @include vertical_scroll;
+  }
+}
+</style>

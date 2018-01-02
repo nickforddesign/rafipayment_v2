@@ -108,6 +108,10 @@ export default {
     font-size: 0.9em;
   }
 
+  legend {
+    text-align: center;
+  }
+
   .footer-button {
     width: 100%;
     border-radius: 0;

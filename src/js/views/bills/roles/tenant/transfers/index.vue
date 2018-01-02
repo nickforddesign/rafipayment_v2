@@ -8,17 +8,12 @@
 
         <user v-for="(tenant, index) in tenants_with_transfers" :key="index" :model="tenant" />
 
-        <button v-if="model.active && model.balance" class="primary footer-button" @click="showModal">Make a Payment</button>
-
       </div>
       <loading v-else type="table" />
     </div>
     <empty v-else>
       <div slot="message">There are no payments on this bill yet</div>
-      <button v-if="model.active && model.balance" class="primary" slot="actions" @click="showModal">Make a Payment</button>
     </empty>
-
-    <transfer-modal :model="model" @close="closeModal" v-if="modal_visible" :confirm="fetch" />
     
   </div>
 </template>
@@ -28,8 +23,6 @@
 <script>
 import User from './user'
 
-import TransferModal from '@/components/modals/bill/transfer'
-
 export default {
   name: 'transfers-table',
   props: {
@@ -38,8 +31,8 @@ export default {
   },
   data() {
     return {
-      fetched: false,
-      modal_visible: false
+      fetched: false
+      // modal_visible: false
     }
   },
   created() {
@@ -72,15 +65,16 @@ export default {
       this.$emit('fetch')
     },
     showModal() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
+      this.$emit('showModal')
+      // this.modal_visible = true
     }
+    // closeModal() {
+    //   this.modal_visible = false
+    // }
   },
   components: {
-    User,
-    TransferModal
+    User
+    // TransferModal
   }
 }
 </script>
@@ -88,24 +82,8 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
-@import '~%/breakpoints';
-
 .header {
   text-align: center;
-}
-
-.footer-button {
-  margin-top: 20px;
-}
-
-@media (max-width: $breakpoint-medium) {
-  .footer-button {
-    position: fixed;
-    bottom: -1px;
-    left: 0;
-    border-radius: 0;
-    width: 100%;
-  }
 }
 </style>
 

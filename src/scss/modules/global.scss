@@ -24,6 +24,9 @@ body {
         // overflow-y: hidden;
       }
     }
+    .scroll-container {
+      overflow: visible !important;
+    }
   }
 }
 
