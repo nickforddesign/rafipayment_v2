@@ -68,9 +68,31 @@ const routes = [
     meta: {
       auth: true
     },
+    redirect: '/account/profile',
     component(resolve) {
-      require(['@/views/account'], resolve)
-    }
+      require(['@/views/account/'], resolve)
+    },
+    children: [
+      {
+        name: 'Profile',
+        path: 'profile',
+        component(resolve) {
+          require(['@/views/account/profile'], resolve)
+        }
+      },
+      {
+        name: 'Payment',
+        path: 'payment',
+        meta: {
+          back($router) {
+            $router.back()
+          }
+        },
+        component(resolve) {
+          require(['@/views/account/payment'], resolve)
+        }
+      }
+    ]
   },
   {
     name: 'Properties',

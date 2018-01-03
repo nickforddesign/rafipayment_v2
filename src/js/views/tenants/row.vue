@@ -4,13 +4,14 @@
       <a :href="`/${$user.urlRoot}`" @click.prevent>{{ $user.full_name }}</a>
     </cell>
     <cell>{{ $user.email }}</cell>
-    <cell>{{ $user.created | moment('MM/DD/YYYY') }}</cell>
+    <cell>{{ $user.created | moment('MM/DD/YY') }}</cell>
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import session from '@/session'
 import User from '@/models/user'
 
 export default {
@@ -28,7 +29,9 @@ export default {
   },
   methods: {
     goToModel() {
-      this.$router.push(`/${this.$user.urlRoot}`)
+      if (session.$user.role !== 'tenant') {
+        this.$router.push(`/${this.$user.urlRoot}`)
+      }
     },
     async remove() {
       await this.$user.destroy()

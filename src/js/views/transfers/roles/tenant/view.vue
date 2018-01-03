@@ -55,7 +55,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Bill</dt>
-              <dd>{{ $transfer.bill }}</dd>
+              <dd>#{{ $bill.display_id }}</dd>
             </dl>
           </div>
 
@@ -104,6 +104,7 @@
 import moment from 'moment'
 import app from '@/app'
 import Transfer from '@/models/transfer'
+import Bill from '@/models/bill'
 import { prettyCurrency } from '@/utils'
 
 export default {
@@ -121,11 +122,18 @@ export default {
       }, {
         basePath: 'account/transfers'
       })
+    },
+    bill() {
+      return new Bill(null, {
+        basePath: 'account/bills'
+      })
     }
   },
   async created() {
     await this.$transfer.fetch()
     this.checkIfCancellable()
+    this.$bill.id = this.$transfer.bill
+    this.$bill.fetch()
     this.fetched = true
   },
   computed: {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="icon-arrow-left">
     <svg viewBox="-140 146 30 40"><polyline points="-116.6,185.6 -136.2,166 -116.6,146.4 "></polyline></svg>
   </div>
 </template>

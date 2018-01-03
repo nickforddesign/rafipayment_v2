@@ -5,7 +5,6 @@
       <responsive-table slot="content" :columns="[
         'Date',
         'Destination',
-        'Source',
         'Type',
         'Status',
         {
@@ -28,42 +27,18 @@
 import { Collection } from 'vue-collections'
 import Transfer from '@/models/transfer'
 
-import row from '../../row'
-// import transferModal from '@/components/modals/transfer'
+import row from './row'
 
 export default {
   name: 'ledger',
-  // data() {
-  //   return {
-  //     modal_visible: false
-  //   }
-  // },
   collection() {
     return new Collection({
       basePath: 'account/transfers',
       model: Transfer
     })
   },
-  // methods: {
-  //   async fetch() {
-  //     this.fetched = false
-  //     this.$collection.reset()
-  //     await this.$collection.fetch()
-  //     this.fetched = true
-  //   },
-  //   add() {
-  //     this.modal_visible = true
-  //   },
-  //   closeModal() {
-  //     this.modal_visible = false
-  //   },
-  //   confirmModal() {
-  //     this.fetch()
-  //   }
-  // },
   components: {
     row
-    // transferModal
   }
 }
 </script>

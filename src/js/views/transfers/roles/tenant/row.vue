@@ -8,7 +8,7 @@
       <a v-else :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mma') }}</a>
     </cell>
     <cell>{{ $transfer.destination_name }}</cell>
-    <cell>{{ $transfer.source_name }}</cell>
+    <!-- <cell>{{ $transfer.source_name }}</cell> -->
     <cell>{{ $transfer.type }}</cell>
     <cell>
       <span :class="['text-color', status_class]">{{ $transfer.source_status }}</span>
@@ -54,6 +54,9 @@ export default {
       }
       return output
     }
+  },
+  created() {
+    console.log(this.$transfer)
   },
   methods: {
     goToModel() {

@@ -16,13 +16,13 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Start Date</dt>
-              <dd>{{ $lease.start_date | moment('M/DD/YYYY', true) }}</dd>
+              <dd>{{ $lease.start_date | moment('M/DD/YY', true) }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>End Date</dt>
-              <dd>{{ $lease.end_date | moment('M/DD/YYYY', true) }}</dd>
+              <dd>{{ $lease.end_date | moment('M/DD/YY', true) }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">

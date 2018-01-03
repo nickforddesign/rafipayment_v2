@@ -108,6 +108,9 @@ export default class Bill extends Model {
       active: {
         type: Boolean
       },
+      display_id: {
+        type: Number
+      },
       property: {
         type: ObjectId
       },

@@ -27,7 +27,7 @@
 
 <script>
 import { path } from 'ramda'
-import { toggleStatusBar } from '@/utils'
+import { toggleStatusBar, sleep } from '@/utils'
 
 export default {
   name: 'modal',
@@ -61,9 +61,10 @@ export default {
     }
     toggleStatusBar(false)
   },
-  beforeDestroy() {
-    document.body.classList.remove('modal-visible')
+  async beforeDestroy() {
     toggleStatusBar(true)
+    await sleep(300)
+    document.body.classList.remove('modal-visible')
   },
   computed: {
     has_confirm() {
