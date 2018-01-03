@@ -62,7 +62,9 @@
         </div>
       </div>
 
-      <funding-sources-table :data="this.$user.payment" v-if="$user.role !== 'superadmin'" />
+      <button @click="goToPayment">Payment Settings</button>
+
+      <!-- <funding-sources-table :data="this.$user.payment" v-if="$user.role !== 'superadmin'" /> -->
       
       <div class="actions free">
         <div>
@@ -129,6 +131,9 @@ export default {
     },
     closeModal(name) {
       this.modals[name] = false
+    },
+    goToPayment() {
+      this.$router.push('/account/payment')
     }
   },
   components: {

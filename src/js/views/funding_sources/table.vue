@@ -16,7 +16,6 @@
       <responsive-table v-if="collection.length" :columns="[
         'Name',
         'Status',
-        'Created',
         {
           name: 'Actions',
           class: 'text-right',

@@ -187,6 +187,7 @@ export default {
 
   .avatar {
     width: 100%;
+    margin: 0;
   }
 
   .icon-money {

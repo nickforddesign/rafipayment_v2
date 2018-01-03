@@ -15,10 +15,10 @@
         {{ model.status }}
       </span>
     </cell>
-    <cell>{{ model.created | moment('M/D/YY') }}</cell>
+    <!-- <cell>{{ model.created | moment('M/D/YY') }}</cell> -->
     <cell className="text-right actions">
-      <button class="small" @click.stop="promptPrimary" v-if="!(is_balance || is_primary)">Set as Primary</button>
-      <button class="small danger" @click.stop="promptRemove" v-if="!(is_balance || is_primary)">Remove</button>
+      <button class="x-small" @click.stop="promptPrimary" v-if="!(is_balance || is_primary)">Set Primary</button>
+      <button class="x-small danger" @click.stop="promptRemove" v-if="!(is_balance || is_primary)">Remove</button>
       <span v-else>–</span>
     </cell>
   </div>
@@ -98,8 +98,16 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
+@import '~%/breakpoints';
+
 .primary-label {
   margin-left: 10px;
+}
+
+@media (min-width: $breakpoint-medium) {
+  .flex {
+    max-width: 200px;
+  }
 }
 </style>
 
