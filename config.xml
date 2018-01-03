@@ -73,8 +73,8 @@
         <host event="launch" name="app.payment.rafiproperties.com" scheme="https" />
         <host event="launch" name="app.staging.payment.rafiproperties.com" scheme="https" />
     </universal-links>
-    <engine name="browser" spec="^5.0.1" />
     <engine name="ios" spec="^4.5.4" />
+    <engine name="android" spec="^6.3.0" />
     <plugin name="cordova-plugin-battery-status" spec="^1.2.5" />
     <plugin name="cordova-plugin-camera" spec="^2.4.1">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />

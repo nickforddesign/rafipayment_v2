@@ -29,7 +29,11 @@ export default {
   },
   computed: {
     total() {
-      return this.model.transfers.reduce((acc, item) => acc + item.amount, 0)
+      return this.model.transfers.reduce((acc, item) => {
+        return !['customer_transfer_cancelled', 'customer_transfer_failed'].includes(item.status)
+          ? acc + item.amount
+          : acc
+      }, 0)
     }
   },
   methods: {
@@ -49,9 +53,6 @@ export default {
 <style scoped lang="scss">
 @import '~%/colors';
 
-// .box {
-//   width: 100%;
-// }
 .user-transfers {
   background: $color-input-background;
 }

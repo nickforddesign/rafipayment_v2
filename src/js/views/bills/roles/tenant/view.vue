@@ -120,7 +120,7 @@ h3 {
 }
 
 .footer-button {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .model-view, .heightfix {
@@ -138,7 +138,6 @@ h3 {
     top: 0;
     left: 0;
     right: 0;
-    // bottom: 50px;
     bottom: 0;
     @include vertical_scroll;
   }
@@ -147,6 +146,7 @@ h3 {
     position: fixed;
     bottom: -1px;
     left: 0;
+    margin: 0;
     border-radius: 0;
     width: 100%;
   }

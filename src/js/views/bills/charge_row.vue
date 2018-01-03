@@ -1,8 +1,8 @@
 <template>
   <div class="tr">
     <div class="td">{{ $charge.charge_type | replace | capitalize }}</div>
-    <div class="td">{{ $charge.description | limit(30) }}</div>
-    <div class="td text-right">{{ $charge.amount | currency }}</div>
+    <div class="td description">{{ $charge.description | limit(30) }}</div>
+    <div class="td text-right balance">{{ $charge.amount | currency }}</div>
   </div>
 </template>
 

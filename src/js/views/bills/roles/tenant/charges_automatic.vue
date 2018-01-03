@@ -1,8 +1,7 @@
 <template>
-  <div class="charges">
+  <div class="tenant charges">
     <div class="row" @click="toggle">
       {{ $user.full_name }}
-      <!-- <user-card :model="$user" :email="false" /> -->
       <div class="actions">
         <div>{{ total | currency }}</div>
         <div class="description">{{ $user.charges.length | pluralize('charge') }}</div>
@@ -89,20 +88,18 @@ export default {
   align-items: center;
   background: $color-box-background;
   text-align: right;
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 4px;
+  padding-bottom: 8px;;
 
   .actions {
     flex: 2 0 0;
     text-align: right;
-    // padding-right: 20px;
   }
 }
-// .user-card {
-//   width: 300px;
-//   margin: 0;
-//   box-shadow: none;
-// }
+
 .description {
-  color: #999;
+  color: #aaa;
   font-size: 0.8em;
   margin-top: 6px;
   white-space: nowrap;
@@ -110,4 +107,56 @@ export default {
 .actions {
   margin: 0;
 }
+</style>
+
+<style lang="scss">
+@import '~%/colors';
+@import '~%/breakpoints';
+
+// @media (max-width: $breakpoint-medium) {
+  .tenant.charges {
+    .table {
+      padding: 10px;
+      margin-top: 14px;
+      border-radius: 4px;
+      background: $color-background-dark;
+
+      .thead {
+        display: none;
+      }
+
+      .tbody {
+        .tr {
+          display: flex;
+          padding: 6px;
+          margin: 0;
+          background: transparent;
+          color: #aaa;
+          box-shadow: none;
+
+          .td {
+            flex: 1;
+            font-size: 1em;
+            line-height: 1.5em;
+            padding: 0;
+            margin: 0;
+
+            &:first-child {
+              font-size: 1em;
+            }
+
+            &.balance {
+              flex: initial;
+              width: 100px;
+            }
+
+            &.description {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+// }
 </style>

@@ -2,7 +2,7 @@
   <transition name="fade">
     <div :class="['modal-container', type_class]" @click.self="close">
       <div class="modal" @keyup.esc="handleEscape" @keyup.enter="handleEnter">
-        <loading v-if="loading"></loading>
+        <loading v-if="loading" />
         <div class="modal-header">
           <div class="actions">
             <button type="button" class="close" @click="cancel">
