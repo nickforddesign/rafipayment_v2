@@ -34,7 +34,7 @@
       </div>
 
       <button v-if="$bill.active && $bill.balance" class="primary footer-button" @click="showModal">Make a Payment</button>
-      <transfer-modal :model="$bill" @close="closeModal" v-if="modal_visible" :confirm="fetch" />
+      <transfer-modal :model="$bill" @close="closeModal" v-if="modal_visible" :confirm="fetch" :suggestion="amount" />
     </div>
   </div>
 </template>
@@ -42,12 +42,15 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import session from '@/session'
+import UserCard from '@/components/cards/user'
 import TransferModal from '@/components/modals/bill/transfer'
 import TransfersTable from './transfers'
 import ChargesAutomatic from './charges_automatic'
 import ChargesManual from './charges_manual'
-import UserCard from '@/components/cards/user'
+
 import Bill from '@/models/bill'
+import Lease from '@/models/lease'
 
 export default {
   name: 'bill',
@@ -64,10 +67,17 @@ export default {
       }, {
         basePath: 'account/bills'
       })
+    },
+    lease() {
+      return new Lease(null, {
+        basePath: 'account/leases'
+      })
     }
   },
   async created() {
     await this.fetch()
+    this.$lease.id = this.$bill.lease
+    await this.$lease.fetch()
     this.fetched = true
   },
   computed: {
@@ -87,6 +97,11 @@ export default {
       await this.$bill.fetch()
     },
     showModal() {
+      const current_period = this.$lease.periods[this.$lease.current_period] || {}
+      const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
+      const my_period = me.periods.find(period => period.id === current_period.id)
+      const amount = my_period && my_period.amount
+      this.amount = amount
       this.modal_visible = true
     },
     closeModal() {

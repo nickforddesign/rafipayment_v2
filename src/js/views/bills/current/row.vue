@@ -110,11 +110,14 @@ export default {
 
   legend {
     text-align: center;
+    margin: 0 auto 6px;
+    text-transform: uppercase;
   }
 
   .footer-button {
     width: 100%;
     border-radius: 0;
+    font-weight: bold;
   }
 }
 

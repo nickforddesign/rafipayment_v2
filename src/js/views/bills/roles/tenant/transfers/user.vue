@@ -73,3 +73,25 @@ export default {
   }
 }
 </style>
+
+<style lang="scss">
+@import '~%/breakpoints';
+
+@media (max-width: $breakpoint-medium) {
+  .user-transfers {
+    .user-card {
+      .avatar {
+        margin: 14px;
+      }
+      .details {
+        margin: 0;
+
+        h3 {
+          margin: 0;
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+}
+</style>

@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     fetch() {
-      // console.log(this.$refs.collection)
       this.$refs.collection.fetch()
     },
     showModal(data) {
