@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collection name="ledger" collection_name="transfers" :$collection="$collection" :searchable="false">
+    <collection name="transfers" collection_name="transfers" :$collection="$collection" :searchable="false">
 
       <responsive-table slot="content" :columns="[
         'Date',

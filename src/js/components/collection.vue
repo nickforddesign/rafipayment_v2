@@ -385,8 +385,20 @@ header {
 </style>
 
 <style lang="scss">
+@import '~%/breakpoints';
+
 .vue-pull-to-wrapper {
   position: relative;
+}
+
+@media (max-width: $breakpoint-medium) {
+  .collection-view {
+    .search-container {
+      input {
+        width: 100%;
+      }
+    }
+  }
 }
 </style>
 

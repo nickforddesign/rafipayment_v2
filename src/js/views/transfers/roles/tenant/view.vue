@@ -5,7 +5,7 @@
 
       <header>
         <div class="meta">
-          <legend>Payment</legend>
+          <legend>Transter</legend>
           <h2>{{ $transfer.amount | currency }}</h2>
         </div>
         <div class="actions">
@@ -18,7 +18,7 @@
 
       <div class="table-container">
         <div class="header">
-          Payment Information
+          Transfer Information
         </div>
         <div class="grid">
           <div class="grid__col grid__col--1-of-2">
@@ -30,10 +30,10 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Created</dt>
-              <dd>{{ $transfer.created | moment('MM/DD/YYYY h:mm:ssa') }}</dd>
+              <dd>{{ $transfer.created | moment('M/D/YY h:mma') }}</dd>
             </dl>
           </div>
-          <div class="grid__col grid__col--1-of-2">
+          <div class="grid__col grid__col--1-of-2" v-if="$transfer.scheduled_date">
             <dl>
               <dt>Scheduled</dt>
               <dd>{{ scheduled_date_string }}</dd>
@@ -85,12 +85,12 @@
               <dd :class="['text-color', $transfer.statusClass($transfer.source_status)]">{{ $transfer.source_status }}</dd>
             </dl>
           </div>
-          <div class="grid__col grid__col--1-of-2">
+          <!-- <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Bank Transfer Status</dt>
               <dd :class="['text-color', $transfer.statusClass($transfer.destination_status)]">{{ $transfer.destination_status }}</dd>
             </dl>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

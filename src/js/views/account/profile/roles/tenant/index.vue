@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="model-view container sm">
+    <div class="model-view container sm" v-if="fetched">
       <header>
         <div class="meta">
           <legend>Account</legend>
@@ -76,6 +76,8 @@
 
     </div>
 
+    <loading v-else />
+
     <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="fetch" />
     <password-modal v-if="modals.password" @close="closeModal('password')" :model="$user" :confirm="fetch" />
     <email-modal v-if="modals.email" @close="closeModal('email')" :model="$user" :confirm="fetch" :account="true" />
@@ -100,6 +102,7 @@ export default {
   name: 'account-tenant',
   data() {
     return {
+      fetched: false,
       modals: {
         name: false,
         email: false,
@@ -121,7 +124,7 @@ export default {
   methods: {
     async fetch() {
       await this.$user.fetch()
-      this.loaded = true
+      this.fetched = true
     },
     logout() {
       session.logout()

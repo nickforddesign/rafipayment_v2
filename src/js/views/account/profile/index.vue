@@ -6,8 +6,9 @@
 
 <script>
 import session from '@/session'
-import admin from './roles/admin/index'
-import tenant from './roles/tenant/index'
+import Superadmin from './roles/superadmin/index'
+import Admin from './roles/admin/index'
+import Tenant from './roles/tenant/index'
 
 export default {
   models: {
@@ -15,12 +16,10 @@ export default {
       return session.$user
     }
   },
-  created() {
-    console.log('test')
-  },
   components: {
-    admin,
-    tenant
+    Superadmin,
+    Admin,
+    Tenant
   }
 }
 </script>

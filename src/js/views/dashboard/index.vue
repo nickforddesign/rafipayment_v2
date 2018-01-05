@@ -1,13 +1,14 @@
 <template>
-  <component :is="$user.role" />
+  <component :is="$user.role"></component>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
 import session from '@/session'
-import admin from './roles/admin/index'
-import tenant from './roles/tenant/index'
+import Superadmin from './roles/superadmin/index'
+import Admin from './roles/admin/index'
+import Tenant from './roles/tenant/index'
 
 export default {
   models: {
@@ -16,8 +17,9 @@ export default {
     }
   },
   components: {
-    admin,
-    tenant
+    Superadmin,
+    Admin,
+    Tenant
   }
 }
 </script>

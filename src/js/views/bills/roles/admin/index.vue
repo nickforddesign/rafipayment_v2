@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <collection name="bills" :$collection="$collection">
+  <div v-if="range_fetched">
+    <collection name="bills" :$collection="$collection" ref="collection">
       <div slot="header">
         <div class="flexbox">
           <div class="flex">Bills</div>
@@ -45,34 +45,36 @@ import BillModal from '@/components/modals/bill'
 import row from '../../row'
 
 const now = moment.utc()
-const start = now.startOf('month').format('YYYY-MM-DD')
-const end = now.endOf('month').format('YYYY-MM-DD')
+const start_moment = now.startOf('month')
+const start_date = start_moment.format('YYYY-MM-DD')
+const end_date = now.endOf('month').format('YYYY-MM-DD')
 
 export default {
   name: 'leases',
   data() {
     return {
       modal_visible: false,
-      ranges: [
-        '12/2017',
-        'all'
-      ],
-      range: '12/2017'
+      range_fetched: false,
+      ranges: null,
+      range: start_moment.format('MM/YYYY')
     }
   },
   collection() {
     return new Collection({
       basePath() {
-        return `bills?sort_created=-1&range_due_date=${start},${end}`
+        return `bills?sort_created=-1&range_due_date=${start_date},${end_date}`
       },
       model: Bill
     })
   },
+  created() {
+    this.fetchRange()
+  },
   watch: {
-    range(val) {
-      if (val !== 'all') {
+    async range(val) {
+      if (val !== 'All') {
         const arr = val.split('/')
-        const date_str = [arr[1], arr[0], '1'].join('-')
+        const date_str = [arr[1], arr[0], '1'].join('/')
         const date = moment.utc(date_str)
         const start = date.startOf('month').format('YYYY-MM-DD')
         const end = date.endOf('month').format('YYYY-MM-DD')
@@ -85,13 +87,29 @@ export default {
           return `bills?sort_created=-1`
         }
       }
+      this.$refs.collection.fetched = false
       this.$collection.reset()
-      this.$collection.fetch()
+      await this.$collection.fetch()
+      this.$refs.collection.fetched = true
     }
   },
   methods: {
     fetch() {
       this.$collection.fetch()
+    },
+    async fetchRange() {
+      const { min, max } = await this.$request('bills/range/due_date')
+      const start = moment.utc(min.$date).startOf('month')
+      const end = moment.utc(max.$date).endOf('month')
+      const array = []
+      let date = start
+      while (date <= end) {
+        array.push(date.format('MM/YYYY'))
+        date = date.add(1, 'months')
+      }
+      array.push('All')
+      this.ranges = array
+      this.range_fetched = true
     },
     add() {
       this.modal_visible = true
@@ -116,14 +134,11 @@ export default {
 .meta {
   .range {
     margin-left: 10px;
+    position: relative;
+    top: -2px;
   }
   .select-container {
     display: inline-block;
-    // max-width: 120px !important;
-    // select {
-      // padding-right: 60px;
-    // }
-    // max-width: auto !important;
   }
 }
 </style>
