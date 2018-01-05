@@ -1,62 +1,65 @@
 <template>
-  <div class="model-view">
-    <header>
-      <div class="meta">
-        <legend>Property</legend>
-        <h2>{{ $property.name }}</h2>
+  <div>
+    <div class="model-view" v-if="fetched">
+      <header>
+        <div class="meta">
+          <legend>Property</legend>
+          <h2>{{ $property.name }}</h2>
+        </div>
+        <div class="actions">
+          <button class="link" @click="promptRemove">Delete</button>
+          <button class="primary" @click="showModal">Edit</button>
+        </div>
+      </header>
+      <div class="table-container">
+        <div class="header">
+          Property Information
+        </div>
+        <div class="grid">
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Address</dt>
+              <dd>{{ $property.address }}</dd>
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Name</dt>
+              <dd>{{ $property.name }}</dd>
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Units</dt>
+              <dd>{{ unit_count }}</dd>
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Vacancies</dt>
+              <dd></dd>
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Bank Account</dt>
+              <dd v-if="banks_fetched">
+                {{ funding_source }}
+              </dd>
+              <loading type="data" v-else />
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+          </div>
+        </div>
       </div>
-      <div class="actions">
-        <button class="link" @click="promptRemove">Delete</button>
-        <button class="primary" @click="showModal">Edit</button>
-      </div>
-    </header>
-    <div class="table-container">
-      <div class="header">
-        Property Information
-      </div>
-      <div class="grid">
-        <div class="grid__col grid__col--1-of-2">
-          <dl>
-            <dt>Address</dt>
-            <dd>{{ $property.address }}</dd>
-          </dl>
-        </div>
-        <div class="grid__col grid__col--1-of-2">
-          <dl>
-            <dt>Name</dt>
-            <dd>{{ $property.name }}</dd>
-          </dl>
-        </div>
-        <div class="grid__col grid__col--1-of-2">
-          <dl>
-            <dt>Units</dt>
-            <dd>{{ unit_count }}</dd>
-          </dl>
-        </div>
-        <div class="grid__col grid__col--1-of-2">
-          <dl>
-            <dt>Vacancies</dt>
-            <dd></dd>
-          </dl>
-        </div>
-        <div class="grid__col grid__col--1-of-2">
-          <dl>
-            <dt>Bank Account</dt>
-            <dd v-if="banks_fetched">
-              {{ funding_source }}
-            </dd>
-            <loading type="data" v-else />
-          </dl>
-        </div>
-        <div class="grid__col grid__col--1-of-2">
-        </div>
-      </div>
+
+      <units-table :data="this.$property" v-if="fetched" />
+
+      <property-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :model="$property" />
+
     </div>
-
-    <units-table :data="this.$property" v-if="fetched" />
-
-    <property-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :model="$property" />
-
+    <loading v-else />
   </div>
 </template>
 

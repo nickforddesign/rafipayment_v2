@@ -1,161 +1,164 @@
 <template>
-  <div class="model-view">
-    <header>
-      <div class="meta">
-        <legend>Lease</legend>
-        <h2>{{ $lease.address }}</h2>
-      </div>
-      <div class="actions">
-        <button class="link" @click="promptRemove">Delete</button>
-      </div>
-    </header>
-
-    <div class="grid">
-      <div class="grid__col grid__col--1-of-2">
-        <div class="table-container">
-          <div class="header">
-            Basic Information
-          </div>
-
-          <dl>
-            <dt>Lease ID</dt>
-            <dd>
-              {{ $lease.display_id }}
-            </dd>
-          </dl>
-
-          <dl>
-            <dt>Unit Name</dt>
-            <dd>
-              <router-link :to="`/units/${$lease.unit.id}`">
-                {{ $lease.unit.name }}
-              </router-link>
-            </dd>
-          </dl>
-          <dl>
-            <dt>Property</dt>
-            <dd>
-              <router-link :to="`/properties/${$lease.property.id}`">
-                {{ $lease.property.name }}
-              </router-link>
-            </dd>
-          </dl>
-          <dl>
-            <dt>Beds</dt>
-            <dd>{{ $lease.unit.bed_count }}</dd>
-          </dl>
-          <dl>
-            <dt>Beds</dt>
-            <dd>{{ $lease.unit.bed_count }}</dd>
-          </dl>
-          <dl>
-            <dt>Square Footage</dt>
-            <dd>{{ $lease.unit.square_footage }}</dd>
-          </dl>
+  <div>
+    <div class="model-view" v-if="fetched">
+      <header>
+        <div class="meta">
+          <legend>Lease</legend>
+          <h2>{{ $lease.address }}</h2>
         </div>
-        
-        <!-- <div class="table-container" v-if="$lease.periods.length > 1"> -->
-        <div class="table-container">
-          <div class="header">
-            Lease Terms
-          </div>
-          <dl>
-            <dt>Start Date</dt>
-            <dd>{{ $lease.start_date | moment }}</dd>
-          </dl>
-          <dl>
-            <dt>End Date</dt>
-            <dd>{{ $lease.end_date | moment }}</dd>
-          </dl>
+        <div class="actions">
+          <button class="link" @click="promptRemove">Delete</button>
         </div>
-      </div>
+      </header>
 
-      <!-- Single Billing Period -->
+      <div class="grid">
+        <div class="grid__col grid__col--1-of-2">
+          <div class="table-container">
+            <div class="header">
+              Basic Information
+            </div>
 
-      <div class="table-container grid__col grid__col--1-of-2">
-        <!-- <div v-if="$lease.periods.length === 1">
-          <div class="header">
-            Lease Terms
+            <dl>
+              <dt>Lease ID</dt>
+              <dd>
+                {{ $lease.display_id }}
+              </dd>
+            </dl>
+
+            <dl>
+              <dt>Unit Name</dt>
+              <dd>
+                <router-link :to="`/units/${$lease.unit.id}`">
+                  {{ $lease.unit.name }}
+                </router-link>
+              </dd>
+            </dl>
+            <dl>
+              <dt>Property</dt>
+              <dd>
+                <router-link :to="`/properties/${$lease.property.id}`">
+                  {{ $lease.property.name }}
+                </router-link>
+              </dd>
+            </dl>
+            <dl>
+              <dt>Beds</dt>
+              <dd>{{ $lease.unit.bed_count }}</dd>
+            </dl>
+            <dl>
+              <dt>Beds</dt>
+              <dd>{{ $lease.unit.bed_count }}</dd>
+            </dl>
+            <dl>
+              <dt>Square Footage</dt>
+              <dd>{{ $lease.unit.square_footage }}</dd>
+            </dl>
           </div>
 
-          <div v-for="(period, index) in $lease.periods" :key="index">
+          <!-- <div class="table-container" v-if="$lease.periods.length > 1"> -->
+          <div class="table-container">
+            <div class="header">
+              Lease Terms
+            </div>
             <dl>
               <dt>Start Date</dt>
-              <dd>{{ period.start_date | moment }}</dd>
+              <dd>{{ $lease.start_date | moment }}</dd>
             </dl>
             <dl>
               <dt>End Date</dt>
               <dd>{{ $lease.end_date | moment }}</dd>
             </dl>
-            <dl>
-              <dt>Rent</dt>
-              <dd>{{ period.amount | currency }}</dd>
-            </dl>
-          </div>
-          <div class="actions">
-            <button class="small" @click="editPeriod(period)">Edit</button>
-            <button class="small" @click="addPeriod">Add</button>
-          </div>
-        </div>  -->
-
-
-        <!-- Multiple Billing Periods -->
-
-        <div class="periods">
-          <div class="header">
-            Billing Periods
-          </div>
-          <period v-for="(period, index) in $lease.periods" :key="index" :model="period" :basePath="`${$lease.url}/periods`" :index="index" />
-
-          <div class="actions">
-            <button class="small" @click="addPeriod">Add</button>
           </div>
         </div>
-        
-      </div>
 
-    </div>
+        <!-- Single Billing Period -->
 
-    <div class="table-container">
-      <div class="header">
-        Lease Charges
-      </div>
+        <div class="table-container grid__col grid__col--1-of-2">
+          <!-- <div v-if="$lease.periods.length === 1">
+            <div class="header">
+              Lease Terms
+            </div>
 
-      <div v-if="$lease.charges.length">
-        <responsive-table :columns="[
-          'Type',
-          'Date',
-          'Description',
-          'Amount',
-          'Actions'
-        ]">
-          <charge-row v-for="(charge, index) in $lease.charges" :key="index" :model="charge" :basePath="`${$lease.url}/charges`" />
-        </responsive-table>
+            <div v-for="(period, index) in $lease.periods" :key="index">
+              <dl>
+                <dt>Start Date</dt>
+                <dd>{{ period.start_date | moment }}</dd>
+              </dl>
+              <dl>
+                <dt>End Date</dt>
+                <dd>{{ $lease.end_date | moment }}</dd>
+              </dl>
+              <dl>
+                <dt>Rent</dt>
+                <dd>{{ period.amount | currency }}</dd>
+              </dl>
+            </div>
+            <div class="actions">
+              <button class="small" @click="editPeriod(period)">Edit</button>
+              <button class="small" @click="addPeriod">Add</button>
+            </div>
+          </div>  -->
 
-        <div class="actions text-center">
-          <button @click="showModal('lease_charge')">Add lease charge</button>
+
+          <!-- Multiple Billing Periods -->
+
+          <div class="periods">
+            <div class="header">
+              Billing Periods
+            </div>
+            <period v-for="(period, index) in $lease.periods" :key="index" :model="period" :basePath="`${$lease.url}/periods`" :index="index" />
+
+            <div class="actions">
+              <button class="small" @click="addPeriod">Add</button>
+            </div>
+          </div>
+
         </div>
-      </div>
-      
-      <empty v-else>
-        <div slot="message">There are no lease-wide charges</div>
-        <button class="primary" slot="actions" @click="showModal('lease_charge')">Add a charge</button>
-      </empty>
-    </div>
 
-    <div class="table-container">
-      <div class="header">
-        Tenant Charges
       </div>
 
-      <tenant v-for="(tenant, index) in $lease.tenants" :key="index" :user="tenant" :basePath="`${$lease.url}`" />
-      
+      <div class="table-container">
+        <div class="header">
+          Lease Charges
+        </div>
+
+        <div v-if="$lease.charges.length">
+          <responsive-table :columns="[
+            'Type',
+            'Date',
+            'Description',
+            'Amount',
+            'Actions'
+          ]">
+            <charge-row v-for="(charge, index) in $lease.charges" :key="index" :model="charge" :basePath="`${$lease.url}/charges`" />
+          </responsive-table>
+
+          <div class="actions text-center">
+            <button @click="showModal('lease_charge')">Add lease charge</button>
+          </div>
+        </div>
+
+        <empty v-else>
+          <div slot="message">There are no lease-wide charges</div>
+          <button class="primary" slot="actions" @click="showModal('lease_charge')">Add a charge</button>
+        </empty>
+      </div>
+
+      <div class="table-container">
+        <div class="header">
+          Tenant Charges
+        </div>
+
+        <tenant v-for="(tenant, index) in $lease.tenants" :key="index" :user="tenant" :basePath="`${$lease.url}`" />
+
+      </div>
+
+      <bills-table :basePath="`bills?filter_lease=${$lease.id}`"></bills-table>
+
+      <period-modal v-if="modals.period" :path="`${$lease.url}/periods`" @close="closeModal('period')" :confirm="fetch" />
+      <charge-modal v-if="modals.lease_charge" :path="`${$lease.url}/charges`" @close="closeModal('lease_charge')" :confirm="fetch" />
     </div>
-
-    <bills-table :basePath="`bills?filter_lease=${$lease.id}`"></bills-table>
-
-    <period-modal v-if="modals.period" :path="`${$lease.url}/periods`" @close="closeModal('period')" :confirm="fetch" />
-    <charge-modal v-if="modals.lease_charge" :path="`${$lease.url}/charges`" @close="closeModal('lease_charge')" :confirm="fetch" />
+    <loading v-else />
   </div>
 </template>
 
@@ -183,6 +186,7 @@ export default {
   name: 'lease',
   data() {
     return {
+      fetched: false,
       modals: {
         period: false,
         lease_charge: false,
@@ -201,8 +205,9 @@ export default {
     this.fetch()
   },
   methods: {
-    fetch() {
-      this.$lease.fetch()
+    async fetch() {
+      await this.$lease.fetch()
+      this.fetched = true
     },
     promptRemove() {
       app.confirm(
