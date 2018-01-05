@@ -1,5 +1,6 @@
 import { path } from 'ramda'
 import { setStorage, getStorage, clearStorage } from '@/utils'
+import events from 'pubsub-js'
 
 const defaults = () => ({
   logged_in: false,
@@ -63,9 +64,11 @@ export default {
   actions: {
     login({ commit }, user) {
       commit('LOGIN', user)
+      events.publish('login')
     },
     logout({ commit }) {
       commit('LOGOUT')
+      events.publish('logout')
     },
     refresh({ commit }, { session }) {
       commit('REFRESH', session)

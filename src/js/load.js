@@ -13,6 +13,9 @@ import loading from '@/components/loading'
 const version = process.env.VERSION
 const env = process.env.NODE_ENV
 
+// error tracking
+import './modules/sentry'
+
 // global styles
 import '../scss/styles.scss'
 
