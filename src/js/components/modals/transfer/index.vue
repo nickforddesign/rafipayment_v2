@@ -16,7 +16,7 @@
             {{ funding_source.name }}
           </option>
         </select-menu>
-        <loading :input="true" v-else />
+        <loading type="input" v-else />
       </field>
 
       <field name="destination" :errors="errors">
@@ -30,7 +30,7 @@
             {{tenant.first_name}} {{tenant.last_name}}
           </option>
         </select-menu>
-        <loading :input="true" v-else />
+        <loading type="input" v-else />
       </field>
     </div>
   </modal>

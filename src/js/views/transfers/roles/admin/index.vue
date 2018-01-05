@@ -3,7 +3,7 @@
     <collection name="ledger" collection_name="transfers" :$collection="$collection" :searchable="false">
       <div slot="actions">
         <!-- <button @click="exportData">Export</button> -->
-        <button @click="add" class="primary">Add Transfer</button>
+        <!-- <button @click="add" class="primary">Add Transfer</button> -->
       </div>
 
       <responsive-table slot="content" :columns="[

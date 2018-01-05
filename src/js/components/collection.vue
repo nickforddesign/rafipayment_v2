@@ -353,6 +353,14 @@ $pagination-border-radius: 5px;
 
 .filters {
   margin-bottom: 10px;
+
+  .filter {
+    display: inline-block;
+    background: $color-box-background;
+    padding: 6px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
+  }
 }
 
 .summary {
@@ -368,7 +376,6 @@ $pagination-border-radius: 5px;
 
 .search-container {
   position: relative;
-  // top: 7px;
 }
 
 .action-buttons {

@@ -82,13 +82,13 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Transfer Status</dt>
-              <dd>{{ $transfer.status }}</dd>
+              <dd :class="['text-color', $transfer.statusClass($transfer.source_status)]">{{ $transfer.source_status }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Bank Transfer Status</dt>
-              <dd>{{ $transfer.bank_transfer_status || '–' }}</dd>
+              <dd :class="['text-color', $transfer.statusClass($transfer.source_status)]">{{ $transfer.destination_status }}</dd>
             </dl>
           </div>
         </div>

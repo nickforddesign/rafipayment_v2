@@ -64,11 +64,10 @@ export default {
   watch: {
     visible(val) {
       if (this.is_full) {
-        if (val) {
-          document.body.classList.add('lock')
-        } else {
-          document.body.classList.remove('lock')
-        }
+        const method = val
+          ? 'add'
+          : 'remove'
+        document.body.classList[method]('lock')
       }
     }
   },
@@ -84,7 +83,6 @@ export default {
 
 <style scoped lang="scss">
 .loader-container {
-  // position: fixed;
   position: absolute;
   top: 0;
   right: 0;
@@ -106,7 +104,6 @@ export default {
       width: 40px;
       height: 40px;
       position: relative;
-      // margin: 10px;
 
       .sk-circle {
         width: 100%;
@@ -194,6 +191,7 @@ export default {
       }
     }
   }
+
   &.input {
     position: relative;
     text-align: left;

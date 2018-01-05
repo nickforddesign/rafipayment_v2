@@ -46,7 +46,7 @@
 
     <div class="table-container charges">
 
-      <charges :charges="$bill.charges" :basePath="$bill.url" />
+      <charges :charges="$bill.charges" :basePath="$bill.url" :add="true" />
 
       <div class="summary">
         <dl class="total">

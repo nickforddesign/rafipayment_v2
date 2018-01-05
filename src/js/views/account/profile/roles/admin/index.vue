@@ -63,8 +63,6 @@
       </div>
 
       <button @click="goToPayment">Payment Settings</button>
-
-      <!-- <funding-sources-table :data="this.$user.payment" v-if="$user.role !== 'superadmin'" /> -->
       
       <div class="actions free">
         <div>
@@ -91,8 +89,6 @@ import NameModal from '@/components/modals/user/name'
 import EmailModal from '@/components/modals/user/email'
 import PhoneModal from '@/components/modals/user/phone'
 import PasswordModal from '@/components/modals/password'
-
-import FundingSourcesTable from '@/views/funding_sources/table'
 
 export default {
   name: 'account-admin',
@@ -140,8 +136,7 @@ export default {
     NameModal,
     EmailModal,
     PhoneModal,
-    PasswordModal,
-    FundingSourcesTable
+    PasswordModal
   }
 }
 </script>
