@@ -64,3 +64,11 @@ export default {
   }
 }
 </script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.container {
+  margin: 0 auto;
+}
+</style>

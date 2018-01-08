@@ -16,7 +16,7 @@
       </span>
     </cell>
     <!-- <cell>{{ model.created | moment('M/D/YY') }}</cell> -->
-    <cell className="text-right actions">
+    <cell class="text-right actions">
       <button class="x-small" @click.stop="promptPrimary" v-if="!(is_balance || is_primary)">Set Primary</button>
       <button class="x-small danger" @click.stop="promptRemove" v-if="!(is_balance || is_primary)">Remove</button>
       <span v-else>–</span>

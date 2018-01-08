@@ -73,5 +73,9 @@ export default {
   padding-top: 60px;
   background: $color-background-dark;
 }
+
+.container {
+  margin: 0 auto;
+}
 </style>
 
