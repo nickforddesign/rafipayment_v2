@@ -5,7 +5,7 @@
     </cell>
     <cell>{{ $bill.target }}</cell>
     <cell>{{ $bill.type }}</cell>
-    <cell className="text-right">{{ $bill.balance | currency }}</cell>
+    <cell class="text-right">{{ $bill.balance | currency }}</cell>
   </div>
 </template>
 

@@ -5,7 +5,7 @@
     </cell>
     <cell>{{ $bill.target }}</cell>
     <cell>{{ type | capitalize }}</cell>
-    <cell className="text-right">
+    <cell class="text-right">
       <span :class="['text-color', status_class]">{{ $bill.balance | currency }}</span>
     </cell>
 

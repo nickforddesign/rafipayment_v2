@@ -12,6 +12,9 @@
       </div>
       <loading v-else type="data" />
     </cell>
+    <cell class="text-right">
+      {{ total_rent | currency }}
+    </cell>
   </div>
 </template>
 
@@ -54,12 +57,19 @@ export default {
       }
     },
     active_leases() {
-      return this.collection.filter(lease => {
+      const array = []
+      this.collection.map(lease => {
         const model = new Lease(lease)
         if (model.is_active) {
-          return lease
+          array.push(model)
         }
       })
+      return array
+    },
+    total_rent() {
+      return this.active_leases.reduce((acc, lease) => {
+        return acc + lease.periods[lease.current_period].amount
+      }, 0)
     }
   },
   methods: {

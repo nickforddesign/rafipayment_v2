@@ -238,6 +238,9 @@ export default {
   .actions {
     margin-top: 20px;
   }
+  .container {
+    margin: 0 auto;
+  }
 }
 </style>
 

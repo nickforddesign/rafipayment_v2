@@ -354,6 +354,32 @@ const routes = [
     }
   },
   {
+    name: 'Reports',
+    path: '/reports',
+    meta: {
+      auth: ['admin'],
+      back($router) {
+        $router.back()
+      }
+    },
+    component(resolve) {
+      require(['@/views/reports'], resolve)
+    }
+  },
+  {
+    name: 'Rent Roll',
+    path: '/rentroll',
+    meta: {
+      auth: ['admin'],
+      back($router) {
+        $router.back()
+      }
+    },
+    component(resolve) {
+      require(['@/views/rent_roll'], resolve)
+    }
+  },
+  {
     name: 'Funding Source',
     path: '/funding_sources/:id',
     meta: {

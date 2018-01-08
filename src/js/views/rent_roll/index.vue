@@ -1,16 +1,17 @@
 <template>
   <div>
-    <collection name="units" :$collection="$collection">
-      <div slot="actions">
-        <button @click="add" class="primary">Add Unit</button>
-      </div>
+    <collection name="rent roll" collection_name="units" :$collection="$collection">
 
       <responsive-table slot="content" :columns="[
         'Unit',
         'Property',
         'Beds',
         'Baths',
-        'Current Lease'
+        'Current Lease',
+        {
+          name: 'Current Rent',
+          class: 'text-right'
+        }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>
@@ -31,7 +32,7 @@ import row from './row'
 import unitModal from '@/components/modals/unit'
 
 export default {
-  name: 'units',
+  name: 'rent-roll',
   data() {
     return {
       modal_visible: false

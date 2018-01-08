@@ -1,5 +1,7 @@
 /* global StatusBar */
 
+import moment from 'moment'
+
 import { pickBy } from 'ramda'
 
 // convert state <-> abbr
@@ -164,4 +166,18 @@ export function getPanStartPosition (event) {
     x: final_x - delta_x,
     y: final_y - delta_y
   }
+}
+
+// turn mix, max dates into months array
+
+export function getMonthsArray (min, max) {
+  const start = moment.utc(min.$date).startOf('month')
+  const end = moment.utc(max.$date).endOf('month')
+  const array = []
+  let date = start
+  while (date <= end) {
+    array.push(date.format('MM/YYYY'))
+    date = date.add(1, 'months')
+  }
+  return array
 }

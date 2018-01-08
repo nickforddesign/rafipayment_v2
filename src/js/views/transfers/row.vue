@@ -13,7 +13,7 @@
     <cell>
       <span :class="['text-color', status_class]">{{ $transfer.source_status }}</span>
     </cell>
-    <cell className="text-right">{{ $transfer.amount | currency }}</cell>
+    <cell class="text-right">{{ $transfer.amount | currency }}</cell>
   </div>
 </template>
 

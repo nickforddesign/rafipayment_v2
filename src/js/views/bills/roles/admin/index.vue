@@ -42,6 +42,7 @@ import { Collection } from 'vue-collections'
 import Bill from '@/models/bill'
 
 import BillModal from '@/components/modals/bill'
+import { getMonthsArray } from '@/utils'
 import row from '../../row'
 
 const now = moment.utc()
@@ -99,14 +100,7 @@ export default {
     },
     async fetchRange() {
       const { min, max } = await this.$request('bills/range/due_date')
-      const start = moment.utc(min.$date).startOf('month')
-      const end = moment.utc(max.$date).endOf('month')
-      const array = []
-      let date = start
-      while (date <= end) {
-        array.push(date.format('MM/YYYY'))
-        date = date.add(1, 'months')
-      }
+      const array = getMonthsArray(min, max)
       array.push('All')
       this.ranges = array
       this.range_fetched = true

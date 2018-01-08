@@ -4,7 +4,7 @@
     <cell>{{ end_date | moment }}</cell>
     <cell>{{ period.period_amount | currency }}</cell>
     <cell>{{ split | currency }}</cell>
-    <cell className="text-right">
+    <cell class="text-right">
       <button class="small" @click="showModal">Edit Split</button>
       <split-modal
         v-if="modal_visible"
