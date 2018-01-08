@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <div class="modal-steps container sm">
+        <div class="container modal-steps sm">
           <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
         </div>
       </div>
@@ -192,6 +192,10 @@ export default {
 
 <style scoped lang="scss">
 @import '~%/colors';
+
+.container {
+  margin: 40px auto 0;
+}
 
 .breadcrumbs {
   margin-top: 40px;

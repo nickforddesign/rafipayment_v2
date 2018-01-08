@@ -36,6 +36,7 @@
       <button v-if="$bill.active && $bill.balance" class="primary footer-button" @click="showModal">Make a Payment</button>
       <transfer-modal :model="$bill" @close="closeModal" v-if="modal_visible" :confirm="fetch" :suggestion="amount" />
     </div>
+    <loading v-else />
   </div>
 </template>
 

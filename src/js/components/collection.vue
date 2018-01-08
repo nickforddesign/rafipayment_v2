@@ -72,6 +72,10 @@ export default {
     name: {
       type: String
     },
+    // label: {
+    //   type: Boolean,
+    //   default: true
+    // },
     collection_name: {
       type: String
     },

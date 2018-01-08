@@ -74,7 +74,7 @@ export default {
     async range(val) {
       if (val !== 'All') {
         const arr = val.split('/')
-        const date_str = [arr[1], arr[0], '1'].join('/')
+        const date_str = [arr[0], '1', arr[1]].join('/')
         const date = moment.utc(date_str)
         const start = date.startOf('month').format('YYYY-MM-DD')
         const end = date.endOf('month').format('YYYY-MM-DD')
