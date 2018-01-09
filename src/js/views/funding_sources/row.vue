@@ -29,6 +29,7 @@
 <script>
 import { path } from 'ramda'
 import app from '@/app'
+import session from '@/session'
 import FundingSource from '@/models/funding_source'
 
 export default {
@@ -41,7 +42,8 @@ export default {
   },
   computed: {
     $user() {
-      return this.$parent.$parent.$parent.$user
+      return session.$user
+      // return this.$parent.$parent.$parent.$user
     },
     is_balance() {
       return this.$funding_source.type === 'balance'

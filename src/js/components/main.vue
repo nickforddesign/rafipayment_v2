@@ -27,7 +27,9 @@
         </div>
 
         <div :class="[main_class]">
-          <router-view></router-view>
+          <div class="container lg">
+            <router-view></router-view>
+          </div>
         </div>
 
       </v-touch>
@@ -99,7 +101,6 @@ export default {
     onSwipeLeft: debounce(function(e) {
       const start = getPanStartPosition(e)
       const offset = (window.outerWidth || window.innerWidth) - start.x
-      console.log(offset)
       if (offset < 50) {
         this.$store.dispatch('nav_toggle')
       }
@@ -149,6 +150,12 @@ main {
     z-index: 10000;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+
+    & > {
+      .container {
+        height: 100%;
+      }
+    }
   }
 }
 
@@ -227,7 +234,7 @@ main {
       left: $sidebar-width;
       top: 0;
       bottom: 0;
-      width: 1200px;
+      // width: 1200px;
       max-width: calc(100% - #{$sidebar-width});
       margin: 0;
       padding: 30px;

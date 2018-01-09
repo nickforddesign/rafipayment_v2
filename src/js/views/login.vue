@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <logo />
-    <form class="box small" @submit.prevent="submit">
+    <form class="box small invisible" @submit.prevent="submit">
       <field name="email" :errors="errors">
         <input
           v-model="email"
@@ -20,15 +20,20 @@
         </password>
       </field>
 
-      <input type="checkbox" v-model="remember_me" id="remember_me">
-      <label for="remember_me">Remember me</label>
+      <div class="text-left">
+        <input type="checkbox" v-model="remember_me" id="remember_me">
+        <label for="remember_me">Remember me</label>
+      </div>
 
-      <button type="submit">Login</button>
+      <div class="actions">
+        <button class="full primary" type="submit">Login</button>
+
+        <div class="actions">
+          <router-link to="/forgot">Forgot password?</router-link>
+        </div>
+      </div>
     </form>
 
-    <div class="actions">
-      <router-link to="/forgot">Forgot password?</router-link>
-    </div>
   </div>
 </template>
 
@@ -106,12 +111,12 @@ export default {
 
 <style scoped lang="scss">
 .logo {
-  width: 200px;
+  width: 180px;
   margin: 0 auto;
 }
-.box {
-  width: 360px;
-}
+// .box {
+  // width: 360px;
+// }
 .actions {
   margin-top: 20px;
 }

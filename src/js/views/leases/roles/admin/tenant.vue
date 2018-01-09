@@ -1,7 +1,7 @@
 <template>
   <div class="charges">
     <div class="row">
-      <user-card :model="$user" />
+      <user-card :model="$user" @click="goToModel" />
     </div>
 
     <responsive-table v-if="$user.charges.length" :columns="[
@@ -65,6 +65,9 @@ export default {
     },
     closeModal() {
       this.modal_visible = false
+    },
+    goToModel() {
+      this.$router.push(`/tenants/${this.user.id}`)
     }
   },
   components: {

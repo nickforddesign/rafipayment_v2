@@ -3,17 +3,22 @@
     <div class="model-view" v-if="fetched">
       <header>
         <div class="meta">
-          <legend>Funding Source</legend>
-          <h2>{{ $funding_source.name }}</h2>
+          <legend>Bank Account</legend>
+          <h2>
+            {{ $funding_source.name }}
+          </h2>
         </div>
         <div class="actions">
-          <button class="link" @click="promptRemove">Delete</button>
+          <button class="link" v-if="!is_primary" @click="promptRemove">Delete</button>
           <button class="primary" @click="showModal('name')">Edit</button>
         </div>
       </header>
       <div class="table-container">
-        <div class="header">
-          Funding Source Information
+        <div class="header flexbox">
+          <div class="flex">Bank Account Information</div>
+          <div class="solid text-right">
+            <span v-if="is_primary" class="flag success">Primary</span>
+          </div>
         </div>
         <div class="grid">
           <div class="grid__col grid__col--1-of-2">
@@ -50,21 +55,23 @@
         <div class="header">
           Microdeposits
         </div>
-        <div v-if="$funding_source.microdeposits_data.status === 'processed'">
-          <button @click="showModal('microdeposits')">Confirm Microdeposits</button>
-          <microdeposits-modal v-if="modals.microdeposits" @close="closeModal('microdeposits')" :model="$funding_source" />
-        </div>
-        <div v-else-if="$funding_source.microdeposits_data.status === 'pending'">
-          Microdeposits are pending
-        </div>
-        <div v-else-if="$funding_source.microdeposits_data.status === 'failed'">
-          Microdeposits have failed
-        </div>
-        <div v-else-if="$funding_source.microdeposits_data.status === 'cancelled'">
-          Microdeposits were cancelled
-        </div>
-        <div v-else-if="$funding_source.microdeposits_data.status === 'reclaimed'">
-          Microdeposits were reclaimed
+        <div class="actions">
+          <div v-if="$funding_source.microdeposits_data.status === 'processed'">
+            <button @click="showModal('microdeposits')">Confirm Microdeposits</button>
+            <microdeposits-modal v-if="modals.microdeposits" @close="closeModal('microdeposits')" :model="$funding_source" :confirm="fetch" />
+          </div>
+          <div v-else-if="$funding_source.microdeposits_data.status === 'pending'">
+            Microdeposits are pending
+          </div>
+          <div v-else-if="$funding_source.microdeposits_data.status === 'failed'">
+            Microdeposits have failed
+          </div>
+          <div v-else-if="$funding_source.microdeposits_data.status === 'cancelled'">
+            Microdeposits were cancelled
+          </div>
+          <div v-else-if="$funding_source.microdeposits_data.status === 'reclaimed'">
+            Microdeposits were reclaimed
+          </div>
         </div>
       </div>
       <name-modal v-if="modals.name" @close="closeModal('name')" :model="$funding_source" />
@@ -77,9 +84,12 @@
 
 <script>
 import app from '@/app'
+import session from '@/session'
 import FundingSource from '@/models/funding_source'
 import NameModal from '@/components/modals/funding_source/name'
 import MicrodepositsModal from '@/components/modals/funding_source/microdeposits'
+
+import { path } from 'ramda'
 
 export default {
   name: 'funding-source',
@@ -93,17 +103,23 @@ export default {
     }
   },
   models: {
+    user() {
+      return session.$user
+    },
     funding_source() {
       return new FundingSource({
         id: this.$route.params.id
       })
     }
   },
-  async created() {
-    await this.$funding_source.fetch()
-    this.fetched = true
+  created() {
+    this.fetch()
   },
   computed: {
+    is_primary() {
+      const primary_id = path(['payment', 'primary_funding_source'], this.$user)
+      return this.$funding_source.id === primary_id
+    },
     status_class() {
       const map = {
         verified: 'success',
@@ -113,6 +129,10 @@ export default {
     }
   },
   methods: {
+    async fetch() {
+      await this.$funding_source.fetch()
+      this.fetched = true
+    },
     showModal(modal) {
       this.modals[modal] = true
     },
@@ -137,3 +157,11 @@ export default {
   }
 }
 </script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<style lang="scss" scoped>
+.actions {
+  margin-top: 20px;
+}
+</style>

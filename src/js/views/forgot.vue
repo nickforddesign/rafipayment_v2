@@ -1,17 +1,18 @@
 <template>
   <div class="text-center">
     <logo />
-    <form class="box small" @submit.prevent="validate">
-      <field name="email" :errors="errors" :disabled="this.submitted">
+    <form class="box small invisible" @submit.prevent="validate">
+      <field name="email" :errors="errors">
         <input type="text" v-model="email" name="email" v-validate="'required|email'" autocomplete="off">
       </field>
 
-      <button type="submit">Submit</button>
+      <div class="actions">
+        <button class="full primary" type="submit">Submit</button>
+        <div class="actions">
+          <router-link to="/">Cancel</router-link>
+        </div>
+      </div>
     </form>
-
-    <div class="actions">
-      <router-link to="/">Cancel</router-link>
-    </div>
   </div>
 </template>
 
@@ -24,8 +25,8 @@ export default {
   name: 'forgot-password',
   data() {
     return {
-      email: '',
-      submitted: false
+      email: ''
+      // submitted: false
     }
   },
   methods: {
@@ -36,10 +37,8 @@ export default {
       }
     },
     async submit() {
-      if (!this.submitted) {
-        await this.request()
-        this.submitted = true
-      }
+      await this.request()
+      // this.submitted = true
     },
     async request() {
       const body = {
@@ -91,12 +90,12 @@ export default {
 
 <style scoped lang="scss">
 .logo {
-  width: 200px;
+  width: 180px;
   margin: 0 auto;
 }
-.box {
-  width: 360px;
-}
+// .box {
+//   width: 360px;
+// }
 .actions {
   margin-top: 20px;
 }

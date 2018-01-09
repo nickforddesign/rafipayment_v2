@@ -9,7 +9,6 @@
   background-color: $color-box-background;
   color: $color-box-text;
   box-shadow: 0 2px 3px hsla(0,0%,4%,.1), 0 0 0 1px hsla(0,0%,4%,.1);
-  // overflow: hidden;
 }
 
 .box {
@@ -33,6 +32,15 @@
   }
 
   &.small {
-    width: 680px;
+    width: 420px;
+  }
+
+  &.invisible {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  input {
+    background: $color-box-background;
   }
 }

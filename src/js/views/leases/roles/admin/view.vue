@@ -21,7 +21,7 @@
             <dl>
               <dt>Lease ID</dt>
               <dd>
-                {{ $lease.display_id }}
+                #{{ $lease.display_id }}
               </dd>
             </dl>
 

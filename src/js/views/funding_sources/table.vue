@@ -3,7 +3,7 @@
     <div class="header">
       <div class="meta">
         <slot name="title">
-          Payment Methods
+          Bank Accounts
         </slot>
       </div>
       <div class="actions">

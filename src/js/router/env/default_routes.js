@@ -76,6 +76,9 @@ const routes = [
       {
         name: 'Profile',
         path: 'profile',
+        meta: {
+          auth: true
+        },
         component(resolve) {
           require(['@/views/account/profile'], resolve)
         }
@@ -84,6 +87,7 @@ const routes = [
         name: 'Payment',
         path: 'payment',
         meta: {
+          auth: true,
           back($router) {
             $router.back()
           }

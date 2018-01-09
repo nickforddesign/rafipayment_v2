@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <logo />
-    <form class="box small" @submit.prevent="validate" v-if="check">
+    <form class="box small invisible" @submit.prevent="validate" v-if="check">
       <field name="password" :errors="errors">
         <password
           v-model="password"
@@ -18,7 +18,9 @@
           name="password confirm"/>
       </field>
 
-      <button type="submit">Submit</button>
+      <div class="actions">
+        <button type="submit">Submit</button>
+      </div>
     </form>
 
     <loading v-else />
@@ -31,6 +33,7 @@
 <script>
 import app from '@/app'
 import session from '@/session'
+import { sleep } from '@/utils'
 
 export default {
   name: 'reset-password',
@@ -98,6 +101,9 @@ export default {
 
       session.set_refresh_token(response)
       session.refresh_session(this)
+
+      this.showSuccess()
+
       return response
     },
     showError() {
@@ -108,6 +114,16 @@ export default {
         'OK',
         'danger'
       )
+    },
+    async showSuccess() {
+      await sleep(600)
+      app.alert(
+        'Your password has been reset successfully!',
+        null,
+        'Password Updated',
+        'OK',
+        'success'
+      )
     }
   }
 }
@@ -117,12 +133,12 @@ export default {
 
 <style scoped lang="scss">
 .logo {
-  width: 200px;
+  width: 180px;
   margin: 0 auto;
 }
-.box {
-  width: 360px;
-}
+// .box {
+//   width: 360px;
+// }
 .actions {
   margin-top: 20px;
 }

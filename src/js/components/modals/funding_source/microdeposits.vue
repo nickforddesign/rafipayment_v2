@@ -3,19 +3,19 @@
     <h1 slot="header">Confirm Microdeposits</h1>
     <div slot="body">
       <div class="microdeposits-form">
-        <field name="amount 1">
-          $
+        <field name="amount 1" :errors="errors">
+          <span>$</span>
           <input type="text" value="0" class="mock" disabled>
-          .
-          <number @next="next" v-model="amount1a" maxlength="1" placeholder="0" name="tab-focus-1" :wrap="true" ref="default"></number>
-          <number @next="next" v-model="amount1b" maxlength="1" placeholder="0" name="tab-focus-2" :wrap="true"></number>
+          <span>.</span>
+          <number @next="next" v-model="amount1a" maxlength="1" placeholder="0" name="tab-focus-1" :wrap="true" ref="default" />
+          <number @next="next" v-model="amount1b" maxlength="1" placeholder="0" name="tab-focus-2" :wrap="true" />
         </field>
-        <field name="amount 2">
-          $
+        <field name="amount 2" :errors="errors">
+          <span>$</span>
           <input type="text" value="0" class="mock" disabled>
-          .
-          <number @next="next" v-model="amount2a" maxlength="1" placeholder="0" name="tab-focus-3" :wrap="true"></number>
-          <number @next="next" v-model="amount2b" maxlength="1" placeholder="0" name="tab-focus-4" :wrap="true"></number>
+          <span>.</span>
+          <number @next="next" v-model="amount2a" maxlength="1" placeholder="0" name="tab-focus-3" :wrap="true" />
+          <number @next="next" v-model="amount2b" maxlength="1" placeholder="0" name="tab-focus-4" :wrap="true" />
         </field>
       </div>
     </div>
@@ -25,6 +25,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import { sleep } from '@/utils'
 
 export default {
@@ -46,10 +47,10 @@ export default {
   },
   computed: {
     microdeposits_array() {
-      const a = this.amount1a.toString()
-      const b = this.amount1b.toString()
-      const c = this.amount2a.toString()
-      const d = this.amount2b.toString()
+      const a = `${this.amount1a}`
+      const b = `${this.amount1b}`
+      const c = `${this.amount2a}`
+      const d = `${this.amount2b}`
 
       return [a + b, c + d]
     },
@@ -78,7 +79,7 @@ export default {
         this.$el.querySelector('.confirm').focus()
       }
     },
-    validate() {
+    async validate() {
       this.errors.clear()
       return new Promise((resolve, reject) => {
         this.validateInputs()
@@ -115,14 +116,14 @@ export default {
       const index = _index + 1
       if (input.length !== 2) {
         this.errors.add(
-          `input ${index}`,
+          `amount ${index}`,
           'Please enter a valid amount',
           'required'
         )
       }
       if (+input > 12) {
         this.errors.add(
-          `input ${index}`,
+          `amount ${index}`,
           'Microdeposits must be under 12 cents',
           'max_value'
         )
@@ -137,18 +138,22 @@ export default {
       })
 
       request.then((response) => {
-        // app.alert(
-        //   'Thank you for verifying your bank account!',
-        //   null,
-        //   'Verified'
-        // )
+        app.alert(
+          'Thank you for verifying your bank account!',
+          null,
+          'Account Verified',
+          'OK',
+          'success'
+        )
       })
       .catch(() => {
-        // app.alert(
-        //   'Incorrect microdeposit amounts',
-        //   null,
-        //   'Verification Failed'
-        // )
+        app.alert(
+          'Incorrect microdeposit amounts',
+          null,
+          'Verification Failed',
+          'OK',
+          'danger'
+        )
       })
       return request
     }
@@ -166,11 +171,28 @@ $input-padding: 5px;
 $input-text-align: center;
 
 .microdeposits-form {
+  text-align: center;
+
   .mock {
     width: $input-width;
     font-size: $input-font-size;
     text-align: $input-text-align;
-    padding: $input-padding
+    padding: $input-padding;
+    border: none;
+  }
+
+  .field-group, legend {
+    display: inline-block;
+    width: auto;
+  }
+
+  .field-group {
+    margin: 0 20px;
+
+    span {
+      font-size: 3em;
+      color: #888;
+    }
   }
 
   .number-container {
