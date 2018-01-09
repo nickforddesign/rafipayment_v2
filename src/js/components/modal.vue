@@ -4,23 +4,24 @@
       <div class="modal" @keyup.esc="handleEscape">
         <loading v-if="loading" />
         <trap>
-          <form @submit.prevent="handleEnter">
+          <form @submit.prevent="handleEnter" autocomplete="fuckchrome">
             <div class="modal-header">
-              <div class="actions">
-                <button type="button" class="close" @click="cancel">
-                  {{ cancel_label }}
-                </button>
-                <button class="confirm neutral" v-if="has_confirm">
-                  {{ confirm_label }}
-                </button>
-              </div>
-
               <slot name="header">
                 <h1>Please confirm</h1>
               </slot>
             </div>
+
             <div class="modal-body">
-              <slot name="body">test</slot>
+              <slot name="body" />
+            </div>
+
+            <div class="modal-actions">
+              <button type="button" class="close" @click="cancel">
+                {{ cancel_label }}
+              </button>
+              <button class="confirm neutral" v-if="has_confirm">
+                {{ confirm_label }}
+              </button>
             </div>
           </form>
         </trap>
@@ -231,6 +232,11 @@ export default {
   .modal-container {
     .modal {
       .modal-header {
+        h1 {
+          line-height: 2.9em;
+        }
+      }
+      .modal-actions {
         button {
           position: absolute;
           top: 18px;
@@ -243,6 +249,10 @@ export default {
 
           &:hover {
             text-decoration: none;
+          }
+
+          &:focus {
+            color: $color-text-light;
           }
         }
 
@@ -277,33 +287,31 @@ export default {
         padding-bottom: 80px;
       }
 
-      .modal-header {
-        .actions {
-          position: fixed;
-          display: flex;
-          width: 100%;
-          left: 0;
-          bottom: 0;
-          margin: 0;
-          z-index: 90;
-          overflow: hidden;
-          border-bottom-left-radius: 4px;
-          border-bottom-right-radius: 4px;
+      .modal-actions {
+        position: fixed;
+        display: flex;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        margin: 0;
+        z-index: 90;
+        overflow: hidden;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
 
-          button {
-            position: relative;
-            padding: 0.8em 1em;
-            flex: 1 1 0;
-            border-radius: 0;
-            left: initial;
-            right: initial;
-            z-index: 1;
+        button {
+          position: relative;
+          padding: 0.8em 1em;
+          flex: 1 1 0;
+          border-radius: 0;
+          left: initial;
+          right: initial;
+          z-index: 1;
 
-            &:focus {
-              z-index: 99;
-              color: $color-highlight;
-              box-shadow: none;
-            }
+          &:focus {
+            z-index: 99;
+            color: $color-highlight;
+            box-shadow: none;
           }
         }
       }

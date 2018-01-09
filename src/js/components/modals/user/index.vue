@@ -3,27 +3,27 @@
     <h1 slot="header">Add {{ role | capitalize }}</h1>
     <div slot="body">
       <field name="first name" :errors="errors">
-        <input type="text" v-model="first_name" v-validate="'required'" name="first name" ref="default">
+        <input type="text" v-model="first_name" v-validate.disable="'required'" name="first name" ref="default" autocomplete="nopls">
       </field>
 
       <field name="last name" :errors="errors">
-        <input type="text" v-model="last_name" v-validate="'required'" name="last name">
+        <input type="text" v-model="last_name" v-validate.disable="'required'" name="last name" autocomplete="nopls">
       </field>
 
       <field name="email" :errors="errors">
-        <input type="email" v-model="email" v-validate="'required|email'" name="email">
+        <input type="email" v-model="email" v-validate.disable="'required|email'" name="email" autocomplete="nopls">
       </field>
 
       <field name="phone" :errors="errors">
-        <phone v-model="phone" v-validate.disable="'phone'" name="phone" />
+        <phone v-model="phone" v-validate.disable="'phone'" name="phone" autocomplete="nopls" />
       </field>
 
       <field name="password" :errors="errors" v-if="role === 'superadmin'">
-        <password v-model="password" v-validate="'required'" name="password" />
+        <password v-model="password" v-validate.disable="'required'" name="password" autocomplete="nopls" />
       </field>
 
       <field name="company" :errors="errors" v-if="collection.length">
-        <select-menu v-model="company" v-validate="'required'" name="company">
+        <select-menu v-model="company" v-validate.disable="'required'" name="company">
           <option disabled value="">Please select one</option>
           <option 
             v-for="(company, index) in collection"
