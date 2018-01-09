@@ -60,7 +60,7 @@ export default {
     main_class() {
       return this.logged_in
         ? 'content'
-        : null
+        : 'public'
     },
     has_back() {
       return this.$route.meta.back
@@ -155,6 +155,12 @@ main {
       .container {
         height: 100%;
       }
+    }
+  }
+
+  .public {
+    .container {
+      width: 100%;
     }
   }
 }

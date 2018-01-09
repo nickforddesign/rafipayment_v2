@@ -53,10 +53,18 @@
       </div>
       <div v-if="$funding_source.microdeposits" class="table-container">
         <div class="header">
-          Microdeposits
+          Microdeposit Verification
         </div>
         <div class="actions">
           <div v-if="$funding_source.microdeposits_data.status === 'processed'">
+            <div class="message">
+              <p>
+                The microdeposit transactions have completed. To verify your account, please note the amounts of the deposits in your bank account, and enter them below.
+              </p>
+              <p>
+                For more information, visit our <a href="http://payment.rafiproperties.com/help/#microdeposits" target="_blank">help docs</a>.
+              </p>
+            </div>
             <button @click="showModal('microdeposits')">Confirm Microdeposits</button>
             <microdeposits-modal v-if="modals.microdeposits" @close="closeModal('microdeposits')" :model="$funding_source" :confirm="fetch" />
           </div>
@@ -163,5 +171,13 @@ export default {
 <style lang="scss" scoped>
 .actions {
   margin-top: 20px;
+}
+
+.message {
+  margin-bottom: 20px;
+  width: 420px;
+  max-width: 100%;
+  line-height: 1.4em;
+  font-size: 0.9em;
 }
 </style>

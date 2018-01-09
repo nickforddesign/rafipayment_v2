@@ -1,25 +1,29 @@
 <template>
   <transition name="fade">
     <div :class="['modal-container', type_class]" @click.self="close">
-      <div class="modal" @keyup.esc="handleEscape" @keyup.enter="handleEnter">
+      <div class="modal" @keyup.esc="handleEscape">
         <loading v-if="loading" />
-        <div class="modal-header">
-          <div class="actions">
-            <button type="button" class="close" @click="cancel">
-              {{ cancel_label }}
-            </button>
-            <button class="confirm neutral" @click="validate" v-if="has_confirm">
-              {{ confirm_label }}
-            </button>
-          </div>
+        <trap>
+          <form @submit.prevent="handleEnter">
+            <div class="modal-header">
+              <div class="actions">
+                <button type="button" class="close" @click="cancel">
+                  {{ cancel_label }}
+                </button>
+                <button class="confirm neutral" v-if="has_confirm">
+                  {{ confirm_label }}
+                </button>
+              </div>
 
-          <slot name="header">
-            <h1>Please confirm</h1>
-          </slot>
-        </div>
-        <div class="modal-body">
-          <slot name="body">test</slot>
-        </div>
+              <slot name="header">
+                <h1>Please confirm</h1>
+              </slot>
+            </div>
+            <div class="modal-body">
+              <slot name="body">test</slot>
+            </div>
+          </form>
+        </trap>
       </div>
     </div>
   </transition>
@@ -27,6 +31,7 @@
 
 <script>
 import { path } from 'ramda'
+import Trap from 'vue-focus-lock'
 import { toggleStatusBar, sleep } from '@/utils'
 
 export default {
@@ -113,6 +118,9 @@ export default {
     close() {
       this.$emit('close')
     }
+  },
+  components: {
+    Trap
   }
 }
 </script>
@@ -255,7 +263,6 @@ export default {
     .modal {
       bottom: initial;
       right: initial;
-      // width: 720px;
       width: 560px;
       max-width: 80%;
       left: 50%;
@@ -264,9 +271,7 @@ export default {
       transform: translate(-50%, -50%);
 
       .modal-body {
-        // min-height: 400px;
         min-height: 0;
-        // height: 400px;
         height: auto;
         max-height: calc(100vh - 100px);
         padding-bottom: 80px;
@@ -277,7 +282,6 @@ export default {
           position: fixed;
           display: flex;
           width: 100%;
-          // height: 70px;
           left: 0;
           bottom: 0;
           margin: 0;
@@ -293,6 +297,13 @@ export default {
             border-radius: 0;
             left: initial;
             right: initial;
+            z-index: 1;
+
+            &:focus {
+              z-index: 99;
+              color: $color-highlight;
+              box-shadow: none;
+            }
           }
         }
       }
