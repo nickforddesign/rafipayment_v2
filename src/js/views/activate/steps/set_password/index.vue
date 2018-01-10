@@ -7,11 +7,11 @@
     </div>
 
     <field name="password" :errors="errors">
-      <password v-model="password" name="password" v-validate="'required'" />
+      <password v-model="password" name="password" v-validate.disable="'required'" />
     </field>
 
     <field name="password confirm" :errors="errors">
-      <password v-model="password_confirm" name="password confirm" data-vv-as="password confirm" v-validate="'required|confirmed:password'" />
+      <password v-model="password_confirm" name="password confirm" data-vv-as="password confirm" v-validate.disable="'required|confirmed:password'" />
     </field>
 
     <div class="note">
@@ -67,7 +67,3 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
-
-<style scoped lang="scss">
-  
-</style>

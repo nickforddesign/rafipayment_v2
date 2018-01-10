@@ -42,9 +42,11 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import Company from '@/models/company'
+import { path } from 'ramda'
 import { Collection } from 'vue-collections'
 import { Deferred, trimObj } from '@/utils'
+import app from '@/app'
+import Company from '@/models/company'
 import User from '@/models/user/new'
 import session from '@/session'
 
@@ -105,10 +107,27 @@ export default {
 
       const request = this.$user.save(data)
       request.then(response => {
+        app.alert(
+          `Successfully created ${this.$user.full_name} at ${this.$user.email}`,
+          null,
+          'User Created',
+          'OK',
+          'success'
+        )
         this.confirm()
       })
       .catch(error => {
-        console.log({error})
+        const dwolla_errors = path(['data', 'response_data', '_embedded', 'errors'], error)
+        const message = dwolla_errors
+          ? dwolla_errors[0].message
+          : 'An error occurred while creating the user'
+        app.alert(
+          message,
+          null,
+          'Error',
+          'OK',
+          'danger'
+        )
       })
       return request
     }
