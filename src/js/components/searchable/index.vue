@@ -213,6 +213,7 @@ ul {
   input {
     background: none;
     border: none;
+    box-shadow: none;
   }
 
   .search-icon {

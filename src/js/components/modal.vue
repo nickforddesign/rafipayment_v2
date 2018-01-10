@@ -3,7 +3,7 @@
     <div :class="['modal-container', type_class]" @click.self="close">
       <div class="modal" @keyup.esc="handleEscape">
         <loading v-if="loading" />
-        <trap :disabled="is_cordova">
+        <trap :disabled="is_cordova || full">
           <form @submit.prevent="handleEnter" autocomplete="fuckchrome">
             <div class="modal-header">
               <slot name="header">
@@ -57,6 +57,7 @@ export default {
     document.body.classList.add('modal-visible')
   },
   mounted() {
+    console.log(this.full)
     try {
       const default_focus = path(['$refs', 'default'], this.$parent)
       if (default_focus) {
@@ -175,6 +176,10 @@ export default {
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       text-align: left;
+      
+      .container {
+        margin: 40px auto 0;
+      }
     }
 
     .modal-footer {
@@ -192,7 +197,7 @@ export default {
 
   &.full {
     .modal {
-      .modal-header {
+      .modal-actions {
         button {
           position: absolute;
           top: 18px;

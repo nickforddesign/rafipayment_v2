@@ -193,9 +193,9 @@ export default {
 <style scoped lang="scss">
 @import '~%/colors';
 
-.container {
-  margin: 40px auto 0;
-}
+// .container {
+//   margin: 40px auto 0;
+// }
 
 .breadcrumbs {
   margin-top: 40px;
