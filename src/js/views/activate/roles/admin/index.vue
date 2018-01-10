@@ -23,7 +23,11 @@ export default {
   },
   async created() {
     this.steps = getSteps(session.$user, this.collection)
-    this.getCurrentStep()
+    if (this.steps.length) {
+      this.getCurrentStep()
+    } else {
+      this.next()
+    }
   },
   methods: {
     getCurrentStep() {
