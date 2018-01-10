@@ -33,12 +33,9 @@ export default class User extends Model {
       id: {
         type: ObjectId
       },
-      // removed: {
-      //   type: Boolean
-      // },
-      // company: {
-      //   type: ObjectId
-      // },
+      company: {
+        type: ObjectId
+      },
       first_name: {
         type: String
       },
@@ -51,44 +48,44 @@ export default class User extends Model {
       phone: {
         type: String
       },
-      role: {
-        type: String
-      },
-      status: {
-        type: Object
-      },
-      payment: {
-        type: Object
-      },
-      session: {
-        type: Object
-      },
-      avatar_color: {
-        type: String
-      },
+      // role: {
+      //   type: String
+      // },
+      // status: {
+      //   type: Object
+      // },
+      // payment: {
+      //   type: Object
+      // },
+      // session: {
+      //   type: Object
+      // },
+      // avatar_color: {
+      //   type: String
+      // },
       password: {
         type: String
-      },
-      charges: {
-        type: Array
-      },
-      periods: {
-        type: Array,
-        items: {
-          type: Object,
-          properties: {
-            autopay: {
-              type: Boolean
-            },
-            split: {
-              type: Number
-            },
-            id: {
-              type: ObjectId
-            }
-          }
-        }
       }
+      // charges: {
+      //   type: Array
+      // },
+      // periods: {
+      //   type: Array,
+      //   items: {
+      //     type: Object,
+      //     properties: {
+      //       autopay: {
+      //         type: Boolean
+      //       },
+      //       split: {
+      //         type: Number
+      //       },
+      //       id: {
+      //         type: ObjectId
+      //       }
+      //     }
+      //   }
+      // }
     }
   }
 }
