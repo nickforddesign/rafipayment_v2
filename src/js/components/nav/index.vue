@@ -323,8 +323,8 @@ nav {
     position: relative;
     left: 0;
     height: 100vh;
-    padding-top: 140px;
-    background: $color-input-background;
+    padding-top: 152px;
+    background: $color-nav-desktop-background;
     z-index: 99;
 
     .user {
