@@ -52,9 +52,9 @@
     <div v-if="!$user.password" class="actions">
       <button class="primary" @click="invite">Send Invite</button>
     </div>
-    <!-- <div class="actions">
-      <button @click="remove">Delete</button>
-    </div> -->
+
+    <notifications-table v-if="fetched" :user="$user" />
+
     <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="confirmModal" />
 
   </div>
@@ -66,6 +66,7 @@
 import app from '@/app'
 import User from '@/models/user'
 
+import NotificationsTable from '@/views/events/notifications/table'
 import NameModal from '@/components/modals/user/name'
 
 export default {
@@ -87,9 +88,14 @@ export default {
     }
   },
   created() {
-    this.$user.fetch()
+    this.fetch()
   },
   methods: {
+    async fetch() {
+      this.fetched = false
+      await this.$user.fetch()
+      this.fetched = true
+    },
     promptRemove() {
       app.confirm(
         `Are you sure you want to remove ${this.$user.full_name}?`,
@@ -135,7 +141,8 @@ export default {
     }
   },
   components: {
-    NameModal
+    NameModal,
+    NotificationsTable
   }
 }
 </script>

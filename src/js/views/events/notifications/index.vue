@@ -1,6 +1,6 @@
 <template>
   <div class="collection-view">
-    <collection name="Events" :$collection="$collection">
+    <collection name="Notifications" :$collection="$collection">
       <responsive-table slot="content" :columns="[
         'Date',
         'Type',
@@ -31,7 +31,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: `events?sort_created=-1`,
+      basePath: `events?sort_created=-1&filter_type=notification`,
       model: Event
     })
   },

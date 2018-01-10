@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     viewAll() {
-      this.$router.push(`/events?filter_parties=${this.user.id}&filter_type=notification`)
+      this.$router.push(`/notifications?filter_parties=${this.user.id}`)
     }
   },
   components: {

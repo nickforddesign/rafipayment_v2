@@ -32,7 +32,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: `events?sort_created=-1`,
+      basePath: `events?sort_created=-1&filter_type=authentication`,
       model: Event
     })
   },
