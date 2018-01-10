@@ -57,7 +57,6 @@ export default {
     document.body.classList.add('modal-visible')
   },
   mounted() {
-    console.log(this.full)
     try {
       const default_focus = path(['$refs', 'default'], this.$parent)
       if (default_focus) {
@@ -177,8 +176,10 @@ export default {
       -webkit-overflow-scrolling: touch;
       text-align: left;
       
-      .container {
-        margin: 40px auto 0;
+      .modal-steps {
+        .container {
+          margin: 40px auto 0;
+        }
       }
     }
 

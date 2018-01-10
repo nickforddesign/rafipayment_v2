@@ -2,29 +2,31 @@
   <modal @close="close" :keywatch="false" :full="true">
     <h1 slot="header">New Bill</h1>
     <div slot="body">
-      <div v-if="!loading" class="container sm modal-bill">
-        <div class="breadcrumbs">
-          <div v-if="models.property" class="breadcrumb">
-            <legend>Property</legend>
-            {{ models.property.address }}
+      <div v-if="!loading" class="modal-steps">
+        <div class="container sm modal-bill">
+          <div class="breadcrumbs">
+            <div v-if="models.property" class="breadcrumb">
+              <legend>Property</legend>
+              {{ models.property.address }}
+            </div>
+            <div v-if="models.unit" class="breadcrumb">
+              <legend>Unit</legend>
+              {{ models.unit.name }}
+            </div>
+            <div v-if="models.lease" class="breadcrumb">
+              <legend>Lease</legend>
+              {{ models.lease.label }}
+            </div>
+            <div v-if="models.tenants" class="breadcrumb">
+              <legend>Tenants</legend>
+              <span v-if="models.tenants.length > 1">{{ models.tenants.length }} Tenants</span>
+              <span v-else>{{ models.tenants[0].first_name }} {{ models.tenants[0].last_name }}</span>
+            </div>
           </div>
-          <div v-if="models.unit" class="breadcrumb">
-            <legend>Unit</legend>
-            {{ models.unit.name }}
+          <button @click="previous" class="back-button small" v-if="has_back">Back</button>
+          <div class="modal-steps">
+            <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
           </div>
-          <div v-if="models.lease" class="breadcrumb">
-            <legend>Lease</legend>
-            {{ models.lease.label }}
-          </div>
-          <div v-if="models.tenants" class="breadcrumb">
-            <legend>Tenants</legend>
-            <span v-if="models.tenants.length > 1">{{ models.tenants.length }} Tenants</span>
-            <span v-else>{{ models.tenants[0].first_name }} {{ models.tenants[0].last_name }}</span>
-          </div>
-        </div>
-        <button @click="previous" class="back-button small" v-if="has_back">Back</button>
-        <div class="modal-steps">
-          <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
         </div>
       </div>
       <loading v-else :fixed="true" />

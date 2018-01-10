@@ -2,7 +2,7 @@
   <modal @close="close" :keywatch="false" :full="true">
     <h1 slot="header">New Lease</h1>
     <div slot="body">
-      <div v-if="!loading">
+      <div v-if="!loading" class="modal-steps">
         <div class="container sm breadcrumbs">
           <div v-if="models.property" class="breadcrumb">
             <legend>Property</legend>
@@ -14,7 +14,7 @@
           </div>
         </div>
 
-        <div class="container modal-steps sm">
+        <div class="container steps sm">
           <component :is="steps[current_step]" :models="models" @next="next" @previous="previous" />
         </div>
       </div>
@@ -221,7 +221,7 @@ export default {
 </style>
 
 <style lang="scss">
-.modal-steps {
+.steps {
   margin-top: 40px;
 
   h2 {
