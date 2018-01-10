@@ -3,7 +3,7 @@
     <div :class="['modal-container', type_class]" @click.self="close">
       <div class="modal" @keyup.esc="handleEscape">
         <loading v-if="loading" />
-        <trap>
+        <trap :disabled="is_cordova">
           <form @submit.prevent="handleEnter" autocomplete="fuckchrome">
             <div class="modal-header">
               <slot name="header">
@@ -86,6 +86,9 @@ export default {
       if (this.full) {
         return 'full'
       }
+    },
+    is_cordova() {
+      return process.env.NODE_ENV === 'cordova'
     }
   },
   methods: {

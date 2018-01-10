@@ -46,9 +46,12 @@ export default {
   .scroll-container {
     position: absolute;
     top: 0;
-    bottom: 50px;
-    left: 10px;
-    right: 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // bottom: 50px;
+    // left: 10px;
+    // right: 10px;
     
     @include vertical_scroll;
   }
