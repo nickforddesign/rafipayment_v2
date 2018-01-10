@@ -133,10 +133,8 @@ export default {
     },
     basePath() {
       let basePath = this.original_base
-      const has_query = basePath.includes('?')
-      const joiner = has_query
-        ? '&'
-        : '?'
+      console.log({basePath})
+      const joiner = this.getJoiner(basePath)
 
       if (!this.search_term) {
         const has_pagination = !basePath.includes('paginator') && this.paginate
@@ -153,7 +151,7 @@ export default {
           basePath += filterQuery.join('&')
         }
       } else {
-        basePath += `?search=${this.search_term.split(' ').join(',')}`
+        basePath += `${joiner}search=${this.search_term.split(' ').join(',')}`
       }
       return basePath
     }
@@ -274,6 +272,11 @@ export default {
       this.$collection.basePath = () => {
         return this.basePath
       }
+    },
+    getJoiner(path) {
+      return path.includes('?')
+        ? '&'
+        : '?'
     },
     setCurrent(page_number) {
       this.current_page_index = page_number - 1
