@@ -117,10 +117,8 @@ export default {
         this.confirm()
       })
       .catch(error => {
-        const dwolla_errors = path(['data', 'response_data', '_embedded', 'errors'], error)
-        const message = dwolla_errors
-          ? dwolla_errors[0].message
-          : 'An error occurred while creating the user'
+        const dwolla_error = path(['data', 'response_data', '_embedded', 'errors', 0, 'message'], error)
+        const message = dwolla_error || 'An error occurred while creating the user'
         app.alert(
           message,
           null,
