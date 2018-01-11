@@ -45,11 +45,6 @@ import BillModal from '@/components/modals/bill'
 import { getMonthsArray } from '@/utils'
 import row from '../../row'
 
-// const now = moment.utc()
-// const start_moment = now.startOf('month')
-// const start_date = start_moment.format('YYYY-MM-DD')
-// const end_date = now.endOf('month').format('YYYY-MM-DD')
-
 export default {
   name: 'leases',
   data() {
@@ -58,7 +53,6 @@ export default {
       range_fetched: false,
       ranges: null,
       range: null
-      // range: start_moment.format('M/D/YYYY')
     }
   },
   collection() {
@@ -77,10 +71,7 @@ export default {
       if (this.range && this.range !== 'All') {
         const arr = this.range.split('/')
         const date_str = [arr[0], '1', arr[1]].join('/')
-        console.log(date_str)
-        console.log(moment.utc(date_str))
-        const date = moment.utc()
-        // const date = moment.utc(date_str)
+        const date = moment.utc(date_str, 'M/D/YYYY')
         const start = date.startOf('month').format('YYYY-MM-DD')
         const end = date.endOf('month').format('YYYY-MM-DD')
         return `range_due_date=${start},${end}`
