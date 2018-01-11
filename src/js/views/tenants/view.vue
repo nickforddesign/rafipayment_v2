@@ -141,7 +141,7 @@ export default {
       .then(() => {
         app.alert(
           `Invitation email has been sent to ${this.$user.email}`,
-          null,
+          this.fetch,
           'Invitation sent',
           'OK',
           'success'

@@ -1,33 +1,37 @@
 <template>
-  <transition name="fade">
-    <div :class="['modal-container', type_class]" @click.self="close">
-      <div class="modal" @keyup.esc="handleEscape">
-        <loading v-if="loading" />
-        <trap :disabled="is_cordova || full">
-          <form @submit.prevent="handleEnter" autocomplete="fuckchrome">
-            <div class="modal-header">
-              <slot name="header">
-                <h1>Please confirm</h1>
-              </slot>
-            </div>
+  <portal to="modal">
+    <transition name="fade">
+      <div class="test" v-if="open">
+        <div :class="['modal-container', type_class]" @click.self="close">
+          <div class="modal" @keyup.esc="handleEscape">
+            <loading v-if="loading" />
+            <trap :disabled="is_cordova || full">
+              <form @submit.prevent="handleEnter" autocomplete="fuckchrome">
+                <div class="modal-header">
+                  <slot name="header">
+                    <h1>Please confirm</h1>
+                  </slot>
+                </div>
 
-            <div class="modal-body">
-              <slot name="body" />
-            </div>
+                <div class="modal-body">
+                  <slot name="body" />
+                </div>
 
-            <div class="modal-actions">
-              <button type="button" class="close" @click="cancel">
-                {{ cancel_label }}
-              </button>
-              <button class="confirm neutral" v-if="has_confirm">
-                {{ confirm_label }}
-              </button>
-            </div>
-          </form>
-        </trap>
+                <div class="modal-actions">
+                  <button type="button" class="close" @click="cancel">
+                    {{ cancel_label }}
+                  </button>
+                  <button class="confirm neutral" v-if="has_confirm">
+                    {{ confirm_label }}
+                  </button>
+                </div>
+              </form>
+            </trap>
+          </div>
+        </div>
       </div>
-    </div>
-  </transition>
+    </transition>
+  </portal>
 </template>
 
 <script>
@@ -50,13 +54,14 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      open: false
     }
   },
   beforeMount() {
     document.body.classList.add('modal-visible')
   },
-  mounted() {
+  async mounted() {
     try {
       const default_focus = path(['$refs', 'default'], this.$parent)
       if (default_focus) {
@@ -66,6 +71,7 @@ export default {
       console.warn(error)
     }
     toggleStatusBar(false)
+    this.open = true
   },
   async beforeDestroy() {
     toggleStatusBar(true)
@@ -119,7 +125,9 @@ export default {
     cancel() {
       this.close()
     },
-    close() {
+    async close() {
+      this.open = false
+      await sleep(200)
       this.$emit('close')
     }
   },
@@ -136,7 +144,7 @@ export default {
 
 .modal-container {
   @include fixed_fill;
-  z-index: 9999;
+  z-index: 99999;
   background: rgba(0,0,0, 0.6);
 
   .modal {
@@ -222,10 +230,10 @@ export default {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
+  transition: opacity 0.2s;
 
   .modal {
-    transition: margin .2s;
+    transition: margin 0.2s;
     margin-top: 0;
   }
 }

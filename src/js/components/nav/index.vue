@@ -112,6 +112,15 @@ $nav-width: 230px;
   }
 }
 
+.header-container {
+  position: fixed;
+  top: 0;
+  height: $header-height;
+  width: 100%;
+  z-index: 900;
+  background: $color-background-dark;
+}
+
 .nav-visible {
   .app-container {
     transform: translateX(-#{$nav-width});
@@ -124,6 +133,8 @@ $nav-width: 230px;
 
       .content {
         pointer-events: none;
+        padding-top: 0;
+        margin-top: $header-height;
       }
     }
 
@@ -132,14 +143,9 @@ $nav-width: 230px;
       transition: 0.5s box-shadow;
     }
   }
-}
-
-.header-container {
-  position: fixed;
-  top: 0;
-  height: $header-height;
-  width: 100%;
-  z-index: 900;
+  .header-container {
+    background: transparent;
+  }
 }
 
 nav {

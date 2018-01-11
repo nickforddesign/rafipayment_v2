@@ -3,12 +3,14 @@
     <component :is="hoc_name" >
       <div v-if="logged_in" class="header-container">
 
+        <div class="title" v-if="logged_in">
+          <h2>{{ $route.name }}</h2>
+        </div>
+
         <div :class="['logo-container', back_class]">
-          <!-- <transition name="fade"> -->
-            <button v-if="has_back" @click="$router.goBack" class="back-button">
-              <icon-arrow-left />
-            </button>
-          <!-- </transition> -->
+          <button v-if="has_back" @click="$router.goBack" class="back-button">
+            <icon-arrow-left />
+          </button>
           <logo />
         </div>
 
@@ -22,10 +24,6 @@
         @panright="onSwipeRight"
         @panleft="onSwipeLeft">
 
-        <div class="title" v-if="logged_in">
-          <h2>{{ $route.name }}</h2>
-        </div>
-
         <div :class="[main_class]">
           <div class="container lg">
             <router-view></router-view>
@@ -35,6 +33,7 @@
       </v-touch>
 
       <alert v-if="alert_visible" />
+      <portal-target name="modal" />
     </component>
   </div>
 </template>
@@ -94,14 +93,16 @@ export default {
     },
     onSwipeRight: debounce(function(e) {
       const start = getPanStartPosition(e)
-      if (start.x < 50) {
+      const angle = e.angle
+      if (start.x < 50 && (angle > -20 && angle < 20)) {
         this.$router.goBack()
       }
     }, 20),
     onSwipeLeft: debounce(function(e) {
       const start = getPanStartPosition(e)
+      const angle = e.angle
       const offset = (window.outerWidth || window.innerWidth) - start.x
-      if (offset < 50) {
+      if (offset < 50 && (angle < -160 && angle > -180 || angle > 160 && angle < 180)) {
         this.$store.dispatch('nav_toggle')
       }
     }, 20)
@@ -141,8 +142,9 @@ main {
   padding-top: $header-height;
 
   .content {
-    padding: 0 10px 50px;
-    margin-top: $header-height;
+    // padding: 0 10px 50px;
+    padding: $header-height 10px 50px;
+    // margin-top: $header-height;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -199,6 +201,11 @@ main {
       pointer-events: all;
     }
   }
+}
+
+.vue-portal-target {
+  position: relative;
+  z-index: 9999999;
 }
 
 @media (min-width: $breakpoint-medium) {

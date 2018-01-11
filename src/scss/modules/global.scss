@@ -9,25 +9,6 @@ body {
   color: $color-text-default;
   background-color: $color-background-default;
   overflow-x: hidden;
-
-  &.modal-visible, &.alert-visible {
-    main {
-      position: static;
-      z-index: auto;
-    }
-  }
-
-  &.modal-visible {
-    main {
-      .content {
-        overflow-y: visible;
-        // overflow-y: hidden;
-      }
-    }
-    .scroll-container {
-      overflow: visible !important;
-    }
-  }
 }
 
 ::selection {

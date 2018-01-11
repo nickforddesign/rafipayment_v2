@@ -39,6 +39,7 @@
     "fastclick-fixed": "^1.0.7",
     "lodash.debounce": "^4.0.8",
     "phonegap-plugin-push": "^2.1.1",
+    "portal-vue": "^1.2.2",
     "pubsub-js": "^1.5.8",
     "ramda": "^0.25.0",
     "raven-js": "^3.21.0",
