@@ -81,6 +81,11 @@ export default {
     }
     this.loaded = true
   },
+  beforeDestroy() {
+    const $pacs = document.querySelectorAll('.pac-container')
+    const array = [...$pacs]
+    array.map($pac => $pac.remove())
+  },
   async created() {
     if (this.model) {
       this.name = this.model.name
