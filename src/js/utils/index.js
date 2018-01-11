@@ -176,7 +176,7 @@ export function getMonthsArray (min, max) {
   const array = []
   let date = start
   while (date <= end) {
-    array.push(date.format('MM/YYYY'))
+    array.push(date.format('M/YYYY'))
     date = date.add(1, 'months')
   }
   return array

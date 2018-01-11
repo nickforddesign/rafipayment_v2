@@ -1,6 +1,6 @@
 <template>
   <div :class="classHandler">
-    <select :name="name" :disabled="field_disabled" :multiple="field_multiple" @change="emitChange" v-model="field_value">
+    <select :name="name" :disabled="field_disabled" :multiple="field_multiple" @change="emitChange" v-model="field_value" @focus="focus" @blur="blur">
       <slot>
         <option v-for="(option, index) in options" :value="option.value" :key="index">
           {{ option.label }}
@@ -29,7 +29,8 @@ export default {
   },
   data() {
     return {
-      field_value: this.multiple ? [] : ''
+      field_value: this.multiple ? [] : '',
+      focused: false
     }
   },
   created() {
@@ -51,13 +52,20 @@ export default {
       return {
         'select-container': true,
         'multiple': this.field_multiple,
-        'disabled': this.field_disabled
+        'disabled': this.field_disabled,
+        'focused': this.focused
       }
     }
   },
   methods: {
     emitChange(e, value) {
       this.$emit('input', this.field_value)
+    },
+    focus() {
+      this.focused = true
+    },
+    blur() {
+      this.focused = false
     }
   },
   watch: {
@@ -71,6 +79,7 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
+@import '~%/colors';
 
 .select-container:not(.multiple) {
   position: relative;
@@ -96,6 +105,12 @@ export default {
   &.disabled {
     &:after {
       opacity: 0.5;
+    }
+  }
+
+  &.focused {
+    &:after {
+      border-color: $color-input-border-focus transparent transparent transparent;
     }
   }
 }

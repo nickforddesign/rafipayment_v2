@@ -1,8 +1,0 @@
-- new notifications
-  - email updated - to original
-
-- tenants
-  - /account/bills/current - get all current bills
-  - /account/bills/past - get closed bills
-  
-  

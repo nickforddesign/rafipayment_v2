@@ -72,10 +72,6 @@ export default {
     name: {
       type: String
     },
-    // label: {
-    //   type: Boolean,
-    //   default: true
-    // },
     collection_name: {
       type: String
     },
@@ -93,7 +89,8 @@ export default {
     searchable: {
       type: Boolean,
       default: true
-    }
+    },
+    queries: Array
   },
   data() {
     return {
@@ -102,17 +99,17 @@ export default {
       current_page_index: 0,
       original_base: '',
       search_term: '',
-      filters: [],
-      pull_config: {
-        pullText: 'Pull to refresh', // The text is displayed when you pull down
-        triggerText: 'Release to refresh', // The text that appears when the trigger distance is pulled down
-        loadingText: 'Loading...', // The text in the load
-        doneText: 'Done', // Load the finished text
-        failText: 'Error', // Load failed text
-        loadedStayTime: 0, // Time to stay after loading ms
-        stayDistance: 30, // Trigger the distance after the refresh
-        triggerDistance: 50 // Pull down the trigger to trigger the distance
-      }
+      filters: []
+      // pull_config: {
+      //   pullText: 'Pull to refresh', // The text is displayed when you pull down
+      //   triggerText: 'Release to refresh', // The text that appears when the trigger distance is pulled down
+      //   loadingText: 'Loading...', // The text in the load
+      //   doneText: 'Done', // Load the finished text
+      //   failText: 'Error', // Load failed text
+      //   loadedStayTime: 0, // Time to stay after loading ms
+      //   stayDistance: 30, // Trigger the distance after the refresh
+      //   triggerDistance: 50 // Pull down the trigger to trigger the distance
+      // }
     }
   },
   created() {
@@ -133,7 +130,6 @@ export default {
     },
     basePath() {
       let basePath = this.original_base
-      console.log({basePath})
       const joiner = this.getJoiner(basePath)
 
       if (!this.search_term) {
@@ -152,6 +148,10 @@ export default {
         }
       } else {
         basePath += `${joiner}search=${this.search_term.split(' ').join(',')}`
+      }
+      if (this.queries) {
+        const joiner = this.getJoiner(basePath)
+        basePath += `${joiner}${this.queries.join('&')}`
       }
       return basePath
     }

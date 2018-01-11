@@ -1,6 +1,6 @@
 <template>
   <div v-if="range_fetched">
-    <collection name="bills" :$collection="$collection" ref="collection">
+    <collection name="bills" :$collection="$collection" ref="collection" :queries="[range_query]">
       <div slot="header">
         <div class="flexbox">
           <div class="flex">Bills</div>
@@ -45,10 +45,10 @@ import BillModal from '@/components/modals/bill'
 import { getMonthsArray } from '@/utils'
 import row from '../../row'
 
-const now = moment.utc()
-const start_moment = now.startOf('month')
-const start_date = start_moment.format('YYYY-MM-DD')
-const end_date = now.endOf('month').format('YYYY-MM-DD')
+// const now = moment.utc()
+// const start_moment = now.startOf('month')
+// const start_date = start_moment.format('YYYY-MM-DD')
+// const end_date = now.endOf('month').format('YYYY-MM-DD')
 
 export default {
   name: 'leases',
@@ -57,13 +57,14 @@ export default {
       modal_visible: false,
       range_fetched: false,
       ranges: null,
-      range: start_moment.format('MM/YYYY')
+      range: null
+      // range: start_moment.format('M/D/YYYY')
     }
   },
   collection() {
     return new Collection({
       basePath() {
-        return `bills?sort_created=-1&range_due_date=${start_date},${end_date}`
+        return `bills?sort_created=-1`
       },
       model: Bill
     })
@@ -71,27 +72,29 @@ export default {
   created() {
     this.fetchRange()
   },
-  watch: {
-    async range(val) {
-      if (val !== 'All') {
-        const arr = val.split('/')
+  computed: {
+    range_query() {
+      if (this.range && this.range !== 'All') {
+        const arr = this.range.split('/')
         const date_str = [arr[0], '1', arr[1]].join('/')
-        const date = moment.utc(date_str)
+        console.log(date_str)
+        console.log(moment.utc(date_str))
+        const date = moment.utc()
+        // const date = moment.utc(date_str)
         const start = date.startOf('month').format('YYYY-MM-DD')
         const end = date.endOf('month').format('YYYY-MM-DD')
-
-        this.$collection.basePath = () => {
-          return `bills?sort_created=-1&range_due_date=${start},${end}`
-        }
-      } else {
-        this.$collection.basePath = () => {
-          return `bills?sort_created=-1`
-        }
+        return `range_due_date=${start},${end}`
       }
-      this.$refs.collection.fetched = false
-      this.$collection.reset()
-      await this.$collection.fetch()
-      this.$refs.collection.fetched = true
+    }
+  },
+  watch: {
+    async range(val) {
+      this.$nextTick(async () => {
+        this.$refs.collection.fetched = false
+        this.$collection.reset()
+        await this.$collection.fetch()
+        this.$refs.collection.fetched = true
+      })
     }
   },
   methods: {
@@ -103,6 +106,7 @@ export default {
       const array = getMonthsArray(min, max)
       array.push('All')
       this.ranges = array
+      this.range = moment.utc().startOf('month').format('M/YYYY')
       this.range_fetched = true
     },
     add() {
@@ -133,6 +137,7 @@ export default {
   }
   .select-container {
     display: inline-block;
+    padding-top: 2px;
   }
 }
 </style>

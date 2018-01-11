@@ -213,10 +213,6 @@ select {
   white-space: nowrap;
   -webkit-appearance: none;
 
-  &::-moz-focus-inner {
-    border: 0;
-  }
-
   option {
     color: $color-text-dark;
 
@@ -225,16 +221,16 @@ select {
     }
   }
 
-  &.chosen {
-    max-width: 100%;
-    width: 300px;
-  }
-  &.chosen-multiple {
-    max-width: 100%;
-    width: 300px;
-  }
-
   &:disabled {
     opacity: 0.5;
+  }
+
+  &:focus {
+    outline: none;
+    border: 1px solid $color-input-border-focus;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
   }
 }
