@@ -28,7 +28,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Duration</dt>
-              <dd>{{ $lease.length.auto }}</dd>
+              <dd>{{ $lease.length.auto || '–' }}</dd>
             </dl>
           </div>
         </div>
