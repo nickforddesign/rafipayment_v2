@@ -1,16 +1,16 @@
 <template>
-  <tr>
-    <td>{{ $charge.type | capitalize}}</td>
-    <td>{{ date }}</td>
-    <td>{{ $charge.description | limit }}</td>
-    <td>{{ $charge.amount | currency }}</td>
-    <td>
+  <div class="tr">
+    <cell>{{ $charge.type | capitalize}}</cell>
+    <cell>{{ date }}</cell>
+    <cell>{{ $charge.description | limit }}</cell>
+    <cell>{{ $charge.amount | currency }}</cell>
+    <cell class="text-right">
       <button class="x-small" @click="edit">Edit</button>
       <button class="x-small" @click="promptRemove">Delete</button>
 
       <charge-modal v-if="modal_visible" @close="closeModal" :confirm="$parent.fetch" :model="$charge" />
-    </td>
-  </tr>
+    </cell>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
@@ -62,7 +62,7 @@ export default {
     },
     async remove() {
       await this.$charge.destroy()
-      this.$parent.fetch()
+      this.$emit('destroy')
     }
   },
   components: {

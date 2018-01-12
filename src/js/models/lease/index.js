@@ -1,5 +1,6 @@
 import moment from 'moment'
 import session from '@/session'
+import { path } from 'ramda'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
 import { statesHelper, unitsHelper } from '@/utils'
@@ -79,6 +80,27 @@ export default class Lease extends Model {
             return a._id === session.$user.id
               ? -1
               : 1
+          })
+        },
+        totals_per_period() {
+          const tenant_charges = this.tenants.reduce((acc, tenant) => {
+            return acc + tenant.charges.reduce((acc, charge) => {
+              return charge.type === 'recurring' ? acc + charge.amount : acc
+            }, 0)
+          }, 0)
+          const lease_charges = this.charges.reduce((acc, charge) => charge.type === 'recurring' ? acc + charge.amount : acc, 0)
+          const recurring_charges = tenant_charges + lease_charges
+
+          return this.periods_sorted.map(period => {
+            return period.amount + recurring_charges
+          })
+        },
+        split_coverage() {
+          return this.totals_per_period.map((total, index) => {
+            const total_splits = this.tenants.reduce((acc, tenant) => {
+              return acc + (path(['amount'], tenant.periods[index]) || 0)
+            }, 0)
+            return `${Math.floor((total_splits / this.totals_per_period[index]) * 100)}%`
           })
         }
       },

@@ -1,7 +1,17 @@
 <template>
   <div class="charges">
-    <div class="row">
+    <div class="row flexbox">
       <user-card :model="$user" @click="goToModel" />
+      <div class="solid text-right splits">
+        <div v-for="(period, index) in lease.periods" :key="index" class="split">
+          <div v-if="lease.periods.length > 1">
+            <span>Start Date:</span> {{ period.start_date | moment }}
+          </div>
+          <div>
+            <span>Split:</span> {{ getAmount(period) }}
+          </div>
+        </div>
+      </div>
     </div>
 
     <responsive-table v-if="$user.charges.length" :columns="[
@@ -9,9 +19,12 @@
       'Date',
       'Description',
       'Amount',
-      'Actions'
+      {
+        name: 'Actions',
+        class: 'text-right'
+      }
     ]">
-      <charge-row v-for="(charge, index) in $user.charges" :key="index" :basePath="`${$user.url}/charges`" :model="charge" />
+      <charge-row v-for="(charge, index) in $user.charges" :key="index" :basePath="`${$user.url}/charges`" :model="charge" @destroy="fetch" />
     </responsive-table>
 
     <div class="actions text-center">
@@ -25,18 +38,18 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { path } from 'ramda'
+import { prettyCurrency } from '@/utils'
 import User from '@/models/user'
 import UserCard from '@/components/cards/user'
-
-import chargeModal from '@/components/modals/lease/charge'
-
-// import chargeRow from './tenant_charge_row'
-import chargeRow from './charge_row'
+import ChargeModal from '@/components/modals/lease/charge'
+import ChargeRow from './charge_row'
 
 export default {
   name: 'charges',
   props: {
     user: Object,
+    lease: Object,
     basePath: String
   },
   data() {
@@ -58,7 +71,7 @@ export default {
   },
   methods: {
     fetch() {
-      this.$parent.fetch()
+      this.$emit('fetch')
     },
     addCharge() {
       this.modal_visible = true
@@ -68,12 +81,18 @@ export default {
     },
     goToModel() {
       this.$router.push(`/tenants/${this.user.id}`)
+    },
+    getAmount(period) {
+      const amount = path(['amount'], this.$user.periods.find(user_period => user_period.id === period.id))
+      return amount !== undefined
+        ? prettyCurrency(amount)
+        : '–'
     }
   },
   components: {
     UserCard,
-    chargeModal,
-    chargeRow
+    ChargeModal,
+    ChargeRow
   }
 }
 </script>
@@ -90,6 +109,19 @@ export default {
 .row {
   background: $color-box-background;
   text-align: right;
+  align-items: center;
+}
+.splits {
+  padding: 30px;
+  font-size: 0.9em;
+
+  span {
+    color: $color-text-medium;
+  }
+
+  .split:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
 .user-card {
   width: 300px;

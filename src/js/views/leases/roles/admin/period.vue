@@ -11,16 +11,20 @@
       <dt>Amount</dt>
       <dd>{{ $period.amount | currency }}</dd>
     </dl>
+    <!-- <dl>
+      <dt>Total Fees</dt>
+      <dd>{{ $lease.totals_per_period[index] | currency }}</dd>
+    </dl> -->
+    <dl>
+      <dt>Split Coverage</dt>
+      <dd>{{ $lease.split_coverage[index] }}</dd>
+    </dl>
     
     <div class="flex">
       <div class="actions">
         <button class="x-small" @click="edit">Edit</button>
         <button class="x-small" @click="remove">Remove</button>
       </div>
-
-      <!-- <div class="is-current" v-if="is_current">
-        <span class="flag small neutral">Current</span>
-      </div> -->
     </div>
 
     <period-modal v-if="modal_visible" :path="basePath" @close="closeModal" :confirm="fetch" :model="$period" />
@@ -55,8 +59,11 @@ export default {
     }
   },
   computed: {
+    $lease() {
+      return this.$parent.$lease
+    },
     is_current() {
-      return this.index === this.$parent.$lease.current_period
+      return this.index === this.$lease.current_period
     }
   },
   methods: {
@@ -88,6 +95,7 @@ export default {
 <style scoped lang="scss">
 .flag {
   margin-right: 8px;
+  border-radius: 0;
 }
 .flex {
   display: flex;

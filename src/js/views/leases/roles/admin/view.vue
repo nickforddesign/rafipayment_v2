@@ -53,6 +53,10 @@
               <dt>Square Footage</dt>
               <dd>{{ $lease.unit.square_footage }}</dd>
             </dl>
+            <!-- <dl>
+              <dt>Split Coverage</dt>
+              <dd>{{ $lease.totals_per_period }}</dd>
+            </dl> -->
           </div>
 
           <!-- <div class="table-container" v-if="$lease.periods.length > 1"> -->
@@ -119,6 +123,15 @@
 
       <div class="table-container">
         <div class="header">
+          Tenants
+        </div>
+
+        <tenant v-for="(tenant, index) in $lease.tenants" :key="index" :user="tenant" :lease="$lease" :basePath="`${$lease.url}`" @fetch="fetch" />
+
+      </div>
+
+      <div class="table-container">
+        <div class="header">
           Lease Charges
         </div>
 
@@ -128,9 +141,12 @@
             'Date',
             'Description',
             'Amount',
-            'Actions'
+            {
+              name: 'Actions',
+              class: 'text-right'
+            }
           ]">
-            <charge-row v-for="(charge, index) in $lease.charges" :key="index" :model="charge" :basePath="`${$lease.url}/charges`" />
+            <charge-row v-for="(charge, index) in $lease.charges" :key="index" :model="charge" :basePath="`${$lease.url}/charges`" @destroy="fetch" />
           </responsive-table>
 
           <div class="actions text-center">
@@ -142,15 +158,6 @@
           <div slot="message">There are no lease-wide charges</div>
           <button class="primary" slot="actions" @click="showModal('lease_charge')">Add a charge</button>
         </empty>
-      </div>
-
-      <div class="table-container">
-        <div class="header">
-          Tenant Charges
-        </div>
-
-        <tenant v-for="(tenant, index) in $lease.tenants" :key="index" :user="tenant" :basePath="`${$lease.url}`" />
-
       </div>
 
       <bills-table :basePath="`bills?filter_lease=${$lease.id}`"></bills-table>
