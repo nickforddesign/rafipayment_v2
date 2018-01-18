@@ -1,40 +1,44 @@
 <template>
   <div class="app-container">
-    <component :is="hoc_name" >
-      <div v-if="logged_in" class="header-container">
+    <transition name="fade">
+      <component :is="hoc_name" v-if="!requires_refresh">
+        <div v-if="logged_in" class="header-container">
 
-        <div class="title" v-if="logged_in">
-          <h2>{{ $route.name }}</h2>
-        </div>
-
-        <div :class="['logo-container', back_class]">
-          <button v-if="has_back" @click="$router.goBack" class="back-button">
-            <icon-arrow-left />
-          </button>
-          <logo />
-        </div>
-
-      </div>
-
-      <navigation v-if="logged_in" />
-
-      <v-touch
-        tag="main"
-        :options="{ touchAction: 'auto' }"
-        @panright="onSwipeRight"
-        @panleft="onSwipeLeft">
-
-        <div :class="[main_class]">
-          <div class="container lg">
-            <router-view></router-view>
+          <div class="title" v-if="logged_in">
+            <h2>{{ $route.name }}</h2>
           </div>
+
+          <div :class="['logo-container', back_class]">
+            <button v-if="has_back" @click="$router.goBack" class="back-button">
+              <icon-arrow-left />
+            </button>
+            <logo />
+          </div>
+
         </div>
+        <navigation v-if="logged_in" />
 
-      </v-touch>
+        <v-touch
+          tag="main"
+          :options="{ touchAction: 'auto' }"
+          @panright="onSwipeRight"
+          @panleft="onSwipeLeft">
 
-      <alert v-if="alert_visible" />
-      <portal-target name="modal" />
-    </component>
+          <div :class="[main_class]">
+            <div class="container lg">
+              <router-view></router-view>
+            </div>
+          </div>
+
+        </v-touch>
+
+        <alert v-if="alert_visible" />
+        <portal-target name="modal" />
+      </component>
+
+      <deployment-message v-else />
+
+    </transition>
   </div>
 </template>
 
@@ -45,16 +49,24 @@ import { mapGetters } from 'vuex'
 import Navigation from './nav'
 import Alert from './alert'
 import IconArrowLeft from './icons/arrow-left'
+import config from '@/config'
 
 import Superadmin from '@/components/roles/superadmin'
 import Admin from '@/components/roles/admin'
 import Tenant from '@/components/roles/tenant'
 import None from '@/components/roles/none'
 
+import DeploymentMessage from '@/views/deployment'
+
 import { getPanStartPosition, toggleStatusBar } from '@/utils'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      requires_refresh: false
+    }
+  },
   computed: {
     main_class() {
       return this.logged_in
@@ -80,6 +92,9 @@ export default {
   },
   mounted() {
     toggleStatusBar(true)
+    if (process.env.NODE_ENV !== 'cordova') {
+      this.initSockets()
+    }
   },
   watch: {
     logged_in(val) {
@@ -105,7 +120,27 @@ export default {
       if (offset < 50 && (angle < -160 && angle > -180 || angle > 160 && angle < 180)) {
         this.$store.dispatch('nav_toggle')
       }
-    }, 20)
+    }, 20),
+    async initSockets() {
+      if (!this.socket) {
+        const engine = await import('engine.io-client')
+        this.socket = engine(config.socket)
+
+        this.socket.on('open', () => {
+          console.log(`Connected to websockets server at ${config.socket}`)
+          this.socket.on('message', message => {
+            const data = JSON.parse(message)
+            console.log(data)
+            if (data.deployment && data.deployment.refresh) {
+              this.requires_refresh = true
+            }
+          })
+          this.socket.on('close', () => {
+            console.log('Closed socket connection')
+          })
+        })
+      }
+    }
   },
   components: {
     Navigation,
@@ -114,7 +149,8 @@ export default {
     Superadmin,
     Admin,
     Tenant,
-    None
+    None,
+    DeploymentMessage
   }
 }
 </script>
@@ -142,9 +178,7 @@ main {
   padding-top: $header-height;
 
   .content {
-    // padding: 0 10px 50px;
     padding: $header-height 10px 50px;
-    // margin-top: $header-height;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -248,7 +282,6 @@ main {
       left: $sidebar-width;
       top: 0;
       bottom: 0;
-      // width: 1200px;
       max-width: calc(100% - #{$sidebar-width});
       margin: 0;
       padding: 30px;
