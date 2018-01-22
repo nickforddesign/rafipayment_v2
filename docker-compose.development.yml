@@ -7,9 +7,10 @@ services:
     environment:
       - NODE_ENV=development
     volumes:
-      - rafipayment_frontend_data:/app/
+      - rafipayment_frontend_data:/app/dist
     ports:
       - 3737:8080
+    command: npm run build
 
 volumes:
   rafipayment_frontend_data:
