@@ -1,7 +1,10 @@
 #!/usr/bin/python
 
+import os
 import sys
 import subprocess
+
+os.environ["NODE_ENV"] = "production"
 
 from_commit, to_commit, ref = sys.stdin.read().strip("\n").split(" ")
 branch = ref.split("/")[2]
@@ -12,3 +15,4 @@ if branch != "master":
 else:
     print("Received branch {branch}, deploying!".format(branch=branch))
     subprocess.call(["deploy", "frontend", "-f"])
+    subprocess.call(["node", "../../build/deployment_socket.js"])

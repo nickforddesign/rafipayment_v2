@@ -11,4 +11,4 @@ branch = ref.split("/")[2]
 
 print("Received branch {branch}, deploying!".format(branch=branch))
 subprocess.call(["deploy", "frontend", "-f"])
-subprocess.call(["node", "../../build/deployment_socket"])
+subprocess.call(["node", "../../build/deployment_socket.js"])
