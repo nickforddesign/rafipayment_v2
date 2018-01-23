@@ -9,7 +9,7 @@
 
 module.exports = {
   api: 'https://api.rafipayment.com/',
-  socket: 'wss://rafipayment.com:4200/',
+  socket: 'wss://ws.rafipayment.com/',
   google_api_key: 'AIzaSyB3KRRAn8zzaUhkevQtXxn1gXv6IWiyT34',
   dwolla_env: 'prod',
   client: 'Web',
