@@ -3,7 +3,7 @@
     <div v-if="loaded">
       <header>
         <div class="meta">
-          <legend>Account TEST</legend>
+          <legend>Account</legend>
           <h2>{{ $user.full_name }}</h2>
         </div>
         <div class="actions">

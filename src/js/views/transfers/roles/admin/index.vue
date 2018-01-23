@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <collection name="transfers" collection_name="transfers" :$collection="$collection" :queries="[range_query]" :searchable="false" ref="collection">
+  <div v-if="range_fetched">
+    <collection name="transfers" :$collection="$collection" :queries="[range_query]" :searchable="false" ref="collection">
     <div slot="header">
       <div class="flexbox">
         <div class="flex">Transfers</div>
-        <div class="solid range">
+        <div class="solid range" v-if="range">
           <select-menu name="range" v-model="range">
             <option v-for="(range, index) in ranges" :value="range" :key="index">{{ range }}</option>
           </select-menu>
@@ -60,7 +60,9 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'transfers',
+      basePath() {
+        return 'transfers'
+      },
       model: Transfer
     })
   },
@@ -94,11 +96,13 @@ export default {
       this.$collection.fetch()
     },
     async fetchRange() {
-      const { min, max } = await this.$request('bills/range/created')
-      const array = getMonthsArray(min, max)
-      array.push('All')
-      this.ranges = array
-      this.range = moment.utc().startOf('month').format('M/YYYY')
+      const { min, max } = await this.$request('transfers/range/created')
+      if (min && max) {
+        const array = getMonthsArray(min, max)
+        array.push('All')
+        this.ranges = array
+        this.range = moment.utc().startOf('month').format('M/YYYY')
+      }
       this.range_fetched = true
     }
     // add() {

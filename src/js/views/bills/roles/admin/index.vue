@@ -4,7 +4,7 @@
       <div slot="header">
         <div class="flexbox">
           <div class="flex">Bills</div>
-          <div class="solid range">
+          <div class="solid range" v-if="range">
             <select-menu name="range" v-model="range">
               <option v-for="(range, index) in ranges" :value="range" :key="index">{{ range }}</option>
             </select-menu>
@@ -94,10 +94,12 @@ export default {
     },
     async fetchRange() {
       const { min, max } = await this.$request('bills/range/due_date')
-      const array = getMonthsArray(min, max)
-      array.push('All')
-      this.ranges = array
-      this.range = moment.utc().startOf('month').format('M/YYYY')
+      if (min && max) {
+        const array = getMonthsArray(min, max)
+        array.push('All')
+        this.ranges = array
+        this.range = moment.utc().startOf('month').format('M/YYYY')
+      }
       this.range_fetched = true
     },
     add() {
