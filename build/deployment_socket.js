@@ -2,7 +2,7 @@ const crypto = require('crypto')
 const client = require('engine.io-client')
 const url = require('../src/js/config').socket
 const version = require('../package.json').version
-const secret = require('./secret.json').key
+const secret = require('./deployment_secret.json').key
 
 const key = crypto.createHmac('sha256', secret).digest('hex')
 
