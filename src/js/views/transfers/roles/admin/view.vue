@@ -30,13 +30,13 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Created</dt>
-              <dd>{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</dd>
+              <dd>{{ $transfer.created | moment('M/D/YY h:mma') }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2" v-if="$transfer.scheduled_date">
             <dl>
               <dt>Scheduled</dt>
-              <dd>{{ $transfer.scheduled_date || '–' }}</dd>
+              <dd>{{ $transfer.scheduled_date | moment('M/D/YY h:mma') }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">

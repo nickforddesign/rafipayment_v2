@@ -29,12 +29,12 @@ const filters = {
     return value + (options[(remainder - 20) % 10] || options[remainder] || options[0])
   },
   moment(value = '', format = 'M/D/YY', utc = true) {
-    let output = '–'
     const target = utc
       ? moment.utc
       : moment
-    if (value) output = target(value).format(format)
-    return output
+    return value
+      ? target(value).format(format)
+      : '–'
   },
   phone(value = '') {
     if (value) {

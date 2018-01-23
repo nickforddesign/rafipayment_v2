@@ -13,7 +13,7 @@
     <div class="divider" />
     <router-link to="/company">Company</router-link>
     <router-link to="/admins">Admins</router-link>
-    <router-link to="/transfers">Ledger</router-link>
+    <router-link to="/transfers">Transfers</router-link>
     <router-link to="/account">Account</router-link>
   </div>
 </template>
