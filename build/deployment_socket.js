@@ -13,7 +13,7 @@ console.log('starting')
 
 // console.log(socket)
 
-socket.open()
+// socket.open()
 
 socket.on('open', () => {
   console.log(`Connected to socket server at: ${url}`)
