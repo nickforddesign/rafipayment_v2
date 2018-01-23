@@ -1,6 +1,6 @@
 export default {
   api: 'https://api.rafipayment.com/',
-  socket: 'http://rafipayment.com:4200/',
+  socket: 'wss://rafipayment.com:4200/',
   google_api_key: 'AIzaSyB3KRRAn8zzaUhkevQtXxn1gXv6IWiyT34',
   dwolla_env: 'prod',
   client: 'Web',

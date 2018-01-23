@@ -12,6 +12,8 @@ yarn-error.log
 selenium-debug.log
 /stats.json
 
+/build/deployment_secret.json
+
 # test coverage
 /coverage/
 
