@@ -9,10 +9,8 @@ const key = crypto.createHmac('sha256', secret).digest('hex')
 const socket = client(url)
 
 console.log(url, key)
-console.log('starting')
 
 // console.log(socket)
-
 // socket.open()
 
 socket.on('open', () => {
