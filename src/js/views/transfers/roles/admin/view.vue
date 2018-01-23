@@ -48,14 +48,25 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Lease</dt>
-              <dd>{{ $transfer.address }}</dd>
+              <dd>
+                <router-link :to="`/leases/${this.$transfer.lease}`">
+                  {{ this.$transfer.address }}
+                </router-link>
+              </dd>
             </dl>
           </div>
 
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Bill</dt>
-              <dd>{{ $transfer.bill }}</dd>
+              <dd>
+                <div v-if="bill_fetched">
+                  <router-link :to="`/bills/${this.$transfer.bill}`">
+                    #{{ $bill.display_id }}
+                  </router-link>
+                </div>
+                <loading type="data" v-else />
+              </dd>
             </dl>
           </div>
 
@@ -105,13 +116,15 @@
 
 <script>
 import Transfer from '@/models/transfer'
+import Bill from '@/models/bill'
 
 export default {
   name: 'transfer',
   data() {
     return {
       fetched: false,
-      fetched_cancel: false
+      fetched_cancel: false,
+      bill_fetched: false
     }
   },
   models: {
@@ -119,17 +132,27 @@ export default {
       return new Transfer({
         id: this.$route.params.id
       })
+    },
+    bill() {
+      return new Bill()
     }
   },
   async created() {
     await this.$transfer.fetch()
     this.checkIfCancellable()
+    this.fetchBill()
     this.fetched = true
   },
   methods: {
     async checkIfCancellable() {
       await this.$transfer.fetchCancel()
       this.fetched_cancel = true
+    },
+    async fetchBill() {
+      // console.log(this.$transfer.bill)
+      this.$bill.id = this.$transfer.bill
+      await this.$bill.fetch()
+      this.bill_fetched = true
     },
     async cancel() {
       const confirmed = confirm(`Are you sure you want to cancel this transfer?`)
