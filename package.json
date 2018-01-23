@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "build": "node build/build-production.js",
     "staging": "node build/build-staging.js",
     "cordova": "node build/build-cordova.js",
     "lint": "eslint --ext .js,.vue src",
