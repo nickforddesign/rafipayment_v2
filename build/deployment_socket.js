@@ -21,11 +21,11 @@ socket.on('open', () => {
 })
 
 socket.send(JSON.stringify({
+  key,
   deployment: {
     refresh: true,
     timestamp: new Date(),
-    version,
-    key
+    version
   }
 }))
 
