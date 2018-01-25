@@ -1,6 +1,6 @@
 <template>
   <div v-if="range_fetched">
-    <collection name="transfers" :$collection="$collection" :queries="[range_query]" :searchable="false" ref="collection">
+    <collection name="transfers" :$collection="$collection" :queries="range_query" :searchable="false" ref="collection">
     <div slot="header">
       <div class="flexbox">
         <div class="flex">Transfers</div>
@@ -33,7 +33,6 @@
 
     </collection>
 
-    <!-- <transfer-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" /> -->
   </div>
 </template>
 
@@ -46,13 +45,11 @@ import Transfer from '@/models/transfer'
 import { getMonthsArray } from '@/utils'
 
 import row from '../../row'
-// import transferModal from '@/components/modals/transfer'
 
 export default {
   name: 'ledger',
   data() {
     return {
-      // modal_visible: false
       range_fetched: false,
       ranges: null,
       range: null
@@ -77,18 +74,10 @@ export default {
         const date = moment.utc(date_str, 'M/D/YYYY')
         const start = date.startOf('month').format('YYYY-MM-DD')
         const end = date.endOf('month').format('YYYY-MM-DD')
-        return `range_created=${start},${end}`
+        return {
+          range_created: `${start},${end}`
+        }
       }
-    }
-  },
-  watch: {
-    async range(val) {
-      this.$nextTick(async () => {
-        this.$refs.collection.fetched = false
-        this.$collection.reset()
-        await this.$collection.fetch()
-        this.$refs.collection.fetched = true
-      })
     }
   },
   methods: {
@@ -105,19 +94,9 @@ export default {
       }
       this.range_fetched = true
     }
-    // add() {
-    //   this.modal_visible = true
-    // },
-    // closeModal() {
-    //   this.modal_visible = false
-    // },
-    // confirmModal() {
-    //   this.$collection.fetch()
-    // }
   },
   components: {
     row
-    // transferModal
   }
 }
 </script>

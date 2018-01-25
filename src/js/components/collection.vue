@@ -1,19 +1,5 @@
 <template>
   <div class="collection-view">
-    <!-- <pull-to :top-load-method="refresh" :top-config="pull_config"> -->
-      <!-- <template slot="top-block" slot-scope="props">
-        <div class="top-load-wrapper">
-          <svg class="icon"
-               :class="{
-                  'icon-arrow': props.state === 'trigger',
-                  'icon-loading': props.state === 'loading'
-               }"
-               aria-hidden="true">
-            <use :xlink:href="iconLink"></use>
-          </svg>
-          {{ props.stateText }}
-        </div>
-      </template> -->
       <header>
         <div class="meta">
           <h2>
@@ -32,10 +18,10 @@
         </div>
       </header>
 
-      <div v-if="filters.length" class="filters">
-        <div v-for="(filter, index) in filters" :key="index" class="filter">
-          {{ filter.key | capitalize }}: {{ filter.value }}
-          <button class="x-small" @click="removeFilter(filter)">X</button>
+      <div v-if="filters_keys.length" class="filters">
+        <div v-for="(value, key) in filters" :key="key" class="filter">
+          {{ key | capitalize }}: {{ value }}
+          <button class="x-small" @click="removeFilter(key)">X</button>
         </div>
       </div>
         
@@ -46,7 +32,6 @@
 
       <div class="pagination-container" v-if="paginate && page_count > 1">
         <div class="summary">
-          <!-- Page {{ current_page_index + 1 }} of {{ page_count }}, -->
           {{ skip + 1 }} - {{ skip + collection.length }} of {{ $collection.total_count || 0 }} items
         </div>
         <ul class="pagination">
@@ -55,7 +40,6 @@
           </li>
         </ul>
       </div>
-    <!-- </pull-to> -->
     <loading v-if="!fetched" />
   </div>
 </template>
@@ -63,8 +47,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import PullTo from 'vue-pull-to'
-import { mergeDeepRight } from 'ramda'
+import Vue from 'vue'
 
 export default {
   name: 'collection',
@@ -90,26 +73,14 @@ export default {
       type: Boolean,
       default: true
     },
-    queries: Array
+    queries: Object
   },
   data() {
     return {
       fetched: false,
-      modal_visible: false,
       current_page_index: 0,
-      original_base: '',
       search_term: '',
-      filters: []
-      // pull_config: {
-      //   pullText: 'Pull to refresh', // The text is displayed when you pull down
-      //   triggerText: 'Release to refresh', // The text that appears when the trigger distance is pulled down
-      //   loadingText: 'Loading...', // The text in the load
-      //   doneText: 'Done', // Load the finished text
-      //   failText: 'Error', // Load failed text
-      //   loadedStayTime: 0, // Time to stay after loading ms
-      //   stayDistance: 30, // Trigger the distance after the refresh
-      //   triggerDistance: 50 // Pull down the trigger to trigger the distance
-      // }
+      filters: {}
     }
   },
   created() {
@@ -128,49 +99,36 @@ export default {
     skip() {
       return (this.current_page_index) * this.limit
     },
-    basePath() {
-      let basePath = this.original_base
-      const joiner = this.getJoiner(basePath)
-
-      if (!this.search_term) {
-        const has_pagination = !basePath.includes('paginator') && this.paginate
-        if (has_pagination) {
-          basePath += `${joiner}paginator_limit=${this.limit}&paginator_skip=${this.skip}`
-        }
-        if (this.filters.length) {
-          const filterQuery = this.filters.map(filter => {
-            return `filter_${filter.key}=${filter.value}`
-          })
-          basePath += has_pagination
-            ? '&'
-            : joiner
-          basePath += filterQuery.join('&')
-        }
-      } else {
-        basePath += `${joiner}search=${this.search_term.split(' ').join(',')}`
+    filters_keys() {
+      return Object.keys(this.filters)
+    },
+    filters_ready() {
+      const filters = {}
+      for (let key in this.filters) {
+        filters[`filter_${key}`] = this.filters[key]
       }
-      if (this.queries) {
-        const joiner = this.getJoiner(basePath)
-        basePath += `${joiner}${this.queries.join('&')}`
-      }
-      return basePath
+      return filters
     }
   },
   watch: {
     current_page_index(val) {
       this.updateUrl()
-      if (this.fetched) {
-        this.fetch()
-      }
+      this.updateQueries()
+      this.fetch()
     },
     $route(val) {
       const page_number = val.query.page || 1
       this.setCurrent(page_number)
       this.initFilters()
     },
-    filters(val) {
+    filters() {
       this.updateUrl()
-      this.updateBasePath()
+      this.updateQueries()
+      this.fetch()
+    },
+    queries() {
+      this.clearPagination()
+      this.updateQueries()
       this.fetch()
     }
   },
@@ -179,7 +137,7 @@ export default {
       this.initFilters()
       this.initPagination()
       if (!this.$collection.modified) {
-        this.updateBasePath()
+        this.updateQueries()
         this.$collection.modified = true
       }
     },
@@ -189,10 +147,6 @@ export default {
       await this.$collection.fetch()
       this.fetched = true
     },
-    async refresh(loaded) {
-      await this.fetch()
-      loaded('done')
-    },
     search(term) {
       this.clearAll()
       this.search_term = term
@@ -200,7 +154,6 @@ export default {
     initPagination() {
       if (this.paginate) {
         const page_query = this.$route.query.page
-
         const page_number = isNaN(page_query) || page_query === undefined
           ? 1
           : page_query
@@ -212,71 +165,63 @@ export default {
       for (let key in this.$route.query) {
         if (key.includes('filter')) {
           const value = this.$route.query[key]
-          key = key.replace('filter_', '')
           this.addFilter({
-            key,
-            value
+            [key.replace('filter_', '')]: value
           })
         }
       }
     },
     addFilter(filter) {
-      const match = this.filters.find((item, i) => {
-        return item.key === filter.key && item.value === filter.value
-      })
-      if (!match) {
-        this.filters.push(filter)
-      }
+      this.filters = Object.assign({}, filter)
     },
     removeFilter(filter) {
-      let index
-      this.filters.find((item, i) => {
-        if (item.key === filter.key && item.value === filter.value) {
-          index = i
-        }
-      })
-      this.filters.splice(index, 1)
+      Vue.delete(this.filters, filter)
     },
     clearFilters() {
       this.filters = []
     },
-    clearAll() {
-      this.clearFilters()
+    clearPagination() {
       this.current_page_index = 0
     },
+    clearAll() {
+      this.clearFilters()
+      this.clearPagination()
+    },
     updateUrl() {
-      let new_query = {}
+      const new_query = {}
 
-      if (this.filters.length) {
-        const filter_map = this.filters.reduce((acc, filter) => {
-          acc[`filter_${filter.key}`] = filter.value
-          return acc
-        }, {})
-        new_query = mergeDeepRight(new_query, filter_map)
+      if (this.filters_keys.length) {
+        Object.assign(new_query, this.filters_ready)
       }
-
       if (this.current_page_index) {
-        new_query = mergeDeepRight(new_query, {
+        Object.assign(new_query, {
           page: this.current_page_index + 1
         })
       }
-
       this.$router.push({
         query: new_query
       })
     },
-    updateBasePath() {
-      if (!this.$collection.modified) {
-        this.original_base = this.$collection.$basePath
+    updateQueries() {
+      this.$collection.query_clear()
+      if (this.search_term) {
+        this.$collection.query_set({
+          search: this.search_term.split(' ').join(',')
+        })
+      } else {
+        if (this.paginate) {
+          this.$collection.query_push({
+            paginator_limit: this.limit,
+            paginator_skip: this.skip
+          })
+        }
+        if (this.filters_keys.length) {
+          this.$collection.query_push(this.filters_ready)
+        }
+        if (this.queries) {
+          this.$collection.query_push(this.queries)
+        }
       }
-      this.$collection.basePath = () => {
-        return this.basePath
-      }
-    },
-    getJoiner(path) {
-      return path.includes('?')
-        ? '&'
-        : '?'
     },
     setCurrent(page_number) {
       this.current_page_index = page_number - 1
@@ -285,19 +230,7 @@ export default {
       if (n - 1 === this.current_page_index) {
         return 'active'
       }
-    },
-    stateChange(state) {
-      if (state === 'pull' || state === 'trigger') {
-        this.pull_icon = 'icon-arrow-bottom'
-      } else if (state === 'loading') {
-        this.pull_icon = 'icon-loading'
-      } else if (state === 'loaded-done') {
-        this.pull_icon = 'icon-finish'
-      }
     }
-  },
-  components: {
-    PullTo
   }
 }
 </script>

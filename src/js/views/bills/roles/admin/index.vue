@@ -1,6 +1,6 @@
 <template>
   <div v-if="range_fetched">
-    <collection name="bills" :$collection="$collection" ref="collection" :queries="[range_query]">
+    <collection name="bills" :$collection="$collection" ref="collection" :queries="range_query">
       <div slot="header">
         <div class="flexbox">
           <div class="flex">Bills</div>
@@ -74,18 +74,10 @@ export default {
         const date = moment.utc(date_str, 'M/D/YYYY')
         const start = date.startOf('month').format('YYYY-MM-DD')
         const end = date.endOf('month').format('YYYY-MM-DD')
-        return `range_due_date=${start},${end}`
+        return {
+          range_due_date: `${start},${end}`
+        }
       }
-    }
-  },
-  watch: {
-    async range(val) {
-      this.$nextTick(async () => {
-        this.$refs.collection.fetched = false
-        this.$collection.reset()
-        await this.$collection.fetch()
-        this.$refs.collection.fetched = true
-      })
     }
   },
   methods: {
