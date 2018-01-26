@@ -1,4 +1,4 @@
 #!/bin/bash
 
 npm run build
-node ./deployment_socket.js
+node ./build/deployment_socket.js

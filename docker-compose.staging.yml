@@ -11,6 +11,9 @@ services:
     ports:
       - 3737:8080
     command: ./build/build-staging.sh
+    deploy:
+      restart_policy:
+        condition: any
 
 volumes:
   rafipayment_frontend_data:
