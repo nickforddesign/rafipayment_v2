@@ -7,7 +7,7 @@
             <div slot="header">
               <div class="flexbox">
                 <div class="flex">{{ name | capitalize }}</div>
-                <div class="solid range" v-if="range">
+                <div class="solid range" v-if="range && $collection.total_count">
                   <select-menu name="range" v-model="range_selected">
                     <option v-for="(label, index) in ranges" :value="label" :key="index">{{ label }}</option>
                   </select-menu>
@@ -158,7 +158,8 @@ export default {
         this.fetch()
       }
     },
-    filters() {
+    async filters() {
+      await this.initRange()
       this.updateUrl()
       this.updateQueries()
       if (this.fetched) {
@@ -290,6 +291,12 @@ export default {
       }
     },
     updateFilters() {
+      // remove existing filters
+      Object.keys(this.$collection.query)
+        .filter(key => key.includes('filter'))
+        .map(key => {
+          this.$collection.query_remove(key)
+        })
       if (this.filters_keys.length) {
         this.$collection.query_push(this.filters_ready)
       }

@@ -47,7 +47,7 @@
     "v-calendar": "^0.3.2",
     "vee-validate": "^2.0.0-rc.25",
     "vue-become": "^1.0.0",
-    "vue-collections": "^1.2.2",
+    "vue-collections": "^1.2.3",
     "vue-focus-lock": "^1.0.5",
     "vue-google-autocomplete": "^1.0.13",
     "vue-models": "^1.4.7",
