@@ -122,7 +122,6 @@ export default {
       }
     }, 20),
     async initSockets() {
-      console.log('initSockets')
       if (!this.socket) {
         const engine = await import('engine.io-client')
         this.socket = engine(config.socket)

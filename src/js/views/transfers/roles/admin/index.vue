@@ -1,9 +1,11 @@
 <template>
   <div>
-    <collection name="transfers" :$collection="$collection" range="created" :searchable="false" ref="collection">
-      <!-- <div slot="actions"> -->
-        <!-- <button @click="add" class="primary">Add Transfer</button> -->
-      <!-- </div> -->
+    <collection
+      name="transfers"
+      range="created"
+      ref="collection"
+      :$collection="$collection"
+      :searchable="false">
 
       <responsive-table slot="content" :columns="[
         'Date',

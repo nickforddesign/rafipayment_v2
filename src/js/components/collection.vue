@@ -84,7 +84,6 @@ export default {
       type: Boolean,
       default: true
     },
-    queries: Object,
     range: String
   },
   data() {
@@ -124,6 +123,14 @@ export default {
       }
       return filters
     },
+    filters_query() {
+      // for fetching range only
+      return this.filters_keys.length
+        ? '?' + Object.keys(this.filters_ready).map(key => {
+          return `${key}=${this.filters_ready[`${key}`]}`
+        }).join('&')
+        : ''
+    },
     range_query() {
       if (this.range_selected && this.range_selected !== 'All') {
         const arr = this.range_selected.split('/')
@@ -138,37 +145,39 @@ export default {
     }
   },
   watch: {
-    current_page_index(val) {
-      this.updateUrl()
-      this.updateQueries()
-      this.fetch()
-    },
     $route(val) {
       const page_number = val.query.page || 1
       this.setCurrent(page_number)
       this.initFilters()
+      this.updateFilters()
+    },
+    current_page_index(val) {
+      this.updateUrl()
+      this.updateQueries()
+      if (this.fetched) {
+        this.fetch()
+      }
     },
     filters() {
       this.updateUrl()
       this.updateQueries()
-      this.fetch()
-    },
-    queries() {
-      this.clearPagination()
-      this.updateQueries()
-      this.fetch()
+      if (this.fetched) {
+        this.fetch()
+      }
     },
     range_selected() {
       this.clearPagination()
       this.updateQueries()
-      this.fetch()
+      if (this.fetched) {
+        this.fetch()
+      }
     }
   },
   methods: {
     async init() {
-      this.initFilters()
+      await this.initFilters()
       await this.initRange()
-      this.initPagination()
+      await this.initPagination()
       if (!this.$collection.modified) {
         this.updateQueries()
         this.$collection.modified = true
@@ -196,28 +205,40 @@ export default {
     },
     async initRange() {
       if (this.range) {
-        const { min, max } = await this.$request(`${this.$collection.$basePath}/range/${this.range}`)
+        const { min, max } = await this.$request(
+          `${this.$collection.$basePath}/range/${this.range}${this.filters_query}`
+        )
         if (min && max) {
-          const array = getMonthsArray(min, max)
-          array.push('All')
-          this.ranges = array
-          this.range_selected = moment.utc().startOf('month').format('M/YYYY')
+          const months_array = getMonthsArray(min, max)
+          months_array.push('All')
+          this.ranges = months_array
+
+          const now = moment.utc().startOf('month')
+          let selected_month = this.ranges[this.ranges.length - 2] // skip "All"
+
+          for (let i = this.ranges.length - 1; i--;) {
+            if (moment.utc(this.ranges[i], 'M/YYYY') < now) {
+              break
+            } else {
+              selected_month = this.ranges[i]
+            }
+          }
+          this.range_selected = selected_month
         }
         this.range_fetched = true
       }
     },
-    initFilters() {
-      for (let key in this.$route.query) {
-        if (key.includes('filter')) {
-          this.addFilter({
-            [key.replace('filter_', '')]: this.$route.query[key]
-          })
-        }
-      }
+    async initFilters() {
+      const filter_keys = Object.keys(this.$route.query).filter(key => key.includes('filter'))
+      const map = {}
+      filter_keys.map(key => {
+        map[key.replace('filter_', '')] = this.$route.query[key]
+      })
+      this.filters = Object.assign({}, map)
     },
-    addFilter(filter) {
-      this.filters = Object.assign(this.filters, filter)
-    },
+    // addFilter(filter) {
+    //   this.filters = Object.assign(this.filters, filter)
+    // },
     removeFilter(filter) {
       Vue.delete(this.filters, filter)
     },
@@ -247,21 +268,9 @@ export default {
     },
     updateQueries() {
       this.updateSearchQuery()
-      if (this.paginate) {
-        this.$collection.query_push({
-          paginator_limit: this.limit,
-          paginator_skip: this.skip
-        })
-      }
-      if (this.filters_keys.length) {
-        this.$collection.query_push(this.filters_ready)
-      }
-
-      if (this.range_query) {
-        this.$collection.query_push(this.range_query)
-      } else {
-        this.$collection.query_remove(`range_${this.range}`)
-      }
+      this.updatePagination()
+      this.updateFilters()
+      this.updateRangeQuery()
     },
     updateSearchQuery() {
       if (this.search_term) {
@@ -270,6 +279,26 @@ export default {
         })
       } else {
         this.$collection.query_remove('search')
+      }
+    },
+    updatePagination() {
+      if (this.paginate) {
+        this.$collection.query_push({
+          paginator_limit: this.limit,
+          paginator_skip: this.skip
+        })
+      }
+    },
+    updateFilters() {
+      if (this.filters_keys.length) {
+        this.$collection.query_push(this.filters_ready)
+      }
+    },
+    updateRangeQuery() {
+      if (this.range_query) {
+        this.$collection.query_push(this.range_query)
+      } else {
+        this.$collection.query_remove(`range_${this.range}`)
       }
     },
     setCurrent(page_number) {

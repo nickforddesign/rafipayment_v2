@@ -1,6 +1,12 @@
 <template>
   <div>
-    <collection name="bills" :$collection="$collection" ref="collection" range="due_date">
+    <collection
+      name="bills"
+      ref="collection"
+      range="due_date"
+      :$collection="$collection"
+      :searchable="false">
+
       <div slot="actions">
         <button @click="add" class="primary">Add Bill</button>
       </div>
@@ -54,6 +60,7 @@ export default {
   },
   methods: {
     fetch() {
+      console.log('parent fetch')
       this.$collection.fetch()
     },
     add() {
