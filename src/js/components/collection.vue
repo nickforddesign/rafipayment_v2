@@ -9,7 +9,9 @@
                 <div class="flex">{{ name | capitalize }}</div>
                 <div class="solid range" v-if="range && $collection.total_count">
                   <select-menu name="range" v-model="range_selected">
-                    <option v-for="(label, index) in ranges" :value="label" :key="index">{{ label }}</option>
+                    <option v-for="(label, index) in ranges" :value="label" :key="index">
+                      {{ label }}
+                    </option>
                   </select-menu>
                 </div>
               </div>

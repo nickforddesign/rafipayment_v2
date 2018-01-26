@@ -53,14 +53,13 @@ export default {
     return new Collection({
       basePath: 'bills',
       query: {
-        sort_created: -1
+        'sort_due_date': -1
       },
       model: Bill
     })
   },
   methods: {
     fetch() {
-      console.log('parent fetch')
       this.$collection.fetch()
     },
     add() {
