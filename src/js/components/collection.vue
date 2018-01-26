@@ -128,9 +128,9 @@ export default {
     filters_query() {
       // for fetching range only
       return this.filters_keys.length
-        ? '?' + Object.keys(this.filters_ready).map(key => {
-          return `${key}=${this.filters_ready[`${key}`]}`
-        }).join('&')
+        ? '?' + Object.keys(this.filters_ready).map(key =>
+          `${key}=${this.filters_ready[`${key}`]}`
+        ).join('&')
         : ''
     },
     range_query() {
