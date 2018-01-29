@@ -6,7 +6,8 @@
           <div class="modal" @keyup.esc="handleEscape">
             <loading v-if="loading" />
             <trap :disabled="is_cordova || full">
-              <form @submit.prevent="handleEnter" autocomplete="fuckchrome">
+              <!-- <form @submit.prevent="handleEnter" autocomplete="fuckchrome"> -->
+              <component :is="wrapper" @submit.prevent="handleEnter" autocomplete="nothanks">
                 <div class="modal-header">
                   <slot name="header">
                     <h1>Please confirm</h1>
@@ -25,7 +26,8 @@
                     {{ confirm_label }}
                   </button>
                 </div>
-              </form>
+              </component>
+              <!-- </form> -->
             </trap>
           </div>
         </div>
@@ -95,11 +97,16 @@ export default {
     },
     is_cordova() {
       return process.env.NODE_ENV === 'cordova'
+    },
+    wrapper() {
+      return this.full
+        ? 'div'
+        : 'form'
     }
   },
   methods: {
     handleEnter() {
-      if (this.keywatch) {
+      if (this.keywatch && !this.full) {
         this.validate()
       }
     },
@@ -116,7 +123,8 @@ export default {
         }
         this.close()
       } catch (err) {
-        console.warn(err)
+        err
+        // console.warn(err)
       } finally {
         this.$emit('complete')
         this.loading = false

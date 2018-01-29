@@ -4,7 +4,7 @@
       v-if="is_mobile"
       v-model="input_value" />
     <v-date-picker
-      mode='single'
+      mode="single"
       v-model='input_value'
       v-else />
   </div>
@@ -43,7 +43,6 @@ export default {
   watch: {
     value(value) {
       this.setValue(value)
-      // this.input_value = new Date(moment.utc(value).format('MM/DD/YYYY'))
     },
     input_value(val) {
       this.$emit('input', moment.utc(this.input_value).startOf('day').toISOString())
@@ -62,5 +61,15 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
-  
+.date-input {
+  position: relative;
+}
+</style>
+
+<style lang="scss">
+.date-input {
+  .popover-container {
+    width: 100%;
+  }
+}
 </style>

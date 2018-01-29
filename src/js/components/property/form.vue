@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="loaded">
+    <div v-if="loaded" @keyup.enter="validate">
       <field name="address" :errors="errors">
         <div v-if="model">
           <input type="checkbox" id="new_address" name="new_address" v-model="new_address">
@@ -8,13 +8,12 @@
         </div>
 
         <vue-google-autocomplete
-          v-if="show_address"
           id="map"
-          ref="default"
-          placeholder="Start typing"
-          v-on:placechanged="getAddressData"
-          country="us"
-        />
+          v-if="show_address"
+          :enable-geolocation="true"
+          @placechanged="getAddressData"
+          @inputChange="inputChanged"
+          country="us" />
       </field>
 
       <field name="name">
@@ -29,7 +28,7 @@
 
         <select-menu v-if="!use_primary" v-model="funding_source" v-validate="'required'" name="pay-into account" class="funding-source">
           <option disabled value="">Please select one</option>
-          <option 
+          <option
             v-for="(funding_source, index) in collection"
             :value="funding_source.id"
             :key="index"
@@ -158,11 +157,15 @@ export default {
     },
     emit() {
       const data = mergeDeepRight(this.place, { name: this.name || this.place.address })
-
       if (this.funding_source) {
         data['funding_source'] = this.funding_source
       }
       this.$emit('input', data)
+    },
+    inputChanged({ newVal }) {
+      if (!newVal) {
+        this.place = false
+      }
     }
   },
   computed: {

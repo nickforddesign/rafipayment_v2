@@ -21,6 +21,7 @@ import Loading from '@/components/loading'
 import Select from '@/components/select'
 import Validation from '@/components/validation'
 import Field from '@/components/field'
+import CheckBox from '@/components/checkbox'
 import NumberInput from '@/components/number'
 import PhoneInput from '@/components/phone'
 import CurrencyInput from '@/components/currency'
@@ -43,6 +44,7 @@ const components = [
   Select,
   Validation,
   Field,
+  CheckBox,
   NumberInput,
   PhoneInput,
   CurrencyInput,

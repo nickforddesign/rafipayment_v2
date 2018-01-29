@@ -6,11 +6,13 @@
 
     <div v-if="type" class="content">
 
-      <div v-if="mode === 'simple'">
+      <check-box v-model="multiple_periods">Mutiple Billing Periods</check-box>
+
+      <div v-if="!multiple_periods">
         <div class="grid">
           <div class="grid__col grid__col--1-of-2">
             <field name="start date" :errors="errors">
-              <date-picker v-model="start_date" v-validate="'required'" name="start date" />
+              <date-picker v-model="periods[0].start_date" v-validate="'required'" name="start date" />
             </field>
           </div>
 
@@ -22,33 +24,41 @@
         </div>
 
         <field name="rent" :errors="errors">
-          <currency v-model="rent" v-validate="'required|min_currency:0.01'" name="rent" />
+          <currency v-model="periods[0].amount" v-validate="'required|min_currency:0.01'" name="rent" />
         </field>
 
-        <button class="link" @click="setMode('advanced')">Advanced</button>
       </div>
 
-      <div v-if="mode === 'advanced'">
+      <div v-else>
 
-        <div v-if="periods.length">
+        <div class="periods">
           <legend>Billing Periods</legend>
-          <div class="box" v-for="(period, index) in periods" :key="index">
-            <field :name="`start date ${index}`" label="Start Date" :errors="errors">
-              <date-picker v-model="period.start_date" v-validate="'required'" data-vv-as="start date" :name="`start date ${index}`" />
-            </field>
-            <field :name="`amount ${index}`" label="Amount" :errors="errors">
-              <currency v-model="period.amount" v-validate="'required|min_currency:0.01'" data-vv-as="amount" :name="`amount ${index}`" />
-            </field>
-          </div>
-        </div>
+          
+          <transition-group name="fade">
+            <div class="box" v-for="(period, index) in periods" :key="index">
+              <button class="close small" @click="removePeriod(index)">X</button>
+              <div class="grid">
+                <div class="grid__col grid__col--1-of-2">
+                  <field :name="`start date ${index}`" label="Start Date" :errors="errors">
+                    <date-picker v-model="period.start_date" v-validate="'required'" data-vv-as="start date" :name="`start date ${index}`" />
+                  </field>
+                </div>
+                <div class="grid__col grid__col--1-of-2">
+                  <field :name="`amount ${index}`" label="Amount" :errors="errors">
+                    <currency v-model="period.amount" v-validate="'required|min_currency:0.01'" data-vv-as="amount" :name="`amount ${index}`" />
+                  </field>
+                </div>
+              </div>
+            </div>
+          </transition-group>
 
-        <button @click="addPeriod">Add Billing Period</button>
+          <button @click="addPeriod">Add Billing Period</button>
+        </div>
 
         <field name="end date" v-if="type === 'fixed'" :errors="errors">
           <date-picker v-model="end_date" v-validate="'required'" name="end date" />
         </field>
 
-        <button class="link" @click="setMode('simple')">Simple</button>
       </div>
 
       <field name="bill due day">
@@ -90,12 +100,19 @@ export default {
   data() {
     return {
       type: null,
-      mode: 'simple',
-      start_date: moment.utc().add(1, 'months').startOf('month').startOf('day'),
-      end_date: moment.utc().add(1, 'months').startOf('month').startOf('day').add(1, 'years').subtract(1, 'days'),
+      multiple_periods: false,
+      end_date: moment.utc()
+        .startOf('month')
+        .startOf('day')
+        .add(1, 'months')
+        .add(1, 'years')
+        .subtract(1, 'days'),
       rent: null,
       periods: [{
-        start_date: moment.utc().add(1, 'months').startOf('month').startOf('day'),
+        start_date: moment.utc()
+          .add(1, 'months')
+          .startOf('month')
+          .startOf('day'),
         amount: ''
       }],
       bill_due_day: '1'
@@ -114,7 +131,6 @@ export default {
     async validate() {
       await this.$validator.validateAll()
       await this.validateDates()
-      // console.log(dates_passed)
       if (!this.errors.any()) {
         this.complete()
       }
@@ -153,14 +169,11 @@ export default {
         end_date: this.end_date,
         bill_due_day: this.bill_due_day
       }
-      if (this.mode === 'simple') {
-        data.periods = [{
-          start_date: this.start_date,
-          amount: this.rent
-        }]
-      } else {
-        data.periods = this.periods
-      }
+
+      data.periods = this.multiple_periods
+        ? this.periods
+        : this.periods[0]
+
       this.models.lease.set(data)
       this.next()
     },
@@ -175,10 +188,18 @@ export default {
       }
     },
     addPeriod() {
+      const last_period = this.periods[this.periods.length - 1]
+      const next_date = moment.utc(last_period.start_date)
+        .add(6, 'months')
       this.periods.push({
-        start_date: '2017-09-01',
+        start_date: next_date,
         amount: ''
       })
+    },
+    removePeriod(index) {
+      if (this.periods.length > 1) {
+        this.periods.splice(index, 1)
+      }
     }
   }
 }
@@ -191,5 +212,18 @@ export default {
   &:hover {
     cursor: pointer;
   }
+
+  .close {
+    position: absolute;
+    right: 14px;
+    top: 6px;
+    z-index: 10;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+.periods {
+  margin-bottom: 20px;
 }
 </style>

@@ -44,8 +44,6 @@ export default {
   },
   created() {
     if (this.models.property) {
-      // console.log('have property', this.models.property)
-      // this.type = 'existing'
       this.models.property = null
     }
   },

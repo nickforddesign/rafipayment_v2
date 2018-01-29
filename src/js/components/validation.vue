@@ -1,6 +1,6 @@
 <template>
   <transition name="fade-in-only">
-    <div class="validation container" v-show="errors.has(name)" @click="hide($event, name)">
+    <div class="validation" v-show="errors.has(name)" @click="hide($event, name)">
       <span class="error">
         {{ errors.first(name) }}
       </span>
@@ -31,7 +31,7 @@ export default {
 <style scoped lang="scss">
 @import '~%/colors';
 
-.container {
+.validation {
   position: absolute;
   display: inline-block;
   top: 100%;

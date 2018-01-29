@@ -2,10 +2,13 @@
   <div>
     <h1 slot="header">Add Property</h1>
     <div slot="body">
-      <new-property v-model="place" ref="property_form" />
-      <div class="actions">
-        <button v-if="place.address" @click="validate">Next</button>
-      </div>
+      <form class="wrap">
+        <new-property v-model="place" ref="property_form" />
+
+        <div class="actions">
+          <button v-if="place.address" @click="validate">Next</button>
+        </div>
+      </form>
     </div>
   </div>
 </template>
