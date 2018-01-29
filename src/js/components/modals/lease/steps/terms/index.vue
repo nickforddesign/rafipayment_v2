@@ -65,7 +65,7 @@
         <number maxlength="2" v-validate="'required|numeric|max_value:28'" v-model="bill_due_day" name="bill due day" />
       </field>
 
-      <button @click="validate">Next</button>
+      <button class="primary" @click="validate">Next</button>
 
     </div>
 
@@ -172,7 +172,7 @@ export default {
 
       data.periods = this.multiple_periods
         ? this.periods
-        : this.periods[0]
+        : this.periods.slice(0, 1)
 
       this.models.lease.set(data)
       this.next()

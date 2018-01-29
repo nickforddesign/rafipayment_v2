@@ -6,7 +6,7 @@
         <new-property v-model="place" ref="property_form" />
 
         <div class="actions">
-          <button v-if="place.address" @click="validate">Next</button>
+          <button class="primary" v-if="place.address" @click="validate">Next</button>
         </div>
       </form>
     </div>

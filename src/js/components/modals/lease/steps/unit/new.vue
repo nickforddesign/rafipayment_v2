@@ -19,7 +19,7 @@
       </field>
 
       <div class="actions">
-        <button v-if="name" @click="validate">Next</button>
+        <button class="primary" v-if="name" @click="validate">Next</button>
       </div>
     </div>
   </div>

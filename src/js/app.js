@@ -15,18 +15,20 @@ import store from '@/store'
 import filters from '@/modules/filters'
 import validators from '@/modules/validators'
 
+import Select from '@/components/inputs/select'
+import CheckBox from '@/components/inputs/checkbox'
+import Radio from '@/components/inputs/radio'
+import NumberInput from '@/components/inputs/number'
+import PhoneInput from '@/components/inputs/phone'
+import CurrencyInput from '@/components/inputs/currency'
+import PasswordInput from '@/components/inputs/password'
+import DateInput from '@/components/inputs/date'
+
 import App from '@/components/main'
 import Logo from '@/components/logo'
 import Loading from '@/components/loading'
-import Select from '@/components/select'
 import Validation from '@/components/validation'
 import Field from '@/components/field'
-import CheckBox from '@/components/checkbox'
-import NumberInput from '@/components/number'
-import PhoneInput from '@/components/phone'
-import CurrencyInput from '@/components/currency'
-import PasswordInput from '@/components/password'
-import DateInput from '@/components/date'
 import SearchInput from '@/components/search'
 import Searchable from '@/components/searchable'
 import Modal from '@/components/modal'
@@ -45,6 +47,7 @@ const components = [
   Validation,
   Field,
   CheckBox,
+  Radio,
   NumberInput,
   PhoneInput,
   CurrencyInput,

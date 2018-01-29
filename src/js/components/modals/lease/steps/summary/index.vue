@@ -61,25 +61,25 @@
             <user-card :model="tenant" />
           </div>
 
-          <table v-if="tenant.charges.length">
-            <thead>
-              <tr>
-                <td>Type</td>
-                <td>Date</td>
-                <td>Amount</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(charge, index) in tenant.charges" :key="index">
-                <td>
+          <div class="table" v-if="tenant.charges.length">
+            <div class="thead">
+              <div class="tr">
+                <div class="th">Type</div>
+                <div class="th">Date</div>
+                <div class="th">Amount</div>
+              </div>
+            </div>
+            <div class="tbody">
+              <div class="tr" v-for="(charge, index) in tenant.charges" :key="index">
+                <div class="td">
                   <span v-if="charge.date">Scheduled</span>
                   <span v-else>Recurring</span>
-                </td>
-                <td>{{ charge.date }}</td>
-                <td>{{ charge.amount }}</td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+                <div class="td">{{ charge.date }}</div>
+                <div class="td">{{ charge.amount }}</div>
+              </div>
+            </div>
+          </div>
         </div>
         
       </div>

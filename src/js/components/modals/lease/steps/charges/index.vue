@@ -10,24 +10,48 @@
       <div class="box" v-for="(charge, index) in charges" :key="index">
         <button class="close small" @click="removeCharge(index)">X</button>
 
+        <field>
+          <input type="radio" :id="`fee-${index}`" :name="`kind-${index}`" value="fee" v-model="charge.kind">
+          <label :for="`fee-${index}`">Fee</label>
+          <input type="radio" :id="`credit-${index}`" :name="`kind-${index}`" value="credit" v-model="charge.kind">
+          <label :for="`credit-${index}`">Credit</label>
+        </field>
+
         <field :name="`amount ${index}`" label="Amount" :errors="errors">
-          <currency v-model="charge.amount" :name="`amount ${index}`" data-vv-as="amount" v-validate="'required|min_currency:0.01|max_currency:5000'" />
+          <currency
+            v-model="charge.amount"
+            :name="`amount ${index}`"
+            data-vv-as="amount"
+            v-validate="'required|min_currency:0.01|max_currency:5000'" />
         </field>
 
         <field name="description">
           <input type="text" v-model="charge.description">
         </field>
 
-
         <field name="type">
-          <input type="radio" :id="`recurring-${index}`" :name="`type-${index}`" value="recurring" v-model="charge.type">
+          <!-- <input type="radio" :id="`recurring-${index}`" :name="`type-${index}`" value="recurring" v-model="charge.type">
           <label :for="`recurring-${index}`">Recurring</label>
           <input type="radio" :id="`scheduled-${index}`" :name="`type-${index}`" value="scheduled" v-model="charge.type">
-          <label :for="`scheduled-${index}`">Scheduled</label>
+          <label :for="`scheduled-${index}`">Scheduled</label> -->
+          <radio v-model="charge.type" :options="[
+            {
+              label: 'Recurring',
+              value: 'recurring'
+            },
+            {
+              label: 'Scheduled',
+              value: 'scheduled'
+            }
+          ]" />
         </field>
 
-        <field v-if="charge.type === 'scheduled'" name="date">
-          <date-picker v-model="charge.date" v-validate="'required'" name="date" />
+        <field v-if="charge.type === 'scheduled'" name="date" :errors="errors">
+          <date-picker
+            v-model="charge.date"
+            v-validate="`required|date_format:M/D/YYYY|date_between:${start_date},${end_date}`"
+            name="date"
+            format="M/D/YYYY" />
         </field>
 
         <field name="target">
@@ -68,6 +92,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'lease-add--charges',
   props: {
@@ -87,12 +113,19 @@ export default {
   computed: {
     tenants() {
       return this.models.tenants
+    },
+    start_date() {
+      return moment.utc(this.models.lease.start_date).format('M/D/YYYY')
+    },
+    end_date() {
+      return moment.utc(this.models.lease.end_date).format('M/D/YYYY')
     }
   },
   methods: {
     addCharge() {
       this.charges.push({
         type: 'recurring',
+        kind: 'fee',
         amount: '',
         description: '',
         target_tenant: false,
@@ -104,6 +137,7 @@ export default {
     },
     async validate() {
       const passed = await this.$validator.validateAll()
+
       if (passed) {
         this.complete()
       }
@@ -112,17 +146,22 @@ export default {
       const lease_charges = []
       const tenant_charges = []
 
-      this.charges.forEach(charge => {
+      this.charges.map(charge => {
+        const multiplier = charge.kind === 'fee'
+          ? 1
+          : -1
+        const amount = charge.amount * multiplier
+
         if (charge.target_tenant) {
           tenant_charges.push({
-            amount: charge.amount,
+            amount,
             date: charge.date,
             tenant: charge.tenant,
             description: charge.description
           })
         } else {
           lease_charges.push({
-            amount: charge.amount,
+            amount,
             date: charge.date,
             description: charge.description
           })
@@ -154,7 +193,8 @@ export default {
     },
     previous() {
       this.$emit('previous')
-    }
+    },
+    moment: moment
   }
 }
 </script>

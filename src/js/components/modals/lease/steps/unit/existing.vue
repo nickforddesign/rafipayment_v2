@@ -5,7 +5,7 @@
         <searchable :collection="collection" display="name" v-model="selected" :focus="true" />
 
         <div class="actions">
-          <button v-if="selected" @click="next">Next</button>
+          <button class="primary" v-if="selected" @click="next">Next</button>
         </div>
       </div>
       <empty v-else>

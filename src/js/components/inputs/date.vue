@@ -19,7 +19,11 @@ import { isMobile } from '@/utils'
 export default {
   name: 'date-picker',
   props: {
-    value: [String, Object]
+    value: [String, Object],
+    format: {
+      type: String,
+      default: 'ISO'
+    }
   },
   data() {
     return {
@@ -31,7 +35,7 @@ export default {
     this.setValue(value)
   },
   computed: {
-    format() {
+    field_format() {
       return this.is_mobile
         ? 'YYYY-MM-DD'
         : 'MM/DD/YYYY'
@@ -45,14 +49,18 @@ export default {
       this.setValue(value)
     },
     input_value(val) {
-      this.$emit('input', moment.utc(this.input_value).startOf('day').toISOString())
+      const date = moment.utc(this.input_value).startOf('day')
+      const output = this.format === 'ISO'
+        ? date.toISOString()
+        : date.format(this.format)
+      this.$emit('input', output)
     }
   },
   methods: {
     setValue(value) {
       this.input_value = this.is_mobile
-        ? moment.utc(value).format(this.format)
-        : new Date(moment.utc(value).format(this.format))
+        ? moment.utc(value).format(this.field_format)
+        : new Date(moment.utc(value).format(this.field_format))
     }
   }
 }
