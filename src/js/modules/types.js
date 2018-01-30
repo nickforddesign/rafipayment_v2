@@ -50,3 +50,15 @@ export class StringOrNull extends Type {
       : this.value
   }
 }
+
+export class ISODateOrNull extends ISODate {
+  constructor(value) {
+    super(value)
+    return this
+  }
+  out() {
+    return this.value
+      ? new Date(this.value).toISOString()
+      : null
+  }
+}

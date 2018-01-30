@@ -28,7 +28,9 @@
         <choice v-for="(model, index) in items" :key="index" :label="display" :model="model" @select="setSelected" />
       </div>
       <div v-else class="empty">
-        No items
+        <slot>
+          No items
+        </slot>
       </div>
     </ul>
   </div>

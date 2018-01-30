@@ -23,11 +23,11 @@
     <div class="flex">
       <div class="actions">
         <button class="x-small" @click="edit">Edit</button>
-        <button class="x-small" @click="remove">Remove</button>
+        <button class="x-small" @click="remove" v-if="$lease.periods.length > 1">Remove</button>
       </div>
     </div>
 
-    <period-modal v-if="modal_visible" :path="basePath" @close="closeModal" :confirm="fetch" :model="$period" />
+    <period-modal v-if="modal_visible" :path="basePath" @close="closeModal" :confirm="fetch" :model="$period" :lease="$lease" />
     
   </div>
 </template>

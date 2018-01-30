@@ -7,15 +7,15 @@
       </field>
 
       <field name="beds" :errors="errors">
-        <input type="text" v-model="bed_count" name="beds">
+        <number v-model="bed_count" name="beds" align="left" />
       </field>
 
       <field name="baths" :errors="errors">
-        <input type="text" v-model="bath_count" name="baths">
+        <number v-model="bath_count" name="baths" align="left" />
       </field>
 
       <field name="square footage" :errors="errors">
-        <input type="text" v-model="square_footage" name="square footage">
+        <number v-model="square_footage" name="square footage" align="left" />
       </field>
 
       <field name="property" :errors="errors">
@@ -103,3 +103,11 @@ export default {
   }
 }
 </script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<style lang="scss" scoped>
+.number {
+  width: 100%;
+}
+</style>

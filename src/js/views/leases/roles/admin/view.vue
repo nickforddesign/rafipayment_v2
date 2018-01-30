@@ -8,6 +8,7 @@
         </div>
         <div class="actions">
           <button class="link" @click="promptRemove">Delete</button>
+          <button class="primary" @click="showModal('lease')">Edit</button>
         </div>
       </header>
 
@@ -46,24 +47,24 @@
               <dd>{{ $lease.unit.bed_count }}</dd>
             </dl>
             <dl>
-              <dt>Beds</dt>
-              <dd>{{ $lease.unit.bed_count }}</dd>
+              <dt>Baths</dt>
+              <dd>{{ $lease.unit.bath_count }}</dd>
             </dl>
             <dl>
               <dt>Square Footage</dt>
               <dd>{{ $lease.unit.square_footage }}</dd>
             </dl>
-            <!-- <dl>
-              <dt>Split Coverage</dt>
-              <dd>{{ $lease.totals_per_period }}</dd>
-            </dl> -->
           </div>
 
-          <!-- <div class="table-container" v-if="$lease.periods.length > 1"> -->
           <div class="table-container">
             <div class="header">
               Lease Terms
             </div>
+            <dl>
+              <dt>Type</dt>
+              <dd>{{ $lease.type }}</dd>
+            </dl>
+
             <dl>
               <dt>Start Date</dt>
               <dd>{{ $lease.start_date | moment }}</dd>
@@ -72,37 +73,14 @@
               <dt>End Date</dt>
               <dd>{{ $lease.end_date | moment }}</dd>
             </dl>
+            <dl>
+              <dt>Bill Due Day</dt>
+              <dd>{{ $lease.bill_due_day }}</dd>
+            </dl>
           </div>
         </div>
 
-        <!-- Single Billing Period -->
-
         <div class="table-container grid__col grid__col--1-of-2">
-          <!-- <div v-if="$lease.periods.length === 1">
-            <div class="header">
-              Lease Terms
-            </div>
-
-            <div v-for="(period, index) in $lease.periods" :key="index">
-              <dl>
-                <dt>Start Date</dt>
-                <dd>{{ period.start_date | moment }}</dd>
-              </dl>
-              <dl>
-                <dt>End Date</dt>
-                <dd>{{ $lease.end_date | moment }}</dd>
-              </dl>
-              <dl>
-                <dt>Rent</dt>
-                <dd>{{ period.amount | currency }}</dd>
-              </dl>
-            </div>
-            <div class="actions">
-              <button class="small" @click="editPeriod(period)">Edit</button>
-              <button class="small" @click="addPeriod">Add</button>
-            </div>
-          </div>  -->
-
 
           <!-- Multiple Billing Periods -->
 
@@ -162,7 +140,8 @@
 
       <bills-table :basePath="`bills?filter_lease=${$lease.id}`"></bills-table>
 
-      <period-modal v-if="modals.period" :path="`${$lease.url}/periods`" @close="closeModal('period')" :confirm="fetch" />
+      <lease-edit-modal v-if="modals.lease" @close="closeModal('lease')" :confirm="fetch" :model="$lease" />
+      <period-modal v-if="modals.period" :path="`${$lease.url}/periods`" @close="closeModal('period')" :confirm="fetch" :lease="$lease" />
       <charge-modal v-if="modals.lease_charge" :path="`${$lease.url}/charges`" @close="closeModal('lease_charge')" :confirm="fetch" />
     </div>
     <loading v-else />
@@ -183,6 +162,7 @@ import Tenant from './tenant'
 import ChargeRow from './charge_row'
 
 // modals
+import LeaseEditModal from '@/components/modals/lease/edit'
 import PeriodModal from '@/components/modals/lease/period'
 import ChargeModal from '@/components/modals/lease/charge'
 
@@ -195,6 +175,7 @@ export default {
     return {
       fetched: false,
       modals: {
+        lease: false,
         period: false,
         lease_charge: false,
         tenant_charge: false
@@ -245,6 +226,7 @@ export default {
   },
   components: {
     BillsTable,
+    LeaseEditModal,
     PeriodModal,
     ChargeModal,
     ChargeRow,

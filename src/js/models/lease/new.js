@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { Model } from 'vue-models'
-import { ObjectId, ISODate, Currency } from '@/modules/types'
+import { ObjectId, ISODate, ISODateOrNull, Currency } from '@/modules/types'
 
 export default class Lease extends Model {
   static defaults() {
@@ -25,7 +25,7 @@ export default class Lease extends Model {
         type: Number
       },
       end_date: {
-        type: ISODate
+        type: ISODateOrNull
       },
       periods: {
         type: Array,

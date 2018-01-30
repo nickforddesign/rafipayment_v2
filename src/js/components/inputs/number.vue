@@ -1,10 +1,11 @@
 <template>
-  <div class="number-container">
+  <div class="number">
     <input
       v-model="input_value"
       :name="name"
       :class="[this.name]"
       :placeholder="placeholder"
+      :style="{ 'text-align': align }"
       @blur="field_blurred"
       @focus="field_focused"
       @input="field_input"
@@ -28,6 +29,10 @@ export default {
     name: {
       type: String,
       default: 'amount'
+    },
+    align: {
+      type: String,
+      default: 'right'
     },
     maxlength: [ String, Number ],
     value: [ String, Number ],
@@ -109,13 +114,12 @@ export default {
 <style lang="scss">
 @import '~%/colors';
 
-.number-container {
+.number {
   position: relative;
   display: inline-block;
 
   input {
     display: inline-block;
-    text-align: right;
     text-overflow: ellipsis;
     padding: 6px;
   }

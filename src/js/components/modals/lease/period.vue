@@ -4,7 +4,7 @@
     <div slot="body">
 
       <field name="start date" :errors="errors">
-        <date-picker v-model="start_date" name="start date" ref="default" />
+        <date-picker v-model="start_date" name="start date" ref="default" v-validate="`required|before:${end_date}`" />
       </field>
 
       <field name="amount" :errors="errors">
@@ -18,6 +18,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import moment from 'moment'
 import { Deferred } from '@/utils'
 
 import Period from '@/models/lease/period'
@@ -27,7 +28,8 @@ export default {
   props: {
     model: Object,
     confirm: Function,
-    path: String
+    path: String,
+    lease: Object
   },
   data() {
     return {
@@ -47,6 +49,11 @@ export default {
       this.$period = this.model.$data
       this.start_date = this.model.start_date
       this.amount = this.model.amount
+    }
+  },
+  computed: {
+    end_date() {
+      return moment.utc(this.lease.end_date).format('M/D/YYYY')
     }
   },
   methods: {
@@ -71,8 +78,6 @@ export default {
         start_date: this.start_date,
         amount: this.amount
       }
-
-      console.log(this.$period)
 
       const request = this.$period.save(body)
       request.then(response => {

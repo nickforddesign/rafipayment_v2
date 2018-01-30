@@ -46,13 +46,16 @@ import Tenants from './steps/tenants'
 import Charges from './steps/charges'
 import DueDate from './steps/date'
 
+import { sleep } from '@/utils'
+
 export default {
-  name: 'modal-lease--add',
+  name: 'modal-bill--add',
   props: {
     model: Object,
     confirm: Function,
     property: Object,
     unit: Object,
+    lease: Object,
     tenants: Array
   },
   data() {
@@ -87,6 +90,21 @@ export default {
   computed: {
     has_back() {
       return this.current_step > 0
+    }
+  },
+  async created() {
+    await sleep(10)
+    if (this.property) {
+      this.models.property = this.property
+      this.current_step = 1
+    }
+    if (this.unit) {
+      this.models.unit = this.unit
+      this.current_step = 2
+    }
+    if (this.lease) {
+      this.models.lease = this.lease
+      this.current_step = 3
     }
   },
   methods: {

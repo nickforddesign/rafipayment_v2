@@ -2,7 +2,7 @@ import moment from 'moment'
 import session from '@/session'
 import { path } from 'ramda'
 import { Model } from 'vue-models'
-import { ObjectId, ISODate, Currency } from '@/modules/types'
+import { ObjectId, ISODate, ISODateOrNull, Currency } from '@/modules/types'
 import { statesHelper, unitsHelper } from '@/utils'
 
 import Property from '@/models/property'
@@ -14,6 +14,11 @@ export default class Lease extends Model {
     return {
       name: 'lease',
       computed: {
+        type() {
+          return this.end_date
+            ? 'Fixed term'
+            : 'Month to month'
+        },
         is_active() {
           return this.current_period !== undefined
         },
@@ -168,7 +173,7 @@ export default class Lease extends Model {
         type: ISODate
       },
       end_date: {
-        type: ISODate
+        type: ISODateOrNull
       },
       periods: {
         type: Array,

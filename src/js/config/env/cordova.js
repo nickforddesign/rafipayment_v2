@@ -1,6 +1,6 @@
 /* globals device */
 
-export default {
+module.exports = {
   // api: 'http://192.168.0.164:8000/',
   api: 'https://api.staging.rafipayment.com/',
   // api: 'https://rafipayment.ngrok.io/',

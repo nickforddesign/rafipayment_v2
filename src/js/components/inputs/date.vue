@@ -6,6 +6,7 @@
     <v-date-picker
       mode="single"
       v-model='input_value'
+      :dateFormatter="dateFormatter"
       v-else />
   </div>
 </template>
@@ -61,6 +62,9 @@ export default {
       this.input_value = this.is_mobile
         ? moment.utc(value).format(this.field_format)
         : new Date(moment.utc(value).format(this.field_format))
+    },
+    dateFormatter(date) {
+      return moment.utc(date).format('M/D/YYYY')
     }
   }
 }

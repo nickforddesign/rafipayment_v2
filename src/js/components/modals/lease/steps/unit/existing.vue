@@ -2,7 +2,9 @@
   <div>
     <div v-if="fetched" class="unit-select">
       <div v-if="collection.length">
-        <searchable :collection="collection" display="name" v-model="selected" :focus="true" />
+        <searchable :collection="collection" display="name" v-model="selected" :focus="true">
+          No matches found, <a href="#" @click.prevent="setNew">add a new unit</a>?
+        </searchable>
 
         <div class="actions">
           <button class="primary" v-if="selected" @click="next">Next</button>
@@ -47,6 +49,9 @@ export default {
     },
     next() {
       this.$parent.complete(this.selected)
+    },
+    setNew() {
+      this.$parent.setType('new')
     }
   }
 }

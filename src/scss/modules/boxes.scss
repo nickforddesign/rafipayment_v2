@@ -39,9 +39,9 @@
   &.invisible {
     background: transparent;
     box-shadow: none;
-  }
 
-  // input {
-  //   background: $color-box-background;
-  // }
+    input {
+      background: $color-box-background;
+    }
+  }
 }

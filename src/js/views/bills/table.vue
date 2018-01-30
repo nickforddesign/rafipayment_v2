@@ -8,10 +8,14 @@
       </div>
       <div class="actions">
         <slot name="actions">
+          <button class="small" @click="showModal">Add Bill</button>
           <button class="small" @click="viewAll">View All</button>
         </slot>
       </div>
     </div>
+
+    <bill-modal v-if="modal_visible" @close="closeModal" :confirm="fetch" :lease="$lease" :property="$lease.property" :unit="$lease.unit" />
+
     <div v-if="fetched">
       <responsive-table v-if="collection.length" :columns="[
         'Due Date',
@@ -38,6 +42,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import BillModal from '@/components/modals/bill'
 import { Collection } from 'vue-collections'
 
 import row from './row'
@@ -62,6 +67,11 @@ export default {
     await this.fetch()
     this.fetched = true
   },
+  computed: {
+    $lease() {
+      return this.$parent.$lease
+    }
+  },
   methods: {
     async fetch() {
       await this.$collection.fetch()
@@ -77,7 +87,8 @@ export default {
     }
   },
   components: {
-    row
+    row,
+    BillModal
   }
 }
 </script>

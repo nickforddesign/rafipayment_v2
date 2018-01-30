@@ -61,7 +61,7 @@
 
       </div>
 
-      <field name="bill due day">
+      <field name="bill due day" :errors="errors">
         <number maxlength="2" v-validate="'required|numeric|max_value:28'" v-model="bill_due_day" name="bill due day" />
       </field>
 

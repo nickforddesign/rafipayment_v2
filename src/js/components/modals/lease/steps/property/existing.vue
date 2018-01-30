@@ -2,7 +2,9 @@
   <div>
     <div v-if="fetched" class="property-select">
       <div v-if="collection.length">
-        <searchable :collection="collection" display="address" v-model="selected" :focus="true" />
+        <searchable :collection="collection" display="address" v-model="selected" :focus="true">
+          No matches found, <a href="#" @click.prevent="setNew">add a new property</a>?
+        </searchable>
 
         <div class="actions">
           <button class="primary" v-if="selected" @click="complete">Next</button>
@@ -50,13 +52,12 @@ export default {
     },
     next() {
       this.$parent.complete(this.selected)
+    },
+    setNew() {
+      this.$parent.setType('new')
     }
   }
 }
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
-
-<style scoped lang="scss">
-
-</style>
