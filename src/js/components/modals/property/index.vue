@@ -1,7 +1,7 @@
 <template>
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Add Property</h1>
-    <div slot="body">
+    <div slot="body" class="modal-property--add">
       <new-property v-model="place" ref="property_form" />
     </div>
   </modal>
@@ -52,12 +52,6 @@ export default {
           if (this.confirm) {
             this.confirm()
           }
-          // this.loading = true
-          // app.alert(
-          //   'Please check the new email address for a verification link',
-          //   this.confirm,
-          //   'Verify Email'
-          // )
         })
         .catch(error => {
           console.log({error})
@@ -71,3 +65,14 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style lang="scss">
+.modal-property--add {
+  .map-container {
+    width: calc(100% + 40px) !important;
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    margin-top: -20px !important;
+  }
+}
+</style>

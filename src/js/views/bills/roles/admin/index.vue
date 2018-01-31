@@ -4,8 +4,7 @@
       name="bills"
       ref="collection"
       range="due_date"
-      :$collection="$collection"
-      :searchable="false">
+      :$collection="$collection">
 
       <div slot="actions">
         <button @click="add" class="primary">Add Bill</button>

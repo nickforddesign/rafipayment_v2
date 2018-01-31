@@ -19,7 +19,7 @@ import filters from '@/modules/filters'
 import { Deferred } from '@/utils'
 
 export default {
-  name: 'modal-user-phone',
+  name: 'modal-user--phone',
   props: {
     model: Object,
     confirm: Function,

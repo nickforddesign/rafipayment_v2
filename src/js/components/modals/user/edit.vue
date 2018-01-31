@@ -1,6 +1,6 @@
 <template>
   <modal @close="close" :confirm="validate">
-    <h1 slot="header">Add {{ role | capitalize }}</h1>
+    <h1 slot="header">Edit {{ role | capitalize }}</h1>
     <div slot="body">
       <field name="first name" :errors="errors">
         <input type="text" v-model="first_name" v-validate.disable="'required'" name="first name" ref="default" autocomplete="nopls">
@@ -18,23 +18,6 @@
         <phone v-model="phone" v-validate.disable="'phone'" name="phone" autocomplete="nopls" />
       </field>
 
-      <field name="password" :errors="errors" v-if="role === 'superadmin'">
-        <password v-model="password" v-validate.disable="'required'" name="password" autocomplete="nopls" />
-      </field>
-
-      <field name="company" :errors="errors" v-if="collection.length">
-        <select-menu v-model="company" v-validate.disable="'required'" name="company">
-          <option disabled value="">Please select one</option>
-          <option 
-            v-for="(company, index) in collection"
-            :value="company.id"
-            :key="index"
-            :label="company.name">
-            {{ company.name }}
-          </option>
-        </select-menu>
-      </field>
-
     </div>
   </modal>
 </template>
@@ -43,46 +26,27 @@
 
 <script>
 import { path } from 'ramda'
-import { Collection } from 'vue-collections'
 import { Deferred, trimObj } from '@/utils'
+import filters from '@/modules/filters'
 import app from '@/app'
-import Company from '@/models/company'
-import User from '@/models/user/new'
-import session from '@/session'
 
 export default {
-  name: 'modal-user--add',
+  name: 'modal-user--edit',
   props: {
     model: Object,
-    confirm: Function,
-    role: String
-  },
-  collection() {
-    return new Collection({
-      basePath: 'companies',
-      model: Company
-    })
+    confirm: Function
   },
   data() {
     return {
-      first_name: '',
-      last_name: '',
-      email: '',
-      phone: '',
-      password: '',
-      company: ''
+      first_name: this.model.first_name,
+      last_name: this.model.last_name,
+      email: this.model.email,
+      phone: this.model.phone
     }
   },
-  models: {
-    user() {
-      return new User({
-        role: this.role
-      })
-    }
-  },
-  created() {
-    if (session.$user.role === 'superadmin' && this.role !== 'superadmin') {
-      this.$collection.fetch()
+  computed: {
+    role() {
+      return this.model.role
     }
   },
   methods: {
@@ -105,20 +69,24 @@ export default {
 
       const data = trimObj(this.$data, '', undefined)
 
-      const request = this.$user.save(data)
+      if (!data.phone) {
+        data.phone = null
+      }
+
+      const request = this.model.save(data)
       request.then(response => {
-        app.alert(
-          `Successfully created ${this.$user.full_name} at ${this.$user.email}`,
-          null,
-          'User Created',
-          'OK',
-          'success'
-        )
+        this.close()
         this.confirm()
       })
       .catch(error => {
         const dwolla_error = path(['data', 'response_data', '_embedded', 'errors', 0, 'message'], error)
-        const message = dwolla_error || 'An error occurred while creating the user'
+        const duplicate_error = path(['error'], error)
+        const key = error.data.index_name.includes('phone')
+          ? filters.phone(error.data.key)
+          : error.data.key
+        const message = dwolla_error || (duplicate_error
+          ? `There is already a user at ${key}`
+          : 'There was an errror creating the user')
         app.alert(
           message,
           null,

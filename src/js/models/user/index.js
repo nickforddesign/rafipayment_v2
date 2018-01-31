@@ -1,6 +1,5 @@
-// import { path } from 'ramda'
 import { Model } from 'vue-models'
-import { ObjectId, ISODate } from '@/modules/types'
+import { ObjectId, ISODate, StringOrNull } from '@/modules/types'
 
 export default class User extends Model {
   static defaults() {
@@ -25,16 +24,6 @@ export default class User extends Model {
             ? `${this.first_name[0]}${this.last_name[0]}`.toUpperCase()
             : ``
         }
-        // funding_sources() {
-        //   const funding_sources_array = path(['payment', 'funding_sources'], this)
-        //   if (funding_sources_array) {
-        //     return funding_sources_array.filter(funding_source => {
-        //       return funding_source.removed !== true
-        //     })
-        //   } else {
-        //     return []
-        //   }
-        // }
       }
     }
   }
@@ -65,7 +54,7 @@ export default class User extends Model {
         type: String
       },
       phone: {
-        type: String
+        type: StringOrNull
       },
       role: {
         type: String

@@ -74,7 +74,11 @@ export default class Lease extends Model {
           return { months, days, auto }
         },
         label() {
-          return `${moment.utc(this.start_date).format('M/D/YY')} – ${moment.utc(this.end_date).format('M/D/YY')}`
+          const start = moment.utc(this.start_date).format('M/D/YY')
+          const end = this.end_date
+            ? moment.utc(this.end_date).format('M/D/YY')
+            : '∞'
+          return `${start} – ${end}`
         },
         tenants_sorted() {
           return this.tenants.sort((a, b) => {

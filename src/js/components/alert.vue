@@ -114,7 +114,7 @@ export default {
 
 .alert-container {
   @include fixed_fill;
-  z-index: 10000;
+  z-index: 10000000;
   background: rgba(0,0,0, 0.6);
 
   .alert {

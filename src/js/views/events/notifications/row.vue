@@ -4,9 +4,6 @@
       {{ $event.created | moment('M/D/YYYY h:mm:ssa') }}
     </cell>
     <cell>
-      <pre>{{ $event }}</pre>
-    </cell>
-    <cell>
       {{ $event.data.type || $event.type }}
     </cell>
     <cell>
@@ -33,9 +30,6 @@ export default {
       return new UserEvent(this.model)
     }
   },
-  // created() {
-  //   console.log(this.$event)
-  // },
   computed: {
     status_class() {
       return this.$event.success

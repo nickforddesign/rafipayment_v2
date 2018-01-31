@@ -18,7 +18,7 @@ import app from '@/app'
 import { Deferred } from '@/utils'
 
 export default {
-  name: 'modal-user-email',
+  name: 'modal-user--email',
   props: {
     model: Object,
     confirm: Function,

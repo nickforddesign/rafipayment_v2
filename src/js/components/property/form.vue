@@ -1,6 +1,8 @@
 <template>
   <div>
     <div v-if="loaded" @keyup.enter="validate">
+      <google-map :markers="markers" />
+
       <field name="address" :errors="errors">
         <div v-if="model">
           <input type="checkbox" id="new_address" name="new_address" v-model="new_address">
@@ -53,10 +55,8 @@ import VueGoogleAutocomplete from 'vue-google-autocomplete'
 import config from '@/config'
 import { load } from '@/utils'
 
-let places_loaded = false
-
 export default {
-  name: 'new-property',
+  name: 'property-form',
   props: {
     model: Object,
     confirm: Function
@@ -74,10 +74,7 @@ export default {
     }
   },
   async beforeMount() {
-    if (!places_loaded) {
-      await load(`https://maps.googleapis.com/maps/api/js?key=${config.google_api_key}&libraries=places`)
-      places_loaded = true
-    }
+    await load(`https://maps.googleapis.com/maps/api/js?key=${config.google_api_key}&libraries=places`, 'google')
     this.loaded = true
   },
   beforeDestroy() {
@@ -173,6 +170,13 @@ export default {
       return this.model
         ? this.new_address
         : true
+    },
+    markers() {
+      return (!this.model || this.new_address) && this.place
+        ? [this.place]
+        : this.model
+          ? [{ place_id: this.model.place_id }]
+          : []
     }
   },
   components: {

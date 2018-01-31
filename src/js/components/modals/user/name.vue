@@ -21,7 +21,7 @@
 import { Deferred } from '@/utils'
 
 export default {
-  name: 'modal-user-name',
+  name: 'modal-user--name',
   props: {
     model: Object,
     confirm: Function

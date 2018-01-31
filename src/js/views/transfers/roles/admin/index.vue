@@ -4,8 +4,7 @@
       name="transfers"
       range="created"
       ref="collection"
-      :$collection="$collection"
-      :searchable="false">
+      :$collection="$collection">
 
       <responsive-table slot="content" :columns="[
         'Date',

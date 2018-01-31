@@ -37,6 +37,7 @@ import ResponsiveTable from '@/components/table'
 import Cell from '@/components/table/cell'
 import Collection from '@/components/collection'
 import Collapse from '@/components/collapse'
+import GoogleMap from '@/components/map'
 
 Vue.config.productionTip = false
 
@@ -60,7 +61,8 @@ const components = [
   ResponsiveTable,
   Cell,
   Collection,
-  Collapse
+  Collapse,
+  GoogleMap
 ]
 
 const install = (Vue) => {

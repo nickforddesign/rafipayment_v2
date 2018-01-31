@@ -12,6 +12,8 @@
         </div>
       </header>
       <div class="table-container">
+        <google-map :markers="[{ place_id: $property.place_id }]" />
+
         <div class="header">
           Property Information
         </div>

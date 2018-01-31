@@ -1,7 +1,7 @@
 <template>
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Edit Property</h1>
-    <div slot="body">
+    <div slot="body" class="modal-property--edit">
       <property-form v-model="place" :model="model" ref="property_form" />
     </div>
   </modal>
@@ -50,14 +50,9 @@ export default {
       return this.$property.save(this.place)
         .then(response => {
           if (this.confirm) {
+            this.close()
             this.confirm()
           }
-          // this.loading = true
-          // app.alert(
-          //   'Please check the new email address for a verification link',
-          //   this.confirm,
-          //   'Verify Email'
-          // )
         })
         .catch(error => {
           console.log({error})
@@ -71,3 +66,15 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style lang="scss">
+.modal-property--edit {
+  .map-container {
+    width: calc(100% + 40px) !important;
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    margin-top: -20px !important;
+  }
+}
+</style>
+

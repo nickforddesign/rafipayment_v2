@@ -46,15 +46,25 @@ export function sleep (ms) {
 
 // load scripts from cdn
 
-export function load (url) {
+export function load (url, global) {
   return new Promise((resolve, reject) => {
-    let script = window.document.createElement('script')
-    script.type = 'text/javascript'
-    script.async = true
-    script.src = url
-    script.onload = resolve
-    script.onerror = reject
-    window.document.head.appendChild(script)
+    const script = document.querySelector(`script[src="${url}"]`)
+    if (script) {
+      const interval = setInterval(() => {
+        if (global in window) {
+          clearInterval(interval)
+          resolve(window[global])
+        }
+      }, 100)
+    } else {
+      let script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.async = true
+      script.src = url
+      script.onload = resolve
+      script.onerror = reject
+      window.document.head.appendChild(script)
+    }
   })
 }
 
