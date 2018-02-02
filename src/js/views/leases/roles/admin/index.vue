@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collection name="leases" :$collection="$collection" :searchable="false">
+    <collection name="leases" :$collection="$collection">
       <div slot="actions">
         <button @click="add" class="primary">Add Lease</button>
       </div>

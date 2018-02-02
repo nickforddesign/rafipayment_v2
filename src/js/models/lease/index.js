@@ -94,9 +94,11 @@ export default class Lease extends Model {
         totals_per_period() {
           const tenant_charges = this.tenants.reduce((acc, tenant) => {
             return acc + tenant.charges.reduce((acc, charge) => {
-              return charge.type === 'recurring' ? acc + charge.amount : acc
+              return charge.type === 'recurring'
+                ? acc + (charge.amount * 100)
+                : acc
             }, 0)
-          }, 0)
+          }, 0) / 100
           const lease_charges = this.charges.reduce((acc, charge) => charge.type === 'recurring' ? acc + charge.amount : acc, 0)
           const recurring_charges = tenant_charges + lease_charges
 

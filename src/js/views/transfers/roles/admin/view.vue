@@ -9,10 +9,12 @@
           <h2>{{ $transfer.amount | currency }}</h2>
         </div>
         <div class="actions">
-          <div v-if="fetched_cancel">
-            <button class="danger" @click="cancel" v-if="$transfer.cancellable">Cancel</button>
+          <div v-if="$transfer.type !== 'non_electronic'">
+            <div v-if="fetched_cancel">
+              <button class="danger" @click="cancel" v-if="$transfer.cancellable">Cancel</button>
+            </div>
+            <loading v-else type="input" />
           </div>
-          <loading v-else type="input" />
         </div>
       </header>
 
@@ -139,7 +141,9 @@ export default {
   },
   async created() {
     await this.$transfer.fetch()
-    this.checkIfCancellable()
+    if (this.$transfer.type !== 'non_electronic') {
+      this.checkIfCancellable()
+    }
     this.fetchBill()
     this.fetched = true
   },
@@ -149,7 +153,6 @@ export default {
       this.fetched_cancel = true
     },
     async fetchBill() {
-      // console.log(this.$transfer.bill)
       this.$bill.id = this.$transfer.bill
       await this.$bill.fetch()
       this.bill_fetched = true

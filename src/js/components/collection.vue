@@ -60,6 +60,7 @@
 <script>
 import Vue from 'vue'
 import moment from 'moment'
+import { equals } from 'ramda'
 import { getMonthsArray } from '@/utils'
 
 export default {
@@ -150,8 +151,11 @@ export default {
     $route(val) {
       const page_number = val.query.page || 1
       this.setCurrent(page_number)
-      this.initFilters()
-      this.updateFilters()
+      const filters = this.getFiltersFromRoute()
+      if (!equals(filters, this.filters)) {
+        this.initFilters()
+        this.updateFilters()
+      }
     },
     current_page_index(val) {
       this.updateUrl()
@@ -232,16 +236,17 @@ export default {
       }
     },
     async initFilters() {
+      const filters = this.getFiltersFromRoute()
+      this.filters = Object.assign({}, filters)
+    },
+    getFiltersFromRoute() {
       const filter_keys = Object.keys(this.$route.query).filter(key => key.includes('filter'))
       const map = {}
       filter_keys.map(key => {
         map[key.replace('filter_', '')] = this.$route.query[key]
       })
-      this.filters = Object.assign({}, map)
+      return map
     },
-    // addFilter(filter) {
-    //   this.filters = Object.assign(this.filters, filter)
-    // },
     removeFilter(filter) {
       Vue.delete(this.filters, filter)
     },

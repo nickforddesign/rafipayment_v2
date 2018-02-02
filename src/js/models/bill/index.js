@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { Model } from 'vue-models'
 import { ObjectId, ISODate, Currency } from '@/modules/types'
-import { parseCurrency, unitsHelper } from '@/utils'
+import { unitsHelper } from '@/utils'
 import Transfer from '@/models/transfer'
 
 export default class Bill extends Model {
@@ -32,9 +32,9 @@ export default class Bill extends Model {
           if (this.has_transfers) {
             return this.total - this.transfers.reduce((acc, transfer) => {
               return !['customer_transfer_cancelled', 'customer_transfer_failed'].includes(transfer.status)
-                ? acc + parseCurrency(transfer.amount, Number)
+                ? acc + (transfer.amount * 100)
                 : acc
-            }, 0)
+            }, 0) / 100
           } else {
             return this.total
           }
@@ -42,9 +42,8 @@ export default class Bill extends Model {
         bill_status() {
           const due_date = moment.utc(this.due_date).startOf('day')
           const today = moment.utc().startOf('day')
-          const balance = parseFloat(this.balance)
           let status
-          if (balance <= 0) {
+          if (this.balance <= 0) {
             status = 'paid'
           } else if (due_date < today) {
             status = 'overdue'
@@ -109,7 +108,7 @@ export default class Bill extends Model {
         type: Boolean
       },
       display_id: {
-        type: Number
+        type: String
       },
       property: {
         type: ObjectId

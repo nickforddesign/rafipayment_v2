@@ -21,9 +21,9 @@
           <dd>{{ $bill.type | capitalize }}</dd>
         </dl>
         <dl>
-          <dt>Address</dt>
+          <dt>Lease</dt>
           <dd>
-            <router-link :to="`/units/${$bill.unit.id}`">{{ $bill.target }}</router-link>
+            <router-link :to="`/leases/${$bill.lease}`">{{ $bill.target }}</router-link>
           </dd>
         </dl>
         <dl>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="tenant" v-for="(tenant, index) in $bill.tenants" :key="index">
-          <user-card :data="tenant" />
+          <user-card :data="tenant" @click="goToTenant(tenant)" />
         </div>
 
       </div>
@@ -81,21 +81,16 @@ export default {
   props: {
     $bill: Object
   },
-  // data() {
-  //   return {
-  //     modal_visible: false
-  //   }
-  // },
+  mounted() {
+    console.log(this.$bill)
+  },
   methods: {
-    fetch() {
-      this.$bill.fetch()
-    }
-    // showModal() {
-    //   this.modal_visible = true
+    // async fetch() {
+    //   await this.$bill.fetch()
     // },
-    // closeModal() {
-    //   this.modal_visible = false
-    // }
+    goToTenant(tenant) {
+      this.$router.push(`/tenants/${tenant.id}`)
+    }
   },
   components: {
     transfersTable,

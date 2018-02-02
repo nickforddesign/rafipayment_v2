@@ -42,6 +42,9 @@ export default {
       basePath() {
         return 'transfers'
       },
+      query: {
+        sort_created: -1
+      },
       model: Transfer
     })
   },
