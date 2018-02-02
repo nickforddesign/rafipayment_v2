@@ -1,5 +1,5 @@
 #!/bin/bash
 
 npm run build
-cp -R /app/verification/ ./dist
+cp -r /app/verification/ ./dist
 node ./build/deployment_socket.js
