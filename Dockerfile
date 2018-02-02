@@ -10,7 +10,7 @@ WORKDIR /app
 ADD package.json ./
 
 # add apple/google verification files
-ADD verification/* /app/
+# ADD verification/* /app/
 
 RUN npm install
 
