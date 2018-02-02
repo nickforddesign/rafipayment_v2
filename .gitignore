@@ -14,6 +14,7 @@ selenium-debug.log
 
 /build/deployment_secret.json
 /verification
+/.well-known
 
 # test coverage
 /coverage/

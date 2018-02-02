@@ -70,8 +70,8 @@
     <allow-intent href="geo:*" />
     <allow-navigation href="https://*.dwolla.com" />
     <universal-links>
-        <host event="launch" name="app.payment.rafiproperties.com" scheme="https" />
-        <host event="launch" name="app.staging.payment.rafiproperties.com" scheme="https" />
+        <host event="launch" name="app.rafipayment.com" scheme="https" />
+        <host event="launch" name="app.staging.rafipayment.com" scheme="https" />
     </universal-links>
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="^6.3.0" />
@@ -102,4 +102,5 @@
     <plugin name="phonegap-plugin-push" spec="^2.1.1">
         <variable name="SENDER_ID" value="1:582343470433:android:9bde5be4ab52af2c" />
     </plugin>
+    <plugin name="cordova-universal-links-plugin" spec="^1.2.1" />
 </widget>

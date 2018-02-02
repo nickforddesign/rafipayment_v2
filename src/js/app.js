@@ -41,6 +41,10 @@ import GoogleMap from '@/components/map'
 
 Vue.config.productionTip = false
 
+if (process.env.NODE_ENV === 'cordova') {
+  import('@/modules/universal_links')
+}
+
 const components = [
   Logo,
   Loading,
