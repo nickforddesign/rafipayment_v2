@@ -1,5 +1,5 @@
 #!/bin/bash
 
 npm run staging
-cp /app/verification/* ./dist/
+cp -R /app/verification/* ./dist/
 node ./build/deployment_socket.js
