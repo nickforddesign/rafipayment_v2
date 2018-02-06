@@ -38,7 +38,7 @@
       
     <slot name="content" v-if="fetched && collection.length" />
     <empty v-else-if="fetched && !collection.length">
-      <div slot="message">There are no {{ collection_name || name }} yet</div>
+      <div slot="message">There are no {{ collection_name || name }}</div>
     </empty>
 
     <div class="pagination-container" v-if="paginate && page_count > 1">
@@ -95,6 +95,7 @@ export default {
       ranges: null,
       range_fetched: false,
       range_selected: null,
+      range_has_been_selected: false,
       current_page_index: 0,
       search_term: '',
       filters: {}
@@ -173,6 +174,9 @@ export default {
       }
     },
     range_selected() {
+      if (!this.range_has_been_selected) {
+        this.range_has_been_selected = true
+      }
       this.clearPagination()
       this.updateQueries()
       if (this.fetched) {
@@ -198,6 +202,9 @@ export default {
     },
     search(term) {
       this.clearAll()
+      if (this.range && !this.range_has_been_selected) {
+        this.range_selected = 'All'
+      }
       this.search_term = term
     },
     initPagination() {
@@ -211,7 +218,7 @@ export default {
       }
     },
     async initRange() {
-      if (this.range) {
+      if (this.range && !this.range_fetched) {
         const { min, max } = await this.$request(
           `${this.$collection.$basePath}/range/${this.range}${this.filters_query}`
         )
@@ -231,6 +238,7 @@ export default {
             }
           }
           this.range_selected = selected_month
+          this.range_has_been_selected = false
         }
         this.range_fetched = true
       }

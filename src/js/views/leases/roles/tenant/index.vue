@@ -6,8 +6,14 @@
         'Unit',
         'Start Date',
         'End Date',
-        'Duration',
-        'Current Rent'
+        {
+          name: 'Duration',
+          class: 'duration-col'
+        },
+        {
+          name: 'Current Rent',
+          class: 'text-right'
+        }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>
@@ -44,3 +50,9 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style lang="scss">
+.duration-col {
+  width: 30px;
+}
+</style>

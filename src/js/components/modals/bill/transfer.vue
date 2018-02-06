@@ -2,24 +2,24 @@
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Add Transfer</h1>
     <div slot="body">
-      <div v-if="mode === 'simple'">
+      <!-- <div v-if="mode === 'simple'"> -->
         <field name="amount" :errors="errors">
           <currency v-model="amount" v-validate="'required'" ref="default" />
         </field>
 
-        <button class="small" @click="setMode('advanced')">Advanced</button>
-      </div>
+        <!-- <button type="button" class="small" @click="setMode('advanced')">Advanced</button> -->
+      <!-- </div>
       <div v-else>
         <field name="amount" :errors="errors">
           <currency v-model="amount" v-validate="'required'" ref="default" />
         </field>
 
-        <field name="date" :errors="errors">
-          <date-picker v-model="scheduled_date" v-validate="'required'" />
+        <field name="schedule payment" :errors="errors">
+          <date-picker v-model="scheduled_date" v-validate="'required'" data-vv-as="date" name="schedule payment" />
         </field>
 
-        <button class="small" @click="setMode('simple')">Simple</button>
-      </div>
+        <button type="button" class="small" @click="setMode('simple')">Simple</button>
+      </div> -->
     </div>
   </modal>
 </template>
@@ -27,6 +27,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import moment from 'moment'
+import { path } from 'ramda'
 import app from '@/app'
 import { Deferred, parseCurrency, prettyCurrency } from '@/utils'
 import Transfer from '@/models/transfer/new'
@@ -62,9 +64,9 @@ export default {
   },
   watch: {
     mode(val) {
-      if (val === 'simple') {
-        this.date = null
-      }
+      this.scheduled_date = val === 'simple'
+        ? null
+        : moment.utc().startOf('day').add('days', 1).toISOString()
     }
   },
   methods: {
@@ -76,14 +78,32 @@ export default {
     },
     async validate() {
       const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
+      await this.$validator.validateAll()
+      this.validateDate()
+      if (!this.errors.any()) {
         await this.confirmChange()
         deferred.resolve()
       } else {
         deferred.reject()
       }
       return deferred.promise
+    },
+    validateDate() {
+      const end_date = path(['$lease', 'end_date'], this.$parent)
+      const date = moment.utc(this.scheduled_date)
+      if (date < moment.utc().startOf('day').add('days', 1)) {
+        this.errors.add(
+          'schedule payment',
+          'Transfers must be scheduled at least one day in advance',
+          'required'
+        )
+      } else if (end_date && date > moment.utc(end_date)) {
+        this.errors.add(
+          'schedule payment',
+          'Transfer date is outside of lease range',
+          'required'
+        )
+      }
     },
     async confirmChange() {
       this.loading = true
@@ -110,7 +130,14 @@ export default {
         )
       })
       .catch(error => {
-        console.log({error})
+        const message = path(['data', 'description'], error) || 'There was an error making the transfer'
+        app.alert(
+          message,
+          null,
+          'Transfer Error',
+          'OK',
+          'danger'
+        )
       })
       return request
     }

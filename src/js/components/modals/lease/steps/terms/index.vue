@@ -136,17 +136,12 @@ export default {
       }
     },
     async validateDates() {
-      if (this.mode === 'simple') {
-        this.validateStart()
-      } else {
+      if (this.multiple_periods) {
         this.validatePeriods()
       }
       if (this.type === 'fixed') {
         this.validateEnd()
       }
-    },
-    validateStart() {
-      return true
     },
     validatePeriods() {
       this.periods.map((period, index) => {
@@ -157,7 +152,7 @@ export default {
       })
     },
     validateEnd() {
-      const previous_date = this.mode === 'simple'
+      const previous_date = !this.multiple_periods
         ? this.start_date
         : this.periods[this.periods.length - 1].start_date
       if (previous_date >= this.end_date) {
@@ -166,9 +161,10 @@ export default {
     },
     complete(model) {
       let data = {
-        end_date: this.end_date,
+        end_date: this.type === 'fixed' ? this.end_date : null,
         bill_due_day: this.bill_due_day
       }
+      console.log(data)
 
       data.periods = this.multiple_periods
         ? this.periods

@@ -229,7 +229,7 @@ nav {
 
 .logo {
   width: 80px;
-  margin-top: 10px;
+  margin-top: 16px;
 }
 
 @media (min-width: $breakpoint-small) {
@@ -261,7 +261,7 @@ nav {
 
 .nav-toggle {
   position: fixed;
-  top: 20px;
+  top: 28px;
   right: 14px;
   width: 36px;
   height: 36px;

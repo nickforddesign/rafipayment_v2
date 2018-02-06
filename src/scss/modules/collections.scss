@@ -1,7 +1,8 @@
 @import '~%/breakpoints';
 
 .collection-view {
-  padding-bottom: 30px;
+  padding-bottom: 6px;
+
   .tbody {
     .tr {
       &:hover {
@@ -20,5 +21,11 @@
         }
       }
     }
+  }
+}
+
+@media (min-width: $breakpoint-medium) {
+  .collection-view {
+    padding-bottom: 30px;
   }
 }

@@ -136,7 +136,8 @@ h3 {
 }
 
 .footer-button {
-  margin: 20px 0;
+  // margin: 20px 0;
+  margin-bottom: 30px;
 }
 
 .model-view, .heightfix {

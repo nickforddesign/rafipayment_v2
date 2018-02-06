@@ -1,6 +1,6 @@
 <template>
   <div class="checkbox">
-    <input type="checkbox" v-model="field_value" :id="_uid">
+    <input type="checkbox" v-model="field_value" :id="_uid" :disabled="disabled">
     <label :for="_uid">
       <slot>
         {{ label }}
@@ -14,7 +14,7 @@
 <script>
 export default {
   name: 'check-box',
-  props: ['value', 'label'],
+  props: ['value', 'label', 'disabled'],
   data() {
     return {
       field_value: this.value

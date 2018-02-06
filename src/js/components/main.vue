@@ -98,6 +98,7 @@ export default {
   },
   watch: {
     logged_in(val) {
+      toggleStatusBar(!!val)
       let path = val ? this.getRedirect() : '/'
       return this.$router.replace(path)
     }
@@ -217,7 +218,7 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    margin-top: 16px;
+    margin-top: 22px;
     padding: 0;
     box-shadow: none;
     border-radius: 0;
@@ -277,6 +278,8 @@ main {
   }
 
   main {
+    user-select: auto !important;
+    
     .content {
       position: absolute;
       left: $sidebar-width;

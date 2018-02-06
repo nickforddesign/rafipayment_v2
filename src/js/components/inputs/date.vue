@@ -5,7 +5,8 @@
       v-model="input_value" />
     <v-date-picker
       mode="single"
-      v-model='input_value'
+      v-model="input_value"
+      popoverVisibility="focus"
       :dateFormatter="dateFormatter"
       v-else />
   </div>

@@ -45,6 +45,9 @@ export default {
   collection() {
     return new Collection({
       basePath: 'leases',
+      query: {
+        sort_created: -1
+      },
       model: Lease
     })
   },

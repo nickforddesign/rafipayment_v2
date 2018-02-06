@@ -67,15 +67,19 @@
 
             <dl>
               <dt>Start Date</dt>
-              <dd>{{ $lease.start_date | moment }}</dd>
+              <dd>{{ $lease.start_date | moment('M/D/YYYY', true) }}</dd>
             </dl>
             <dl>
               <dt>End Date</dt>
-              <dd>{{ $lease.end_date | moment }}</dd>
+              <dd>{{ $lease.end_date | moment('M/D/YYYY', true) }}</dd>
             </dl>
             <dl>
               <dt>Bill Due Day</dt>
               <dd>{{ $lease.bill_due_day }}</dd>
+            </dl>
+            <dl v-if="$lease.security">
+              <dt>Security Deposit</dt>
+              <dd>{{ $lease.security | currency }}</dd>
             </dl>
           </div>
         </div>
@@ -194,6 +198,7 @@ export default {
   },
   methods: {
     async fetch() {
+      this.fetched = false
       await this.$lease.fetch()
       this.fetched = true
     },
@@ -242,9 +247,9 @@ export default {
 .period {
   margin-top: 10px;
 }
-.table {
+.table-container {
   .actions {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 }
 </style>

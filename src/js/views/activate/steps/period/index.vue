@@ -80,6 +80,6 @@ export default {
 }
 .container.amount {
   width: 300px;
-  margin-bottom: 30px;
+  margin: 0 auto 30px;
 }
 </style>

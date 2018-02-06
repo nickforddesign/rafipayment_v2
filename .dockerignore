@@ -1,3 +1,17 @@
-node_modules
+# junk
+.DS_Store
+
+# debug
 npm-debug.log
-dist
+yarn-error.log
+
+# Node packages
+/node_modules/
+
+/coverage/
+/dist/
+/www/
+/platforms/
+/plugins/
+/res/
+/ul_web_hooks/

@@ -29,6 +29,12 @@
           </div>
           <div class="grid__col grid__col--1-of-2">
             <dl>
+              <dt>Status</dt>
+              <dd :class="['text-color', $transfer.statusClass($transfer.source_status)]">{{ $transfer.source_status }}</dd>
+            </dl>
+          </div>
+          <div class="grid__col grid__col--1-of-2">
+            <dl>
               <dt>Created</dt>
               <dd>{{ $transfer.created | moment('M/D/YY h:mma') }}</dd>
             </dl>
@@ -48,7 +54,11 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Lease</dt>
-              <dd>{{ $transfer.address }}</dd>
+              <dd>
+                <router-link :to="`/leases/${$transfer.lease}`">
+                  {{ $transfer.address }}
+                </router-link>
+              </dd>
             </dl>
           </div>
 
@@ -74,25 +84,6 @@
         </div>
       </div>
 
-      <div class="table-container">
-        <div class="header">
-          Status
-        </div>
-        <div class="grid">
-          <div class="grid__col grid__col--1-of-2">
-            <dl>
-              <dt>Transfer Status</dt>
-              <dd :class="['text-color', $transfer.statusClass($transfer.source_status)]">{{ $transfer.source_status }}</dd>
-            </dl>
-          </div>
-          <!-- <div class="grid__col grid__col--1-of-2">
-            <dl>
-              <dt>Bank Transfer Status</dt>
-              <dd :class="['text-color', $transfer.statusClass($transfer.destination_status)]">{{ $transfer.destination_status }}</dd>
-            </dl>
-          </div> -->
-        </div>
-      </div>
     </div>
     <loading v-else />
   </div>

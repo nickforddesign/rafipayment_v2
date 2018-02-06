@@ -60,6 +60,10 @@ export default {
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
+<style lang="scss">
+@import '~%/activation';
+</style>
+
 <style scoped lang="scss">
 @import '~%/colors';
 

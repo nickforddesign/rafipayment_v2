@@ -3,12 +3,12 @@
     <h1 slot="header">Add Period</h1>
     <div slot="body">
 
-      <field name="start date" :errors="errors">
-        <date-picker v-model="start_date" name="start date" ref="default" v-validate="`required|before:${end_date}`" />
+      <field name="amount" :errors="errors">
+        <currency v-model="amount" v-validate.disable="'required'" name="amount" ref="default" />
       </field>
 
-      <field name="amount" :errors="errors">
-        <currency v-model="amount" v-validate="'required'" name="amount" />
+      <field name="start date" :errors="errors">
+        <date-picker v-model="start_date" name="start date" v-validate.disable="`required|before:${end_date}`" />
       </field>
 
     </div>

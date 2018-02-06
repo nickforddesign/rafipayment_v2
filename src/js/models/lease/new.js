@@ -97,6 +97,9 @@ export default class Lease extends Model {
       },
       unit: {
         type: ObjectId
+      },
+      security: {
+        type: Currency
       }
     }
   }

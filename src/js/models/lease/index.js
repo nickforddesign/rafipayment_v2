@@ -199,15 +199,26 @@ export default class Lease extends Model {
         }
       },
       charges: {
-        type: Object,
-        scheduled: {
-          type: Array,
-          amount: Currency,
-          date: ISODate
-        },
-        recurring: {
-          type: Array,
-          amount: Currency
+        type: Array,
+        items: {
+          type: Object,
+          properties: {
+            id: {
+              type: ObjectId
+            },
+            amount: {
+              type: Currency
+            },
+            date: {
+              type: ISODate
+            },
+            description: {
+              type: String
+            },
+            type: {
+              type: String
+            }
+          }
         }
       },
       tenants: {
@@ -224,6 +235,9 @@ export default class Lease extends Model {
       unit: {
         type: Object,
         properties: Unit.schema()
+      },
+      security: {
+        type: Currency
       }
     }
   }

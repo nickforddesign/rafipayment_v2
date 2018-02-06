@@ -38,6 +38,10 @@
           <dt>Rent</dt>
           <dd>{{ models.lease.periods[0].amount | currency }}</dd>
         </dl>
+        <dl v-if="models.lease.security">
+          <dt>Security Deposit</dt>
+          <dd>{{ models.lease.security | currency }}</dd>
+        </dl>
       </div>
 
       <div class="group" v-if="models.lease.periods.length > 1">
@@ -86,7 +90,7 @@
 
       <div class="group">
         <legend>Fees / Credits</legend>
-        <div v-for="(charge, index) in models.lease.charges" :key="index">
+        <div class="box" v-for="(charge, index) in models.lease.charges" :key="index">
           <dl>
             <dt>Amount</dt>
             <dd>{{ charge.amount | currency }}</dd>
@@ -96,6 +100,11 @@
             <dl>
               <dt>Type</dt>
               <dd>Scheduled</dd>
+            </dl>
+
+            <dl>
+              <dt>Description</dt>
+              <dd>{{ charge.description }}</dd>
             </dl>
 
             <dl>

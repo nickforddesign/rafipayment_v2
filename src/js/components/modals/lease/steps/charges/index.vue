@@ -4,6 +4,39 @@
 
     <button @click="previous" class="back-button small">Back</button>
 
+    <div class="container x-sm">
+      <div class="box">
+        <field name="Fees collected">
+          <check-box v-model="first_collected">First month</check-box>
+          <field v-if="first_collected" name="amount first" label="Amount" :errors="errors">
+            <currency
+              v-model="first_amount"
+              v-validate.disable="'required'"
+              data-vv-as="amount"
+              name="amount first" />
+          </field>
+
+          <check-box v-model="last_collected" v-if="models.lease.end_date">Last month</check-box>
+          <field v-if="last_collected" name="amount last" label="Amount" :errors="errors">
+            <currency
+              v-model="last_amount"
+              v-validate.disable="'required'"
+              data-vv-as="amount"
+              name="amount last" />
+          </field>
+
+          <check-box v-model="security_collected">Security</check-box>
+          <field v-if="security_collected" name="security last" label="Amount" :errors="errors">
+            <currency
+              v-model="security_amount"
+              v-validate.disable="'required'"
+              data-vv-as="amount"
+              name="security last" />
+          </field>
+        </field>
+      </div>
+    </div>
+
     <div v-if="charges.length" class="container x-sm">
       <legend>Charges</legend>
 
@@ -30,10 +63,6 @@
         </field>
 
         <field name="type">
-          <!-- <input type="radio" :id="`recurring-${index}`" :name="`type-${index}`" value="recurring" v-model="charge.type">
-          <label :for="`recurring-${index}`">Recurring</label>
-          <input type="radio" :id="`scheduled-${index}`" :name="`type-${index}`" value="scheduled" v-model="charge.type">
-          <label :for="`scheduled-${index}`">Scheduled</label> -->
           <radio v-model="charge.type" :options="[
             {
               label: 'Recurring',
@@ -101,6 +130,12 @@ export default {
   },
   data() {
     return {
+      first_collected: false,
+      first_amount: null,
+      last_collected: false,
+      last_amount: null,
+      security_collected: false,
+      security_amount: null,
       charges: []
     }
   },
@@ -137,7 +172,6 @@ export default {
     },
     async validate() {
       const passed = await this.$validator.validateAll()
-
       if (passed) {
         this.complete()
       }
@@ -146,6 +180,34 @@ export default {
       const lease_charges = []
       const tenant_charges = []
 
+      // set first month
+      if (this.first_collected) {
+        lease_charges.push({
+          amount: -this.first_amount,
+          type: 'first_month',
+          description: 'First month\'s rent',
+          date: this.models.lease.start_date
+        })
+      }
+
+      // set last month
+      if (this.last_collected) {
+        lease_charges.push({
+          amount: -this.last_amount,
+          type: 'last_month',
+          description: 'Last month\'s rent',
+          date: moment(this.models.lease.end_date).startOf('month').toISOString()
+        })
+      }
+
+      // security deposit
+      this.models.lease.security = this.security_collected
+        ? this.security_amount
+        : null
+
+      console.log(this.models.lease)
+
+      // distribute charges
       this.charges.map(charge => {
         const multiplier = charge.kind === 'fee'
           ? 1
@@ -168,6 +230,7 @@ export default {
         }
       })
 
+      // set charges on model
       if (lease_charges.length) {
         this.models.lease.set({
           charges: lease_charges
@@ -186,6 +249,7 @@ export default {
           })
         })
       }
+
       this.next()
     },
     next() {

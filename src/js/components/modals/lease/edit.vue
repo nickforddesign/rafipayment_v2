@@ -11,7 +11,7 @@
           name="bill due day" />
       </field>
 
-      <field name="type">
+      <field name="type" :errors="errors">
         <check-box v-model="is_fixed">Fixed term</check-box>
       </field>
 
@@ -31,6 +31,7 @@
 
 <script>
 import moment from 'moment'
+import Charge from '@/models/lease/charge'
 import { Deferred } from '@/utils'
 
 export default {
@@ -53,7 +54,26 @@ export default {
     },
     last_period_formatted() {
       return moment.utc(this.last_period).format('M/D/YYYY')
+    },
+    last_month_credit() {
+      return this.model.charges.find(charge => charge.type === 'last_month')
     }
+  },
+  watch: {
+    is_fixed(val) {
+      if (!val) {
+        if (this.last_month_credit) {
+          this.errors.add(
+            'type',
+            'This lease has a last month credit, please remove it before changing to month-to-month',
+            'required'
+          )
+        }
+      }
+    }
+  },
+  mounted() {
+    console.log(this.model.charges.find(charge => charge.type === 'last_month'))
   },
   methods: {
     close() {
@@ -61,8 +81,8 @@ export default {
     },
     async validate() {
       const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
+      await this.$validator.validateAll()
+      if (!this.errors.any()) {
         await this.confirmChange()
         deferred.resolve()
       } else {
@@ -78,8 +98,22 @@ export default {
       data.end_date = this.is_fixed
         ? this.end_date
         : null
+      const original_end_date = this.model.end_date
       await this.model.save(data)
+
+      // if last month was collection
+      const last_month = this.last_month_credit
+      if (last_month && this.end_date !== original_end_date) {
+        const charge = new Charge(last_month, {
+          basePath: `${this.model.url}/charges`
+        })
+
+        await charge.save({
+          date: this.end_date
+        })
+      }
       this.confirm()
+      this.close()
     }
   }
 }
