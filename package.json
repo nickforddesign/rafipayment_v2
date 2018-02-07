@@ -1,6 +1,6 @@
 {
   "name": "rafipayment_v2",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "author": "Nick Ford <nickforddesign@gmail.com>",
   "repository": "https://github.com/nickforddesign/rafipayment_v2",
@@ -55,6 +55,7 @@
     "cordova-plugin-file": "^4.3.3"
   },
   "devDependencies": {
+    "app-root-dir": "^1.0.2",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
