@@ -1,7 +1,7 @@
 <template>
   <div class="tr" @click="goToModel">
     <cell>
-      <a :href="$bill.url" @click.prevent>{{ $bill.due_date | moment }}</a>
+      <a :href="$bill.url" @click.prevent>{{ $bill.due_date | moment('M/D/YY', true) }}</a>
     </cell>
     <cell>{{ $bill.target }}</cell>
     <cell>{{ type | capitalize }}</cell>
@@ -11,7 +11,7 @@
 
     <div class="mobile-only">
       <div class="flexbox">
-        <div class="date">{{ $bill.due_date | moment('MMM YYYY') }}</div>
+        <div class="date">{{ $bill.due_date | moment('MMM YYYY', true) }}</div>
         <div class="flex target text-center">{{ $bill.target }}</div>
         <div class="flex balance background-color" :class="[status_class]">
           {{ $bill.balance | currency }}

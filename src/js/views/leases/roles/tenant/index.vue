@@ -40,6 +40,9 @@ export default {
   collection() {
     return new Collection({
       basePath: 'account/leases',
+      query: {
+        sort_created: -1
+      },
       model: Lease
     })
   },

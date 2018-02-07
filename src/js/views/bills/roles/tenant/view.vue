@@ -5,12 +5,12 @@
         <header>
           <div class="meta">
             <legend>Bill</legend>
-            <h2>{{ $bill.due_date | moment }}</h2>
+            <h2>{{ $bill.due_date | moment('M/D/YY', true) }}</h2>
           </div>
         </header>
 
         <div class="box">
-          <h3>Due Date: {{ $bill.due_date | moment('M/D/YY') }}</h3>
+          <h3>Due Date: {{ $bill.due_date | moment('M/D/YY', true) }}</h3>
 
           <div v-if="$bill.type === 'automatic'">
             <charges-automatic  v-for="(tenant, index) in $bill.tenants" :key="index" :user="tenant" />

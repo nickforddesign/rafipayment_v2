@@ -31,6 +31,9 @@ export default {
   collection() {
     return new Collection({
       basePath: 'account/bills?filter_active=true',
+      query: {
+        sort_created: -1
+      },
       model: Bill
     })
   },

@@ -35,7 +35,7 @@
       </div>
 
       <!-- <div class="table-container" v-if="$lease.periods.length < 1"> -->
-      <div class="table-container">
+      <div class="table-container" v-if="!$lease.is_complete">
         <div class="header">
           Billing Periods
         </div>

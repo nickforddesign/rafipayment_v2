@@ -34,6 +34,9 @@ export default {
   collection() {
     return new Collection({
       basePath: 'account/transfers',
+      query: {
+        sort_created: -1
+      },
       model: Transfer
     })
   },

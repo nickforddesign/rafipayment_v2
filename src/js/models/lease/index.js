@@ -22,6 +22,9 @@ export default class Lease extends Model {
         is_active() {
           return this.current_period !== undefined
         },
+        is_complete() {
+          return moment.utc(this.end_date) < moment.utc()
+        },
         current_period() {
           const dates = this.periods_sorted.reduce((acc, period) => {
             acc.push(moment.utc(period.start_date))

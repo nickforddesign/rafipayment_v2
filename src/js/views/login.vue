@@ -40,7 +40,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { getStorage, setStorage, clearStorage } from '@/utils'
+import { getStorage, setStorage, clearStorage, toggleStatusBar } from '@/utils'
 
 export default {
   data() {
@@ -56,6 +56,7 @@ export default {
     this.remember_me = remember_me === undefined
       ? true
       : remember_me
+    toggleStatusBar(false)
   },
   watch: {
     remember_me(val) {
