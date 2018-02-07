@@ -91,7 +91,7 @@ export default {
     })
   },
   mounted() {
-    toggleStatusBar(true)
+    toggleStatusBar(this.logged_in)
     if (process.env.NODE_ENV !== 'cordova') {
       this.initSockets()
     }

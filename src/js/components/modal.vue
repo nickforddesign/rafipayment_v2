@@ -64,14 +64,9 @@ export default {
     document.body.classList.add('modal-visible')
   },
   async mounted() {
-    try {
-      const default_focus = path(['$refs', 'default'], this.$parent)
-      if (default_focus) {
-        default_focus.focus()
-      }
-    } catch (error) {
-      console.warn(error)
-    }
+    this.$nextTick(() => {
+      this.defaultFocus()
+    })
     toggleStatusBar(false)
     this.open = true
   },
@@ -137,6 +132,17 @@ export default {
       this.open = false
       await sleep(200)
       this.$emit('close')
+    },
+    async defaultFocus() {
+      await sleep(20)
+      try {
+        const default_focus = path(['$refs', 'default'], this.$parent)
+        if (default_focus) {
+          default_focus.focus()
+        }
+      } catch (error) {
+        console.warn(error)
+      }
     }
   },
   components: {
