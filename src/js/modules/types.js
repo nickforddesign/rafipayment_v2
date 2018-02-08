@@ -43,6 +43,18 @@ export class Currency extends Type {
   }
 }
 
+export class CurrencyOrNull extends Currency {
+  constructor(value) {
+    super(value)
+    return this
+  }
+  out() {
+    return this.value !== undefined
+      ? this.value
+      : null
+  }
+}
+
 export class StringOrNull extends Type {
   out() {
     return !this.value

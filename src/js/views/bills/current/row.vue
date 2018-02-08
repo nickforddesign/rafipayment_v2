@@ -28,6 +28,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import moment from 'moment'
 import session from '@/session'
 import Bill from '@/models/bill'
 import Lease from '@/models/lease'
@@ -55,7 +56,7 @@ export default {
   computed: {
     type() {
       return this.$bill.type === 'automatic'
-        ? 'rent'
+        ? `rent - ${moment.utc(this.$bill.due_date).format('MMMM')}`
         : 'one-time'
     },
     message_class() {

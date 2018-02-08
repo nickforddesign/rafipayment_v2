@@ -51,8 +51,7 @@
     "vue-router": "^2.7.0",
     "vue-the-mask": "^0.11.1",
     "vue-touch": "^2.0.0-beta.4",
-    "vuex": "^2.4.1",
-    "cordova-plugin-file": "^4.3.3"
+    "vuex": "^2.4.1"
   },
   "devDependencies": {
     "app-root-dir": "^1.0.2",
@@ -150,7 +149,6 @@
       "cordova-plugin-battery-status": {},
       "cordova-plugin-device": {},
       "cordova-plugin-dialogs": {},
-      "cordova-plugin-file": {},
       "cordova-plugin-globalization": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-network-information": {},

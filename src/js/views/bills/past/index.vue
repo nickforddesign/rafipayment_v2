@@ -6,7 +6,10 @@
         'Due Date',
         'Target',
         'Type',
-        'Balance'
+        {
+          name: 'Balance',
+          class: 'text-right'
+        }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>
@@ -29,7 +32,7 @@ export default {
     return new Collection({
       basePath: 'account/bills?filter_active=false',
       query: {
-        sort_created: -1
+        sort_due_date: -1
       },
       model: Bill
     })
