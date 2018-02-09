@@ -6,6 +6,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import Bill from '@/models/bill'
 import Manual from './view_manual'
 import Automatic from './view_automatic'
@@ -28,8 +29,21 @@ export default {
     }
   },
   async created() {
-    await this.fetch()
-    this.fetched = true
+    try {
+      await this.fetch()
+    } catch (error) {
+      if (error.error) {
+        app.alert(
+          error.message,
+          null,
+          'Not Found',
+          'OK',
+          'danger'
+        )
+      }
+    } finally {
+      this.fetched = true
+    }
   },
   methods: {
     async fetch() {

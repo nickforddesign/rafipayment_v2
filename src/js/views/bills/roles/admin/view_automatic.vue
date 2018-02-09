@@ -85,9 +85,6 @@ export default {
     console.log(this.$bill)
   },
   methods: {
-    // async fetch() {
-    //   await this.$bill.fetch()
-    // },
     goToTenant(tenant) {
       this.$router.push(`/tenants/${tenant.id}`)
     }

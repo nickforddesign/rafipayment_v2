@@ -43,6 +43,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import session from '@/session'
 import UserCard from '@/components/cards/user'
 import TransferModal from '@/components/modals/bill/transfer'
@@ -76,10 +77,23 @@ export default {
     }
   },
   async created() {
-    await this.fetch()
-    this.$lease.id = this.$bill.lease
-    await this.$lease.fetch()
-    this.fetched = true
+    try {
+      await this.fetch()
+      this.$lease.id = this.$bill.lease
+      await this.$lease.fetch()
+    } catch (error) {
+      if (error.error) {
+        app.alert(
+          error.message,
+          null,
+          'Not Found',
+          'OK',
+          'danger'
+        )
+      }
+    } finally {
+      this.fetched = true
+    }
   },
   computed: {
     type() {
