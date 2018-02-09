@@ -34,7 +34,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import app from '@/app'
 import Lease from '@/models/lease'
 import Period from '@/models/lease/period'
 
