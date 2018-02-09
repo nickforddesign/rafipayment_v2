@@ -17,6 +17,7 @@
         <button class="link" @click="complete">Skip for now</button>
       </div>
     </div>
+    <loading v-if="loading" />
   </div>
 </template>
 
@@ -41,8 +42,7 @@ export default {
   },
   data() {
     return {
-      password: '',
-      password_confirm: ''
+      loading: false
     }
   },
   methods: {
@@ -54,7 +54,11 @@ export default {
         autopay: true
       }
 
+      this.loading = true
+
       await this.$lease.save(body, { path: 'autopay' })
+
+      this.loading = false
       this.complete()
     },
     complete() {

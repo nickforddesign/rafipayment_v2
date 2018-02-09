@@ -61,7 +61,7 @@ export default {
     }
   },
   created() {
-    if (this.value) {
+    if (![undefined, null].includes(this.value)) {
       this.input_value = parseCurrency(this.value, false, true)
       if (!this.is_mobile) {
         this.input_value = prettyCurrency(this.input_value, false)

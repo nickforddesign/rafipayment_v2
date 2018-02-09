@@ -2,6 +2,13 @@
   <form @submit.prevent="validate">
     <h2>Set your split of the rent</h2>
 
+    <div class="grid" v-if="$lease.periods.length > 1">
+      <div class="grid__col grid__col--1-of-1">
+        <h3>Billing Period</h3>
+        <h4>{{ step.period.start_date | moment('M/D/YY', true) }} – {{ index }} of {{ $lease.periods.length }}</h4>
+      </div>
+    </div>
+
     <div class="grid">
       <div class="grid__col grid__col--1-of-1">
         <h3>Total Rent</h3>
@@ -19,12 +26,15 @@
       <button class="primary">Confirm</button>
     </div>
 
+    <loading v-if="loading" />
+
   </form>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import app from '@/app'
 import Lease from '@/models/lease'
 import Period from '@/models/lease/period'
 
@@ -33,12 +43,12 @@ export default {
   props: ['step'],
   data() {
     return {
-      amount: null
+      amount: null,
+      loading: false
     }
   },
-  created() {
-    const suggestion = this.$lease.getSuggestedSplit(this.step.period.id)
-    this.amount = suggestion
+  mounted() {
+    this.setSuggestion()
   },
   models: {
     lease() {
@@ -50,7 +60,23 @@ export default {
       })
     }
   },
+  computed: {
+    index() {
+      return this.step.lease.periods.indexOf(this.step.period) + 1
+    }
+  },
+  watch: {
+    step() {
+      this.$period.reset()
+      this.$period = this.step.period
+      this.setSuggestion()
+    }
+  },
   methods: {
+    setSuggestion() {
+      const suggestion = this.$lease.getSuggestedSplit(this.step.period.id)
+      this.amount = suggestion
+    },
     async validate() {
       const passed = await this.$validator.validateAll()
       if (passed) {
@@ -61,7 +87,9 @@ export default {
       const body = {
         amount: this.amount
       }
+      this.loading = true
       await this.$period.save(body)
+      this.loading = false
       this.complete()
     },
     complete() {

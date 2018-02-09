@@ -121,6 +121,7 @@ export default class Lease extends Model {
       methods: {
         getSuggestedSplit(period_id) {
           const period = this.periods.find(period => period.id === period_id)
+          console.log(period)
           let missing_splits = 0
           const tenant_periods = this.tenants.map(tenant => {
             const tenant_period = tenant.periods.find(period => period.id === period_id)
@@ -130,9 +131,11 @@ export default class Lease extends Model {
               missing_splits++
             }
           }).filter(item => item)
+          console.log(missing_splits)
           const rent_covered = tenant_periods.reduce((acc, item) => {
             return acc + item.amount
           }, 0)
+          console.log(rent_covered)
           const rent_missing = period.amount - rent_covered
           const suggested = rent_missing / missing_splits
           return suggested
