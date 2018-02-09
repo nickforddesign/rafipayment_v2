@@ -31,7 +31,10 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: `events?sort_created=-1&filter_type=notification`,
+      basePath: `events?&filter_type=notification`,
+      query: {
+        sort_created: -1
+      },
       model: Event
     })
   },

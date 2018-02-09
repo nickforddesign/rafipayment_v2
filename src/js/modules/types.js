@@ -29,6 +29,18 @@ export class ISODate extends Type {
   }
 }
 
+export class ISODateOrNull extends ISODate {
+  constructor(value) {
+    super(value)
+    return this
+  }
+  out() {
+    return this.value
+      ? new Date(this.value).toISOString()
+      : null
+  }
+}
+
 export class Currency extends Type {
   constructor(value) {
     super(value)
@@ -60,17 +72,5 @@ export class StringOrNull extends Type {
     return !this.value
       ? null
       : this.value
-  }
-}
-
-export class ISODateOrNull extends ISODate {
-  constructor(value) {
-    super(value)
-    return this
-  }
-  out() {
-    return this.value
-      ? new Date(this.value).toISOString()
-      : null
   }
 }

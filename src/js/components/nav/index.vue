@@ -160,6 +160,7 @@ nav {
   background: $color-nav-background;
   background: linear-gradient(251deg, $color-nav-background 0%,#313147 100%);
   overflow-y: scroll;
+  user-select: none;
   -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {

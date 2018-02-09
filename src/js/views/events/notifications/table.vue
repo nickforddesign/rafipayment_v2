@@ -44,7 +44,10 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: `events?filter_parties=${this.user.id}&filter_type=notification&paginator_limit=5`
+      basePath: `events?filter_parties=${this.user.id}&filter_type=notification&paginator_limit=5`,
+      query: {
+        sort_created: -1
+      }
     })
   },
   async created() {

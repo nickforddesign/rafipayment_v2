@@ -37,8 +37,11 @@
     </div>
       
     <slot name="content" v-if="fetched && collection.length" />
+
     <empty v-else-if="fetched && !collection.length">
-      <div slot="message">There are no {{ collection_name || name }}</div>
+      <div slot="message">
+        <slot name="empty-message">There are no {{ collection_name || name }}</slot>
+      </div>
     </empty>
 
     <div class="pagination-container" v-if="paginate && page_count > 1">

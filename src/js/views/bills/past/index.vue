@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collection collection_name="bills" :$collection="$collection" :searchable="false">
+    <collection collection_name="past bills" :$collection="$collection" :searchable="false">
 
       <responsive-table slot="content" :columns="[
         'Due Date',
@@ -12,6 +12,11 @@
         }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
+
+        <div slot="empty-message">
+          You don't have any current bills, lucky you!
+        </div>
+        
       </responsive-table>
 
     </collection>

@@ -83,9 +83,8 @@ export default {
       this.$router.push(`/bills/${this.$bill.id}`)
     },
     showModal() {
-      const current_period = this.$lease.periods[this.$lease.current_period] || {}
       const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
-      const my_period = me.periods.find(period => period.id === current_period.id)
+      const my_period = me.periods.find(period => period.id === this.$bill.period)
       const amount = my_period && my_period.amount
       this.$emit('showModal', {
         amount,

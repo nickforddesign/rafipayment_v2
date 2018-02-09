@@ -4,6 +4,12 @@ import { ObjectId, ISODate, Currency } from '@/modules/types'
 import { unitsHelper } from '@/utils'
 import Transfer from '@/models/transfer'
 
+const excluded_transfer_statuses = [
+  'customer_transfer_cancelled',
+  'customer_transfer_failed',
+  'customer_transfer_scheduled'
+]
+
 export default class Bill extends Model {
   static defaults() {
     return {
@@ -31,7 +37,7 @@ export default class Bill extends Model {
         balance() {
           if (this.has_transfers) {
             return this.total - this.transfers.reduce((acc, transfer) => {
-              return !['customer_transfer_cancelled', 'customer_transfer_failed'].includes(transfer.status)
+              return !excluded_transfer_statuses.includes(transfer.status)
                 ? acc + (transfer.amount * 100)
                 : acc
             }, 0) / 100
@@ -122,6 +128,9 @@ export default class Bill extends Model {
         }
       },
       lease: {
+        type: ObjectId
+      },
+      period: {
         type: ObjectId
       },
       type: {

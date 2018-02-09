@@ -9,7 +9,6 @@
       </li>
     </ul>
     <router-view class="scroll-container" />
-    <!-- <router-view /> -->
   </div>
 </template>
 
@@ -28,7 +27,8 @@ export default {
   },
   methods: {
     checkUrl() {
-      if (this.$route.path === '/bills') {
+      const path = this.$route.path.replace(/\//gi, '')
+      if (path === 'bills') {
         this.$router.replace(`/bills/current`)
       }
     }
@@ -49,9 +49,6 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    // bottom: 50px;
-    // left: 10px;
-    // right: 10px;
     
     @include vertical_scroll;
   }

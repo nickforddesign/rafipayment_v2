@@ -150,9 +150,9 @@ export default {
               width: 100px;
             }
 
-            &.description {
-              display: none;
-            }
+            // &.description {
+            //   display: none;
+            // }
           }
         }
       }
