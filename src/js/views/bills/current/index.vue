@@ -15,7 +15,8 @@
       </responsive-table>
 
       <div slot="empty-message">
-        You don't have any current bills, lucky you!
+        <checkmark />
+        No current bills, you're all set!
       </div>
 
     </collection>
@@ -30,6 +31,7 @@
 import { Collection } from 'vue-collections'
 import Bill from '@/models/bill'
 import TransferModal from '@/components/modals/bill/transfer'
+import Checkmark from '@/components/icons/checkmark'
 
 import row from './row'
 
@@ -70,7 +72,8 @@ export default {
   },
   components: {
     row,
-    TransferModal
+    TransferModal,
+    Checkmark
   }
 }
 </script>

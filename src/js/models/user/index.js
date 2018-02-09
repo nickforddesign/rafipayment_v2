@@ -14,11 +14,11 @@ export default class User extends Model {
             return ''
           }
         },
-        // full_name() {
-        //   return this.role
-        //     ? `${this.first_name} ${this.last_name}`
-        //     : ``
-        // },
+        full_name() {
+          return this.role
+            ? `${this.first_name} ${this.last_name}`
+            : ``
+        },
         initials() {
           return this.role
             ? `${this.first_name[0]}${this.last_name[0]}`.toUpperCase()

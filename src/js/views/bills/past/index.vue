@@ -12,12 +12,12 @@
         }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
-
-        <div slot="empty-message">
-          You don't have any current bills, lucky you!
-        </div>
         
       </responsive-table>
+
+      <div slot="empty-message">
+        You don't have any past bills
+      </div>
 
     </collection>
   </div>
