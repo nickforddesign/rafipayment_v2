@@ -2,7 +2,7 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <legend>Bill</legend>
+        <legend>Bill {{ $bill.display_id}}</legend>
         <h2>{{ $bill.due_date | moment }}</h2>
       </div>
     </header>
@@ -80,9 +80,6 @@ export default {
   name: 'bill',
   props: {
     $bill: Object
-  },
-  mounted() {
-    console.log(this.$bill)
   },
   methods: {
     goToTenant(tenant) {

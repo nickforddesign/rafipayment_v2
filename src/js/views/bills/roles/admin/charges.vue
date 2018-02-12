@@ -8,7 +8,6 @@
     </div>
     <responsive-table :columns="[
       'Type',
-      'Description',
       {
         name: 'Amount',
         class: 'text-right',

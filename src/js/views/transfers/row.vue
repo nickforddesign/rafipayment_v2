@@ -22,20 +22,6 @@
 <script>
 import Transfer from '@/models/transfer'
 
-const map = {
-  neutral: [
-    'customer_transfer_created',
-    'customer_transfer_scheduled'
-  ],
-  success: [
-    'customer_transfer_completed'
-  ],
-  danger: [
-    'customer_transfer_failed',
-    'customer_transfer_cancelled'
-  ]
-}
-
 export default {
   name: 'row',
   props: ['model'],
@@ -46,13 +32,7 @@ export default {
   },
   computed: {
     status_class() {
-      let output
-      for (let key in map) {
-        if (map[key].includes(this.$transfer.status)) {
-          output = key
-        }
-      }
-      return output
+      return this.$transfer.statusClass(this.$transfer.source_status)
     }
   },
   methods: {

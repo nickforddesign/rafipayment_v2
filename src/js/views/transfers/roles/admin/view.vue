@@ -101,7 +101,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Bank Transfer Status</dt>
-              <dd :class="['text-color', $transfer.statusClass($transfer.source_status)]">{{ $transfer.destination_status }}</dd>
+              <dd :class="['text-color', $transfer.statusClass($transfer.destination_status)]">{{ $transfer.destination_status }}</dd>
             </dl>
           </div>
         </div>

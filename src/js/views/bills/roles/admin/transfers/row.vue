@@ -6,7 +6,7 @@
     <div class="td">{{ $transfer.source.resolved.first_name }} {{ $transfer.source.resolved.last_name }}</div>
     <div class="td">{{ $transfer.type }}</div>
     <div class="td">
-      <span :class="['flag', status_class]">{{ $transfer.status }}</span>
+      <span :class="['text-color', status_class]">{{ $transfer.source_status }}</span>
     </div>
     <div class="td" align="right">{{ $transfer.amount | currency }}</div>
   </div>
@@ -39,13 +39,7 @@ export default {
   },
   computed: {
     status_class() {
-      const map = {
-        pending: 'neutral',
-        completed: 'success',
-        error: 'danger',
-        failed: 'danger'
-      }
-      return map[this.$transfer.status]
+      return this.$transfer.statusClass(this.$transfer.source_status)
     }
   },
   methods: {

@@ -2,7 +2,7 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <legend>Bill</legend>
+        <legend>Bill {{ $bill.display_id}}</legend>
         <h2>{{ $bill.due_date | moment }}</h2>
       </div>
     </header>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="tenant" v-for="(tenant, index) in $bill.tenants" :key="index">
-          <user-card :data="tenant" />
+          <user-card :data="tenant" @click="goToTenant(tenant)" />
         </div>
 
       </div>
@@ -78,21 +78,13 @@ export default {
   props: {
     $bill: Object
   },
-  // data() {
-  //   return {
-  //     modal_visible: false
-  //   }
-  // },
   methods: {
     fetch() {
       this.$bill.fetch()
+    },
+    goToTenant(tenant) {
+      this.$router.push(`/tenants/${tenant.id}`)
     }
-    // showModal() {
-    //   this.modal_visible = true
-    // },
-    // closeModal() {
-    //   this.modal_visible = false
-    // }
   },
   components: {
     TransfersTable,
