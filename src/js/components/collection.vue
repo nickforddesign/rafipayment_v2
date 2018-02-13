@@ -1,5 +1,6 @@
 <template>
   <div class="collection-view">
+
     <header>
       <div class="meta">
         <h2>
@@ -7,18 +8,25 @@
             <div slot="header">
               <div class="flexbox">
                 <div class="flex">{{ name | capitalize }}</div>
-                <div class="solid range" v-if="range && $collection.total_count">
+                <div class="solid range"
+                  v-if="range && $collection.total_count">
+
                   <select-menu name="range" v-model="range_selected">
-                    <option v-for="(label, index) in ranges" :value="label" :key="index">
+                    <option
+                      v-for="(label, index) in ranges"
+                      :value="label"
+                      :key="index">
                       {{ label }}
                     </option>
                   </select-menu>
+                  
                 </div>
               </div>
             </div>
           </slot>
         </h2>
       </div>
+
       <div class="actions flexbox text-right">
         <div class="flex search">
           <search @submit="search" v-if="searchable" />
@@ -44,16 +52,14 @@
       </div>
     </empty>
 
-    <div class="pagination-container" v-if="paginate && page_count > 1">
-      <div class="summary">
-        {{ skip + 1 }} - {{ skip + collection.length }} of {{ $collection.total_count || 0 }} items
-      </div>
-      <ul class="pagination">
-        <li v-for="(n, index) in page_count" :key="index">
-          <a href="#" @click.prevent="setCurrent(n)" :class="[paginator_class(n)]">{{ n }}</a>
-        </li>
-      </ul>
-    </div>
+    <pagination
+      v-if="paginate"
+      :collection="$collection"
+      :active="current_page_index"
+      :limit="limit"
+      @set="setCurrent"
+      @change-limit="setLimit "/>
+
     <loading v-if="!fetched" />
   </div>
 </template>
@@ -64,7 +70,8 @@
 import Vue from 'vue'
 import moment from 'moment'
 import { equals } from 'ramda'
-import { getMonthsArray } from '@/utils'
+import { getMonthsArray, setStorage, getStorage } from '@/utils'
+import Pagination from './pagination'
 
 export default {
   name: 'collection',
@@ -78,10 +85,10 @@ export default {
     $collection: {
       type: Object
     },
-    limit: {
-      type: Number,
-      default: 10
-    },
+    // limit: {
+    //   type: Number,
+    //   default: 10
+    // },
     paginate: {
       type: Boolean,
       default: true
@@ -99,9 +106,11 @@ export default {
       range_fetched: false,
       range_selected: null,
       range_has_been_selected: false,
+      limit: getStorage('paginator_limit') || 10,
       current_page_index: 0,
       search_term: '',
-      filters: {}
+      filters: {},
+      filters_init: false
     }
   },
   async created() {
@@ -111,14 +120,6 @@ export default {
   computed: {
     collection() {
       return this.$collection.models
-    },
-    page_count() {
-      return this.$collection.total_count && this.collection.length
-        ? Math.ceil(this.$collection.total_count / this.limit)
-        : 0
-    },
-    skip() {
-      return (this.current_page_index) * this.limit
     },
     filters_keys() {
       return Object.keys(this.filters)
@@ -149,6 +150,9 @@ export default {
           [`range_${this.range}`]: `${start},${end}`
         }
       }
+    },
+    skip() {
+      return (this.current_page_index) * this.limit
     }
   },
   watch: {
@@ -162,7 +166,9 @@ export default {
       }
     },
     current_page_index(val) {
-      this.updateUrl()
+      if (this.filters_init) {
+        this.updateUrl()
+      }
       this.updateQueries()
       if (this.fetched) {
         this.fetch()
@@ -185,13 +191,20 @@ export default {
       if (this.fetched) {
         this.fetch()
       }
+    },
+    limit(val) {
+      setStorage('paginator_limit', val)
+      this.clearPagination()
+      this.updatePagination()
+      this.$collection.reset()
+      this.$collection.fetch()
     }
   },
   methods: {
     async init() {
+      await this.initPagination()
       await this.initFilters()
       await this.initRange()
-      await this.initPagination()
       if (!this.$collection.modified) {
         this.updateQueries()
         this.$collection.modified = true
@@ -217,7 +230,6 @@ export default {
           ? 1
           : page_query
         this.setCurrent(page_number)
-        this.updateUrl()
       }
     },
     async initRange() {
@@ -249,6 +261,7 @@ export default {
     async initFilters() {
       const filters = this.getFiltersFromRoute()
       this.filters = Object.assign({}, filters)
+      this.filters_init = true
     },
     getFiltersFromRoute() {
       const filter_keys = Object.keys(this.$route.query).filter(key => key.includes('filter'))
@@ -329,11 +342,12 @@ export default {
     setCurrent(page_number) {
       this.current_page_index = page_number - 1
     },
-    paginator_class(n) {
-      if (n - 1 === this.current_page_index) {
-        return 'active'
-      }
+    setLimit(val) {
+      this.limit = val
     }
+  },
+  components: {
+    Pagination
   }
 }
 </script>
@@ -342,57 +356,6 @@ export default {
 
 <style scoped lang="scss">
 @import '~%/colors';
-
-$pagination-border-radius: 5px;
-
-.pagination {
-  display: inline-block;
-  margin-top: 20px;
-
-  li {
-    display: inline-block;
-    margin: 0;
-
-    &:first-child {
-      a {
-        border-top-left-radius: $pagination-border-radius;
-        border-bottom-left-radius: $pagination-border-radius;
-      }
-    }
-
-    &:last-child {
-      a {
-        border-top-right-radius: $pagination-border-radius;
-        border-bottom-right-radius: $pagination-border-radius;
-      }
-    }
-
-    &:not(:first-child) {
-      a {
-        margin-left: -1px;
-      }
-    }
-
-    a {
-      position: relative;
-      display: inline-block;
-      padding: 10px 14px;
-      border: 1px solid $color-grey-80;
-
-      &:hover {
-        text-decoration: none;
-        background: $color-grey-80;
-      }
-
-      &.active {
-        color: $color-background-default;
-        background: $color-highlight;
-        border-color: $color-highlight;
-        z-index: 3;
-      }
-    }
-  }
-}
 
 .filters {
   margin-bottom: 10px;

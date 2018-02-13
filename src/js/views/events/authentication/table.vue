@@ -19,7 +19,7 @@
         </responsive-table>
       </div>
       <empty v-else>
-        <div slot="message">This {{ $parent.$options.name }} doesn't have any notitcations yet</div>
+        <div slot="message">This {{ $parent.$options.name }} doesn't have any authentication events yet</div>
       </empty>
     </div>
     <loading v-else type="table" />

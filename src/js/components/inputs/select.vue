@@ -2,8 +2,8 @@
   <div :class="classHandler">
     <select :name="name" :disabled="field_disabled" :multiple="field_multiple" @change="emitChange" v-model="field_value" @focus="focus" @blur="blur">
       <slot>
-        <option v-for="(option, index) in options" :value="option.value" :key="index">
-          {{ option.label }}
+        <option v-for="(option, index) in options" :value="option.value === undefined ? option : option.value" :key="index">
+          {{ option.label === undefined ? option : option.label }}
         </option>
       </slot>
     </select>
@@ -78,7 +78,7 @@ export default {
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '~%/colors';
 
 .select-container:not(.multiple) {

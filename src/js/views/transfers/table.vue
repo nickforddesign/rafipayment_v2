@@ -50,7 +50,10 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: `${this.path}&paginator_limit=5`
+      basePath: `${this.path}&paginator_limit=5`,
+      query: {
+        sort_created: -1
+      }
     })
   },
   async created() {
@@ -59,7 +62,6 @@ export default {
   },
   methods: {
     viewAll() {
-      // console.log(this.path)
       this.$router.push(`/${this.path}`)
     }
   },

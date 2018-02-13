@@ -60,7 +60,10 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: `${this.basePath}&paginator_limit=5`
+      basePath: `${this.basePath}&paginator_limit=5`,
+      query: {
+        sort_due_date: -1
+      }
     })
   },
   async created() {
