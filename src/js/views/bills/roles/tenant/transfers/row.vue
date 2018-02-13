@@ -15,21 +15,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import session from '@/session'
 import Transfer from '@/models/transfer'
-
-// const status_map = {
-//   success: 'completed',
-//   neutral: 'created',
-//   danger: ['cancelled', 'failed']
-// }
-
-// const status_map = {
-//   completed: 'success',
-//   created: 'neutral',
-//   pending: 'neutral',
-//   cancelled: 'danger',
-//   failed: 'danger'
-// }
 
 export default {
   name: 'row',
@@ -39,14 +26,11 @@ export default {
       return new Transfer(this.model)
     }
   },
-  // computed: {
-  //   status_class() {
-  //     return status_map[this.$transfer.source_status]
-  //   }
-  // },
   methods: {
     goToModel() {
-      this.$router.push(`/${this.$transfer.urlRoot}`)
+      if (this.$transfer.source.id === session.$user.id) {
+        this.$router.push(`/${this.$transfer.urlRoot}`)
+      }
     }
   }
 }

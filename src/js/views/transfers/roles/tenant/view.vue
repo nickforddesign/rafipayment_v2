@@ -65,7 +65,11 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Bill</dt>
-              <dd>#{{ $bill.display_id }}</dd>
+              <dd>
+                <router-link :to="`/bills/${$bill.id}`">
+                  {{ $bill.display_id }}
+                </router-link>
+              </dd>
             </dl>
           </div>
 

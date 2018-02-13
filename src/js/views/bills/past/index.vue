@@ -1,6 +1,10 @@
 <template>
   <div>
-    <collection collection_name="past bills" :$collection="$collection" :searchable="false">
+    <collection
+      collection_name="past bills"
+      :$collection="$collection"
+      :searchable="false"
+      :paginate="false">
 
       <responsive-table slot="content" :columns="[
         'Due Date',
