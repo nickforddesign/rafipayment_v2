@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination-container" v-if="page_count > 1">
+  <div class="pagination-container">
     <div class="summary">
       {{ skip + 1 }} - {{ skip + collection.models.length }} of {{ collection.total_count || 0 }} items,
       <select-menu class="per-page" v-model="limit_value" :options="[
@@ -10,7 +10,7 @@
       ]" />
       per page
     </div>
-    <ul class="pagination">
+    <ul class="pagination" v-if="page_count > 1">
       <li v-if="!low_visible">
         <a href="#" @click.prevent="setCurrent(1)" :class="[paginator_class(1)]">
           1 ...
@@ -62,11 +62,24 @@ export default {
       let high = this.active + 1 + range_padding
       if (low <= 1) {
         low = 1
-        high = range_padding * 2
+        const new_high = range_padding * 2
+        if (new_high < this.collection.total_count) {
+          high = new_high
+        } else {
+          high = this.collection.total_count
+          this.high_visible = true
+        }
         this.low_visible = true
-      } else if (high >= this.page_count) {
+      }
+      if (high >= this.page_count) {
         high = this.page_count
-        low = high - range_padding * 2
+        const new_low = high - range_padding * 2
+        if (new_low > 1) {
+          low = new_low
+        } else {
+          low = 1
+          this.low_visible = true
+        }
         this.high_visible = true
       }
       return this.range(low, high)
