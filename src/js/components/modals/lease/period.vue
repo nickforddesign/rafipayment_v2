@@ -1,6 +1,6 @@
 <template>
   <modal @close="close" :confirm="validate">
-    <h1 slot="header">Add Period</h1>
+    <h1 slot="header">{{ model ? 'Edit' : 'Add' }} Period</h1>
     <div slot="body">
 
       <field name="amount" :errors="errors">
@@ -8,7 +8,7 @@
       </field>
 
       <field name="start date" :errors="errors">
-        <date-picker v-model="start_date" name="start date" v-validate.disable="`required|before:${end_date}`" />
+        <date-picker v-model="start_date" name="start date" v-validate.disable="`required|date_format:M/D/YYYY|before:${end_date}`" format="M/D/YYYY" />
       </field>
 
     </div>
@@ -46,8 +46,9 @@ export default {
   },
   created() {
     if (this.model) {
+      console.log(this.model.start_date)
       this.$period = this.model.$data
-      this.start_date = this.model.start_date
+      this.start_date = moment.utc(this.model.start_date).format('M/D/YYYY')
       this.amount = this.model.amount
     }
   },

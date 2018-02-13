@@ -44,7 +44,10 @@ import { toggleStatusBar, sleep } from '@/utils'
 export default {
   name: 'modal',
   props: {
-    confirm: Function,
+    confirm: {
+      type: Function,
+      default: function() {}
+    },
     keywatch: {
       type: Boolean,
       default: true

@@ -8,7 +8,7 @@
       <button class="x-small" @click="edit">Edit</button>
       <button class="x-small" @click="promptRemove">Delete</button>
 
-      <charge-modal v-if="modal_visible" @close="closeModal" :confirm="$parent.fetch" :model="$charge" />
+      <charge-modal v-if="modal_visible" @close="closeModal" :model="$charge" />
     </cell>
   </div>
 </template>
@@ -63,6 +63,9 @@ export default {
     async remove() {
       await this.$charge.destroy()
       this.$emit('destroy')
+    },
+    confirm() {
+      console.log('confirmed')
     }
   },
   components: {

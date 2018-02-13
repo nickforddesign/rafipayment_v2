@@ -4,24 +4,36 @@
     <div slot="body">
 
       <field name="charge type">
-        <input type="radio" id="fee" name="charge type" value="fee" v-model="charge_type">
-        <label for="fee">Fee</label>
-        <input type="radio" id="credit" name="charge type" value="credit" v-model="charge_type">
-        <label for="credit">Credit</label>
+        <radio v-model="charge_type" :options="[
+          {
+            label: 'Fee',
+            value: 'fee'
+          },
+          {
+            label: 'Credit',
+            value: 'credit'
+          }
+        ]" />
       </field>
 
       <field name="amount" :errors="errors">
         <currency v-model="amount" v-validate="'required|min_currency:0.01'" name="amount" />
       </field>
 
-      <field name="type">
-        <input type="radio" id="recurring" name="type" value="recurring" v-model="type">
-        <label for="recurring">Recurring</label>
-        <input type="radio" id="scheduled" name="type" value="scheduled" v-model="type">
-        <label for="scheduled">Scheduled</label>
+      <field name="type" v-if="!model">
+        <radio v-model="type" :options="[
+          {
+            label: 'Recurring',
+            value: 'recurring'
+          },
+          {
+            label: 'Scheduled',
+            value: 'scheduled'
+          }
+        ]" />
       </field>
 
-      <field name="date" :errors="errors" v-if="type === 'scheduled'">
+      <field name="date" :errors="errors" v-if="!model && type === 'scheduled'">
         <date-picker v-model="date" v-validate="'required'" name="date" />
       </field>
 
@@ -62,6 +74,13 @@ export default {
         : new Period(null, {
           basePath: this.path
         })
+    }
+  },
+  watch: {
+    type(val) {
+      if (val !== 'scheduled') {
+        this.date = null
+      }
     }
   },
   created() {
@@ -106,7 +125,10 @@ export default {
 
       const request = this.$period.save(body)
       request.then(response => {
-        this.confirm()
+        if (this.confirm) {
+          this.confirm()
+        }
+        this.close()
       })
       .catch(error => {
         console.log({error})

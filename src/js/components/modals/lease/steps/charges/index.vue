@@ -44,10 +44,20 @@
         <button class="close small" @click="removeCharge(index)">X</button>
 
         <field>
-          <input type="radio" :id="`fee-${index}`" :name="`kind-${index}`" value="fee" v-model="charge.kind">
+          <radio v-model="charge.kind" :options="[
+            {
+              label: 'Fee',
+              value: 'fee'
+            },
+            {
+              label: 'Credit',
+              value: 'credit'
+            }
+          ]" />
+          <!-- <input type="radio" :id="`fee-${index}`" :name="`kind-${index}`" value="fee" v-model="charge.kind">
           <label :for="`fee-${index}`">Fee</label>
           <input type="radio" :id="`credit-${index}`" :name="`kind-${index}`" value="credit" v-model="charge.kind">
-          <label :for="`credit-${index}`">Credit</label>
+          <label :for="`credit-${index}`">Credit</label> -->
         </field>
 
         <field :name="`amount ${index}`" label="Amount" :errors="errors">
