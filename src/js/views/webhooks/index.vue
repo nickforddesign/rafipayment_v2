@@ -17,8 +17,10 @@
 
 <script>
 import { Collection } from 'vue-collections'
+import Webhook from '@/models/webhook'
 import row from './row'
 
+console.log(Webhook)
 export default {
   name: 'admins',
   data() {
@@ -31,7 +33,8 @@ export default {
       basePath: 'payment/webhooks',
       query: {
         sort_created: -1
-      }
+      },
+      model: Webhook
     })
   },
   components: {
