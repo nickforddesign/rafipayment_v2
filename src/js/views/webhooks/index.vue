@@ -20,7 +20,6 @@ import { Collection } from 'vue-collections'
 import Webhook from '@/models/webhook'
 import row from './row'
 
-console.log(Webhook)
 export default {
   name: 'admins',
   data() {
