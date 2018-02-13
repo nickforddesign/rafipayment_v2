@@ -28,7 +28,10 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'payment/webhooks'
+      basePath: 'payment/webhooks',
+      query: {
+        sort_created: -1
+      }
     })
   },
   components: {
