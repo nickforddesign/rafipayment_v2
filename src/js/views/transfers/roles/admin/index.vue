@@ -7,9 +7,18 @@
       :$collection="$collection">
 
       <responsive-table slot="content" :columns="[
-        'Date',
-        'Destination',
-        'Source',
+        {
+          name: 'Date',
+          sort: 'created'
+        },
+        {
+          name: 'Destination',
+          sort: false
+        },
+        {
+          name: 'Source',
+          sort: 'source.full_name'
+        },
         'Type',
         'Status',
         {

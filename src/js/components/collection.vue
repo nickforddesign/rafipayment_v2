@@ -53,7 +53,7 @@
     </empty>
 
     <pagination
-      v-if="paginate"
+      v-if="paginate && fetched"
       :collection="$collection"
       :active="current_page_index"
       :limit="limit"
@@ -354,7 +354,6 @@ export default {
       this.limit = val
     },
     sort(key) {
-      console.log(key)
       if (this.sort_key === key) {
         this.sort_asc = !this.sort_asc
       } else {
@@ -363,7 +362,6 @@ export default {
       }
     },
     updateSort() {
-      console.log(this.sort_key)
       Object.keys(this.$collection.query)
         .filter(key => key.includes('sort'))
         .map(key => {
@@ -374,8 +372,7 @@ export default {
           [`sort_${this.sort_key}`]: this.sort_asc ? -1 : 1
         })
       }
-      console.log(this.$collection.query)
-      this.$collection.fetch()
+      this.fetch()
     }
   },
   components: {

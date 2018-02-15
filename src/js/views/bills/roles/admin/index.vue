@@ -12,11 +12,15 @@
 
       <responsive-table slot="content" :columns="[
         'Due Date',
-        'Target',
+        {
+          name: 'Target',
+          sort: 'search.property.display_name'
+        },
         'Type',
         {
           name: 'Balance',
-          class: 'text-right'
+          class: 'text-right',
+          sort: false
         }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />

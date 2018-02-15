@@ -3,8 +3,14 @@
     <collection name="transfers" collection_name="transfers" :$collection="$collection" :searchable="false">
 
       <responsive-table slot="content" :columns="[
-        'Date',
-        'Destination',
+        {
+          name: 'Date',
+          sort: 'created'
+        },
+        {
+          name: 'Destination',
+          sort: false
+        },
         'Type',
         'Status',
         {

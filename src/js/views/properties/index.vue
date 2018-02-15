@@ -8,7 +8,10 @@
       <responsive-table slot="content" :columns="[
         'Name',
         'Address',
-        'Units'
+        {
+          name: 'Units',
+          sort: false
+        }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>

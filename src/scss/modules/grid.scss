@@ -65,6 +65,7 @@ $toast-pulls: true !default;
   list-style: none;
   margin-left: -$toast-gutter-width;
   text-align: left;
+  user-select: none;
 }
 
 %span-all       { width: percentage(1/1); }
@@ -188,6 +189,7 @@ $toast-pulls: true !default;
   min-height: 1px;
   padding-left: $toast-gutter-width;
   vertical-align: top;
+  user-select: text;
 
   @media (max-width: $toast-breakpoint-medium) {
     display: block;

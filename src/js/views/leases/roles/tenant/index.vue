@@ -2,17 +2,28 @@
   <div>
     <collection name="leases" :$collection="$collection" :searchable="false">
       <responsive-table slot="content" :columns="[
-        'Property',
-        'Unit',
-        'Start Date',
+        {
+          name: 'Property',
+          sort: 'search.property.display_name'
+        },
+        {
+          name: 'Unit',
+          sort: 'search.unit.name'
+        },
+        {
+          name: 'Start Date',
+          sort: false
+        },
         'End Date',
         {
           name: 'Duration',
-          class: 'duration-col'
+          class: 'duration-col',
+          sort: false
         },
         {
           name: 'Current Rent',
-          class: 'text-right'
+          class: 'text-right',
+          sort: false
         }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />

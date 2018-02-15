@@ -6,7 +6,10 @@
       </div>
 
       <responsive-table slot="content" :columns="[
-        'Name',
+        {
+          name: 'Name',
+          sort: 'first_name'
+        },
         'Email',
         'Created'
       ]">

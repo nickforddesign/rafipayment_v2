@@ -6,11 +6,26 @@
       </div>
 
       <responsive-table slot="content" :columns="[
-        'Unit',
-        'Property',
-        'Beds',
-        'Baths',
-        'Current Lease'
+        {
+          name: 'Unit',
+          sort: 'name'
+        },
+        {
+          name: 'Property',
+          sort: 'search.property.display_name'
+        },
+        {
+          name: 'Beds',
+          sort: 'bed_count'
+        },
+        {
+          name: 'Baths',
+          sort: 'bath_count'
+        },
+        {
+          name: 'Current Lease',
+          sort: false
+        }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>
@@ -41,7 +56,7 @@ export default {
     return new Collection({
       basePath: 'units',
       query: {
-        sort_property: 1
+        'sort_search.property.display_name': 1
       },
       model: Unit
     })

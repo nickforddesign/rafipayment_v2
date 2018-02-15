@@ -9,12 +9,22 @@
       ref="collection">
 
       <responsive-table slot="content" :columns="[
-        'Due Date',
-        'Target',
-        'Type',
+        {
+          name: 'Due Date',
+          sort: false
+        },
+        {
+          name: 'Target',
+          sort: false
+        },
+        {
+          name: 'Type',
+          sort: false
+        },
         {
           name: 'Balance',
-          class: 'text-right'
+          class: 'text-right',
+          sort: false
         }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" @showModal="showModal" />
