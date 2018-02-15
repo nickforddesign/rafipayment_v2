@@ -46,7 +46,6 @@ export default {
   },
   created() {
     if (this.model) {
-      console.log(this.model.start_date)
       this.$period = this.model.$data
       this.start_date = moment.utc(this.model.start_date).format('M/D/YYYY')
       this.amount = this.model.amount

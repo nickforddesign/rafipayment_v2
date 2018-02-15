@@ -10,12 +10,12 @@
           ref="default"/>
       </field>
 
-      <field name="password confirm" :errors="errors">
+      <field name="confirm" :errors="errors">
         <password
           v-model="password_confirm"
-          v-validate="'required|confirmed:password'"
-          data-vv-as="password"
-          name="password confirm"/>
+          v-validate.disable="{ required: true, is: password }"
+          data-vv-as="password confirmation"
+          name="confirm"/>
       </field>
 
       <div class="actions">

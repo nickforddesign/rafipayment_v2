@@ -7,11 +7,11 @@
     </div>
 
     <field name="password" :errors="errors">
-      <password v-model="password" name="password" v-validate.disable="'required'" />
+      <password v-model="password" name="password" v-validate.disable="'required|min:8'" />
     </field>
 
-    <field name="password confirm" :errors="errors">
-      <password v-model="password_confirm" name="password confirm" data-vv-as="password confirm" v-validate.disable="'required|confirmed:password'" />
+    <field name="confirm" :errors="errors">
+      <password v-model="password_confirm" name="confirm" data-vv-as="password confirmation" v-validate.disable="{ required: true, is: password }" />
     </field>
 
     <div class="note">

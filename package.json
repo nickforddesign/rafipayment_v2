@@ -41,7 +41,7 @@
     "ramda": "^0.25.0",
     "raven-js": "^3.21.0",
     "v-calendar": "^0.5.5",
-    "vee-validate": "^2.0.0-rc.25",
+    "vee-validate": "^2.0.3",
     "vue-become": "^1.0.0",
     "vue-collections": "^1.2.3",
     "vue-focus-lock": "^1.0.5",

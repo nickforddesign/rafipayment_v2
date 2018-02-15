@@ -2,9 +2,8 @@
   <div class="table">
     <div class="thead">
       <div class="tr">
-        <div class="th" v-for="(column, index) in columns" :key="index" :style="{ width: column.width }" :class="column.class">
-          <span v-if="typeof column === 'object'">{{ column.name }}</span>
-          <span v-else>{{ column }}</span>
+        <div class="th" v-for="(column, index) in columns_normalized" :key="index" :style="{ width: column.width }" :class="column.class">
+          <span @click="sort(column)">{{ typeof column === 'object' ? column.name : column }}</span>
         </div>
       </div>
     </div>
@@ -13,27 +12,38 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: 'responsive-table',
   props: {
     columns: [Array]
+  },
+  computed: {
+    columns_normalized() {
+      return this.columns.map(column => {
+        return {
+          name: column.name || column,
+          class: column.class,
+          width: column.width,
+          sort: column.sort || (column.sort === false
+            ? false
+            : this.toSnakeCase(column.name || column))
+        }
+      })
+    }
+  },
+  methods: {
+    sort(column) {
+      this.$parent.sort(column.sort)
+    },
+    toSnakeCase(string) {
+      return string.toLowerCase().replace(/\s+/gi, '_')
+    }
   }
-  // beforeMount() {
-  //   console.log(this)
-  // }
-  // mounted() {
-  //   // add column labels for mobile
-  //   const $rows = this.$slots.default
-  //   $rows.forEach(($row, index) => {
-  //     const $cols = $row.elm.querySelectorAll('.td')
-  //     $cols.forEach(($col, index) => {
-  //       $col.innerHTML = `<label>${this.columns[index]}</label>${$col.innerHTML}`
-  //     })
-  //   })
-  // }
 }
 </script>
+
 <style scoped lang="scss">
 
 </style>

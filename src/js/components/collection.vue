@@ -110,7 +110,9 @@ export default {
       current_page_index: 0,
       search_term: '',
       filters: {},
-      filters_init: false
+      filters_init: false,
+      sort_key: null,
+      sort_asc: true
     }
   },
   async created() {
@@ -198,6 +200,12 @@ export default {
       this.updatePagination()
       this.$collection.reset()
       this.$collection.fetch()
+    },
+    sort_key() {
+      this.updateSort()
+    },
+    sort_asc() {
+      this.updateSort()
     }
   },
   methods: {
@@ -344,6 +352,30 @@ export default {
     },
     setLimit(val) {
       this.limit = val
+    },
+    sort(key) {
+      console.log(key)
+      if (this.sort_key === key) {
+        this.sort_asc = !this.sort_asc
+      } else {
+        this.sort_key = key
+        this.sort_asc = true
+      }
+    },
+    updateSort() {
+      console.log(this.sort_key)
+      Object.keys(this.$collection.query)
+        .filter(key => key.includes('sort'))
+        .map(key => {
+          this.$collection.query_remove(key)
+        })
+      if (this.sort_key) {
+        this.$collection.query_push({
+          [`sort_${this.sort_key}`]: this.sort_asc ? -1 : 1
+        })
+      }
+      console.log(this.$collection.query)
+      this.$collection.fetch()
     }
   },
   components: {

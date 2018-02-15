@@ -2,31 +2,27 @@
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Change Password</h1>
     <div slot="body">
-      <form @submit.prevent="validate">
-        <field name="password" :errors="errors">
-          <password
-            v-model="password"
-            v-validate="'required|min:8'"
-            name="password"
-            ref="default"/>
-        </field>
+      <field name="password" :errors="errors">
+        <password
+          v-model="password"
+          v-validate.disable="'required|min:8'"
+          name="password"
+          ref="default"/>
+      </field>
 
-        <field name="password confirm" :errors="errors">
-          <password
-            v-model="password_confirm"
-            v-validate="'required|confirmed:password'"
-            data-vv-as="password"
-            name="password confirm"/>
-        </field>
-
-      </form>
+      <field name="confirm" :errors="errors">
+        <password
+          v-model="password_confirm"
+          v-validate.disable="{ required: true, is: password }"
+          data-vv-as="password confirmation"
+          name="confirm"/>
+      </field>
     </div>
   </modal>
 </template>
 
 <script>
 import app from '@/app'
-import { Deferred } from '@/utils'
 
 export default {
   name: 'modal-password',
@@ -49,7 +45,7 @@ export default {
       }
     },
     password_confirm() {
-      const name = 'password_confirm'
+      const name = 'confirm'
       if (this.errors.has(name)) {
         this.errors.remove(name)
       }
@@ -59,16 +55,17 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      const passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      // return deferred.promise
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true

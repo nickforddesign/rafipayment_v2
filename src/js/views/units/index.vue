@@ -39,7 +39,10 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'units?sort_property=1',
+      basePath: 'units',
+      query: {
+        sort_property: 1
+      },
       model: Unit
     })
   },
