@@ -10,7 +10,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Deferred } from '@/utils'
 import Property from '@/models/property'
 import PropertyForm from '@/components/property/form'
 
@@ -34,29 +33,22 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      const passed = await this.$refs.property_form.validate()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
-      return this.$property.save(this.place)
-        .then(response => {
-          if (this.confirm) {
-            this.close()
-            this.confirm()
-          }
-        })
-        .catch(error => {
-          console.log({error})
-        })
+      await this.$property.save(this.place)
+      this.close()
+      this.confirm()
     }
   },
   components: {

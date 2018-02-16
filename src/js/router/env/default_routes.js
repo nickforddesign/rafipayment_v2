@@ -102,7 +102,7 @@ const routes = [
     name: 'Properties',
     path: '/properties',
     meta: {
-      auth: ['superadmin', 'admin', 'manager']
+      auth: ['superadmin', 'admin']
     },
     component(resolve) {
       require(['@/views/properties'], resolve)
@@ -112,7 +112,7 @@ const routes = [
     name: 'Property',
     path: '/properties/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager'],
+      auth: ['superadmin', 'admin'],
       back($router) {
         $router.back()
       }
@@ -125,7 +125,7 @@ const routes = [
     name: 'Units',
     path: '/units',
     meta: {
-      auth: ['superadmin', 'admin', 'manager']
+      auth: ['superadmin', 'admin']
     },
     component(resolve) {
       require(['@/views/units'], resolve)
@@ -135,7 +135,7 @@ const routes = [
     name: 'Unit',
     path: '/units/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager'],
+      auth: ['superadmin', 'admin'],
       back($router) {
         $router.back()
       }
@@ -148,7 +148,7 @@ const routes = [
     name: 'Leases',
     path: '/leases',
     meta: {
-      auth: ['admin', 'manager', 'tenant']
+      auth: ['admin', 'tenant']
     },
     component(resolve) {
       require(['@/views/leases'], resolve)
@@ -158,7 +158,7 @@ const routes = [
     name: 'Lease',
     path: '/leases/:id',
     meta: {
-      auth: ['admin', 'manager', 'tenant'],
+      auth: ['admin', 'tenant'],
       back($router) {
         $router.back()
       }
@@ -293,7 +293,7 @@ const routes = [
     name: 'Transfers',
     path: '/transfers',
     meta: {
-      auth: ['superadmin', 'admin', 'manager', 'tenant']
+      auth: ['superadmin', 'admin', 'tenant']
     },
     component(resolve) {
       require(['@/views/transfers'], resolve)
@@ -303,7 +303,7 @@ const routes = [
     name: 'Transfer',
     path: '/transfers/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager', 'tenant'],
+      auth: ['superadmin', 'admin', 'tenant'],
       back($router) {
         $router.back()
       }
@@ -316,7 +316,7 @@ const routes = [
     name: 'Bills',
     path: '/bills',
     meta: {
-      auth: ['superadmin', 'admin', 'manager', 'tenant']
+      auth: ['superadmin', 'admin', 'tenant']
     },
     component(resolve) {
       require(['@/views/bills'], resolve)
@@ -326,7 +326,7 @@ const routes = [
         name: 'Current Bills',
         path: 'current',
         meta: {
-          auth: ['admin', 'manager', 'tenant']
+          auth: ['admin', 'tenant']
         },
         component(resolve) {
           require(['@/views/bills/current'], resolve)
@@ -336,7 +336,7 @@ const routes = [
         name: 'Past Bills',
         path: 'past',
         meta: {
-          auth: ['admin', 'manager', 'tenant']
+          auth: ['admin', 'tenant']
         },
         component(resolve) {
           require(['@/views/bills/past'], resolve)
@@ -348,7 +348,7 @@ const routes = [
     name: 'Bill',
     path: '/bills/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager', 'tenant'],
+      auth: ['superadmin', 'admin', 'tenant'],
       back($router) {
         $router.back()
       }
@@ -387,7 +387,7 @@ const routes = [
     name: 'Funding Source',
     path: '/funding_sources/:id',
     meta: {
-      auth: ['superadmin', 'admin', 'manager', 'tenant'],
+      auth: ['superadmin', 'admin', 'tenant'],
       back($router) {
         $router.back()
       }
@@ -397,23 +397,54 @@ const routes = [
     }
   },
   {
-    name: 'Notifications',
-    path: '/notifications',
+    name: 'Events',
+    path: '/events',
     meta: {
-      auth: ['superadmin', 'admin', 'manager']
+      auth: ['superadmin', 'admin']
     },
+    children: [
+      {
+        name: 'Notifications',
+        path: 'notifications',
+        meta: {
+          auth: ['superadmin', 'admin'],
+          back($router) {
+            $router.back()
+          }
+        },
+        component(resolve) {
+          require(['@/views/events/notifications'], resolve)
+        }
+      },
+      {
+        name: 'Authentication',
+        path: 'authentication',
+        meta: {
+          auth: ['superadmin', 'admin'],
+          back($router) {
+            $router.back()
+          }
+        },
+        component(resolve) {
+          require(['@/views/events/authentication'], resolve)
+        }
+      },
+      {
+        name: 'Webhooks',
+        path: 'webhooks',
+        meta: {
+          auth: ['superadmin', 'admin'],
+          back($router) {
+            $router.back()
+          }
+        },
+        component(resolve) {
+          require(['@/views/webhooks'], resolve)
+        }
+      }
+    ],
     component(resolve) {
-      require(['@/views/events/notifications'], resolve)
-    }
-  },
-  {
-    name: 'Authentication',
-    path: '/authentication',
-    meta: {
-      auth: ['superadmin', 'admin', 'manager']
-    },
-    component(resolve) {
-      require(['@/views/events/authentication'], resolve)
+      require(['@/views/events'], resolve)
     }
   },
   {

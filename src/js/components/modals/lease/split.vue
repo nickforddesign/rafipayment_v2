@@ -14,7 +14,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Deferred, parseCurrency } from '@/utils'
+import { parseCurrency } from '@/utils'
 
 export default {
   name: 'modal-lease-split',
@@ -34,16 +34,16 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
@@ -51,17 +51,11 @@ export default {
       const body = {
         amount: parseCurrency(this.split_amount, Number)
       }
-      const request = this.$request(this.path, {
+      await this.$request(this.path, {
         method: 'put',
         body
       })
-      request.then(response => {
-        this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      this.confirm()
     }
   }
 }

@@ -29,7 +29,6 @@
 import { clone } from 'ramda'
 
 import app from '@/app'
-
 import Lease from '@/models/lease/new'
 
 import Property from './steps/property'
@@ -193,10 +192,6 @@ export default {
 <style scoped lang="scss">
 @import '~%/colors';
 
-// .container {
-//   margin: 40px auto 0;
-// }
-
 .breadcrumbs {
   margin-top: 40px;
 
@@ -231,9 +226,6 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    // top: 20px;
-    // left: 20px;
-    // margin-bottom: 20px;
   }
   .actions {
     margin-top: 20px;

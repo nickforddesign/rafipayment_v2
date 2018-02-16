@@ -12,11 +12,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import Company from '@/models/company'
-// import { Collection } from 'vue-collections'
-import { Deferred } from '@/utils'
-// import User from '@/models/user'
-// import session from '@/session'
 
 export default {
   name: 'modal-webhook-add',
@@ -33,35 +28,25 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      // console.log({passed})
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
       const body = this.$data
-
-      console.log({body})
-
-      const request = this.$request('payment/webhook_subscriptions', {
+      await this.$request('payment/webhook_subscriptions', {
         method: 'post',
         body
       })
-      request.then(response => {
-        this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      this.confirm()
     }
   }
 }

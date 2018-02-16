@@ -2,8 +2,6 @@
   <div class="container x-sm">
     <h2>Who are the tenants?</h2>
 
-    <!-- <button @click="previous" class="back-button">Back</button> -->
-
     <div>
       <searchable :collection="collection" display="full_name" :model="User" @input="addTenant" v-model="selected" :omit="tenants" />
 
@@ -33,12 +31,11 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import { clone } from 'ramda'
 import { Collection } from 'vue-collections'
 import User from '@/models/user'
 
 export default {
-  name: 'lease-add--tenants',
+  name: 'bill-add--tenants',
   props: {
     models: Object
   },

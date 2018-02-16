@@ -1,9 +1,19 @@
 <template>
   <div class="collection-view">
-    <collection name="Notifications" :$collection="$collection">
+    <collection collection_name="notifications" :label="false" :$collection="$collection">
       <responsive-table slot="content" :columns="[
-        'Date',
-        'Type',
+        {
+          name: 'Date',
+          sort: 'created'
+        },
+        {
+          name: 'Name',
+          sort: 'target.full_name'
+        },
+        {
+          name: 'Type',
+          sort: 'data.type'
+        },
         'Title',
         'Success'
       ]">

@@ -19,8 +19,6 @@
 
 <script>
 import moment from 'moment'
-import { Deferred } from '@/utils'
-
 import Period from '@/models/lease/period'
 
 export default {
@@ -60,16 +58,16 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
@@ -79,14 +77,8 @@ export default {
         amount: this.amount
       }
 
-      const request = this.$period.save(body)
-      request.then(response => {
-        this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      await this.$period.save(body)
+      this.confirm()
     }
   }
 }

@@ -56,7 +56,6 @@ export default {
       this.$emit('close')
     },
     validate() {
-      // return deferred.promise
       return new Promise(async (resolve, reject) => {
         const passed = await this.$validator.validateAll()
         if (passed) {

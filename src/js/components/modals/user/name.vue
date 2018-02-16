@@ -18,8 +18,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Deferred } from '@/utils'
-
 export default {
   name: 'modal-user--name',
   props: {
@@ -36,29 +34,22 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
 
-      const data = this.$data
-      const request = this.model.save(data)
-      request.then(response => {
-        this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      await this.model.save(this.$data)
+      this.confirm()
     }
   }
 }

@@ -4,6 +4,9 @@
       {{ $event.created | moment('M/D/YYYY h:mm:ssa') }}
     </cell>
     <cell>
+      {{ $event.target.full_name }}
+    </cell>
+    <cell>
       {{ $event.data.type || $event.type }}
     </cell>
     <cell>

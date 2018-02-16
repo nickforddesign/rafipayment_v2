@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { Deferred } from '@/utils'
 import Unit from '@/models/unit/new'
 
 export default {
@@ -51,29 +50,25 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      const passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
-
       const data = this.$data
-      // console.trace(this.$unit.save(data))
-      return this.$unit.save(data)
-        .then((response) => {
-          this.loading = false
-          if (this.confirm) {
-            this.confirm()
-          }
-        })
+
+      await this.$unit.save(data)
+      if (this.confirm) {
+        this.confirm()
+      }
     }
   }
 }

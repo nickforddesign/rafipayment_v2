@@ -4,7 +4,7 @@
       <div class="tr">
         <div class="th" v-for="(column, index) in columns_normalized" :key="index" :style="{ width: column.width }" :class="column.class">
           <a href="#"
-            v-if="column.sort"
+            v-if="is_sortable && column.sort"
             @click.prevent="sort(column)">
             {{ column.name }}
             <div
@@ -44,6 +44,9 @@ export default {
             : this.toSnakeCase(column.name || column))
         }
       })
+    },
+    is_sortable() {
+      return this.$parent.$options.name === 'collection'
     }
   },
   methods: {

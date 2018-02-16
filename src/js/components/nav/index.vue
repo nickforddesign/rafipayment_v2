@@ -33,7 +33,6 @@
 import session from '@/session'
 import superadmin from './roles/superadmin'
 import admin from './roles/admin'
-import manager from './roles/manager'
 import tenant from './roles/tenant'
 
 import avatar from '@/components/cards/avatar'
@@ -74,7 +73,6 @@ export default {
   components: {
     superadmin,
     admin,
-    manager,
     tenant,
     avatar
   }

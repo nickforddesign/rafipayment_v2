@@ -47,7 +47,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Deferred, parseCurrency } from '@/utils'
+import { parseCurrency } from '@/utils'
 
 import Period from '@/models/lease/charge'
 
@@ -99,16 +99,16 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true

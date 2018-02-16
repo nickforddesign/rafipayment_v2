@@ -32,14 +32,12 @@
 <script>
 import moment from 'moment'
 import Charge from '@/models/lease/charge'
-import { Deferred } from '@/utils'
 
 export default {
   name: 'modal-lease--edit',
   props: {
     model: Object,
-    confirm: Function,
-    account: Boolean
+    confirm: Function
   },
   data() {
     return {
@@ -72,23 +70,20 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log(this.model.charges.find(charge => charge.type === 'last_month'))
-  },
   methods: {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      await this.$validator.validateAll()
-      if (!this.errors.any()) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        await this.$validator.validateAll()
+        if (!this.errors.any()) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true

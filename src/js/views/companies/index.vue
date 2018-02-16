@@ -49,7 +49,6 @@ export default {
   },
   methods: {
     add() {
-      console.log('add')
       this.modal_visible = true
     },
     closeModal() {
@@ -64,9 +63,6 @@ export default {
     row,
     companyModal
   }
-  // created() {
-  //   console.log(data)
-  // }
 }
 </script>
 

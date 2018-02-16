@@ -42,7 +42,6 @@
 import Transfer from '@/models/transfer/new'
 import User from '@/models/user'
 import { Collection } from 'vue-collections'
-import { Deferred } from '@/utils'
 
 const fundingSourcesCollection = new Collection({
   basePath: 'account/funding_sources'
@@ -96,16 +95,16 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
@@ -116,14 +115,8 @@ export default {
         destination_user: this.destination_user
       }
 
-      const request = this.$transfer.save(data)
-      request.then(response => {
-        this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      await this.$transfer.save(data)
+      this.confirm()
     }
   }
 }

@@ -1,10 +1,13 @@
 <template>
   <div>
-    <collection name="webhooks" :$collection="$collection" :searchable="false">
+    <collection collection_name="webhooks" :$collection="$collection" :searchable="false">
 
       <responsive-table slot="content" :columns="[
         'Created',
-        'Topic'
+        {
+          name: 'Topic',
+          sort: 'body.topic'
+        }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
       </responsive-table>

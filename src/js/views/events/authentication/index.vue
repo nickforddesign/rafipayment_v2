@@ -1,11 +1,27 @@
 <template>
   <div class="collection-view">
-    <collection name="Events" :$collection="$collection">
+    <collection collection_name="events" :label="false" :$collection="$collection">
       <responsive-table slot="content" :columns="[
-        'Date',
-        'Type',
-        'Client',
-        'IP',
+        {
+          name: 'Date',
+          sort: 'created'
+        },
+        {
+          name: 'Name',
+          sort: 'source.full_name'
+        },
+        {
+          name: 'Type',
+          sort: 'data.type'
+        },
+        {
+          name: 'Client',
+          sort: 'source.rafipayment_client'
+        },
+        {
+          name: 'IP',
+          sort: 'source.ip_address'
+        },
         'Success'
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />

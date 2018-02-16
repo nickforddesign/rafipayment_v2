@@ -44,7 +44,7 @@
 <script>
 import { path } from 'ramda'
 import { Collection } from 'vue-collections'
-import { Deferred, trimObj } from '@/utils'
+import { trimObj } from '@/utils'
 import app from '@/app'
 import Company from '@/models/company'
 import User from '@/models/user/new'
@@ -89,16 +89,16 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true

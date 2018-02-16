@@ -30,7 +30,7 @@
 import moment from 'moment'
 import { path } from 'ramda'
 import app from '@/app'
-import { Deferred, parseCurrency, prettyCurrency } from '@/utils'
+import { parseCurrency, prettyCurrency } from '@/utils'
 import Transfer from '@/models/transfer/new'
 
 export default {
@@ -42,9 +42,9 @@ export default {
   },
   data() {
     return {
-      amount: null,
-      scheduled_date: null,
-      mode: 'simple'
+      amount: null
+      // scheduled_date: null,
+      // mode: 'simple'
     }
   },
   mounted() {
@@ -62,13 +62,13 @@ export default {
       })
     }
   },
-  watch: {
-    mode(val) {
-      this.scheduled_date = val === 'simple'
-        ? null
-        : moment.utc().startOf('day').add('days', 1).toISOString()
-    }
-  },
+  // watch: {
+  //   mode(val) {
+  //     this.scheduled_date = val === 'simple'
+  //       ? null
+  //       : moment.utc().startOf('day').add('days', 1).toISOString()
+  //   }
+  // },
   methods: {
     close() {
       this.$emit('close')
@@ -76,17 +76,16 @@ export default {
     setMode(mode) {
       this.mode = mode
     },
-    async validate() {
-      const deferred = new Deferred()
-      await this.$validator.validateAll()
-      this.validateDate()
-      if (!this.errors.any()) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     validateDate() {
       const end_date = path(['$lease', 'end_date'], this.$parent)

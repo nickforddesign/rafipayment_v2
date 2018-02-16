@@ -87,10 +87,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import _ from 'lodash'
 import Vue from 'vue'
 import { path, pickBy } from 'ramda'
-import { Deferred } from '@/utils'
 import Company from '@/models/company'
 
 export default {
@@ -104,7 +102,6 @@ export default {
     return {
       category: '',
       categories: [],
-      // current_classification: '',
       // model data
       name: '',
       business_classification: '',
@@ -119,8 +116,8 @@ export default {
       last_name: '',
       email: '',
       date_of_birth: '1999-08-10',
-      ssn: '123-45-6789',
-      phone: '6175551234'
+      ssn: '',
+      phone: ''
     }
   },
   computed: {
@@ -135,12 +132,12 @@ export default {
   },
   mounted() {
     this.$request('payment/business_classifications')
-    .then(response => {
-      Vue.set(this, 'categories', response)
-    })
-    .catch(error => {
-      console.log(error)
-    })
+      .then(response => {
+        Vue.set(this, 'categories', response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   },
   models: {
     company() {
@@ -151,16 +148,16 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
@@ -182,16 +179,8 @@ export default {
         phone: this.phone
       })
 
-      // console.log({data})
-
-      const request = this.$company.save(data)
-      request.then(response => {
-        this.confirm()
-      })
-      .catch(error => {
-        console.log({error})
-      })
-      return request
+      await this.$company.save(data)
+      this.confirm()
     }
   }
 }

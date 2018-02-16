@@ -16,19 +16,6 @@
           <input type="text" v-model="charge.description">
         </field>
 
-        <!-- <field :name="`tenant ${index}`" label="Tenant" :errors="errors">
-          <select-menu v-model="charge.tenant" v-validate="'required'" data-vv-as="tenant" :name="`tenant ${index}`" data-vv-value-path="field_value">
-            <option disabled value="">Please select one</option>
-            <option
-              v-for="(tenant, index) in tenants"
-              :value="tenant.email"
-              :key="index"
-              :label="`${tenant.first_name} ${tenant.last_name}`">
-              {{ tenant.first_name }} {{tenant.last_name }}
-            </option>
-          </select-menu>
-        </field> -->
-
       </div>
     </div>
 
@@ -65,9 +52,6 @@ export default {
     }
   },
   created() {
-    // this.models.lease.tenants.forEach(tenant => {
-    //   tenant.charges = []
-    // })
     if (!this.charges.length) {
       this.addCharge()
     }
@@ -85,11 +69,6 @@ export default {
       }
     }
   },
-  // computed: {
-  //   tenants() {
-  //     return this.models.lease.tenants
-  //   }
-  // },
   methods: {
     addCharge() {
       this.charges.push({
@@ -107,27 +86,7 @@ export default {
       }
     },
     async complete(model) {
-      // const tenants = []
-
-      // this.charges.map(charge => {
-      //   const tenant = this.models.lease.tenants.find(tenant => {
-      //     return tenant.email === charge.tenant
-      //   })
-      //   tenant.charges.push({
-      //     amount: charge.amount,
-      //     date: charge.date,
-      //     description: charge.description
-      //   })
-      // })
-
-      // this.models.lease.tenants.map(tenant => {
-      //   if (tenant.charges.length) {
-      //     tenants.push(tenant)
-      //   }
-      // })
-
       this.models.bill.charges = this.charges
-
       this.next()
     },
     next() {
@@ -146,8 +105,6 @@ export default {
 @import '~%/colors';
 
 .box {
-  overflow: visible;
-
   .close {
     position: absolute;
     right: 14px;

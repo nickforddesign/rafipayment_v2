@@ -4,10 +4,16 @@
     <div slot="body">
 
       <field name="charge type">
-        <input type="radio" id="fee" name="charge type" value="fee" v-model="charge_type">
-        <label for="fee">Fee</label>
-        <input type="radio" id="credit" name="charge type" value="credit" v-model="charge_type">
-        <label for="credit">Credit</label>
+        <radio v-model="charge_type" :options="[
+          {
+            label: 'Fee',
+            value: 'fee'
+          },
+          {
+            label: 'Credit',
+            value: 'credit'
+          }
+        ]" />
       </field>
 
       <field name="amount" :errors="errors">
@@ -24,12 +30,12 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Deferred, parseCurrency } from '@/utils'
+import { parseCurrency } from '@/utils'
 
 import Period from '@/models/lease/charge'
 
 export default {
-  name: 'modal-lease--charge',
+  name: 'modal-bill--charge',
   props: {
     model: Object,
     confirm: Function,
@@ -69,16 +75,16 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      let passed = await this.$validator.validateAll()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true

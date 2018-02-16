@@ -2,7 +2,7 @@
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Add Property</h1>
     <div slot="body" class="modal-property--add">
-      <new-property v-model="place" ref="property_form" />
+      <new-property v-model="place" />
     </div>
   </modal>
 </template>
@@ -10,7 +10,6 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { Deferred } from '@/utils'
 import Property from '@/models/property/new'
 import newProperty from '@/components/property/form'
 
@@ -34,16 +33,16 @@ export default {
     close() {
       this.$emit('close')
     },
-    async validate() {
-      const deferred = new Deferred()
-      const passed = await this.$refs.property_form.validate()
-      if (passed) {
-        await this.confirmChange()
-        deferred.resolve()
-      } else {
-        deferred.reject()
-      }
-      return deferred.promise
+    validate() {
+      return new Promise(async (resolve, reject) => {
+        const passed = await this.$validator.validateAll()
+        if (passed) {
+          await this.confirmChange()
+          resolve()
+        } else {
+          reject()
+        }
+      })
     },
     async confirmChange() {
       this.loading = true
