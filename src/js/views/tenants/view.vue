@@ -79,7 +79,7 @@ import LeaseModal from '@/components/modals/lease'
 // import NameModal from '@/components/modals/user/name'
 import EditModal from '@/components/modals/user/edit'
 // import EmailModal from '@/components/modals/user/email'
-import NotificationsTable from '@/views/events/notifications/table'
+import NotificationsTable from '@/views/events/notification/table'
 import AuthEventsTable from '@/views/events/authentication/table'
 import TransfersTable from '@/views/transfers/table'
 

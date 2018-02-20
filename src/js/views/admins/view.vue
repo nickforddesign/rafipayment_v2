@@ -66,7 +66,7 @@
 import app from '@/app'
 import User from '@/models/user'
 
-import NotificationsTable from '@/views/events/notifications/table'
+import NotificationsTable from '@/views/events/notification/table'
 import NameModal from '@/components/modals/user/name'
 
 export default {
