@@ -15,12 +15,17 @@
           sort: 'data.type'
         },
         {
+          name: 'IP',
+          sort: 'source.ip_address'
+        },
+        {
           name: 'Client',
           sort: 'source.rafipayment_client'
         },
         {
-          name: 'IP',
-          sort: 'source.ip_address'
+          name: ' ',
+          sort: false,
+          width: '60px'
         },
         'Success'
       ]">

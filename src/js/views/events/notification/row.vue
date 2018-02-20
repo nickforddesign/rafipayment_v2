@@ -1,7 +1,9 @@
 <template>
-  <div class="tr">
+  <div class="tr" @click.stop="goToEvent">
     <cell>
-      {{ $event.created | moment('M/D/YYYY h:mm:ssa') }}
+      <router-link :to="`/events/${$event.id}`">
+        {{ $event.created | moment('M/D/YYYY h:mma') }}
+      </router-link>
     </cell>
     <cell>
       {{ $event.target.full_name }}
@@ -38,6 +40,11 @@ export default {
       return this.$event.success
         ? 'success'
         : 'danger'
+    }
+  },
+  methods: {
+    goToEvent() {
+      this.$router.push(`/events/${this.$event.id}`)
     }
   }
 }

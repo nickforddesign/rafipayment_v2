@@ -18,6 +18,9 @@ export default class UserEvent extends Model {
       updated: {
         type: ISODate
       },
+      company: {
+        type: ObjectId
+      },
       data: {
         type: Object
       },
@@ -25,10 +28,21 @@ export default class UserEvent extends Model {
         type: Object
       },
       parties: {
-        type: Array
+        type: Array,
+        items: {
+          type: ObjectId
+        }
       },
       source: {
-        type: Object
+        type: Object,
+        properties: {
+          id: {
+            type: ObjectId
+          },
+          user_agent: {
+            type: Object
+          }
+        }
       },
       success: {
         type: Boolean

@@ -413,7 +413,7 @@ const routes = [
           }
         },
         component(resolve) {
-          require(['@/views/events/notifications'], resolve)
+          require(['@/views/events/notification'], resolve)
         }
       },
       {
@@ -430,7 +430,7 @@ const routes = [
         }
       },
       {
-        name: 'Webhooks',
+        name: 'Webhook Events',
         path: 'webhooks',
         meta: {
           auth: ['superadmin', 'admin'],
@@ -445,6 +445,16 @@ const routes = [
     ],
     component(resolve) {
       require(['@/views/events'], resolve)
+    }
+  },
+  {
+    name: 'Event',
+    path: '/events/:id',
+    meta: {
+      auth: ['superadmin', 'admin']
+    },
+    component(resolve) {
+      require(['@/views/events/view'], resolve)
     }
   },
   {
