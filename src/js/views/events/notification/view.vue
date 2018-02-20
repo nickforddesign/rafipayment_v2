@@ -26,8 +26,8 @@
           <dl>
             <dt>Source</dt>
             <dd>
-              <router-link :to="`/${$event.source.model}s/${$event.source.id}`">
-                {{ $event.source.full_name }}
+              <router-link :to="`/${$event.target.model}s/${$event.target.id}`">
+                {{ $event.target.full_name }}
               </router-link>
             </dd>
           </dl>

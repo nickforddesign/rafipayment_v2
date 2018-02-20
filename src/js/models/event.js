@@ -48,7 +48,12 @@ export default class UserEvent extends Model {
         type: Boolean
       },
       target: {
-        type: Object
+        type: Object,
+        properties: {
+          id: {
+            type: ObjectId
+          }
+        }
       },
       title: {
         type: String

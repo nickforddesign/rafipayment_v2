@@ -10,8 +10,10 @@
       <div v-if="collection.length">
         <responsive-table :columns="[
           'Date',
+          'Name',
           'Type',
           'Title',
+          ' ',
           'Success'
         ]">
           <row v-for="(model, index) in collection" :key="index" :model="model" />
@@ -56,7 +58,7 @@ export default {
   },
   methods: {
     viewAll() {
-      this.$router.push(`/notifications?filter_parties=${this.user.id}`)
+      this.$router.push(`/events/notifications?filter_parties=${this.user.id}`)
     }
   },
   components: {

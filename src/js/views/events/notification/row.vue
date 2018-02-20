@@ -9,10 +9,13 @@
       {{ $event.target.full_name }}
     </cell>
     <cell>
+      {{ $event.data.template }}
+    </cell>
+    <cell>
       {{ $event.data.type || $event.type }}
     </cell>
     <cell>
-      {{ $event.data.template }}
+      <component :is="icon" />
     </cell>
     <cell>
       <span :class="['text-color', status_class]">
@@ -26,6 +29,8 @@
 
 <script>
 import UserEvent from '@/models/event'
+import IconDesktop from '@/components/icons/desktop'
+import IconMobile from '@/components/icons/mobile'
 
 export default {
   name: 'row',
@@ -40,14 +45,29 @@ export default {
       return this.$event.success
         ? 'success'
         : 'danger'
+    },
+    icon() {
+      return this.$event.data.type === 'email'
+        ? 'icon-desktop'
+        : 'icon-mobile'
     }
   },
   methods: {
     goToEvent() {
       this.$router.push(`/events/${this.$event.id}`)
     }
+  },
+  components: {
+    IconDesktop,
+    IconMobile
   }
 }
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.icon {
+  width: 20px;
+}
+</style>

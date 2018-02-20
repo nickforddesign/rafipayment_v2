@@ -2,7 +2,7 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <h2>Authentication Event</h2>
+        <h2>Authentication Event <component :is="icon" /></h2>
       </div>
     </header>
     <div class="table-container">
@@ -123,6 +123,9 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import IconDesktop from '@/components/icons/desktop'
+import IconMobile from '@/components/icons/mobile'
+
 export default {
   name: 'event-authentication',
   props: {
@@ -133,7 +136,16 @@ export default {
       return this.$event.success
         ? 'success'
         : 'danger'
+    },
+    icon() {
+      return this.$event.source.user_agent.device_family && (this.$event.source.user_agent.device_family === 'PC'
+        ? 'icon-desktop'
+        : 'icon-mobile')
     }
+  },
+  components: {
+    IconDesktop,
+    IconMobile
   }
 }
 </script>
@@ -141,5 +153,8 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
-
+.icon {
+  width: 18px;
+  margin-left: 7px;
+}
 </style>

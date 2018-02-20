@@ -10,11 +10,17 @@
           name: 'Name',
           sort: 'target.full_name'
         },
+        'Title',
         {
           name: 'Type',
-          sort: 'data.type'
+          sort: 'data.type',
+          width: '120px'
         },
-        'Title',
+        {
+          name: ' ',
+          sort: false,
+          width: '100px'
+        },
         'Success'
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />
