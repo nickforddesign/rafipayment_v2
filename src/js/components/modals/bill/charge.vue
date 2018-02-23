@@ -17,7 +17,7 @@
       </field>
 
       <field name="amount" :errors="errors">
-        <currency v-model="amount" v-validate="'required|min_currency:0.01'" name="amount" />
+        <currency v-model="amount" v-validate="'required|min_currency:0.00'" name="amount" />
       </field>
 
       <field name="description">

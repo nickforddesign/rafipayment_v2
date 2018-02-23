@@ -1,7 +1,6 @@
 <template>
   <div class="tr">
     <div class="td">{{ $charge.charge_type | replace | capitalize }} {{ description | limit(100) }}</div>
-    <!-- <div class="td description">{{ $charge.description | limit(30) }}</div> -->
     <div class="td text-right balance">{{ $charge.amount | currency }}</div>
   </div>
 </template>
@@ -27,6 +26,9 @@ export default {
         persist: true
       })
     }
+  },
+  mounted() {
+    console.log(this.$charge)
   },
   computed: {
     date() {

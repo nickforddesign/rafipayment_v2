@@ -1,6 +1,6 @@
 module.exports = {
-  // api: 'http://192.168.0.164:8000/',
-  api: 'https://api.development.rafipayment.com/',
+  api: 'http://192.168.0.164:8000/',
+  // api: 'https://api.development.rafipayment.com/',
   // api: 'https://rafipayment.ngrok.io/',
   // api: 'https://api.staging.rafipayment.com/',
   socket: 'http://localhost:4200/',

@@ -82,6 +82,9 @@ export default {
     $bill: Object
   },
   methods: {
+    fetch() {
+      this.$parent.fetch()
+    },
     goToTenant(tenant) {
       this.$router.push(`/tenants/${tenant.id}`)
     }
