@@ -6,7 +6,11 @@
         'Created',
         {
           name: 'Topic',
-          sort: 'body.topic'
+          sort: 'body.topic',
+        },
+        {
+          name: 'Error',
+          sort: false
         }
       ]">
         <row v-for="(model, index) in collection" :key="index" :model="model" />

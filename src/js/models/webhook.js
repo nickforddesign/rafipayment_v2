@@ -23,6 +23,9 @@ export default class Webhook extends Model {
       },
       headers: {
         type: Object
+      },
+      error: {
+        type: Object
       }
     }
   }

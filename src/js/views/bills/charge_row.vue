@@ -27,9 +27,6 @@ export default {
       })
     }
   },
-  mounted() {
-    console.log(this.$charge)
-  },
   computed: {
     date() {
       return this.$charge.date
