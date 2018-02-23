@@ -118,9 +118,10 @@ export default class Lease extends Model {
             const total_splits = this.tenants.reduce((acc, tenant) => {
               return acc + (path(['amount'], tenant.periods[index]) || 0)
             }, 0)
-            return total <= 0
+            const percentage = Math.floor((total_splits / this.totals_per_period[index]) * 100)
+            return percentage > 100 || total <= 0
               ? `100%`
-              : `${Math.floor((total_splits / this.totals_per_period[index]) * 100)}%`
+              : `${percentage}%`
           })
         }
       },
