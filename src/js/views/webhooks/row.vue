@@ -15,7 +15,7 @@ export default {
   props: ['model'],
   computed: {
     status_class() {
-      return this.error
+      return this.has_error
         ? 'danger'
         : 'success'
     },
