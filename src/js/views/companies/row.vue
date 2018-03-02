@@ -1,7 +1,7 @@
 <template>
-  <div class="tr" @click="goToModel">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
-      <a :href="$company.urlRoot" @click.prevent>{{ $company.name }}</a>
+      <router-link :to="$company.urlRoot">{{ $company.name }}</router-link>
     </cell>
     <cell>{{ $company.created | moment('MM/DD/YYYY h:mm:ssa') }}</cell>
     <cell>{{ $company.first_name }} {{ $company.last_name }}</cell>
@@ -12,6 +12,7 @@
 
 <script>
 import Company from '@/models/company'
+import { smartClick } from '@/utils'
 
 export default {
   name: 'row',
@@ -25,14 +26,11 @@ export default {
     this.$company = this.model
   },
   methods: {
-    goToModel() {
-      this.$router.push(this.$company.urlRoot)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`${this.$company.urlRoot}`))
     },
-    async remove() {
-      await this.$company.destroy()
-      // this sux
-      await this.$parent.$collection.reset()
-      await this.$parent.$collection.fetch()
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`${this.$company.urlRoot}`))
     }
   }
 }

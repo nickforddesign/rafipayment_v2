@@ -1,5 +1,5 @@
 <template>
-  <div class="tr" @click.stop="goToEvent">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
       <router-link :to="`/events/${$event.id}`">
         {{ $event.created | moment('M/D/YY h:mma') }}
@@ -31,10 +31,10 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import app from '@/app'
 import UserEvent from '@/models/event'
 import IconDesktop from '@/components/icons/desktop'
 import IconMobile from '@/components/icons/mobile'
+import { smartClick } from '@/utils'
 
 export default {
   name: 'row',
@@ -57,8 +57,11 @@ export default {
     }
   },
   methods: {
-    goToEvent() {
-      this.$router.push(`/events/${this.$event.id}`)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`/events/${this.$event.id}`))
+    },
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`/events/${this.$event.id}`))
     }
   },
   components: {

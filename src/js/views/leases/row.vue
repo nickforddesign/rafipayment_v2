@@ -1,7 +1,9 @@
 <template>
-  <div class="tr" @click="goToModel">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
-      <a :href="`/${$lease.urlRoot}`" @click.prevent>{{ $lease.property.address }}</a>
+      <router-link :to="`/${$lease.urlRoot}`">
+        {{ $lease.property.address }}
+      </router-link>
     </cell>
     <cell>{{ $lease.unit.name }}</cell>
     <cell>{{ $lease.start_date | moment('M/D/YY', true) }}</cell>
@@ -14,12 +16,18 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { prettyCurrency } from '@/utils'
+import { prettyCurrency, smartClick } from '@/utils'
 import Lease from '@/models/lease'
 
 export default {
   name: 'row',
   props: ['model'],
+  data() {
+    return {
+      is_down: false,
+      has_moved: false
+    }
+  },
   models: {
     lease() {
       return new Lease(this.model)
@@ -38,8 +46,11 @@ export default {
     }
   },
   methods: {
-    goToModel() {
-      this.$router.push(`/${this.$lease.urlRoot}`)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`/${this.$lease.urlRoot}`))
+    },
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`/${this.$lease.urlRoot}`))
     }
   }
 }

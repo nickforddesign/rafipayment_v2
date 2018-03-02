@@ -1,7 +1,7 @@
 <template>
-  <div class="tr" @click="goToModel">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
-      <a :href="$bill.url" @click.prevent>{{ $bill.due_date | moment('M/D/YY', true) }}</a>
+      <router-link :to="`/${$bill.url}`">{{ $bill.due_date | moment('M/D/YY', true) }}</router-link>
     </cell>
     <cell>{{ $bill.target }}</cell>
     <cell>{{ type | capitalize }}</cell>
@@ -32,6 +32,7 @@ import moment from 'moment'
 import session from '@/session'
 import Bill from '@/models/bill'
 import Lease from '@/models/lease'
+import { smartClick } from '@/utils'
 
 export default {
   name: 'row',
@@ -79,8 +80,11 @@ export default {
     fetch() {
       this.$emit('fetch')
     },
-    goToModel() {
-      this.$router.push(`/bills/${this.$bill.id}`)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`/bills/${this.$bill.id}`))
+    },
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`/bills/${this.$bill.id}`))
     },
     showModal() {
       const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)

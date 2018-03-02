@@ -41,7 +41,10 @@ export default {
   collection() {
     return new Collection({
       basePath: 'tenants',
-      model: User
+      model: User,
+      query: {
+        sort_first_name: 1
+      }
     })
   },
   methods: {

@@ -191,3 +191,11 @@ export function getMonthsArray (min, max) {
   }
   return array
 }
+
+// smart click handler
+
+export function smartClick(event, func) {
+  if (event.target.tagName !== 'A' && window.getSelection().toString() === '') {
+    return func()
+  }
+}

@@ -1,8 +1,8 @@
 <template>
-  <div class="tr" @click="goToModel">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
       <span v-if="!$transfer.cancelled && !$transfer.processed && $transfer.scheduled_date">
-        <a :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.scheduled_date | moment('M/D/YY') }}</a>
+        <router-link :to="`/${$transfer.url}`">{{ $transfer.scheduled_date | moment('M/D/YY') }}</router-link>
         <span class="flag success">Scheduled</span>
       </span>
       <a v-else :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mma') }}</a>
@@ -21,6 +21,7 @@
 
 <script>
 import Transfer from '@/models/transfer'
+import { smartClick } from '@/utils'
 
 export default {
   name: 'row',
@@ -36,8 +37,11 @@ export default {
     }
   },
   methods: {
-    goToModel() {
-      this.$router.push(`/${this.$transfer.urlRoot}`)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`/${this.$transfer.urlRoot}`))
+    },
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`/${this.$transfer.urlRoot}`))
     }
   }
 }

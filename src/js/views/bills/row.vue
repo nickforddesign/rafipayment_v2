@@ -1,7 +1,7 @@
 <template>
-  <div class="tr" @click="goToModel">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
-      <a :href="`/${$bill.url}`" @click.prevent>{{ $bill.due_date | moment('M/D/YY', true) }}</a>
+      <router-link :to="`/${$bill.url}`">{{ $bill.due_date | moment('M/D/YY', true) }}</router-link>
     </cell>
     <cell>{{ $bill.target }}</cell>
     <cell>{{ $bill.type }}</cell>
@@ -13,6 +13,7 @@
 
 <script>
 import Bill from '@/models/bill'
+import { smartClick } from '@/utils'
 
 export default {
   name: 'row',
@@ -23,8 +24,11 @@ export default {
     }
   },
   methods: {
-    goToModel() {
-      this.$router.push(`/${this.$bill.urlRoot}`)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`/${this.$bill.urlRoot}`))
+    },
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`/${this.$bill.urlRoot}`))
     }
   }
 }

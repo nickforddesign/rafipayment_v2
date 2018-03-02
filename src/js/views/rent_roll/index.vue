@@ -40,7 +40,7 @@ export default {
   },
   collection() {
     return new Collection({
-      basePath: 'units?sort_property=1',
+      basePath: 'units?sort_search.property.display_name=1',
       model: Unit
     })
   },

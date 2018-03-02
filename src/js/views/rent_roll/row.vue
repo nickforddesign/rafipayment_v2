@@ -1,7 +1,7 @@
 <template>
-  <div class="tr" @click="goToModel">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
-      <a :href="`/${$unit.urlRoot}`" @click.prevent>{{ $unit.name }}</a>
+      <router-link :to="`/${$unit.urlRoot}`">{{ $unit.name }}</router-link>
     </cell>
     <cell>{{ $unit.property_name }}</cell>
     <cell>{{ $unit.bed_count }}</cell>
@@ -25,6 +25,7 @@ import { Collection } from 'vue-collections'
 import Unit from '@/models/unit'
 import Lease from '@/models/lease'
 import LeaseLink from '@/views/leases/link'
+import { smartClick } from '@/utils'
 
 export default {
   name: 'row',
@@ -73,8 +74,11 @@ export default {
     }
   },
   methods: {
-    goToModel() {
-      this.$router.push(`/${this.$unit.urlRoot}`)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`/${this.$unit.urlRoot}`))
+    },
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`/${this.$unit.urlRoot}`))
     }
   },
   components: {

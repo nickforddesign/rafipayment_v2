@@ -1,7 +1,9 @@
 <template>
-  <div class="tr" @click="goToModel">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
-      <a :href="`/${$property.urlRoot}`" @click.prevent>{{ $property.name }}</a>
+      <router-link :to="`/${$property.urlRoot}`">
+        {{ $property.name }}
+      </router-link>
     </cell>
     <cell>{{ $property.address }}</cell>
     <cell>
@@ -15,6 +17,7 @@
 
 <script>
 import Property from '@/models/property'
+import { smartClick } from '@/utils'
 
 export default {
   name: 'row',
@@ -37,8 +40,11 @@ export default {
     this.count_fetched = true
   },
   methods: {
-    goToModel() {
-      this.$router.push(`/${this.$property.urlRoot}`)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`/${this.$property.urlRoot}`))
+    },
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`/${this.$property.urlRoot}`))
     }
   }
 }
