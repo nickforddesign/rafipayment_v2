@@ -4,15 +4,13 @@
       <div class="meta">
         <h2>Dashboard</h2>
       </div>
-      <div class="actions">
-        <!-- <button class="primary">Create New</button> -->
-      </div>
     </header>
     <div class="table-container">
-      <div class="header">
-        Reports
-      </div>
+      <unpaid-bills />
       <!-- <report-income /> -->
+    </div>
+    <div class="table-container">
+      <overpaid-bills />
     </div>
   </div>
 </template>
@@ -21,13 +19,23 @@
 
 <script>
 import ReportIncome from '@/views/reports/income'
+import UnpaidBills from '@/views/reports/unpaidbills'
+import OverpaidBills from '@/views/reports/overpaidbills'
 
 export default {
   name: 'dashboard-admin',
   components: {
-    ReportIncome
+    ReportIncome,
+    UnpaidBills,
+    OverpaidBills
   }
 }
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.header {
+  margin-bottom: 10px;
+}
+</style>

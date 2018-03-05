@@ -250,16 +250,16 @@ export default {
           months_array.push('All')
           this.ranges = months_array
 
-          const now = moment.utc().startOf('month')
+          // const now = moment.utc().startOf('month')
           let selected_month = this.ranges[this.ranges.length - 2] // skip "All"
 
-          for (let i = this.ranges.length - 1; i--;) {
-            if (moment.utc(this.ranges[i], 'M/YYYY') < now) {
-              break
-            } else {
-              selected_month = this.ranges[i]
-            }
-          }
+          // for (let i = this.ranges.length - 1; i--;) {
+          //   if (moment.utc(this.ranges[i], 'M/YYYY') < now) {
+          //     break
+          //   } else {
+          //     selected_month = this.ranges[i]
+          //   }
+          // }
           this.range_selected = selected_month
           this.range_has_been_selected = false
         }

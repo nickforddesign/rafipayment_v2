@@ -52,13 +52,14 @@ import ChargesAutomatic from './charges_automatic'
 import ChargesManual from './charges_manual'
 
 import Bill from '@/models/bill'
-import Lease from '@/models/lease'
+// import Lease from '@/models/lease'
 
 export default {
   name: 'bill',
   data() {
     return {
       fetched: false,
+      amount: null,
       modal_visible: false
     }
   },
@@ -69,18 +70,18 @@ export default {
       }, {
         basePath: 'account/bills'
       })
-    },
-    lease() {
-      return new Lease(null, {
-        basePath: 'account/leases'
-      })
     }
+    // lease() {
+    //   return new Lease(null, {
+    //     basePath: 'account/leases'
+    //   })
+    // }
   },
   async created() {
     try {
       await this.fetch()
-      this.$lease.id = this.$bill.lease
-      await this.$lease.fetch()
+      // this.$lease.id = this.$bill.lease
+      // await this.$lease.fetch()
     } catch (error) {
       if (error.error) {
         app.alert(
@@ -101,6 +102,12 @@ export default {
         ? 'rent'
         : 'one-time'
     },
+    me() {
+      return this.$bill.tenants.find(model => model.id === session.$user.id)
+    },
+    my_charges() {
+      return this.me.charges.reduce((acc, item) => acc + (item.amount * 100), 0) / 100
+    },
     has_transfers() {
       if (this.$bill.active && this.$bill.balance) {
         return 'scroll-container'
@@ -112,10 +119,12 @@ export default {
       await this.$bill.fetch()
     },
     showModal() {
-      const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
-      const my_period = me.periods.find(period => period.id === this.$bill.period)
-      const amount = my_period && my_period.amount
-      this.amount = amount
+      // console.log(this.my_charges)
+      // const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
+      // const my_period = me.periods.find(period => period.id === this.$bill.period)
+      // const amount = my_period && my_period.amount
+      // this.amount = amount
+      this.amount = this.my_charges
       this.modal_visible = true
     },
     closeModal() {

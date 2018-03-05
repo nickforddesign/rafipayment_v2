@@ -31,7 +31,7 @@
 import moment from 'moment'
 import session from '@/session'
 import Bill from '@/models/bill'
-import Lease from '@/models/lease'
+// import Lease from '@/models/lease'
 import { smartClick } from '@/utils'
 
 export default {
@@ -42,19 +42,25 @@ export default {
       return new Bill(this.model, {
         basePath: 'account/bills'
       })
-    },
-    lease() {
-      return new Lease({
-        id: this.model.lease
-      }, {
-        basePath: 'account/leases'
-      })
     }
+    // lease() {
+    //   return new Lease({
+    //     id: this.model.lease
+    //   }, {
+    //     basePath: 'account/leases'
+    //   })
+    // }
   },
-  created() {
-    this.$lease.fetch()
-  },
+  // created() {
+  //   this.$lease.fetch()
+  // },
   computed: {
+    me() {
+      return this.$bill.tenants.find(model => model.id === session.$user.id)
+    },
+    my_charges() {
+      return this.me.charges.reduce((acc, item) => acc + (item.amount * 100), 0) / 100
+    },
     type() {
       return this.$bill.type === 'automatic'
         ? `rent - ${moment.utc(this.$bill.due_date).format('MMMM')}`
@@ -87,9 +93,10 @@ export default {
       smartClick(e, () => window.open(`/bills/${this.$bill.id}`))
     },
     showModal() {
-      const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
-      const my_period = me.periods.find(period => period.id === this.$bill.period)
-      const amount = my_period && my_period.amount
+      // const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
+      // const my_period = me.periods.find(period => period.id === this.$bill.period)
+      // const amount = my_period && my_period.amount
+      const amount = this.my_charges
       this.$emit('showModal', {
         amount,
         model: this.$bill

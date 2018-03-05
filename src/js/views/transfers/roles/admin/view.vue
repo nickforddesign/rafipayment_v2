@@ -75,7 +75,11 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Source</dt>
-              <dd>{{ $transfer.source_name }}</dd>
+              <dd>
+                <router-link :to="`/${$transfer.source.model}s/${$transfer.source.id}`">
+                  {{ $transfer.source_name }}
+                </router-link>
+              </dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
