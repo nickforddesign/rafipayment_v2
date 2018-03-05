@@ -124,7 +124,9 @@ export default {
       // const my_period = me.periods.find(period => period.id === this.$bill.period)
       // const amount = my_period && my_period.amount
       // this.amount = amount
-      this.amount = this.my_charges
+      if (this.$bill.type === 'automatic') {
+        this.amount = this.my_charges
+      }
       this.modal_visible = true
     },
     closeModal() {
