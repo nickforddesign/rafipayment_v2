@@ -96,8 +96,9 @@ export default {
       // const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
       // const my_period = me.periods.find(period => period.id === this.$bill.period)
       // const amount = my_period && my_period.amount
+      let amount
       if (this.$bill.type === 'automatic') {
-        const amount = this.my_charges
+        amount = this.my_charges
       }
       this.$emit('showModal', {
         amount,
