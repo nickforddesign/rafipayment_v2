@@ -5,7 +5,7 @@
         <router-link :to="`/${$transfer.url}`">{{ $transfer.scheduled_date | moment('M/D/YY') }}</router-link>
         <span class="flag success">Scheduled</span>
       </span>
-      <a v-else :href="`/${$transfer.url}`" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mma') }}</a>
+      <router-link v-else :to="`/${$transfer.url}`">{{ $transfer.created | moment('M/D/YY h:mma') }}</router-link>
     </cell>
     <cell>{{ $transfer.destination_name }}</cell>
     <cell>{{ $transfer.source_name }}</cell>
