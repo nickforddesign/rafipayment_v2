@@ -49,7 +49,6 @@ import { mapGetters } from 'vuex'
 import Navigation from './nav'
 import Alert from './alert'
 import IconArrowLeft from './icons/arrow-left'
-import config from '@/config'
 
 import Superadmin from '@/components/roles/superadmin'
 import Admin from '@/components/roles/admin'
@@ -93,7 +92,7 @@ export default {
   mounted() {
     toggleStatusBar(this.logged_in)
     if (process.env.NODE_ENV !== 'cordova') {
-      this.initSockets()
+      this.initSocketClient()
     }
   },
   watch: {
@@ -122,25 +121,9 @@ export default {
         this.$store.dispatch('nav_toggle')
       }
     }, 20),
-    async initSockets() {
-      if (!this.socket) {
-        const engine = await import('engine.io-client')
-        this.socket = engine(config.socket)
-
-        this.socket.on('open', () => {
-          console.log(`Connected to websockets server at ${config.socket}`)
-          this.socket.on('message', message => {
-            const data = JSON.parse(message)
-            console.log(data)
-            if (data.deployment && data.deployment.refresh) {
-              this.requires_refresh = true
-            }
-          })
-          this.socket.on('close', () => {
-            console.log('Closed socket connection')
-          })
-        })
-      }
+    async initSocketClient() {
+      const SocketClient = await require('@/modules/socket_client').default
+      this.socket = new SocketClient(this)
     }
   },
   components: {

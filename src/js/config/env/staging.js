@@ -1,8 +1,7 @@
 module.exports = {
-  // api: 'http://192.168.0.164:8000/',
   api: 'https://api.staging.rafipayment.com/',
   socket: 'wss://ws.staging.rafipayment.com/',
-  // api: 'https://rafipayment.ngrok.io/',
+  socket_reconnect: 10000,
   google_api_key: 'AIzaSyB3KRRAn8zzaUhkevQtXxn1gXv6IWiyT34',
   dwolla_env: 'sandbox',
   client: 'Web',
