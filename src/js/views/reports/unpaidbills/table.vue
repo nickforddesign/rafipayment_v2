@@ -19,6 +19,10 @@
         'Target',
         'Type',
         {
+          name: ' ',
+          sort: false
+        },
+        {
           name: 'Balance',
           class: 'text-right'
         }
