@@ -76,5 +76,6 @@ $indicator-size: 10px;
   font-size: 0.7em;
   white-space: nowrap;
   background: darken($color-background-dark, 5%);
+  pointer-events: none;
 }
 </style>
