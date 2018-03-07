@@ -6,11 +6,12 @@
     <cell>{{ $bill.target }}</cell>
     <cell>{{ $bill.type }}</cell>
     <cell>
-      <span class="tenant" v-for="(tenant, index) in $bill.tenants" :key="index" v-if="$bill.type === 'automatic'">
-        <span v-if="tenantHasCharges(tenant)">
-          <div class="indicator" :class="{ paid: tenantHasPaid(tenant) }" />
-        </span>
-      </span>
+      <indicator
+        v-if="$bill.type === 'automatic' && tenantHasCharges(tenant)"
+        v-for="(tenant, index) in $bill.tenants"
+        :key="index"
+        :tenant="tenant"
+        :bill="$bill" />
     </cell>
     <cell class="text-right">{{ $bill.balance | currency }}</cell>
   </div>
@@ -21,6 +22,7 @@
 <script>
 import Bill from '@/models/bill'
 import { smartClick } from '@/utils'
+import Indicator from './indicator'
 
 export default {
   name: 'row',
@@ -39,32 +41,12 @@ export default {
     },
     tenantHasCharges(tenant) {
       return (tenant.charges.reduce((acc, item) => acc + item.amount * 100, 0) / 100) > 0
-    },
-    tenantHasPaid(tenant) {
-      return !!this.$bill.transfers.find(transfer => transfer.source.id === tenant.id)
     }
+  },
+  components: {
+    Indicator
   }
 }
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
-
-<style scoped lang="scss">
-@import '~%/colors';
-
-$indicator-size: 10px;
-
-.indicator {
-  display: inline-block;
-  height: $indicator-size;
-  width: $indicator-size;
-  background: transparent;
-  border-radius: 100%;
-  margin-right: $indicator-size / 2;
-  border: 1px solid $color-status-success;
-
-  &.paid {
-    background: $color-status-success;
-  }
-}
-</style>

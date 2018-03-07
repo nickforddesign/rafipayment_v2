@@ -1,6 +1,6 @@
 <template>
   <div :class="['td', className]">
-    <label>{{ label }}</label>
+    <label v-if="label !== ' '">{{ label }}</label>
     <slot />
   </div>
 </template>
