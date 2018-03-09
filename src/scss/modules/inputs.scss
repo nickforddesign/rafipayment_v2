@@ -212,6 +212,7 @@ select {
   color: $color-input-text;
   white-space: nowrap;
   -webkit-appearance: none;
+  -moz-appearance: none;
 
   option {
     color: $color-text-dark;
