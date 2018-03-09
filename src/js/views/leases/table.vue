@@ -12,6 +12,10 @@
           'End Date',
           'Duration',
           {
+            name: ' ',
+            sort: false
+          },
+          {
             name: 'Current Rent',
             class: 'text-right'
           }

@@ -1,6 +1,6 @@
 <template>
   <div class="tr">
-    <cell>{{ $charge.type | capitalize}}</cell>
+    <cell>{{ $charge.type | capitalize |  replace }}</cell>
     <cell>{{ date }}</cell>
     <cell>{{ $charge.description | limit }}</cell>
     <cell>{{ $charge.amount | currency }}</cell>

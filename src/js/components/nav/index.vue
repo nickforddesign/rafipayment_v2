@@ -20,8 +20,8 @@
     <v-touch
       v-if="nav_visible"
       class="overlay"
+      :options="{ touchAction: 'none' }"
       @click="toggle"
-      :options="{ touchAction: 'auto' }"
       @tap="toggle"
       @panright="toggle" />
   </div>
@@ -65,9 +65,6 @@ export default {
     },
     toggle() {
       this.$store.dispatch('nav_toggle')
-    },
-    onSwipeRight(e) {
-      console.log(e)
     }
   },
   components: {
@@ -143,6 +140,8 @@ $nav-width: 230px;
   }
   .header-container {
     background: transparent;
+    filter: blur(12px);
+    transition: 0.5s filter;
   }
 }
 

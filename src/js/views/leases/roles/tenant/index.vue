@@ -21,6 +21,10 @@
           sort: false
         },
         {
+          name: ' ',
+          sort: false
+        },
+        {
           name: 'Current Rent',
           class: 'text-right',
           sort: false

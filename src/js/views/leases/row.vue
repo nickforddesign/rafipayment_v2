@@ -9,6 +9,9 @@
     <cell>{{ $lease.start_date | moment('M/D/YY', true) }}</cell>
     <cell>{{ $lease.end_date | moment('M/D/YY', true) }}</cell>
     <cell>{{ lease_length }}</cell>
+    <cell>
+      <tenant v-for="(tenant, index) in $lease.tenants" :key="index" :tenant="tenant" />
+    </cell>
     <cell class="text-right">{{ current_rent }}</cell>
   </div>
 </template>
@@ -18,6 +21,7 @@
 <script>
 import { prettyCurrency, smartClick } from '@/utils'
 import Lease from '@/models/lease'
+import Tenant from './tenant'
 
 export default {
   name: 'row',
@@ -52,6 +56,9 @@ export default {
     goToModelNew(e) {
       smartClick(e, () => window.open(`/${this.$lease.urlRoot}`))
     }
+  },
+  components: {
+    Tenant
   }
 }
 </script>
