@@ -61,8 +61,8 @@ export default {
     return new Collection({
       basePath: '/bills',
       query: {
-        sort_due_date: -1,
-        filter_active: true
+        sort_due_date: -1
+        // filter_active: true
       }
     })
   },

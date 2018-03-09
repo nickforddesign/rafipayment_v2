@@ -33,7 +33,7 @@
         <transfers-table :model="$bill" @fetch="fetch" />
       </div>
 
-      <button v-if="$bill.active && $bill.balance" class="primary footer-button" @click="showModal">Make a Payment</button>
+      <button v-if="$bill.active && $bill.balance" class="primary footer-button" @click="validate">Make a Payment</button>
       <transfer-modal :model="$bill" @close="closeModal" v-if="modal_visible" :confirm="fetch" :suggestion="amount" />
     </div>
     <loading v-else />
@@ -108,6 +108,12 @@ export default {
     my_charges() {
       return this.me.charges.reduce((acc, item) => acc + (item.amount * 100), 0) / 100
     },
+    my_transfers() {
+      return this.$bill.transfers.filter(transfer => transfer.source.id === session.$user.id) || []
+    },
+    my_total_transfers() {
+      return this.my_transfers.reduce((acc, item) => acc + (item.amount * 100), 0) / 100
+    },
     has_transfers() {
       if (this.$bill.active && this.$bill.balance) {
         return 'scroll-container'
@@ -118,14 +124,20 @@ export default {
     async fetch() {
       await this.$bill.fetch()
     },
+    validate() {
+      if (this.$bill.type === 'automatic' && this.my_charges - this.my_total_transfers <= 0) {
+        app.confirm(
+          'It looks like you already paid in full, are you sure you want to make another payment?',
+          this.showModal,
+          'Possible overpayment'
+        )
+      } else {
+        this.showModal()
+      }
+    },
     showModal() {
-      // console.log(this.my_charges)
-      // const me = this.$lease.tenants.find(tenant => tenant.id === session.$user.id)
-      // const my_period = me.periods.find(period => period.id === this.$bill.period)
-      // const amount = my_period && my_period.amount
-      // this.amount = amount
       if (this.$bill.type === 'automatic') {
-        this.amount = this.my_charges
+        this.amount = this.my_charges - this.my_total_transfers
       }
       this.modal_visible = true
     },
