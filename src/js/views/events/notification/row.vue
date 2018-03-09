@@ -2,7 +2,7 @@
   <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
       <router-link :to="`/events/${$event.id}`">
-        {{ $event.created | moment('M/D/YYYY h:mma') }}
+        {{ $event.created | moment('M/D/YYYY h:mma', true) }}
       </router-link>
     </cell>
     <cell>

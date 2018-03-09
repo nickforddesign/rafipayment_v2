@@ -1,6 +1,6 @@
 <template>
   <div class="tr">
-    <cell>{{ model.created | moment('MM/DD/YYYY h:mm:ssa')  }}</cell>
+    <cell>{{ model.created | moment('M/D/YY h:mm:ssa')  }}</cell>
     <cell>{{ model.body.topic }}</cell>
     <cell :class="['text-color', status_class]">{{ has_error }}</cell>
   </div>

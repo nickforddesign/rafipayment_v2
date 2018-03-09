@@ -6,7 +6,7 @@
       </router-link>
     </cell>
     <cell>
-      {{ $event.source.full_name }}
+      {{ $event.source.full_name || '–' }}
     </cell>
     <cell>
       {{ $event.data.type || $event.type }}

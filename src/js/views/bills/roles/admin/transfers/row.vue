@@ -1,7 +1,7 @@
 <template>
-  <div class="tr" @click="goToModel">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <div class="td">
-      <a :href="`/${$transfer.urlRoot}`" @click.prevent>{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</a>
+      <router-link :to="`/${$transfer.urlRoot}`">{{ $transfer.created | moment('M/D/YY h:mm:ssa') }}</router-link>
     </div>
     <div class="td">{{ $transfer.source.resolved.first_name }} {{ $transfer.source.resolved.last_name }}</div>
     <div class="td">{{ $transfer.type }}</div>
@@ -17,6 +17,7 @@
 <script>
 import session from '@/session'
 import Transfer from '@/models/transfer'
+import { smartClick } from '@/utils'
 
 export default {
   name: 'row',
@@ -43,8 +44,11 @@ export default {
     }
   },
   methods: {
-    goToModel() {
-      this.$router.push(`/${this.$transfer.urlRoot}`)
+    goToModel(e) {
+      smartClick(e, () => this.$router.push(`/${this.$transfer.urlRoot}`))
+    },
+    goToModelNew(e) {
+      smartClick(e, () => window.open(`/${this.$transfer.urlRoot}`))
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
     <cell>
       <span v-if="!$transfer.cancelled && !$transfer.processed && $transfer.scheduled_date">
-        <router-link :to="`/${$transfer.url}`">{{ $transfer.scheduled_date | moment('M/D/YY') }}</router-link>
+        <router-link :to="`/${$transfer.url}`">{{ $transfer.scheduled_date | moment('M/D/YY', true) }}</router-link>
         <span class="flag success">Scheduled</span>
       </span>
       <router-link v-else :to="`/${$transfer.url}`">{{ $transfer.created | moment('M/D/YY h:mma') }}</router-link>

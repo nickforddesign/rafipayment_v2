@@ -3,7 +3,7 @@
     <header>
       <div class="meta">
         <legend>Bill {{ $bill.display_id}}</legend>
-        <h2>{{ $bill.due_date | moment }}</h2>
+        <h2>{{ $bill.due_date | moment('M/D/YY', true) }}</h2>
       </div>
     </header>
 
