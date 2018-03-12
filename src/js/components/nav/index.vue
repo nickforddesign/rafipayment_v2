@@ -96,7 +96,7 @@ $nav-width: 230px;
     pointer-events: auto;
     transition: 0.5s filter;
 
-    .content {
+    & > .content {
       pointer-events: auto;
     }
   }
@@ -126,7 +126,7 @@ $nav-width: 230px;
       pointer-events: none;
       transition: 0.5s filter;
 
-      .content {
+      & > .content {
         pointer-events: none;
         padding-top: 0;
         margin-top: $header-height;
@@ -319,7 +319,7 @@ nav {
       main {
         filter: none;
 
-        .content {
+        & > .content {
           margin: 0;
           padding: 30px;
         }
