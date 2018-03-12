@@ -318,7 +318,15 @@ nav {
 
       main {
         filter: none;
+
+        .content {
+          margin: 0;
+          padding: 30px;
+        }
       }
+    }
+    .header-container {
+      filter: none;
     }
   }
 
