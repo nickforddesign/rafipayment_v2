@@ -114,7 +114,6 @@ export default {
       }
     }, 20),
     onSwipeLeft: debounce(function(e) {
-      console.log('swipe left!')
       const start = getPanStartPosition(e)
       const angle = e.angle
       const offset = (window.outerWidth || window.innerWidth) - start.x
