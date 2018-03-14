@@ -10,6 +10,8 @@
   </div>
 </template>
 
+<!--/////////////////////////////////////////////////////////////////////////-->
+
 <script>
 import User from '@/models/user'
 import Avatar from '@/components/cards/avatar'
@@ -57,31 +59,37 @@ export default {
 }
 </script>
 
+<!--/////////////////////////////////////////////////////////////////////////-->
+
 <style lang="scss">
 .user-card {
   padding: 0;
-}
-.avatar {
-  display: block;
-  width: 30%;
-  margin: 1em;
-}
-.details {
-  width: 70%;
-  margin-left: 8px;
-  padding: 0;
-  border-left: 0;
 
-  h3 {
-    margin-bottom: 10px;
+  .avatar {
+    display: block;
+    width: 30%;
+    margin: 1em;
   }
-  h6 {
-    font-size: 0.7em;
-    margin: 0;
+
+  .details {
+    width: 70%;
+    margin-left: 8px;
+    padding: 0;
+    border-left: 0;
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    h6 {
+      font-size: 0.7em;
+      margin: 0;
+    }
   }
-}
-.reverse {
-  flex-direction: row-reverse;
-  text-align: right;
+
+  &.reverse {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
 }
 </style>

@@ -88,16 +88,3 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
-
-<style scoped lang="scss">
-// @import '~%/colors';
-
-// .avatar {
-//   width: 16px;
-//   color: $color-text-light;
-
-//   &:hover {
-//     cursor: pointer;
-//   }
-// }
-</style>
