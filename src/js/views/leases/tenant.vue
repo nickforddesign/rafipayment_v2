@@ -56,7 +56,6 @@ $indicator-size: 10px;
   width: $indicator-size;
   background: transparent;
   border-radius: 100%;
-  // border: 1px solid $color-status-success;
   opacity: 1;
 
   &.paid {
@@ -68,14 +67,14 @@ $indicator-size: 10px;
   }
 }
 
-.tooltip {
-  position: absolute;
-  bottom: 100%;
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-size: 0.7em;
-  white-space: nowrap;
-  background: darken($color-background-dark, 5%);
-  pointer-events: none;
-}
+// .tooltip {
+//   position: absolute;
+//   bottom: 100%;
+//   padding: 2px 4px;
+//   border-radius: 3px;
+//   font-size: 0.7em;
+//   white-space: nowrap;
+//   background: darken($color-background-dark, 5%);
+//   pointer-events: none;
+// }
 </style>

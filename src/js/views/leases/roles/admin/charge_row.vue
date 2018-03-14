@@ -4,7 +4,8 @@
     <cell>{{ date }}</cell>
     <cell>{{ $charge.description | limit }}</cell>
     <cell>
-      <avatar v-if="model.tenant" :initials="model.tenant.first_name[0]" :color="model.tenant.avatar_color" />
+      <!-- <avatar v-if="model.tenant" :initials="model.tenant.first_name[0]" :color="model.tenant.avatar_color" /> -->
+      <tenant-avatar v-if="model.tenant" :data="model.tenant" />
       <span v-else>All</span>
     </cell>
     <cell>{{ $charge.amount | currency }}</cell>
@@ -30,7 +31,9 @@ import { prettyCurrency } from '@/utils'
 import Charge from '@/models/lease/charge'
 
 import ChargeModal from '@/components/modals/lease/charge'
-import Avatar from '@/components/cards/avatar'
+// import Avatar from '@/components/cards/avatar'
+
+import TenantAvatar from './tenant_avatar'
 
 export default {
   name: 'row',
@@ -78,7 +81,7 @@ export default {
     }
   },
   components: {
-    Avatar,
+    TenantAvatar,
     ChargeModal
   }
 }
@@ -87,10 +90,14 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
-@import '~%/colors';
+// @import '~%/colors';
 
-.avatar {
-  width: 16px;
-  color: $color-text-light;
-}
+// .avatar {
+//   width: 16px;
+//   color: $color-text-light;
+
+//   &:hover {
+//     cursor: pointer;
+//   }
+// }
 </style>

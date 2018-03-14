@@ -1,22 +1,24 @@
 <template>
-  <div class="table">
-    <div class="thead">
-      <div class="tr">
-        <div class="th" v-for="(column, index) in columns_normalized" :key="index" :style="{ width: column.width }" :class="column.class">
-          <a href="#"
-            v-if="is_sortable && column.sort"
-            @click.prevent="sort(column)">
-            {{ column.name }}
-            <div
-              v-if="$parent.sort_key === column.sort"
-              :class="['arrow', direction]" />
-          </a>
-          <span v-else>{{ column.name }}</span>
+  <div class="table-container">
+    <div class="table">
+      <div class="thead">
+        <div class="tr">
+          <div class="th" v-for="(column, index) in columns_normalized" :key="index" :style="{ width: column.width }" :class="column.class">
+            <a href="#"
+              v-if="is_sortable && column.sort"
+              @click.prevent="sort(column)">
+              {{ column.name }}
+              <div
+                v-if="$parent.sort_key === column.sort"
+                :class="['arrow', direction]" />
+            </a>
+            <span v-else>{{ column.name }}</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="tbody">
-      <slot />
+      <div class="tbody">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -76,5 +78,10 @@ export default {
   &.down {
     transform: rotate(180deg);
   }
+}
+
+.table-container {
+  max-width: 100%;
+  overflow-x: auto;
 }
 </style>

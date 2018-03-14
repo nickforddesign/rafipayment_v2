@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar" :style="[styleHandler]">
+  <div class="avatar" :style="[styleHandler]" @mouseover="onEnter" @mouseleave="onLeave">
     <svg viewBox="0 0 220 220">
       <text transform="matrix(1 0 0 1 110 144)" text-anchor="middle">{{ initials }}</text>
     </svg>
@@ -24,6 +24,14 @@ export default {
           rgba(255, 255, 255, 0) 100%
         )`
       }
+    }
+  },
+  methods: {
+    onEnter() {
+      this.$emit('mouseover')
+    },
+    onLeave() {
+      this.$emit('mouseleave')
     }
   }
 }
@@ -50,6 +58,12 @@ export default {
       font-family: 'Roboto', sans-serif;
       font-weight: 200;
       font-size: 105.0759px;
+    }
+  }
+
+  &:hover {
+    text {
+      text-decoration: none;
     }
   }
 }
