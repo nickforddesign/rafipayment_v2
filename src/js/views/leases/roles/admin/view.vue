@@ -271,18 +271,13 @@ export default {
 <style scoped lang="scss">
 @import '~%/colors';
 
-.period {
-  margin-top: 10px;
-}
-.checkbox {
-  display: inline-block;
-}
 .periods {
   margin-top: 20px;
+  padding: 7px 1.25rem 12px;
   background: darken($color-background-dark, 5%);
 }
-.box {
-  padding: 7px 1.25rem 12px;
+.period {
+  margin-top: 10px;
 }
 </style>
 
