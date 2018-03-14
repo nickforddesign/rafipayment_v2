@@ -2,8 +2,10 @@ import { prettyCurrency } from '@/utils'
 import moment from 'moment'
 
 const filters = {
-  currency(value = '') {
-    return prettyCurrency(value)
+  currency(value) {
+    return value !== undefined
+      ? prettyCurrency(value)
+      : '–'
   },
   lowercase(value = '') {
     return value.toLowerCase()

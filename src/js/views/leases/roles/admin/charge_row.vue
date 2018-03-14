@@ -3,12 +3,20 @@
     <cell>{{ $charge.type | capitalize |  replace }}</cell>
     <cell>{{ date }}</cell>
     <cell>{{ $charge.description | limit }}</cell>
+    <cell>
+      <avatar v-if="model.tenant" :initials="model.tenant.first_name[0]" :color="model.tenant.avatar_color" />
+      <span v-else>All</span>
+    </cell>
     <cell>{{ $charge.amount | currency }}</cell>
     <cell class="text-right">
       <button class="x-small" @click="edit">Edit</button>
-      <button class="x-small" @click="promptRemove">Delete</button>
+      <button class="x-small danger" @click="promptRemove">Delete</button>
 
-      <charge-modal v-if="modal_visible" @close="closeModal" :model="$charge" />
+      <charge-modal
+        v-if="modal_visible"
+        @close="closeModal"
+        :model="$charge"
+        :basePath="basePath" />
     </cell>
   </div>
 </template>
@@ -21,7 +29,8 @@ import app from '@/app'
 import { prettyCurrency } from '@/utils'
 import Charge from '@/models/lease/charge'
 
-import chargeModal from '@/components/modals/lease/charge'
+import ChargeModal from '@/components/modals/lease/charge'
+import Avatar from '@/components/cards/avatar'
 
 export default {
   name: 'row',
@@ -69,9 +78,19 @@ export default {
     }
   },
   components: {
-    chargeModal
+    Avatar,
+    ChargeModal
   }
 }
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+@import '~%/colors';
+
+.avatar {
+  width: 16px;
+  color: $color-text-light;
+}
+</style>

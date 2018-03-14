@@ -1,6 +1,6 @@
 <template>
   <modal @close="close" :confirm="validate">
-    <h1 slot="header">Add Charge</h1>
+    <h1 slot="header">{{ this.model ? 'Edit' : 'Add' }} Charge</h1>
     <div slot="body">
 
       <field name="charge type">
@@ -40,6 +40,11 @@
       <field name="description">
         <input type="text" v-model="description">
       </field>
+
+      <field name="tenant" v-if="!this.model">
+        <select-menu :options="tenants" v-model="target" />
+      </field>
+
     </div>
   </modal>
 </template>
@@ -49,31 +54,46 @@
 <script>
 import { parseCurrency } from '@/utils'
 
-import Period from '@/models/lease/charge'
+import Charge from '@/models/lease/charge'
 
 export default {
   name: 'modal-lease--charge',
   props: {
     model: Object,
+    // tenant: Object,
     confirm: Function,
-    path: String
+    lease: Object,
+    basePath: String
   },
   data() {
     return {
       date: null,
       amount: null,
+      target: 'All',
       charge_type: 'fee',
       type: 'recurring',
       description: ''
     }
   },
   models: {
-    period() {
+    charge() {
       return this.model
         ? this.model
-        : new Period(null, {
-          basePath: this.path
+        : new Charge(null, {
+          basePath: `${this.lease.url}`
         })
+    }
+  },
+  computed: {
+    tenants() {
+      const array = ['All']
+      this.lease.tenants.map(tenant => {
+        array.push({
+          label: tenant.first_name + ' ' + tenant.last_name,
+          value: tenant.id
+        })
+      })
+      return array
     }
   },
   watch: {
@@ -84,6 +104,7 @@ export default {
     }
   },
   created() {
+    // console.log(this.lease.url)
     // if editing an existing charge
     if (this.model) {
       this.amount = this.model.amount
@@ -93,6 +114,9 @@ export default {
       if (this.amount < 0) {
         this.charge_type = 'credit'
       }
+      // if (this.tenant) {
+      //   this.$charge.$options.basePath = `${this.lease.url}/tenants/${this.tenant}/charges`
+      // }
     }
   },
   methods: {
@@ -123,7 +147,13 @@ export default {
         body.amount = -parseCurrency(body.amount)
       }
 
-      const request = this.$period.save(body)
+      const path = !this.model && this.target !== 'All'
+        ? `tenants/${this.target}/charges`
+        : !this.model
+          ? `charges`
+          : ``
+
+      const request = this.$charge.save(body, { path })
       request.then(response => {
         if (this.confirm) {
           this.confirm()

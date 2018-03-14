@@ -1,67 +1,28 @@
 <template>
-  <div class="charges">
-    <div class="row flexbox">
-      <user-card :model="$user" @click="goToModel" />
-      <div class="solid text-right splits">
-        <div v-for="(period, index) in lease.periods" :key="index" class="split">
-          <div v-if="lease.periods.length > 1">
-            <span>Start Date:</span> {{ period.start_date | moment }}
-          </div>
-          <div>
-            <span>Split:</span> {{ getAmount(period) }}
-          </div>
-        </div>
+  <router-link :to="`/${$user.url}`">
+    <div class="tenant">
+      <avatar :initials="$user.initials" :color="$user.avatar_color" />
+      <div class="meta">
+        {{ $user.full_name }}
       </div>
     </div>
-
-    <responsive-table v-if="$user.charges.length" :columns="[
-      'Type',
-      'Date',
-      'Description',
-      'Amount',
-      {
-        name: 'Actions',
-        class: 'text-right'
-      }
-    ]">
-      <charge-row v-for="(charge, index) in $user.charges" :key="index" :basePath="`${$user.url}/charges`" :model="charge" @destroy="fetch" />
-    </responsive-table>
-
-    <div class="actions text-center">
-      <button @click="addCharge">Add tenant charge</button>
-    </div>
-
-    <charge-modal v-if="modal_visible" :path="`${$user.url}/charges`" @close="closeModal" :confirm="fetch" />
-  </div>
+  </router-link>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import { path } from 'ramda'
-import { prettyCurrency } from '@/utils'
 import User from '@/models/user'
-import UserCard from '@/components/cards/user'
-import ChargeModal from '@/components/modals/lease/charge'
-import ChargeRow from './charge_row'
+import Avatar from '@/components/cards/avatar'
 
 export default {
-  name: 'charges',
+  name: 'tenant',
   props: {
-    user: Object,
-    lease: Object,
-    basePath: String
-  },
-  data() {
-    return {
-      modal_visible: false
-    }
+    data: Object
   },
   models: {
     user() {
-      return new User(this.user, {
-        basePath: `${this.basePath}/tenants`
-      })
+      return new User(this.data)
     }
   },
   watch: {
@@ -69,30 +30,8 @@ export default {
       this.$user = val
     }
   },
-  methods: {
-    fetch() {
-      this.$emit('fetch')
-    },
-    addCharge() {
-      this.modal_visible = true
-    },
-    closeModal() {
-      this.modal_visible = false
-    },
-    goToModel() {
-      this.$router.push(`/tenants/${this.user.id}`)
-    },
-    getAmount(period) {
-      const amount = path(['amount'], this.$user.periods.find(user_period => user_period.id === period.id))
-      return amount !== undefined
-        ? prettyCurrency(amount)
-        : '–'
-    }
-  },
   components: {
-    UserCard,
-    ChargeModal,
-    ChargeRow
+    Avatar
   }
 }
 </script>
@@ -102,33 +41,20 @@ export default {
 <style scoped lang="scss">
 @import '~%/colors';
 
-.charges {
-  margin-top: 10px;
-}
-
-.row {
-  background: $color-box-background;
-  text-align: right;
+.tenant {
+  display: flex;
   align-items: center;
 }
-.splits {
-  padding: 30px;
-  font-size: 0.9em;
 
-  span {
-    color: $color-text-medium;
-  }
+.avatar {
+  display: inline-block;
+  color: $color-text-light;
+  max-width: 30px;
+  margin-right: 10px;
+}
 
-  .split:not(:last-child) {
-    margin-bottom: 10px;
-  }
+.meta {
+  display: inline-block;
 }
-.user-card {
-  width: 300px;
-  margin: 0;
-  box-shadow: none;
-}
-.actions {
-  margin-top: 10px;
-}
+
 </style>

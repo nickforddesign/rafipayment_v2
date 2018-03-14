@@ -26,7 +26,7 @@ export default {
   props: {
     model: Object,
     confirm: Function,
-    path: String,
+    basePath: String,
     lease: Object
   },
   data() {
@@ -38,7 +38,7 @@ export default {
   models: {
     period() {
       return new Period(null, {
-        basePath: this.path
+        basePath: this.basePath
       })
     }
   },
@@ -78,7 +78,10 @@ export default {
       }
 
       await this.$period.save(body)
-      this.confirm()
+      if (this.confirm) {
+        this.confirm()
+      }
+      this.close()
     }
   }
 }

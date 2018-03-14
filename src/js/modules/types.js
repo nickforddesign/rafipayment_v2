@@ -1,5 +1,5 @@
+import moment from 'moment'
 import { Type } from 'vue-models'
-
 import { parseCurrency, prettyCurrency } from '@/utils'
 
 export class ObjectId extends Type {
@@ -24,7 +24,7 @@ export class ISODate extends Type {
   }
   out() {
     return this.value
-      ? new Date(this.value).toISOString()
+      ? moment.utc(this.value).toISOString()
       : undefined
   }
 }
