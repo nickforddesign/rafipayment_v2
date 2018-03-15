@@ -27,7 +27,10 @@
 export default {
   name: 'responsive-table',
   props: {
-    columns: [Array]
+    columns: {
+      type: Array,
+      default: () => []
+    }
   },
   computed: {
     direction() {

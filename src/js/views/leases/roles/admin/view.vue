@@ -164,14 +164,12 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-// import { path } from 'ramda'
 import moment from 'moment'
 import app from '@/app'
 import Lease from '@/models/lease'
 
 // cards
-// import Period from './period'
-import Tenant from './tenant'
+import Tenant from '@/components/cards/user_small'
 
 // rows
 import ChargeRow from './charge_row'

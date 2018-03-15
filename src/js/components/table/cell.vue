@@ -8,6 +8,8 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { path } from 'ramda'
+
 export default {
   name: 'cell',
   props: {
@@ -21,12 +23,14 @@ export default {
   },
   mounted() {
     this.index = this.$parent.$children.indexOf(this)
-    const column = this.$parent.$parent.columns[this.index]
-    this.label = typeof column === 'object'
+    const column = path(['$parent', 'columns', this.index], this.$parent)
+    if (column) {
+      this.label = typeof column === 'object'
       ? column.label !== false
         ? column.name
         : null
       : column
+    }
   }
 }
 </script>

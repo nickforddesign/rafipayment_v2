@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     total() {
-      return this.$user.charges.reduce((acc, item) => acc + item.amount, 0)
+      return parseFloat(this.$user.charges.reduce((acc, item) => acc + item.amount, 0).toFixed(2))
     }
   },
   methods: {
@@ -113,50 +113,44 @@ export default {
 @import '~%/colors';
 @import '~%/breakpoints';
 
-// @media (max-width: $breakpoint-medium) {
-  .tenant.charges {
-    .table {
-      padding: 10px;
-      margin-top: 14px;
-      border-radius: 4px;
-      background: $color-background-dark;
+.tenant.charges {
+  .table {
+    padding: 10px;
+    margin-top: 14px;
+    border-radius: 4px;
+    background: $color-background-dark;
 
-      .thead {
-        display: none;
-      }
+    .thead {
+      display: none;
+    }
 
-      .tbody {
-        .tr {
-          display: flex;
-          padding: 6px;
+    .tbody {
+      .tr {
+        display: flex;
+        padding: 6px;
+        margin: 0;
+        background: transparent;
+        color: #aaa;
+        box-shadow: none;
+
+        .td {
+          flex: 1;
+          font-size: 1em;
+          line-height: 1.5em;
+          padding: 0;
           margin: 0;
-          background: transparent;
-          color: #aaa;
-          box-shadow: none;
 
-          .td {
-            flex: 1;
+          &:first-child {
             font-size: 1em;
-            line-height: 1.5em;
-            padding: 0;
-            margin: 0;
+          }
 
-            &:first-child {
-              font-size: 1em;
-            }
-
-            &.balance {
-              flex: initial;
-              width: 100px;
-            }
-
-            // &.description {
-            //   display: none;
-            // }
+          &.balance {
+            flex: initial;
+            width: 100px;
           }
         }
       }
     }
   }
-// }
+}
 </style>

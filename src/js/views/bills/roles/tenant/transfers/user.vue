@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="user-transfers flexbox middle" @click="toggle">
-      <user-card :data="model" :email="false" />
+      <user-card :data="tenant" :email="false" />
       <div class="solid text-right meta">
         <div>{{ total | currency }}</div>
-        <div class="description">{{ model.transfers.length | pluralize('Transfer') }}</div>
+        <div class="description">{{ tenant.transfers.length | pluralize('Transfer') }}</div>
       </div>
     </div>
     <collapse :expanded="expanded">
-      <row v-for="(transfer, index) in model.transfers" :key="index" :model="transfer" />
+      <row v-for="(transfer, index) in tenant.transfers" :key="index" :model="transfer" />
     </collapse>
   </div>
 </template>
@@ -21,7 +21,7 @@ import Row from './row'
 
 export default {
   name: 'tenant-transfers',
-  props: ['model'],
+  props: ['tenant', 'bill'],
   data() {
     return {
       expanded: false
@@ -29,11 +29,7 @@ export default {
   },
   computed: {
     total() {
-      return this.model.transfers.reduce((acc, item) => {
-        return !['customer_transfer_cancelled', 'customer_transfer_failed'].includes(item.status)
-          ? acc + item.amount
-          : acc
-      }, 0)
+      return this.bill.getTenantTotalTransfers(this.tenant.id)
     }
   },
   methods: {

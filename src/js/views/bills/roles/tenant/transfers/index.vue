@@ -6,7 +6,7 @@
     <div v-if="model.has_transfers">
       <div v-if="model.transfers.length">
 
-        <user v-for="(tenant, index) in tenants_with_transfers" :key="index" :model="tenant" />
+        <user v-for="(tenant, index) in tenants_with_transfers" :key="index" :tenant="tenant" :bill="model" />
 
       </div>
       <loading v-else type="table" />
@@ -32,7 +32,6 @@ export default {
   data() {
     return {
       fetched: false
-      // modal_visible: false
     }
   },
   created() {

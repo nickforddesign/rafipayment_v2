@@ -13,7 +13,7 @@
           <h3>Due Date: {{ $bill.due_date | moment('M/D/YY', true) }}</h3>
 
           <div v-if="$bill.type === 'automatic'">
-            <charges-automatic  v-for="(tenant, index) in $bill.tenants" :key="index" :user="tenant" />
+            <charges-automatic v-for="(tenant, index) in $bill.tenants" :key="index" :user="tenant" />
           </div>
           <div v-else>
             <charges-manual :charges="$bill.charges" :basePath="$bill.url" />
@@ -52,7 +52,6 @@ import ChargesAutomatic from './charges_automatic'
 import ChargesManual from './charges_manual'
 
 import Bill from '@/models/bill'
-// import Lease from '@/models/lease'
 
 export default {
   name: 'bill',
@@ -71,17 +70,10 @@ export default {
         basePath: 'account/bills'
       })
     }
-    // lease() {
-    //   return new Lease(null, {
-    //     basePath: 'account/leases'
-    //   })
-    // }
   },
   async created() {
     try {
       await this.fetch()
-      // this.$lease.id = this.$bill.lease
-      // await this.$lease.fetch()
     } catch (error) {
       if (error.error) {
         app.alert(

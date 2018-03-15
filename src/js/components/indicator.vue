@@ -1,10 +1,10 @@
 <template>
   <div class="indicator-container" @mouseover="onEnter" @mouseleave="onLeave">
-    <div class="indicator" :class="{ paid: tenantHasPaid }" />
+    <div class="indicator" :class="[status]" />
 
     <transition name="fade">
       <div class="tooltip" v-if="hovering">
-        {{ tenant.full_name }}
+        <slot />
       </div>
     </transition>
   </div>
@@ -15,15 +15,10 @@
 <script>
 export default {
   name: 'indicator',
-  props: ['tenant', 'bill'],
+  props: ['status'],
   data() {
     return {
       hovering: false
-    }
-  },
-  computed: {
-    tenantHasPaid() {
-      return !!this.bill.transfers.find(transfer => transfer.source.id === this.tenant.id)
     }
   },
   methods: {
@@ -54,9 +49,9 @@ $indicator-size: 10px;
   display: inline-block;
   height: $indicator-size;
   width: $indicator-size;
-  background: transparent;
+  // background: transparent;
   border-radius: 100%;
-  border: 1px solid $color-status-success;
+  // border: 1px solid $color-status-success;
   opacity: 0.7;
 
   &.paid {
@@ -66,16 +61,21 @@ $indicator-size: 10px;
   &:hover {
     opacity: 1;
   }
-}
 
-// .tooltip {
-//   position: absolute;
-//   bottom: 100%;
-//   padding: 2px 4px;
-//   border-radius: 3px;
-//   font-size: 0.7em;
-//   white-space: nowrap;
-//   background: darken($color-background-dark, 5%);
-//   pointer-events: none;
-// }
+  &.success {
+    background: $color-status-success;
+  }
+
+  &.warning {
+    background: $color-status-warning;
+  }
+
+  &.neutral {
+    background: $color-status-neutral;
+  }
+
+  &.danger {
+    background: $color-status-danger;
+  }
+}
 </style>

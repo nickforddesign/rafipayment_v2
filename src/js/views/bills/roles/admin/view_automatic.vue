@@ -2,19 +2,19 @@
   <div class="model-view">
     <header>
       <div class="meta">
-        <legend>Bill {{ $bill.display_id}}</legend>
-        <h2>{{ $bill.due_date | moment('M/D/YY', true) }}</h2>
+        <legend>Bill</legend>
+        <h2>#{{ $bill.display_id }} – {{ $bill.due_date | moment('M/D/YY', true) }}</h2>
       </div>
     </header>
 
     <div class="grid">
       <div class="table-container grid__col grid__col--1-of-2">
         <div class="header">
-          Basic Information
+          Bill Information
         </div>
         <dl>
           <dt>Due Date</dt>
-          <dd>{{ $bill.due_date | moment('M/DD/YYYY', true) }}</dd>
+          <dd>{{ $bill.due_date | moment('M/D/YY', true) }}</dd>
         </dl>
         <dl>
           <dt>Type</dt>
@@ -26,55 +26,58 @@
             <router-link :to="`/leases/${$bill.lease}`">{{ $bill.target }}</router-link>
           </dd>
         </dl>
+      </div>
+
+      <div class="table-container grid__col grid__col--1-of-2">
+        <div class="header">
+          Bill Status
+        </div>
+        <dl>
+          <dt>Active</dt>
+          <dd>{{ $bill.active ? 'Yes' : 'No' }}</dd>
+        </dl>
+        <!-- <dl>
+          <dt>Statuses</dt>
+          <dd>
+            <indicator
+              v-for="(tenant, index) in $bill.tenants"
+              :key="index"
+              :status="[$bill.statusClass($bill.getTenantStatus(tenant.id))]">
+              {{ tenant.first_name }} {{ tenant.last_name }}
+            </indicator>
+          </dd>
+        </dl> -->
+        <dl>
+          <dt>Total Charges</dt>
+          <dd>{{ $bill.total | currency }}</dd>
+        </dl>
         <dl>
           <dt>Balance</dt>
           <dd>{{ $bill.balance | currency }}</dd>
         </dl>
       </div>
-
-      <div class="table-container grid__col grid__col--1-of-2">
-        <div class="header">
-          Tenants
-        </div>
-
-        <div class="tenant" v-for="(tenant, index) in $bill.tenants" :key="index">
-          <user-card :data="tenant" @click="goToTenant(tenant)" />
-        </div>
-
-      </div>
     </div>
 
     <div class="table-container charges">
       <div class="header">
-        Charges
+        Balances
       </div>
 
-      <charges v-for="(tenant, index) in $bill.tenants" :key="index" :user="tenant" :basePath="$bill.url" />
-
-      <div class="summary">
-        <dl class="total">
-          <dt>Total</dt>
-          <dd>{{ $bill.total | currency }}</dd>
-        </dl>
-
-        <dl class="total">
-          <dt>Balance</dt>
-          <dd>{{ $bill.balance | currency }}</dd>
-        </dl>
-      </div>
+      <tenant-summary
+        v-for="(tenant, index) in $bill.tenants"
+        :key="index"
+        :tenant="tenant"
+        :bill="$bill" />      
     </div>
-
-    <transfers-table :model="$bill" />
-
   </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import transfersTable from './transfers'
-import charges from '@/components/charges'
-import userCard from '@/components/cards/user'
+import Indicator from '@/components/indicator'
+import Tenant from '@/components/cards/user_small'
+import TenantSummary from './tenant_summary'
 
 export default {
   name: 'bill',
@@ -90,9 +93,9 @@ export default {
     }
   },
   components: {
-    transfersTable,
-    userCard,
-    charges
+    Indicator,
+    Tenant,
+    TenantSummary
   }
 }
 </script>
@@ -120,8 +123,13 @@ export default {
 
 .summary {
   width: 300px;
-  float: right;
   margin-right: 20px;
+  margin-top: 10px;
+  margin-left: calc(100% - 320px);
+
+  dl {
+    height: 44px;
+  }
 }
 
 .charges {

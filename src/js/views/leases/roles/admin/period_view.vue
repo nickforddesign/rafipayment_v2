@@ -45,7 +45,7 @@ import app from '@/app'
 
 import Period from '@/models/lease/period'
 import PeriodModal from '@/components/modals/lease/period'
-import Tenant from './tenant'
+import Tenant from '@/components/cards/user_small'
 
 export default {
   name: 'period-view',

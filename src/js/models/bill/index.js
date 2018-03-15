@@ -10,6 +10,15 @@ const excluded_transfer_statuses = [
   'customer_transfer_scheduled'
 ]
 
+const status_map = {
+  unpaid: 'danger',
+  overpaid: 'warning',
+  balance: 'warning',
+  credited: 'success',
+  paid: 'success',
+  no_charges: 'success'
+}
+
 export default class Bill extends Model {
   static defaults() {
     return {
@@ -36,11 +45,11 @@ export default class Bill extends Model {
         },
         balance() {
           if (this.has_transfers) {
-            return this.total - this.transfers.reduce((acc, transfer) => {
-              return !excluded_transfer_statuses.includes(transfer.status)
-                ? acc + (transfer.amount * 100)
+            return parseFloat(this.total - this.transfers.reduce((acc, item) => {
+              return !excluded_transfer_statuses.includes(item.status)
+                ? acc + item.amount
                 : acc
-            }, 0) / 100
+            }, 0).toFixed(2))
           } else {
             return this.total
           }
@@ -78,7 +87,6 @@ export default class Bill extends Model {
               message = `Overdue ${days} days`
               break
             case 'future':
-              // const autopay = this.has_autopay
               const autopay = false
               message = autopay
                 ? `Autopay in ${days} days`
@@ -89,6 +97,51 @@ export default class Bill extends Model {
               break
           }
           return message
+        }
+      },
+      methods: {
+        getTenantCharges(id) {
+          const { charges } = this.tenants.find(tenant => tenant.id === id)
+          return charges
+        },
+        getTenantTransfers(id) {
+          return this.transfers.filter(transfer => transfer.source.id === id)
+        },
+        getTenantTotalCharges(id) {
+          return parseFloat((this.getTenantCharges(id).reduce((acc, item) => acc + item.amount, 0).toFixed(2)))
+        },
+        getTenantTotalTransfers(id) {
+          const transfers = this.getTenantTransfers(id)
+          return parseFloat(transfers.reduce((acc, item) => {
+            return !excluded_transfer_statuses.includes(item.status)
+              ? acc + item.amount
+              : acc
+          }, 0).toFixed(2))
+        },
+        getTenantStatus(id) {
+          const charges = this.getTenantCharges(id)
+          const total_charges = this.getTenantTotalCharges(id)
+          const transfers = this.getTenantTransfers(id)
+          const total_transfers = this.getTenantTotalTransfers(id)
+          const tenant_balance = ((total_charges * 100) - (total_transfers * 100)) / 100
+          let output
+          if (total_charges < 0 && !transfers.length) {
+            output = 'credited'
+          } else if (!total_charges && charges.length === 1) {
+            output = 'no_charges'
+          } else if (tenant_balance < 0 && transfers.length) {
+            output = 'overpaid'
+          } else if (!tenant_balance) {
+            output = 'paid'
+          } else if (!transfers.length) {
+            output = 'unpaid'
+          } else {
+            output = 'balance'
+          }
+          return output
+        },
+        statusClass(status) {
+          return status_map[status]
         }
       }
     }

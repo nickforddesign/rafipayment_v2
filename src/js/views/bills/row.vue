@@ -7,11 +7,11 @@
     <cell>{{ $bill.type }}</cell>
     <cell>
       <indicator
-        v-if="$bill.type === 'automatic' && tenantHasCharges(tenant)"
         v-for="(tenant, index) in $bill.tenants"
         :key="index"
-        :tenant="tenant"
-        :bill="$bill" />
+        :status="[$bill.statusClass($bill.getTenantStatus(tenant.id))]">
+        {{ tenant.full_name }} – {{ $bill.getTenantStatus(tenant.id) | capitalize | replace }}
+      </indicator>
     </cell>
     <cell class="text-right">{{ $bill.balance | currency }}</cell>
   </div>
@@ -22,7 +22,7 @@
 <script>
 import Bill from '@/models/bill'
 import { smartClick } from '@/utils'
-import Indicator from './indicator'
+import Indicator from '@/components/indicator'
 
 export default {
   name: 'row',
@@ -38,9 +38,6 @@ export default {
     },
     goToModelNew(e) {
       smartClick(e, () => window.open(`/${this.$bill.urlRoot}`))
-    },
-    tenantHasCharges(tenant) {
-      return (tenant.charges.reduce((acc, item) => acc + item.amount * 100, 0) / 100) > 0
     }
   },
   components: {
