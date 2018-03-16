@@ -1,5 +1,5 @@
 <template>
-  <div v-if="fetched">
+  <div v-if="fetched" class="model-view">
     <component  :is="this.$bill.type" :$bill="$bill" />
     <button @click="showModal">Add Non-Electronic Payment</button>
     <non-electronic-modal v-if="modal_visible" :model="$bill" :confirm="fetch" @close="closeModal" />

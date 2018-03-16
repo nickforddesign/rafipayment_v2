@@ -1,5 +1,5 @@
 <template>
-  <div class="model-view">
+  <div>
     <header>
       <div class="meta">
         <legend>Bill</legend>
