@@ -5,11 +5,6 @@ export default class Transfer extends Model {
   static defaults() {
     return {
       name: 'transfers'
-      // computed: {
-      //   basePath() {
-      //     return 'account/transfers'
-      //   }
-      // }
     }
   }
   static schema() {

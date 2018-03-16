@@ -9,7 +9,7 @@
     </cell>
     <cell>{{ $transfer.destination_name }}</cell>
     <cell>{{ $transfer.source_name }}</cell>
-    <cell>{{ $transfer.type }}</cell>
+    <cell>{{ $transfer.type | replace('_', '-') }}</cell>
     <cell>
       <span :class="['text-color', status_class]">{{ $transfer.source_status }}</span>
     </cell>

@@ -7,7 +7,7 @@
           :initials="$transfer.source.full_name[0]"
           :color="user.avatar_color" />
 
-        Payment ({{ $transfer.type }})
+        Payment ({{ $transfer.type | replace('_', '-') }})
       </router-link>
     </cell>
     <cell>

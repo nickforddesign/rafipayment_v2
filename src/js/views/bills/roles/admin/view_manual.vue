@@ -56,7 +56,7 @@
 
       <dl class="tenant" v-for="(tenant, index) in $bill.tenants" :key="index">
         <dt>
-          <tenant :data="tenant" :link="false" />
+          <tenant :data="tenant" />
         </dt>
       </dl>
     </div>
