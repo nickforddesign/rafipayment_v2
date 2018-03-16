@@ -1,12 +1,14 @@
 <template>
-  <router-link :to="`/${$user.url}`">
-    <div class="tenant">
-      <avatar :initials="$user.initials" :color="$user.avatar_color" />
-      <div class="meta">
-        {{ $user.full_name }}
+  <div class="tenant-container">
+    <component :is="link ? 'router-link' : 'div'" :to="`/${$user.url}`">
+      <div class="tenant">
+        <avatar :initials="$user.initials" :color="$user.avatar_color" />
+        <div class="meta">
+          {{ $user.full_name }}
+        </div>
       </div>
-    </div>
-  </router-link>
+    </component>
+  </div>
 </template>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
@@ -18,7 +20,11 @@ import Avatar from '@/components/cards/avatar'
 export default {
   name: 'tenant',
   props: {
-    data: Object
+    data: Object,
+    link: {
+      type: Boolean,
+      default: true
+    }
   },
   models: {
     user() {

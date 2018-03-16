@@ -31,8 +31,6 @@ export default {
   async created() {
     try {
       await this.fetch()
-      console.log(this.$bill.total)
-      console.log(this.$bill.balance)
     } catch (error) {
       if (error.error) {
         app.alert(

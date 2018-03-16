@@ -7,12 +7,18 @@
     <cell>{{ $bill.type }}</cell>
     <cell>
       <indicator
-        v-if="$bill.type === 'automatic'"
+        v-if="$bill.type === 'manual'"
+        :status="[$bill.statusClass($bill.getStatus())]">
+        {{ $bill.getStatus() | capitalize | replace }}
+      </indicator>
+      <indicator
+        v-else
         v-for="(tenant, index) in $bill.tenants"
         :key="index"
-        :status="[$bill.statusClass($bill.getTenantStatus(tenant.id))]">
-        {{ tenant.full_name }} – {{ $bill.getTenantStatus(tenant.id) | capitalize | replace }}
+        :status="[$bill.statusClass($bill.getStatus(tenant.id))]">
+        {{ tenant.full_name }} – {{ $bill.getStatus(tenant.id) | capitalize | replace }}
       </indicator>
+      
     </cell>
     <cell class="text-right">{{ $bill.balance | currency }}</cell>
   </div>

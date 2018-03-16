@@ -94,17 +94,11 @@ export default {
         ? 'rent'
         : 'one-time'
     },
-    me() {
-      return this.$bill.tenants.find(model => model.id === session.$user.id)
-    },
-    my_charges() {
-      return this.me.charges.reduce((acc, item) => acc + (item.amount * 100), 0) / 100
-    },
-    my_transfers() {
-      return this.$bill.transfers.filter(transfer => transfer.source.id === session.$user.id) || []
+    my_total_charges() {
+      return this.$bill.getTotalCharges(session.$user.id)
     },
     my_total_transfers() {
-      return this.my_transfers.reduce((acc, item) => acc + (item.amount * 100), 0) / 100
+      return this.$bill.getTotalTransfers(session.$user.id)
     },
     has_transfers() {
       if (this.$bill.active && this.$bill.balance) {
@@ -117,7 +111,7 @@ export default {
       await this.$bill.fetch()
     },
     validate() {
-      if (this.$bill.type === 'automatic' && this.my_charges - this.my_total_transfers <= 0) {
+      if (this.$bill.type === 'automatic' && this.my_total_charges - this.my_total_transfers <= 0) {
         app.confirm(
           'It looks like you already paid in full, are you sure you want to make another payment?',
           this.showModal,
@@ -129,7 +123,7 @@ export default {
     },
     showModal() {
       if (this.$bill.type === 'automatic') {
-        this.amount = this.my_charges - this.my_total_transfers
+        this.amount = this.my_total_charges - this.my_total_transfer
       }
       this.modal_visible = true
     },
@@ -158,13 +152,7 @@ h3 {
   text-align: center;
 }
 
-.total {
-  font-weight: bold;
-  border: 0;
-}
-
 .footer-button {
-  // margin: 20px 0;
   margin-bottom: 30px;
 }
 

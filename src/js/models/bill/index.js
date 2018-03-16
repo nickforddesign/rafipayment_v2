@@ -19,6 +19,15 @@ const status_map = {
   no_charges: 'success'
 }
 
+const friendly_statuses = {
+  paid: 'Paid in Full',
+  overpaid: 'Overpaid',
+  balance: 'Balance Remaining',
+  unpaid: 'Unpaid',
+  credited: 'Credited',
+  no_charges: 'No Charges'
+}
+
 export default class Bill extends Model {
   static defaults() {
     return {
@@ -34,14 +43,14 @@ export default class Bill extends Model {
         },
         total() {
           return this.type === 'manual'
-            ? this.charges.reduce((acc, charge) => {
+            ? parseFloat(this.charges.reduce((acc, charge) => {
               return acc + charge.amount
-            }, 0)
-            : this.tenants.reduce((acc, tenant) => {
+            }, 0).toFixed())
+            : parseFloat(this.tenants.reduce((acc, tenant) => {
               return acc + tenant.charges.reduce((acc, charge) => {
                 return acc + charge.amount
               }, 0)
-            }, 0)
+            }, 0).toFixed())
         },
         balance() {
           if (this.has_transfers) {
@@ -100,29 +109,36 @@ export default class Bill extends Model {
         }
       },
       methods: {
-        getTenantCharges(id) {
-          const { charges } = this.tenants.find(tenant => tenant.id === id)
-          return charges
+        getFriendlyStatus(status) {
+          return friendly_statuses[status]
         },
-        getTenantTransfers(id) {
-          return this.transfers.filter(transfer => transfer.source.id === id)
+        getCharges(id) {
+          const output = id
+            ? this.tenants.find(tenant => tenant.id === id).charges
+            : this.charges
+          return output
         },
-        getTenantTotalCharges(id) {
-          return parseFloat((this.getTenantCharges(id).reduce((acc, item) => acc + item.amount, 0).toFixed(2)))
+        getTransfers(id) {
+          return id
+            ? this.transfers.filter(transfer => transfer.source.id === id)
+            : this.transfers
         },
-        getTenantTotalTransfers(id) {
-          const transfers = this.getTenantTransfers(id)
+        getTotalCharges(id) {
+          return parseFloat((this.getCharges(id).reduce((acc, item) => acc + item.amount, 0).toFixed(2)))
+        },
+        getTotalTransfers(id) {
+          const transfers = this.getTransfers(id)
           return parseFloat(transfers.reduce((acc, item) => {
             return !excluded_transfer_statuses.includes(item.status)
               ? acc + item.amount
               : acc
           }, 0).toFixed(2))
         },
-        getTenantStatus(id) {
-          const charges = this.getTenantCharges(id)
-          const total_charges = this.getTenantTotalCharges(id)
-          const transfers = this.getTenantTransfers(id)
-          const total_transfers = this.getTenantTotalTransfers(id)
+        getStatus(id) {
+          const charges = this.getCharges(id)
+          const total_charges = this.getTotalCharges(id)
+          const transfers = this.getTransfers(id)
+          const total_transfers = this.getTotalTransfers(id)
           const tenant_balance = ((total_charges * 100) - (total_transfers * 100)) / 100
           let output
           if (total_charges < 0 && !transfers.length) {

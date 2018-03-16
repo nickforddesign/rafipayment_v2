@@ -2,10 +2,10 @@
   <div class="tenant-avatar">
     <router-link :to="`/${$user.url}`">
       <avatar
-      :initials="$user.first_name[0]"
-      :color="$user.avatar_color"
-      @mouseover="onEnter"
-      @mouseleave="onLeave" />
+        :initials="$user.first_name[0]"
+        :color="$user.avatar_color"
+        @mouseover="onEnter"
+        @mouseleave="onLeave" />
     </router-link>
     <transition name="fade">
       <div class="tooltip" v-if="hovering">

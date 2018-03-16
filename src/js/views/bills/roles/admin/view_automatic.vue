@@ -36,17 +36,6 @@
           <dt>Active</dt>
           <dd>{{ $bill.active ? 'Yes' : 'No' }}</dd>
         </dl>
-        <!-- <dl>
-          <dt>Statuses</dt>
-          <dd>
-            <indicator
-              v-for="(tenant, index) in $bill.tenants"
-              :key="index"
-              :status="[$bill.statusClass($bill.getTenantStatus(tenant.id))]">
-              {{ tenant.first_name }} {{ tenant.last_name }}
-            </indicator>
-          </dd>
-        </dl> -->
         <dl>
           <dt>Total Charges</dt>
           <dd>{{ $bill.total | currency }}</dd>
@@ -58,9 +47,11 @@
       </div>
     </div>
 
-    <div class="table-container charges">
+    
+
+    <div class="table-container">
       <div class="header">
-        Balances
+        Details
         <div class="actions">
           <button class="small" @click="showModal('charge')">Add Charge</button>
         </div>
@@ -153,14 +144,6 @@ export default {
 
   dl {
     height: 44px;
-  }
-}
-
-.charges {
-  &:after {
-    content: '';
-    display: table;
-    clear: both;
   }
 }
 </style>

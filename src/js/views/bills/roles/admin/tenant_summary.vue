@@ -2,15 +2,12 @@
   <div class="tenant-summary">
     <dl class="toggle" @click="toggle">
       <dt>
-        <div class="tenant">
-          <avatar :initials="$user.initials" :color="$user.avatar_color" />
-          {{ $user.full_name }}
-        </div>
+        <tenant :data="this.tenant" :link="false" />
       </dt>
       <dd>
         <div class="text-color status"
-          :class="[bill.statusClass(bill.getTenantStatus(this.tenant.id))]">
-          {{ $options.statuses[bill.getTenantStatus(this.tenant.id)] }}
+          :class="[bill.statusClass(bill.getStatus(this.tenant.id))]">
+          {{ bill.getFriendlyStatus(bill.getStatus(this.tenant.id)) }}
         </div>
         <div>{{ user_balance | currency }}</div>
       </dd>
@@ -48,8 +45,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import User from '@/models/user'
-import Avatar from '@/components/cards/avatar'
+import Tenant from '@/components/cards/user_small'
 import ChargeRow from './charge_row'
 import TransferRow from './transfer_row'
 
@@ -58,19 +54,6 @@ export default {
   props: {
     tenant: Object,
     bill: Object
-  },
-  statuses: {
-    paid: 'Paid in Full',
-    overpaid: 'Overpaid',
-    balance: 'Balance Remaining',
-    unpaid: 'Unpaid',
-    credited: 'Credited',
-    no_charges: 'No Charges'
-  },
-  models: {
-    user() {
-      return new User(this.tenant)
-    }
   },
   data() {
     return {
@@ -82,13 +65,13 @@ export default {
       return this.user_charges - this.total_transfers
     },
     user_charges() {
-      return this.bill.getTenantTotalCharges(this.tenant.id)
+      return this.bill.getTotalCharges(this.tenant.id)
     },
     user_transfers() {
-      return this.bill.getTenantTransfers(this.tenant.id)
+      return this.bill.getTransfers(this.tenant.id)
     },
     total_transfers() {
-      return this.bill.getTenantTotalTransfers(this.tenant.id)
+      return this.bill.getTotalTransfers(this.tenant.id)
     }
   },
   methods: {
@@ -97,7 +80,7 @@ export default {
     }
   },
   components: {
-    Avatar,
+    Tenant,
     ChargeRow,
     TransferRow
   }
@@ -116,18 +99,6 @@ export default {
 
 .table-container {
   margin: 0;
-}
-
-.tenant {
-  display: flex;
-  align-items: center;
-
-  .avatar {
-    display: inline-block;
-    width: 30px;
-    color: $color-text-light;
-    margin-right: 10px;
-  }
 }
 
 .toggle {

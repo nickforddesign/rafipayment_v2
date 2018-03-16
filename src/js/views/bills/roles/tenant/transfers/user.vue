@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     total() {
-      return this.bill.getTenantTotalTransfers(this.tenant.id)
+      return this.bill.getTotalTransfers(this.tenant.id)
     }
   },
   methods: {
