@@ -61,6 +61,9 @@
     <div class="table-container charges">
       <div class="header">
         Balances
+        <div class="actions">
+          <button class="small" @click="showModal('charge')">Add Charge</button>
+        </div>
       </div>
 
       <tenant-summary
@@ -69,6 +72,12 @@
         :tenant="tenant"
         :bill="$bill" />      
     </div>
+
+    <charge-modal
+      v-if="modals.charge"
+      @close="closeModal('charge')"
+      :confirm="fetch"
+      :bill="$bill" />
   </div>
 </template>
 
@@ -78,11 +87,19 @@
 import Indicator from '@/components/indicator'
 import Tenant from '@/components/cards/user_small'
 import TenantSummary from './tenant_summary'
+import ChargeModal from '@/components/modals/bill/charge'
 
 export default {
   name: 'bill',
   props: {
     $bill: Object
+  },
+  data() {
+    return {
+      modals: {
+        charge: false
+      }
+    }
   },
   methods: {
     fetch() {
@@ -90,11 +107,18 @@ export default {
     },
     goToTenant(tenant) {
       this.$router.push(`/tenants/${tenant.id}`)
+    },
+    showModal(modal) {
+      this.modals[modal] = true
+    },
+    closeModal(modal) {
+      this.modals[modal] = false
     }
   },
   components: {
     Indicator,
     Tenant,
+    ChargeModal,
     TenantSummary
   }
 }

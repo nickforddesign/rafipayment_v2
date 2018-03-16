@@ -23,6 +23,10 @@
       <field name="description">
         <input type="text" v-model="description">
       </field>
+
+      <field name="tenant" v-if="this.tenants">
+        <select-menu :options="tenants" v-model="target" />
+      </field>
     </div>
   </modal>
 </template>
@@ -32,42 +36,45 @@
 <script>
 import { parseCurrency } from '@/utils'
 
-import Period from '@/models/lease/charge'
+import Charge from '@/models/lease/charge'
 
 export default {
   name: 'modal-bill--charge',
   props: {
-    model: Object,
-    confirm: Function,
-    path: String
+    bill: Object,
+    confirm: Function
   },
   data() {
     return {
-      date: null,
       amount: null,
       charge_type: 'fee',
-      type: 'recurring',
-      description: ''
+      description: '',
+      target: null
     }
   },
   models: {
-    period() {
-      return this.model
-        ? this.model
-        : new Period(null, {
-          basePath: this.path
-        })
+    charge() {
+      return new Charge(null, {
+        basePath: this.bill.url
+      })
     }
   },
   created() {
-    // if editing an existing charge
-    if (this.model) {
-      this.amount = this.model.amount
-      this.date = this.model.date
-      this.description = this.model.description
-      this.type = this.model.type
-      if (this.amount < 0) {
-        this.charge_type = 'credit'
+    if (this.bill.type === 'automatic') {
+      this.target = this.tenants[0].value
+    }
+  },
+  computed: {
+    tenants() {
+      if (this.bill.type === 'automatic') {
+        const array = []
+        this.bill.tenants.map(tenant => {
+          array.push({
+            label: tenant.first_name + ' ' + tenant.last_name,
+            value: tenant.id
+          })
+        })
+        return array
       }
     }
   },
@@ -90,7 +97,6 @@ export default {
       this.loading = true
 
       const body = {
-        date: this.date,
         amount: this.amount,
         description: this.description
       }
@@ -99,7 +105,11 @@ export default {
         body.amount = -parseCurrency(body.amount)
       }
 
-      const request = this.$period.save(body)
+      const path = this.tenants && this.target !== 'All'
+        ? `tenants/${this.target}/charges`
+        : `charges`
+
+      const request = this.$charge.save(body, { path })
       request.then(response => {
         this.confirm()
       })

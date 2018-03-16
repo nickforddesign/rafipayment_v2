@@ -7,6 +7,7 @@
     <cell>{{ $bill.type }}</cell>
     <cell>
       <indicator
+        v-if="$bill.type === 'automatic'"
         v-for="(tenant, index) in $bill.tenants"
         :key="index"
         :status="[$bill.statusClass($bill.getTenantStatus(tenant.id))]">

@@ -46,7 +46,7 @@
 
     <div class="table-container charges">
 
-      <charges :charges="$bill.charges" :basePath="$bill.url" :add="true" />
+      <!-- <charges :charges="$bill.charges" :basePath="$bill.url" :add="true" /> -->
 
       <div class="summary">
         <dl class="total">
@@ -70,7 +70,7 @@
 
 <script>
 import TransfersTable from './transfers'
-import Charges from './charges'
+// import Charges from './charges'
 import UserCard from '@/components/cards/user'
 
 export default {
@@ -88,8 +88,8 @@ export default {
   },
   components: {
     TransfersTable,
-    UserCard,
-    Charges
+    UserCard
+    // Charges
   }
 }
 </script>
