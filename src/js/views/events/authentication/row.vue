@@ -1,5 +1,5 @@
 <template>
-  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModelNew" @click.meta="goToModelNew">
     <cell>
       <router-link :to="`/events/${$event.id}`">
         {{ $event.created | moment('M/D/YY h:mma') }}

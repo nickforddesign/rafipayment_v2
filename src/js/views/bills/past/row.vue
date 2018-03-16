@@ -1,5 +1,5 @@
 <template>
-  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModelNew" @click.meta="goToModelNew">
     <cell>
       <router-link :to="$bill.url">{{ $bill.due_date | moment('M/D/YY', true) }}</router-link>
     </cell>

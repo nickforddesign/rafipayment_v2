@@ -1,5 +1,5 @@
 <template>
-  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModel" @click.meta="goToModelNew">
+  <div class="tr" @click.exact="goToModel" @click.ctrl="goToModelNew" @click.meta="goToModelNew">
     <cell>
       <span v-if="!$transfer.cancelled && !$transfer.processed && $transfer.scheduled_date">
         <router-link :to="`/${$transfer.url}`">{{ $transfer.scheduled_date | moment('M/D/YY') }}</router-link>
