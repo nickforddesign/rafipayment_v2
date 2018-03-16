@@ -2,7 +2,7 @@
   <div class="box flexbox transfer" @click="goToModel">
     <div class="solid">
       <div>{{ $transfer.created | moment('M/D/YY h:mma') }}</div>
-      <div class="description">{{ $transfer.type }}</div>
+      <div class="description">{{ $transfer.type | replace('_', '-') }}</div>
     </div>
     <div class="solid text-right">
       <div>{{ $transfer.amount | currency }}</div>

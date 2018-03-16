@@ -3,7 +3,7 @@
     <div v-if="loaded">
       <header>
         <div class="meta">
-          <legend>Account</legend>
+          <!-- <legend>Account</legend> -->
           <h2>{{ $user.full_name }}</h2>
         </div>
         <div class="actions">
@@ -53,16 +53,20 @@
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
+            <dl>
+              <dt>Password</dt>
+              <dd><button class="x-small" @click="showModal('password')">Edit</button></dd>
+            </dl>
           </div>
         </div>
       </div>
-      <div class="actions free">
+      <!-- <div class="actions free">
         <div>
           <button @click="showModal('password')">Change Password</button>
         </div>
-      </div>
+      </div> -->
 
-      <button @click="goToPayment">Payment Settings</button>
+      <!-- <button @click="goToPayment">Payment Settings</button> -->
       
       <div class="actions free">
         <div>
@@ -127,9 +131,6 @@ export default {
     },
     closeModal(name) {
       this.modals[name] = false
-    },
-    goToPayment() {
-      this.$router.push('/account/payment')
     }
   },
   components: {
