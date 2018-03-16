@@ -27,7 +27,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
-import moment from 'moment'
+// import moment from 'moment'
 import { path } from 'ramda'
 import app from '@/app'
 import { parseCurrency, prettyCurrency } from '@/utils'
@@ -54,11 +54,8 @@ export default {
   },
   models: {
     transfer() {
-      const self = this
       return new Transfer(null, {
-        url() {
-          return self.model.url
-        }
+        basePath: `${this.model.url}`
       })
     }
   },
@@ -73,9 +70,9 @@ export default {
     close() {
       this.$emit('close')
     },
-    setMode(mode) {
-      this.mode = mode
-    },
+    // setMode(mode) {
+    //   this.mode = mode
+    // },
     validate() {
       return new Promise(async (resolve, reject) => {
         const passed = await this.$validator.validateAll()
@@ -87,23 +84,23 @@ export default {
         }
       })
     },
-    validateDate() {
-      const end_date = path(['$lease', 'end_date'], this.$parent)
-      const date = moment.utc(this.scheduled_date)
-      if (date < moment.utc().startOf('day').add('days', 1)) {
-        this.errors.add(
-          'schedule payment',
-          'Transfers must be scheduled at least one day in advance',
-          'required'
-        )
-      } else if (end_date && date > moment.utc(end_date)) {
-        this.errors.add(
-          'schedule payment',
-          'Transfer date is outside of lease range',
-          'required'
-        )
-      }
-    },
+    // validateDate() {
+    //   const end_date = path(['$lease', 'end_date'], this.$parent)
+    //   const date = moment.utc(this.scheduled_date)
+    //   if (date < moment.utc().startOf('day').add('days', 1)) {
+    //     this.errors.add(
+    //       'schedule payment',
+    //       'Transfers must be scheduled at least one day in advance',
+    //       'required'
+    //     )
+    //   } else if (end_date && date > moment.utc(end_date)) {
+    //     this.errors.add(
+    //       'schedule payment',
+    //       'Transfer date is outside of lease range',
+    //       'required'
+    //     )
+    //   }
+    // },
     async confirmChange() {
       this.loading = true
 
@@ -111,9 +108,9 @@ export default {
         amount: parseCurrency(this.amount, Number)
       }
 
-      if (this.scheduled_date) {
-        body.scheduled_date = this.scheduled_date
-      }
+      // if (this.scheduled_date) {
+      //   body.scheduled_date = this.scheduled_date
+      // }
 
       const request = this.$transfer.save(body, {
         method: 'post'

@@ -4,12 +4,12 @@ import { ObjectId, ISODate, Currency } from '@/modules/types'
 export default class Transfer extends Model {
   static defaults() {
     return {
-      name: 'transfers',
-      computed: {
-        basePath() {
-          return 'account/transfers'
-        }
-      }
+      name: 'transfers'
+      // computed: {
+      //   basePath() {
+      //     return 'account/transfers'
+      //   }
+      // }
     }
   }
   static schema() {
@@ -27,6 +27,9 @@ export default class Transfer extends Model {
         type: String
       },
       destination_user: {
+        type: ObjectId
+      },
+      tenant: {
         type: ObjectId
       }
     }

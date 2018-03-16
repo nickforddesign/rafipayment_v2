@@ -1,5 +1,9 @@
 <template>
-  <component v-if="fetched" :is="this.$bill.type" :$bill="$bill" />
+  <div v-if="fetched">
+    <component  :is="this.$bill.type" :$bill="$bill" />
+    <button @click="showModal">Add Non-Electronic Payment</button>
+    <non-electronic-modal v-if="modal_visible" :model="$bill" :confirm="fetch" @close="closeModal" />
+  </div>
   <loading v-else />
 </template>
 
@@ -10,6 +14,7 @@ import app from '@/app'
 import Bill from '@/models/bill'
 import Manual from './view_manual'
 import Automatic from './view_automatic'
+import NonElectronicModal from '@/components/modals/bill/non_electronic'
 
 export default {
   name: 'bill-view',
@@ -48,11 +53,18 @@ export default {
   methods: {
     async fetch() {
       await this.$bill.fetch()
+    },
+    showModal() {
+      this.modal_visible = true
+    },
+    closeModal() {
+      this.modal_visible = false
     }
   },
   components: {
     Manual,
-    Automatic
+    Automatic,
+    NonElectronicModal
   }
 }
 </script>

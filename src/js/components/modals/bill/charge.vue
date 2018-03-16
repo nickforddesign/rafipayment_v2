@@ -67,14 +67,12 @@ export default {
   computed: {
     tenants() {
       if (this.bill.type === 'automatic') {
-        const array = []
-        this.bill.tenants.map(tenant => {
-          array.push({
+        return this.bill.tenants.map(tenant => {
+          return {
             label: tenant.first_name + ' ' + tenant.last_name,
             value: tenant.id
-          })
+          }
         })
-        return array
       }
     }
   },
