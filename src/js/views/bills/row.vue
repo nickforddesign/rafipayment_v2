@@ -9,7 +9,12 @@
       <indicator
         v-if="$bill.type === 'manual'"
         :status="[$bill.statusClass($bill.getStatus())]">
-        {{ $bill.getStatus() | capitalize | replace }}
+        <div class="strong">
+          Shared Bill
+        </div>
+        <div>
+          {{ $bill.getStatus() | capitalize | replace }}
+        </div>
       </indicator>
       <indicator
         v-else

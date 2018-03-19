@@ -11,7 +11,7 @@
           <div :class="['logo-container', back_class]">
             <button v-if="has_back" @click="$router.goBack" class="back-button">
               <icon-arrow-left />
-            </button>
+            </button> 
             <logo />
           </div>
 
