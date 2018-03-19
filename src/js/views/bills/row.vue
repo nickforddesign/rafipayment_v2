@@ -16,7 +16,12 @@
         v-for="(tenant, index) in $bill.tenants"
         :key="index"
         :status="[$bill.statusClass($bill.getStatus(tenant.id))]">
-        {{ tenant.full_name }} – {{ $bill.getStatus(tenant.id) | capitalize | replace }}
+        <div class="strong">
+          {{ tenant.full_name }}
+        </div>
+        <div>
+          {{ $bill.getStatus(tenant.id) | capitalize | replace }}
+        </div>
       </indicator>
       
     </cell>
