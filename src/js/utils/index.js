@@ -194,8 +194,14 @@ export function getMonthsArray (min, max) {
 
 // smart click handler
 
-export function smartClick(event, func) {
+export function smartClick (event, func) {
   if (event.target.tagName !== 'A' && window.getSelection().toString() === '') {
     return func()
   }
+}
+
+// sort chronologically
+
+export function sortChronologically (a, b) {
+  return new Date(a) < new Date(b) ? 1 : -1
 }

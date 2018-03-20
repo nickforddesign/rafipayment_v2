@@ -1,0 +1,18 @@
+<template>
+  <icon-x />
+</template>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<script>
+import IconX from '@/components/icons/x'
+export default {
+  name: 'status-failed',
+  components: {
+    IconX
+  }
+}
+</script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+

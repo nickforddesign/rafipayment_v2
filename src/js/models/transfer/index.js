@@ -1,6 +1,6 @@
 import { Model } from 'vue-models'
-import { ObjectId, ISODate, Currency } from '@/modules/types'
-import { unitsHelper } from '@/utils'
+import { ObjectId, ISODate, Currency, StringOrNull } from '@/modules/types'
+import { unitsHelper, sortChronologically } from '@/utils'
 
 const resolve = {
   tenant(model) {
@@ -20,7 +20,8 @@ const status_map = {
   created: 'neutral',
   pending: 'neutral',
   cancelled: 'danger',
-  failed: 'danger'
+  failed: 'danger',
+  none: 'none'
 }
 
 export default class Transfer extends Model {
@@ -38,11 +39,32 @@ export default class Transfer extends Model {
           return `${this.property.address}, ${unitsHelper(this.unit.name)}`
         },
         source_status() {
-          return this.status.split('_').pop()
+          const status = this.status
+          return status
+            ? status.split('_').pop()
+            : 'none'
         },
         destination_status() {
-          const status = this.bank_transfer_status || this.status
-          return status.split('_').pop()
+          const status = this.bank_transfer_status
+          return status
+            ? status.split('_').pop()
+            : 'none'
+        },
+        transfer_dates_sorted() {
+          return Object.keys(this.status_dates).map(key => {
+            return {
+              name: key,
+              date: this.status_dates[key]
+            }
+          }).sort(sortChronologically)
+        },
+        bank_transfer_dates_sorted() {
+          return Object.keys(this.bank_transfer_status_dates).map(key => {
+            return {
+              name: key,
+              date: this.bank_transfer_status_dates[key]
+            }
+          }).sort(sortChronologically)
         }
       },
       methods: {
@@ -91,7 +113,50 @@ export default class Transfer extends Model {
         type: ObjectId
       },
       status: {
-        type: String
+        type: StringOrNull
+      },
+      status_dates: {
+        type: Object,
+        properties: {
+          customer_transfer_created: {
+            type: ISODate
+          },
+          customer_transfer_completed: {
+            type: ISODate
+          },
+          customer_transfer_failed: {
+            type: ISODate
+          },
+          customer_transfer_cancelled: {
+            type: ISODate
+          },
+          customer_transfer_error: {
+            type: ISODate
+          }
+        }
+      },
+      bank_transfer_status: {
+        type: StringOrNull
+      },
+      bank_transfer_status_dates: {
+        type: Object,
+        properties: {
+          customer_bank_transfer_created: {
+            type: ISODate
+          },
+          customer_bank_transfer_completed: {
+            type: ISODate
+          },
+          customer_bank_transfer_failed: {
+            type: ISODate
+          },
+          customer_bank_transfer_cancelled: {
+            type: ISODate
+          },
+          customer_bank_transfer_error: {
+            type: ISODate
+          }
+        }
       },
       type: {
         type: String

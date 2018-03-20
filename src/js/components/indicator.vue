@@ -49,9 +49,7 @@ $indicator-size: 10px;
   display: inline-block;
   height: $indicator-size;
   width: $indicator-size;
-  // background: transparent;
   border-radius: 100%;
-  // border: 1px solid $color-status-success;
   opacity: 0.7;
 
   &.paid {
@@ -76,6 +74,10 @@ $indicator-size: 10px;
 
   &.danger {
     background: $color-status-danger;
+  }
+
+  &.none {
+    background: $color-status-none;
   }
 }
 </style>

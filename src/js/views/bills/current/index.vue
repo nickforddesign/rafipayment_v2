@@ -47,7 +47,7 @@
 import { Collection } from 'vue-collections'
 import Bill from '@/models/bill'
 import TransferModal from '@/components/modals/bill/transfer'
-import Checkmark from '@/components/icons/checkmark'
+import Checkmark from '@/components/icons/checkmark-animated'
 
 import row from './row'
 

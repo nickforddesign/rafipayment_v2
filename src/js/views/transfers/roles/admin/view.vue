@@ -95,24 +95,16 @@
         <div class="header">
           Status
         </div>
-        <div class="grid">
-          <div class="grid__col grid__col--1-of-2">
-            <dl>
-              <dt>Transfer Status</dt>
-              <dd :class="['text-color', $transfer.statusClass($transfer.source_status)]">{{ $transfer.source_status }}</dd>
-            </dl>
-          </div>
-          <div class="grid__col grid__col--1-of-2">
-            <dl>
-              <dt>Bank Transfer Status</dt>
-              <dd :class="['text-color', $transfer.statusClass($transfer.destination_status)]">{{ $transfer.destination_status }}</dd>
-            </dl>
+
+        <div class="text-center">
+          <div class="events">
+            <transfer-event :transfer="$transfer" :user="$transfer.source.resolved" />
+            <transfer-event type="bank_transfer" :transfer="$transfer" :company="$transfer.destination.resolved" />
           </div>
         </div>
-        <div>
-          {{ $transfer.created_response }}
-        </div>
+
       </div>
+
     </div>
     <loading v-else />
   </div>
@@ -123,6 +115,7 @@
 <script>
 import Transfer from '@/models/transfer'
 import Bill from '@/models/bill'
+import TransferEvent from '../../transfer_event'
 
 export default {
   name: 'transfer',
@@ -148,9 +141,26 @@ export default {
     if (this.$transfer.type !== 'non_electronic') {
       this.checkIfCancellable()
     }
+    // this.$source = this.$transfer.source.resolved
     this.fetchBill()
     this.fetched = true
   },
+  // transfer_event() {
+  //   return {
+  //     status: this.$transfer.status
+  //     dates: {
+
+  //     }
+  //   }
+  // }
+  // computed: {
+  //   transfer_events() {
+  //     return [
+  //       ...this.$transfer.transfer_dates_sorted,
+  //       ...this.$transfer.bank_transfer_dates_sorted
+  //     ]
+  //   }
+  // },
   methods: {
     async checkIfCancellable() {
       await this.$transfer.fetchCancel()
@@ -168,6 +178,23 @@ export default {
         this.$router.push('/transfers')
       }
     }
+  },
+  components: {
+    // Avatar
+    TransferEvent
   }
 }
 </script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.events {
+  margin: 20px 0;
+  text-align: center;
+  display: inline-block;
+}
+.events {
+}
+</style>
+
