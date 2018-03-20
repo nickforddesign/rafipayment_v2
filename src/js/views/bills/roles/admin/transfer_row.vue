@@ -13,8 +13,24 @@
     <cell>
       {{ $transfer.created | moment('M/D/YY h:mma') }}
     </cell>
-    <cell class="text-color" :class="[status_class]">
-      {{ $transfer.source_status }}
+    <cell>
+      <indicator
+        :status="[$transfer.statusClass($transfer.source_status)]">
+        <div class="strong">
+          Transfer
+        </div>
+        <div>
+          {{ $transfer.source_status | capitalize | replace }}
+        </div>
+      </indicator><indicator
+        :status="[$transfer.statusClass($transfer.destination_status)]">
+        <div class="strong">
+          Bank Transfer
+        </div>
+        <div>
+          {{ $transfer.destination_status | capitalize | replace }}
+        </div>
+      </indicator>
     </cell>
     <cell class="text-right">
       {{ $transfer.amount | currency }}
@@ -26,6 +42,7 @@
 
 <script>
 import Avatar from '@/components/cards/avatar'
+import Indicator from '@/components/indicator'
 import Transfer from '@/models/transfer'
 
 export default {
@@ -52,7 +69,8 @@ export default {
     }
   },
   components: {
-    Avatar
+    Avatar,
+    Indicator
   }
 }
 </script>
