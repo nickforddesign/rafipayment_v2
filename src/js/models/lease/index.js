@@ -98,10 +98,10 @@ export default class Lease extends Model {
           const tenant_charges = this.tenants.reduce((acc, tenant) => {
             return acc + tenant.charges.reduce((acc, charge) => {
               return charge.type === 'recurring'
-                ? acc + (charge.amount * 100)
+                ? acc + charge.amount
                 : acc
             }, 0)
-          }, 0) / 100
+          }, 0)
           const lease_charges = this.charges.reduce((acc, charge) => {
             return charge.type === 'recurring'
               ? acc + charge.amount
@@ -110,14 +110,14 @@ export default class Lease extends Model {
           const recurring_charges = tenant_charges + lease_charges
 
           return this.periods_sorted.map(period => {
-            return period.amount + recurring_charges
+            return parseFloat((period.amount + recurring_charges).toFixed(2))
           })
         },
         split_coverage() {
           return this.totals_per_period.map((total, index) => {
-            const total_splits = this.tenants.reduce((acc, tenant) => {
+            const total_splits = parseFloat(this.tenants.reduce((acc, tenant) => {
               return acc + (path(['amount'], tenant.periods[index]) || 0)
-            }, 0)
+            }, 0).toFixed(2))
             const percentage = Math.floor((total_splits / this.totals_per_period[index]) * 100)
             return percentage > 100 || total <= 0
               ? `100%`
@@ -137,12 +137,12 @@ export default class Lease extends Model {
               missing_splits++
             }
           }).filter(item => item)
-          const rent_covered = tenant_periods.reduce((acc, item) => {
+          const rent_covered = parseFloat(tenant_periods.reduce((acc, item) => {
             return acc + item.amount
-          }, 0)
-          const rent_missing = period.amount - rent_covered
+          }, 0).toFixed(2))
+          const rent_missing = parseFloat((period.amount - rent_covered).toFixed(2))
           const suggested = rent_missing / missing_splits
-          return suggested
+          return parseFloat(suggested.toFixed(2))
         },
         getTerm(format = 'MM/DD/YYYY') {
           const utc = moment.utc
