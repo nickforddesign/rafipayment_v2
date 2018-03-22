@@ -7,7 +7,7 @@
 <script>
 import IconPending from '@/components/icons/pending'
 export default {
-  name: 'status-created',
+  name: 'status-pending',
   components: {
     IconPending
   }

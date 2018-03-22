@@ -6,8 +6,8 @@ import Transfer from '@/models/transfer'
 
 const excluded_transfer_statuses = [
   'customer_transfer_cancelled',
-  'customer_transfer_failed',
-  'customer_transfer_scheduled'
+  'customer_transfer_failed'
+  // 'customer_transfer_scheduled'
 ]
 
 const status_map = {

@@ -10,7 +10,7 @@
         {{ $company.name }}
       </div>
       <div class="status">
-        {{ short_name || 'failed' | capitalize }}
+        {{ short_name || 'none' | capitalize }}
       </div>
     </div>
     <collapse :expanded="!!Object.keys(events).length && expanded">
@@ -32,6 +32,7 @@ import Company from '@/models/company'
 import Avatar from '@/components/cards/avatar'
 
 import PendingStatus from './statuses/pending'
+import ScheduledStatus from './statuses/scheduled'
 import CompletedStatus from './statuses/completed'
 import CancelledStatus from './statuses/cancelled'
 import CreatedStatus from './statuses/created'
@@ -92,6 +93,7 @@ export default {
   components: {
     Avatar,
     PendingStatus,
+    ScheduledStatus,
     CompletedStatus,
     CancelledStatus,
     CreatedStatus,

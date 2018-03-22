@@ -19,6 +19,7 @@ const status_map = {
   completed: 'success',
   created: 'neutral',
   pending: 'neutral',
+  scheduled: 'neutral',
   cancelled: 'danger',
   failed: 'danger',
   none: 'none'

@@ -1,40 +1,55 @@
 <template>
   <portal to="modal">
     <transition name="fade">
-      <div class="test" v-if="open">
-        <div :class="['modal-container', type_class]" @click.self="close">
-          <div class="modal" @keyup.esc="handleEscape">
-            <loading v-if="loading" />
-            <trap :disabled="is_cordova || full">
-              <!-- <form @submit.prevent="handleEnter" autocomplete="fuckchrome"> -->
-              <component :is="wrapper" @submit.prevent="handleEnter" autocomplete="nothanks">
-                <div class="modal-header">
-                  <slot name="header">
-                    <h1>Please confirm</h1>
-                  </slot>
-                </div>
+      <div
+        class="modal-container"
+        :class="[type_class]"
+        @click.self="close"
+        v-if="open">
 
-                <div class="modal-body">
-                  <slot name="body" />
-                </div>
+        <div class="modal" @keyup.esc="handleEscape">
 
-                <div class="modal-actions">
-                  <button type="button" class="close" @click="cancel">
-                    {{ cancel_label }}
-                  </button>
-                  <button class="confirm neutral" v-if="has_confirm">
-                    {{ confirm_label }}
-                  </button>
-                </div>
-              </component>
-              <!-- </form> -->
-            </trap>
-          </div>
+          <loading v-if="loading" />
+
+          <trap :disabled="is_cordova || full">
+            <component
+              :is="wrapper"
+              @submit.prevent="handleEnter"
+              autocomplete="nothanks">
+              
+              <div class="modal-header">
+                <slot name="header">
+                  <h1>Please confirm</h1>
+                </slot>
+              </div>
+
+              <div class="modal-body">
+                <slot name="body" />
+              </div>
+
+              <div class="modal-actions">
+                <button
+                  type="button"
+                  class="close"
+                  @click="cancel">
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="confirm neutral"
+                  v-if="has_confirm">
+                  OK
+                </button>
+              </div>
+            </component>
+          </trap>
         </div>
       </div>
     </transition>
   </portal>
 </template>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
 import { path } from 'ramda'
@@ -45,12 +60,8 @@ export default {
   name: 'modal',
   props: {
     confirm: {
-      type: Function,
-      default: function() {}
-    },
-    keywatch: {
-      type: Boolean,
-      default: true
+      type: Function
+      // default: function() {}
     },
     full: {
       type: Boolean,
@@ -63,9 +74,9 @@ export default {
       open: false
     }
   },
-  beforeMount() {
-    document.body.classList.add('modal-visible')
-  },
+  // beforeMount() {
+  //   document.body.classList.add('modal-visible')
+  // },
   async mounted() {
     this.$nextTick(() => {
       this.defaultFocus()
@@ -75,19 +86,19 @@ export default {
   },
   async beforeDestroy() {
     toggleStatusBar(true)
-    await sleep(300)
-    document.body.classList.remove('modal-visible')
+    // await sleep(300)
+    // document.body.classList.remove('modal-visible')
   },
   computed: {
     has_confirm() {
       return this.confirm !== undefined
     },
-    cancel_label() {
-      return 'Cancel'
-    },
-    confirm_label() {
-      return 'OK'
-    },
+    // cancel_label() {
+    //   return 'Cancel'
+    // },
+    // confirm_label() {
+    //   return 'OK'
+    // },
     type_class() {
       if (this.full) {
         return 'full'
@@ -104,12 +115,12 @@ export default {
   },
   methods: {
     handleEnter() {
-      if (this.keywatch && !this.full) {
+      if (!this.full) {
         this.validate()
       }
     },
     handleEscape() {
-      if (this.keywatch) {
+      if (!this.full) {
         this.close()
       }
     },
@@ -121,8 +132,7 @@ export default {
         }
         this.close()
       } catch (err) {
-        err
-        // console.warn(err)
+        console.warn(err)
       } finally {
         this.$emit('complete')
         this.loading = false
@@ -153,6 +163,8 @@ export default {
   }
 }
 </script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
 
 <style lang="scss">
 @import '~%/colors';

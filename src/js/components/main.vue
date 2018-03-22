@@ -42,6 +42,8 @@
   </div>
 </template>
 
+<!--/////////////////////////////////////////////////////////////////////////-->
+
 <script>
 import debounce from 'lodash.debounce'
 import { path } from 'ramda'
@@ -138,6 +140,8 @@ export default {
   }
 }
 </script>
+
+<!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
 @import '~%/colors';

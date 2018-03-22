@@ -228,7 +228,6 @@ export default {
   }
 
   &.data {
-    // display: inline-block;
     position: relative;
     margin-top: 0;
 
