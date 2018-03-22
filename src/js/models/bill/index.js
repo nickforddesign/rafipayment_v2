@@ -42,15 +42,16 @@ export default class Bill extends Model {
           return !!this.transfers.length
         },
         total() {
-          return this.type === 'manual'
-            ? parseFloat(this.charges.reduce((acc, charge) => {
+          const total = this.type === 'manual'
+            ? this.charges.reduce((acc, charge) => {
               return acc + charge.amount
-            }, 0).toFixed())
-            : parseFloat(this.tenants.reduce((acc, tenant) => {
+            }, 0)
+            : this.tenants.reduce((acc, tenant) => {
               return acc + tenant.charges.reduce((acc, charge) => {
                 return acc + charge.amount
               }, 0)
-            }, 0).toFixed())
+            }, 0)
+          return parseFloat(total.toFixed(2))
         },
         balance() {
           if (this.has_transfers) {
