@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="model-view container sm" v-if="fetched">
-      <header>
+      <!-- <header>
         <div class="meta">
           <legend>Account</legend>
           <h2>{{ $user.full_name }}</h2>
         </div>
-      </header>
+      </header> -->
 
       <div class="box flexbox" @click="showModal('name')">
         <div class="icon">

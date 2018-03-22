@@ -1,10 +1,10 @@
 <template>
   <div class="model-view">
-    <header>
+    <!-- <header>
       <div class="meta">
         <h2>Payment Settings</h2>
       </div>
-    </header>
+    </header> -->
     
     <funding-sources-table :data="this.$user.payment" />
   </div>
