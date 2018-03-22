@@ -123,7 +123,7 @@ export default {
     },
     showModal() {
       if (this.$bill.type === 'automatic') {
-        this.amount = this.my_total_charges - this.my_total_transfer
+        this.amount = this.my_total_charges - this.my_total_transfers
       }
       this.modal_visible = true
     },
@@ -166,7 +166,6 @@ h3 {
   }
 
   .scroll-container {
-    position: absolute;
     position: absolute;
     top: 0;
     left: 0;
