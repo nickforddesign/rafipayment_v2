@@ -51,7 +51,7 @@ export default {
       this.width = this.$el.offsetWidth
     },
     getWidthClass() {
-      return this.width > 100
+      return this.width > 70
         ? 'large'
         : 'small'
     }
