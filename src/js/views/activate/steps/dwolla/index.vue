@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Setup Autopay</h2>
+    <h2>Setup Payment</h2>
     <loading v-if="loading" />
     <dwolla-iav @load="loading = false" @complete="save" />
   </div>

@@ -81,7 +81,6 @@
     <name-modal v-if="modals.name" @close="closeModal('name')" :model="$user" :confirm="fetch" />
     <password-modal v-if="modals.password" @close="closeModal('password')" :model="$user" :confirm="fetch" />
     <email-modal v-if="modals.email" @close="closeModal('email')" :model="$user" :confirm="fetch" :account="true" />
-    <!-- <phone-modal v-if="modals.phone" @close="closeModal('phone')" :model="$user" :confirm="fetch" :account="true" /> -->
   </div>
 </template>
 
@@ -95,7 +94,6 @@ import Arrow from '@/components/icons/arrow-right'
 
 import NameModal from '@/components/modals/user/name'
 import EmailModal from '@/components/modals/user/email'
-// import PhoneModal from '@/components/modals/user/phone'
 import PasswordModal from '@/components/modals/password'
 
 export default {

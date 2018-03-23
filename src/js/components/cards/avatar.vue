@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar" :style="[styleHandler]" @mouseover="onEnter" @mouseleave="onLeave">
+  <div class="avatar" :style="[styleHandler]" @mouseover="onEnter" @mouseleave="onLeave" :class="[size_class]">
     <svg viewBox="0 0 220 220">
       <text transform="matrix(1 0 0 1 110 144)" text-anchor="middle">{{ initials }}</text>
     </svg>
@@ -15,14 +15,28 @@ export default {
     color: String,
     initials: String
   },
+  data() {
+    return {
+      width: null,
+      size_class: null
+    }
+  },
+  async mounted() {
+    this.setWidth()
+    window.addEventListener('resize', this.setWidth.bind(this), true)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.setWidth.bind(this), true)
+  },
+  watch: {
+    width(val) {
+      this.size_class = this.getWidthClass()
+    }
+  },
   computed: {
     styleHandler() {
       return {
-        backgroundColor: `${this.color}`,
-        backgroundImage: `linear-gradient(to bottom,
-          rgba(255, 255, 255, 0.5) 0%,
-          rgba(255, 255, 255, 0) 100%
-        )`
+        backgroundColor: `${this.color}`
       }
     }
   },
@@ -32,6 +46,14 @@ export default {
     },
     onLeave() {
       this.$emit('mouseleave')
+    },
+    setWidth() {
+      this.width = this.$el.offsetWidth
+    },
+    getWidthClass() {
+      return this.width > 100
+        ? 'large'
+        : 'small'
     }
   }
 }
@@ -46,6 +68,10 @@ export default {
   display: block;
   width: 30%;
   border-radius: 100%;
+  background-image: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
   -webkit-font-smoothing: subpixel-antialiased;
 
   svg {
@@ -54,9 +80,9 @@ export default {
     background-blend-mode: overlay;
 
     text {
-      fill: currentColor;
+      fill: $color-background-dark;
+      // fill: currentColor;
       font-family: 'Roboto', sans-serif;
-      font-weight: 200;
       font-size: 105.0759px;
     }
   }
@@ -64,6 +90,22 @@ export default {
   &:hover {
     text {
       text-decoration: none;
+    }
+  }
+
+  &.small {
+    svg {
+      text {
+        font-weight: 400;
+      }
+    }
+  }
+
+  &.large {
+    svg {
+      text {
+        font-weight: 200;
+      }
     }
   }
 }
