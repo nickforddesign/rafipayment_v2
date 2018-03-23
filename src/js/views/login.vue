@@ -40,6 +40,7 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import session from '@/session'
 import { getStorage, setStorage, clearStorage } from '@/utils'
 
 export default {
@@ -84,6 +85,7 @@ export default {
       .then(response => {
         setStorage('previous_login', this.email)
         this.$store.dispatch('login', response)
+        session.fetch_primary(this, response)
       })
       .catch(this.handleError)
     },
