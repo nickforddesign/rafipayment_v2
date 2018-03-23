@@ -35,13 +35,24 @@ export default {
     validate() {
       return new Promise(async (resolve, reject) => {
         const passed = await this.$validator.validateAll()
-        if (passed) {
+        if (passed && this.checkDiff()) {
           await this.confirmChange()
           resolve()
         } else {
           reject()
         }
       })
+    },
+    checkDiff() {
+      if (this.model.email.toLowerCase() !== this.email.toLowerCase()) {
+        return true
+      } else {
+        this.errors.add(
+          'email',
+          'Please enter a new email address or cancel',
+          'required'
+        )
+      }
     },
     confirmChange() {
       return this.account

@@ -25,7 +25,7 @@ export default {
     })
       .then(response => {
         app.alert(
-          `Thank you, your email address ${response.email} has been verified.`,
+          `Thank you, your email address has been verified.`,
           null,
           'Email verified',
           'OK',
