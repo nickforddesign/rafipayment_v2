@@ -84,7 +84,8 @@ export default {
       fetched_units: false,
       banks_fetched: false,
       modal_visible: false,
-      unit_count: null
+      unit_count: null,
+      leases: null
     }
   },
   models: {
@@ -104,6 +105,7 @@ export default {
     const { count } = await this.$request(`units/count?filter_property=${this.$property.id}`)
     this.unit_count = count
     this.fetched_units = true
+    // await this.$request(`leases?filter_property=${this.$property.id}`)
   },
   computed: {
     funding_source() {

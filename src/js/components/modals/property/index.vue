@@ -2,7 +2,7 @@
   <modal @close="close" :confirm="validate">
     <h1 slot="header">Add Property</h1>
     <div slot="body" class="modal-property--add">
-      <new-property v-model="place" />
+      <new-property v-model="place" ref="property_form" />
     </div>
   </modal>
 </template>
@@ -35,7 +35,8 @@ export default {
     },
     validate() {
       return new Promise(async (resolve, reject) => {
-        const passed = await this.$validator.validateAll()
+        // const passed = await this.$validator.validateAll()
+        const passed = await this.$refs.property_form.validate()
         if (passed) {
           await this.confirmChange()
           resolve()

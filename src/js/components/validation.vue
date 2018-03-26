@@ -57,7 +57,8 @@ span {
       content: '';
       display: block;
       position: absolute;
-      bottom: 100%;
+      // bottom: 100%;
+      bottom: calc(100% - 1px);
       right: 10px;
       width: 0;
       height: 0;
