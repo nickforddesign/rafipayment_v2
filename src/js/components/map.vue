@@ -57,12 +57,30 @@ export default {
       this.old_markers = this.markers
       this.bounds = new window.google.maps.LatLngBounds()
       this.markers.map(place => {
-        this.service.getDetails({
-          placeId: place.place_id
-        }, this.handleResult)
+        if (place.place_id) {
+          this.service.getDetails({
+            placeId: place.place_id
+          }, this.setMarkerByPlace)
+        } else if (place.geometry) {
+          this.setMarkerByLatLng(place)
+        }
       })
     },
-    handleResult(result, status) {
+    async setMarkerByLatLng(place) {
+      const marker = new window.google.maps.Marker({
+        map: this.map,
+        position: new window.google.maps.LatLng(
+          place.geometry.location.lat,
+          place.geometry.location.lng
+        )
+      })
+      this.marker_instances.push(marker)
+      this.bounds.extend(place.geometry.location)
+      this.map.fitBounds(this.bounds)
+      await sleep(100)
+      this.map.setZoom(14)
+    },
+    setMarkerByPlace(result, status) {
       const marker = new window.google.maps.Marker({
         map: this.map,
         place: {

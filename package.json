@@ -47,7 +47,7 @@
     "vue-focus-lock": "^1.0.5",
     "vue-google-autocomplete": "^1.0.13",
     "vue-models": "^1.4.9",
-    "vue-requests": "^1.1.0",
+    "vue-requests": "^1.1.6",
     "vue-router": "^2.7.0",
     "vue-the-mask": "^0.11.1",
     "vue-touch": "^2.0.0-beta.4",

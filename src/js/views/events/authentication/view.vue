@@ -116,6 +116,7 @@
         </div>
       </div>
     </div>
+    <google-map v-if="ip_fetched" :markers="[marker]" />
     <!-- <pre>{{$event}}</pre> -->
   </div>
 </template>
@@ -131,6 +132,16 @@ export default {
   props: {
     $event: Object
   },
+  data() {
+    return {
+      ip_fetched: false
+    }
+  },
+  mounted() {
+    if (this.$event.source.ip_address) {
+      this.fetchIp()
+    }
+  },
   computed: {
     status_class() {
       return this.$event.success
@@ -141,6 +152,22 @@ export default {
       return this.$event.source.user_agent.device_family && (this.$event.source.user_agent.device_family === 'PC'
         ? 'icon-desktop'
         : 'icon-mobile')
+    }
+  },
+  methods: {
+    async fetchIp() {
+      const response = await this.$request(`https://ipapi.co/${this.$event.source.ip_address}/json/`, {
+        headers: false
+      })
+      this.marker = {
+        geometry: {
+          location: {
+            lat: response.latitude,
+            lng: response.longitude
+          }
+        }
+      }
+      this.ip_fetched = true
     }
   },
   components: {
