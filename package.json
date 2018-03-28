@@ -17,6 +17,8 @@
     "version": "node build/version.js"
   },
   "dependencies": {
+    "@antv/data-set": "^0.8.6",
+    "@antv/g2": "^3.0.5-beta.6",
     "animejs": "^2.2.0",
     "cordova-android": "^6.3.0",
     "cordova-ios": "^4.5.4",
