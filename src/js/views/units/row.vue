@@ -45,8 +45,7 @@ export default {
   },
   async created() {
     this.$unit = this.model
-    await this.$collection.fetch()
-    this.leases_fetched = true
+    this.fetchLeases()
   },
   computed: {
     has_active_lease() {
@@ -69,6 +68,11 @@ export default {
     },
     goToModelNew(e) {
       smartClick(e, () => window.open(`/${this.$unit.urlRoot}`))
+    },
+    async fetchLeases() {
+      await this.$collection.fetch()
+      this.leases_fetched = true
+      this.$emit('leases-fetched', !!this.active_leases.length)
     }
   },
   components: {

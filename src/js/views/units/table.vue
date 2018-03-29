@@ -15,7 +15,11 @@
           'Baths',
           'Current Lease'
         ]">
-          <row v-for="(model, index) in collection" :key="index" :model="model" />
+          <row
+            v-for="(model, index) in collection"
+            :key="index"
+            :model="model"
+            @leases-fetched="leasesFetched" />
         </responsive-table>
 
       </div>
@@ -46,7 +50,8 @@ export default {
   data() {
     return {
       fetched: false,
-      modal_visible: false
+      modal_visible: false,
+      units_leases_fetched: []
     }
   },
   collection() {
@@ -72,7 +77,12 @@ export default {
     },
     confirmModal() {
       this.fetch()
-      // this.$parent.fetch()
+    },
+    leasesFetched(e) {
+      this.units_leases_fetched.push(e)
+      if (this.units_leases_fetched.length === this.collection.length) {
+        this.$emit('leases-fetched', this.units_leases_fetched)
+      }
     }
   },
   components: {

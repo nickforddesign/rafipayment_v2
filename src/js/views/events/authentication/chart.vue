@@ -34,9 +34,19 @@ export default {
     events_data() {
       const dict = {}
       this.collection.map(event => {
-        const client = event.source.rafipayment_client.split('/')[0]
-        const device = event.source.user_agent.device_family
-        const key = `${client} - ${device}`
+        const rafipayment_client = event.source.rafipayment_client || ''
+        const client = rafipayment_client.split('/')[0]
+        let OS = event.source.user_agent.os_family || ''
+        if (OS.includes('Windows')) {
+          OS = OS.split(' ')[0]
+        }
+        // const device = OS === 'Android'
+        //   ? 'Android'
+        //   : event.source.user_agent.device_family
+        const key = client === 'Web'
+          ? `${client} - ${OS}`
+          : OS
+        // const key = `${client} - ${OS}`
         if (!dict[key]) {
           dict[key] = 1
         } else {
@@ -112,10 +122,11 @@ export default {
         .color('item')
         .label('percent', {
           formatter: (val, item) => {
-            const arr = item.point.item.split(' - ')
-            const first = arr[0]
-            const second = arr[1]
-            return `${first}\n${second}\n${val}`
+            // const arr = item.point.item.split(' - ')
+            // const first = arr[0]
+            // const second = arr[1]
+            // return `${first}\n${second}\n${val}`
+            return `${item.point.item}\n${val}`
           }
         })
         .tooltip('item*percent', (item, percent) => {

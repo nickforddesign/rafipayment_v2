@@ -39,7 +39,7 @@
           <div class="grid__col grid__col--1-of-2">
             <dl>
               <dt>Vacancies</dt>
-              <dd></dd>
+              <dd>{{ vacancies }}</dd>
             </dl>
           </div>
           <div class="grid__col grid__col--1-of-2">
@@ -51,12 +51,11 @@
               <loading type="data" v-else />
             </dl>
           </div>
-          <div class="grid__col grid__col--1-of-2">
-          </div>
+          <div class="grid__col grid__col--1-of-2" />
         </div>
       </div>
 
-      <units-table :data="this.$property" v-if="fetched" />
+      <units-table :data="this.$property" v-if="fetched" @leases-fetched="leasesFetched" />
 
       <property-modal v-if="modal_visible" @close="closeModal" :confirm="confirmModal" :model="$property" />
 
@@ -83,9 +82,11 @@ export default {
       fetched: false,
       fetched_units: false,
       banks_fetched: false,
+      leases_fetched: false,
       modal_visible: false,
       unit_count: null,
-      leases: null
+      leases: null,
+      vacancies: undefined
     }
   },
   models: {
@@ -105,7 +106,7 @@ export default {
     const { count } = await this.$request(`units/count?filter_property=${this.$property.id}`)
     this.unit_count = count
     this.fetched_units = true
-    // await this.$request(`leases?filter_property=${this.$property.id}`)
+    await this.$request(`leases?filter_property=${this.$property.id}`)
   },
   computed: {
     funding_source() {
@@ -126,6 +127,10 @@ export default {
         .then(() => {
           this.banks_fetched = true
         })
+    },
+    leasesFetched(units_statuses) {
+      this.vacancies = units_statuses.reduce((acc, item) => !item ? acc + 1 : acc, 0)
+      this.leases_fetched = true
     },
     promptRemove() {
       app.confirm(

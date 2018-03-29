@@ -23,7 +23,7 @@
         <div class="header">
           Recent Usage
         </div>
-        <authentication-chart url="events?filter_type=authentication&paginator_limit=800" />
+        <authentication-chart url="events?sort_created=-1&filter_type=authentication&filter_source.model=tenant&paginator_limit=800" />
       </div>
     </div>
   </div>
