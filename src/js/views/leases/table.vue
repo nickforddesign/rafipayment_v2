@@ -2,6 +2,10 @@
   <div class="table collection-view">
     <div class="header">
       Leases
+
+      <div class="actions">
+        <button class="small" @click="emitAdd">Add Lease</button>
+      </div>
     </div>
     <div v-if="fetched">
       <div v-if="collection.length">
@@ -23,9 +27,9 @@
           <row v-for="(model, index) in collection" :key="index" :model="model" />
         </responsive-table>
 
-        <div class="actions text-center">
+        <!-- <div class="actions text-center">
           <button class="primary" slot="actions" @click="emitAdd">Add Lease</button>          
-        </div>
+        </div> -->
       </div>
       <empty v-else>
         <div slot="message">This {{ $parent.$options.name }} doesn't have any leases yet</div>

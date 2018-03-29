@@ -12,6 +12,8 @@ import G2 from '@antv/g2'
 import { DataView } from '@antv/data-set'
 import { Collection } from 'vue-collections'
 
+G2.track(false)
+
 export default {
   name: 'authentication-chart',
   props: {
@@ -72,7 +74,6 @@ export default {
       this.renderChart()
     },
     renderChart() {
-      G2.track(false)
       G2.Global.setTheme('dark')
       const dv = new DataView()
       dv.source(this.events_data).transform({
@@ -113,7 +114,7 @@ export default {
       })
       chart.guide().html({
         position: [ '50%', '50%' ],
-        html: `<div style="color:#8c8c8c;font-size: 14px;text-align: center;width: 10em"><br><span style="color:#8c8c8c;font-size:20px">${this.collection.length}</span></div>`,
+        html: `<div style="color:#8c8c8c;font-size: 20px;text-align: center;width: 10em">${this.collection.length}</div>`,
         alignX: 'middle',
         alignY: 'middle'
       })
