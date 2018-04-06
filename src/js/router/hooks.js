@@ -13,7 +13,7 @@ export default async (to, from, next) => {
     const options = config.options(to)
     handleRoute(is_authorized, next, options)
     // toggleStatusBar(config.statusbar)
-    closeNav()
+    // closeNav()
   } catch (error) {
     console.warn(error)
   }
@@ -57,8 +57,8 @@ const handleRoute = (is_authorized, next, options) => {
   next(args)
 }
 
-const closeNav = () => {
+// const closeNav = () => {
   // if (session.$store.getters.nav_visible) {
     // session.$store.dispatch('nav_hide')
   // }
-}
+// }

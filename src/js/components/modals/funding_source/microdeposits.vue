@@ -76,27 +76,40 @@ export default {
       if ($next_input) {
         $next_input.focus()
       } else {
-        this.$el.querySelector('.confirm').focus()
+        document.querySelector('.confirm').focus()
+        // this.$el.querySelector('.confirm').focus()
       }
     },
     async validate() {
       this.errors.clear()
-      return new Promise((resolve, reject) => {
-        this.validateInputs()
-          .then(() => {
-            this.confirmMicrodeposits()
-            .then((res) => {
-              resolve()
-              this.confirm()
-            })
-            .catch((err) => {
-              reject(err)
-            })
-          })
-          .catch((err) => {
-            reject(err)
-          })
+      return new Promise(async (resolve, reject) => {
+        try {
+          await this.validateInputs()
+          await this.confirmMicrodeposits()
+          if (this.confirm) {
+            resolve()
+            this.confirm()
+          }
+        } catch (error) {
+          reject()
+        }
       })
+      // return new Promise((resolve, reject) => {
+      //   this.validateInputs()
+      //     .then(() => {
+      //       this.confirmMicrodeposits()
+      //       .then((res) => {
+      //         resolve()
+      //         this.confirm()
+      //       })
+      //       .catch((err) => {
+      //         reject(err)
+      //       })
+      //     })
+      //     .catch((err) => {
+      //       reject(err)
+      //     })
+      // })
     },
     validateInputs() {
       return new Promise((resolve, reject) => {
