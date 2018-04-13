@@ -15,11 +15,35 @@
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <script>
+import { sleep } from '@/utils'
+
 export default {
   name: 'deployment-message',
+  data() {
+    return {
+      title_changed: false
+    }
+  },
+  mounted() {
+    this.startTitle()
+  },
+  watch: {
+    title_changed(val) {
+      let title = 'Rafi Payment'
+      if (val) {
+        title += ' (1)'
+      }
+      document.title = title
+    }
+  },
   methods: {
     refresh() {
       window.location.reload()
+    },
+    async startTitle() {
+      this.title_changed = !this.title_changed
+      await sleep(1500)
+      this.startTitle()
     }
   }
 }
@@ -28,12 +52,10 @@ export default {
 <!--/////////////////////////////////////////////////////////////////////////-->
 
 <style scoped lang="scss">
+@import '~%/mixins';
+
 .deployment-message {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  @include fixed_fill;
 
   .container {
     position: absolute;
