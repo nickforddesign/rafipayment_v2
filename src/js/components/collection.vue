@@ -37,18 +37,26 @@
       </div>
     </header>
 
+    <div class="subheader">
+      <slot name="subheader" />
+    </div>
+
     <div v-if="filters_keys.length" class="filters">
-      <div v-for="(value, key) in filters" :key="key" class="filter">
-        {{ key | capitalize }}: {{ value }}
-        <button class="x-small" @click="removeFilter(key)">X</button>
-      </div>
+      <collection-filter
+        v-for="(value, key) in filters"
+        @remove="removeFilter(key)"
+        :label="filterLabel"
+        :data="{ key, value }"
+        :key="key" />
     </div>
       
     <slot name="content" v-if="fetched && collection.length" />
 
     <empty v-else-if="fetched && !collection.length">
       <div slot="message">
-        <slot name="empty-message">There are no {{ collection_name || name }}</slot>
+        <slot name="empty-message">
+          There are no {{ collectionName || name }}
+        </slot>
       </div>
     </empty>
 
@@ -72,6 +80,7 @@ import moment from 'moment'
 import { equals } from 'ramda'
 import { getMonthsArray, setStorage, getStorage } from '@/utils'
 import Pagination from './pagination'
+import CollectionFilter from './filter'
 
 export default {
   name: 'collection',
@@ -79,16 +88,12 @@ export default {
     name: {
       type: String
     },
-    collection_name: {
+    collectionName: {
       type: String
     },
     $collection: {
       type: Object
     },
-    // limit: {
-    //   type: Number,
-    //   default: 10
-    // },
     paginate: {
       type: Boolean,
       default: true
@@ -97,7 +102,12 @@ export default {
       type: Boolean,
       default: true
     },
-    range: String
+    range: {
+      type: String
+    },
+    filterLabel: {
+      type: Array
+    }
   },
   data() {
     return {
@@ -249,17 +259,7 @@ export default {
           const months_array = getMonthsArray(min, max)
           months_array.push('All')
           this.ranges = months_array
-
-          // const now = moment.utc().startOf('month')
           let selected_month = this.ranges[this.ranges.length - 2] // skip "All"
-
-          // for (let i = this.ranges.length - 1; i--;) {
-          //   if (moment.utc(this.ranges[i], 'M/YYYY') < now) {
-          //     break
-          //   } else {
-          //     selected_month = this.ranges[i]
-          //   }
-          // }
           this.range_selected = selected_month
           this.range_has_been_selected = false
         }
@@ -272,7 +272,9 @@ export default {
       this.filters_init = true
     },
     getFiltersFromRoute() {
-      const filter_keys = Object.keys(this.$route.query).filter(key => key.includes('filter'))
+      const filter_keys = Object.keys(this.$route.query).filter(key => (
+        key.includes('filter')
+      ))
       const map = {}
       filter_keys.map(key => {
         map[key.replace('filter_', '')] = this.$route.query[key]
@@ -376,7 +378,8 @@ export default {
     }
   },
   components: {
-    Pagination
+    Pagination,
+    CollectionFilter
   }
 }
 </script>
@@ -387,15 +390,19 @@ export default {
 @import '~%/colors';
 
 .filters {
-  margin-bottom: 10px;
+  margin: 10px 0;
 
-  .filter {
-    display: inline-block;
-    background: $color-box-background;
-    padding: 6px;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
+  h5 {
+    margin-bottom: 8px;
   }
+
+  // .filter {
+  //   display: inline-block;
+  //   background: $color-box-background;
+  //   padding: 6px;
+  //   border-radius: 4px;
+  //   box-shadow: 0 2px 5px rgba(0,0,0, 0.3);
+  // }
 }
 
 .summary {

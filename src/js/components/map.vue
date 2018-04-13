@@ -17,6 +17,10 @@ export default {
   props: {
     markers: {
       type: Array
+    },
+    clickable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -38,7 +42,7 @@ export default {
   async mounted() {
     await load(`https://maps.googleapis.com/maps/api/js?key=${config.google_api_key}&libraries=places`, 'google')
     this.loaded = true
-    await sleep(10)
+    await this.$nextTick()
     const element = this.$el.querySelector('.map')
     const options = {
       zoom: 1,
@@ -58,9 +62,9 @@ export default {
       this.bounds = new window.google.maps.LatLngBounds()
       this.markers.map(place => {
         if (place.place_id) {
-          this.service.getDetails({
+          this.service && this.service.getDetails({
             placeId: place.place_id
-          }, this.setMarkerByPlace)
+          }, this.setMarkerByPlace.bind(this, place))
         } else if (place.geometry) {
           this.setMarkerByLatLng(place)
         }
@@ -78,9 +82,12 @@ export default {
       this.bounds.extend(place.geometry.location)
       this.map.fitBounds(this.bounds)
       await sleep(100)
-      this.map.setZoom(14)
+      if (this.markers.length === 1) {
+        this.map.setZoom(14)
+      }
     },
-    setMarkerByPlace(result, status) {
+    setMarkerByPlace(place, result, status) {
+      if (!result) return
       const marker = new window.google.maps.Marker({
         map: this.map,
         place: {
@@ -88,10 +95,17 @@ export default {
           location: result.geometry.location
         }
       })
+      if (this.clickable) {
+        marker.addListener('click', () => {
+          this.$router.push(`/${place.type}/${place.id}`)
+        })
+      }
       this.marker_instances.push(marker)
       this.bounds.extend(result.geometry.location)
       this.map.fitBounds(this.bounds)
-      this.map.setZoom(16)
+      if (this.markers.length === 1) {
+        this.map.setZoom(16)
+      }
     },
     clearMarkers() {
       this.marker_instances.map(marker => {

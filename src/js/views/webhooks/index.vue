@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collection collection_name="webhooks" :$collection="$collection" :searchable="false">
+    <collection collection-name="webhooks" :$collection="$collection" :searchable="false">
 
       <responsive-table slot="content" :columns="[
         'Created',
@@ -28,7 +28,7 @@ import Webhook from '@/models/webhook'
 import row from './row'
 
 export default {
-  name: 'admins',
+  name: 'webhooks',
   data() {
     return {
       modal_visible: false

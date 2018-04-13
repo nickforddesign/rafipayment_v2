@@ -1,7 +1,7 @@
 <template>
   <div>
     <collection
-      collection_name="past bills"
+      collection-name="past bills"
       :$collection="$collection"
       :searchable="false"
       :paginate="false">

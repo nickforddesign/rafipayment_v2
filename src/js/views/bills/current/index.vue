@@ -1,7 +1,7 @@
 <template>
   <div>
     <collection
-      collection_name="current bills"
+      collection-name="current bills"
       :label="false"
       :$collection="$collection"
       :searchable="false"

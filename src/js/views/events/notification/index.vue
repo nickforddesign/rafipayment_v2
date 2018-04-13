@@ -1,6 +1,6 @@
 <template>
   <div class="collection-view">
-    <collection collection_name="notifications" :label="false" :$collection="$collection">
+    <collection collection-name="notifications" :label="false" :$collection="$collection">
       <responsive-table slot="content" :columns="[
         {
           name: 'Date',

@@ -1,9 +1,11 @@
 <template>
   <div class="collection-view">
-    <collection name="properties" :$collection="$collection">
+    <collection name="properties" :$collection="$collection" :filter-label="['address']">
       <div slot="actions">
         <button @click="add" class="primary">Add</button>
       </div>
+
+      <google-map slot="subheader" :markers="markers" :clickable="true" />
 
       <responsive-table slot="content" :columns="[
         'Name',
@@ -46,6 +48,17 @@ export default {
       model: Property
     })
   },
+  computed: {
+    markers() {
+      return this.collection.map(model => {
+        return {
+          id: model.id,
+          type: 'properties',
+          place_id: model.place_id
+        }
+      })
+    }
+  },
   methods: {
     add() {
       this.modal_visible = true
@@ -65,3 +78,11 @@ export default {
 </script>
 
 <!--/////////////////////////////////////////////////////////////////////////-->
+
+<style scoped lang="scss">
+.collection-view {
+  .map-container {
+    margin: 20px 0 0;
+  }
+}
+</style>

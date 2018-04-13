@@ -1,6 +1,6 @@
 <template>
   <div class="collection-view">
-    <collection collection_name="events" :label="false" :$collection="$collection">
+    <collection collection-name="events" :label="false" :$collection="$collection">
       <responsive-table slot="content" :columns="[
         {
           name: 'Date',

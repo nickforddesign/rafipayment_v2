@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collection name="rent roll" collection_name="units" :$collection="$collection">
+    <collection name="rent roll" collection-name="units" :$collection="$collection">
 
       <responsive-table slot="content" :columns="[
         'Unit',
